@@ -3,7 +3,7 @@
 De kaarten linken naar echte pagina's in plaats van popups te openen.
 Wordt aangeroepen vanuit build.py.
 """
-import re, datetime
+import re, datetime, json, pathlib
 
 TODAY = datetime.date.today()
 
@@ -31,13 +31,38 @@ def card_html(c, published_ids):
       </a>'''
 
 
+def load_quotes():
+    """Quote-kaarten: korte uitspraken die het beeld completeren.
+    Ze krijgen geen eigen pagina, want een quote van twee zinnen is te
+    dun om als losse pagina te publiceren."""
+    d = pathlib.Path(__file__).resolve().parent.parent / "content" / "quotes"
+    if not d.exists():
+        return []
+    out = [json.loads(f.read_text()) for f in sorted(d.glob("*.json"))]
+    out.sort(key=lambda q: q.get("order", 999))
+    return out
+
+
+def quote_html(q):
+    body = f'\n        <p class="card-body">{q["body"]}</p>' if q.get("body") else ""
+    attr = f'<span class="attr">- {q["attr"]}</span>' if q.get("attr") else ""
+    note = f'\n        <p class="quote-note">{q["note"]}</p>' if q.get("note") else ""
+    return f'''      <article class="card span-{q.get("span",2)}">
+        <span class="num">00</span>
+        <h3>{q["title"]}</h3>{body}
+        <p class="quote-slot filled">"{q["quote"]}"{attr}</p>{note}
+      </article>'''
+
+
 def build_library(source_html, cases):
     """Vervang het kaartenraster en haal de popup-machinerie eruit."""
     doc = source_html
     ids = [c["id"] for c in cases]
 
     # 1) nieuw kaartenraster
-    cards = "\n\n".join(card_html(c, ids) for c in cases)
+    blokken = [card_html(c, ids) for c in cases]
+    blokken += [quote_html(q) for q in load_quotes()]
+    cards = "\n\n".join(blokken)
     doc = re.sub(
         r'(<div class="cards">)(.*?)(\n    </div>)',
         lambda m: m.group(1) + "\n\n" + cards + m.group(3),
