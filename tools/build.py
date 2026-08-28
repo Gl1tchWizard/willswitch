@@ -148,6 +148,10 @@ CSS = """
       font-size:clamp(1.6rem, 4vw, 2.4rem); font-weight:700;
       line-height:1.15; margin-bottom:1.6rem;
     }
+    main.case h3 {
+      font-family:'Orbitron', monospace; font-size:1.15rem; font-weight:700;
+      margin:2.4rem 0 0.9rem; color:var(--ink);
+    }
     main.case p { font-size:0.95rem; color:var(--ink-soft); margin-bottom:1.1rem; }
     main.case p a { color:var(--orange); text-decoration:none;
       border-bottom:1px solid rgba(232,69,0,0.4); }

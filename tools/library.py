@@ -55,18 +55,30 @@ def build_library(source_html, cases):
     doc = re.sub(r'\n    /\* === Case popup === \*/.*?\n    \}\);', "", doc, flags=re.S)
 
     # 4) nummering: de kaarten krijgen hun nummer bij het laden
+    # De nummering krijgt een eigen script-blok, los van de teller erboven.
+    # Faalt die teller (geen netwerk, geblokkeerde dienst), dan blijft de
+    # nummering gewoon werken.
     nummering = '''
+  <script>
     /* === Nummering van de zichtbare kaarten === */
     (function () {
-      var n = 0;
-      document.querySelectorAll('.cards .card').forEach(function (card) {
-        n++;
-        var num = card.querySelector('.num');
-        if (num) num.textContent = ('0' + n).slice(-2);
-      });
+      function nummer() {
+        var n = 0;
+        document.querySelectorAll('.cards .card').forEach(function (card) {
+          n++;
+          var num = card.querySelector('.num');
+          if (num) num.textContent = ('0' + n).slice(-2);
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', nummer);
+      } else {
+        nummer();
+      }
     })();
+  </script>
 '''
-    doc = doc.replace("  </script>", nummering + "  </script>", 1)
+    doc = doc.replace("</body>", nummering + "</body>", 1)
 
     # 5) kaarten zijn nu links, dus de knop-rollen eruit
     doc = doc.replace(' role="button" tabindex="0"', "")
