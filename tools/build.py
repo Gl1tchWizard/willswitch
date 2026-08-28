@@ -4,6 +4,10 @@ Draai: python3 tools/build.py
 Resultaat komt in dist/ en is klaar om te publiceren.
 """
 import json, pathlib, re, datetime, shutil, sys
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from library import build_library
+from home import build_home
+from scan import build_scan
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CASES = ROOT / "content" / "cases"
@@ -243,6 +247,23 @@ def build():
         out.mkdir(parents=True, exist_ok=True)
         (out / "index.html").write_text(page)
         print(f"  /cases/{c['id']}/")
+
+    # homepage met inhoud onder het portaal
+    home = SITE / "index.html"
+    if home.exists():
+        (DIST / "index.html").write_text(build_home(home.read_text(), live))
+        print("  index.html (homepage)")
+
+    # casebibliotheek met links naar de eigen pagina's
+    src = SITE / "switch.html"
+    if src.exists():
+        (DIST / "switch.html").write_text(build_library(src.read_text(), live))
+        print("  switch.html (casebibliotheek)")
+
+    # scanpagina
+    (DIST / "scan").mkdir(exist_ok=True)
+    (DIST / "scan" / "index.html").write_text(build_scan())
+    print("  /scan/")
 
     write_sitemap(live)
     print(f"\nKlaar. De site staat in {DIST}")
