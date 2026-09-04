@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bedankt | Will Switch</title><meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--orange:#E84500;--paper:#F0EDE6;--ink:#1a1612;--soft:#4a443c;--faint:rgba(26,22,18,.45);--rule:rgba(26,22,18,.14)}
+  body{background:var(--paper);color:var(--ink);font-family:'Space Mono',monospace;line-height:1.6}
+  .wrap{max-width:40rem;margin:0 auto;padding:0 1.5rem 5rem}
+  .topbar{display:flex;justify-content:space-between;padding:2rem 0 1.2rem;border-bottom:2px solid var(--ink);font-family:'Orbitron',monospace;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase}
+  .topbar a{color:var(--ink);text-decoration:none}
+  h1{font-family:'Orbitron',monospace;font-size:1.8rem;margin:2.4rem 0 1rem}
+  p{color:var(--soft);font-size:.92rem;margin-bottom:1rem}
+  .kader{background:#FBFAF7;border-left:3px solid var(--orange);padding:1rem 1.2rem;margin:1.2rem 0;font-size:.88rem}
+  a.btn{display:inline-block;margin-top:1rem;font-family:'Orbitron',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);text-decoration:none;border-bottom:1px solid rgba(232,69,0,.4)}
+</style>
+</head>
+<body><div class="wrap">
+  <header class="topbar"><a href="/">Will Switch</a><span></span></header>
+  <h1 id="kop">Bedankt, het rapport is onderweg</h1>
+  <p id="tekst">Je ontvangt binnen een werkdag een e-mail met het rapport als pdf en de factuur. Kijk ook even in je spam als je niets ziet.</p>
+  <div class="kader">In de tussentijd: laat een collega uit een andere laag van de organisatie de toets doen. De mandaatkloof die daaruit komt, is vaak het eerste gesprek dat je wilt voeren.</div>
+  <a class="btn" href="/scan/">Nog een toets doen</a>
+</div>
+<script>
+const q=new URLSearchParams(location.search);
+if(q.get('status')==='mislukt'){ document.getElementById('kop').textContent='De betaling is niet gelukt'; document.getElementById('tekst').innerHTML='Er is niets afgeschreven. Je kunt het opnieuw proberen via de toets, of mailen naar <a href="mailto:info@willswitch.nl">info@willswitch.nl</a>.'; }
+</script>
+<script data-goatcounter="https://willswitch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body></html>

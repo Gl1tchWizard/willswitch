@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uitstaprapport, voorbeeld | Will Switch</title>
+<meta name="description" content="Voorbeeld van het uitstaprapport: wat je krijgt na de gratis uitstaptoets. Uitstapprofiel per leverancier, Cbw-paragraaf, bestuursagenda, exitclausules en een plan voor de eerste negentig dagen.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://willswitch.nl/rapport/voorbeeld.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--orange:#E84500;--paper:#F0EDE6;--warm:#E8E3D6;--white:#FBFAF7;--ink:#1a1612;--soft:#4a443c;--faint:rgba(26,22,18,.45);--rule:rgba(26,22,18,.14);--ok:#2F6F4E;--warn:#B8760F;--bad:#B3453A;--mono:'Space Mono',monospace;--disp:'Orbitron',monospace}
+  body{background:var(--paper);color:var(--ink);font-family:var(--mono);line-height:1.6}
+  .demo{background:var(--ink);color:var(--paper);text-align:center;font-family:var(--disp);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;padding:.6rem}
+  .demo a{color:var(--orange)}
+  .pag{max-width:48rem;margin:0 auto;padding:0 1.5rem 5rem}
+  .omslag{padding:4rem 0 3rem;border-bottom:2px solid var(--ink)}
+  .omslag .merk{font-family:var(--disp);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+  .omslag h1{font-family:var(--disp);font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.1;margin:1rem 0 1.2rem}
+  .omslag .meta{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1.2rem;font-size:.82rem;color:var(--soft)}
+  .omslag .meta b{color:var(--ink)}
+  h2{font-family:var(--disp);font-size:1.35rem;margin:3rem 0 1rem;padding-top:1.4rem;border-top:1px solid var(--rule)}
+  h3{font-family:var(--disp);font-size:.95rem;margin:1.6rem 0 .6rem}
+  p{color:var(--soft);font-size:.93rem;margin-bottom:1rem;max-width:42rem}
+  p.lead{color:var(--ink);font-size:1.02rem}
+  .klein{font-size:.78rem;color:var(--faint)}
+  .kern{border:2px solid var(--ink);background:var(--white);padding:1.3rem 1.5rem;margin:1.4rem 0}
+  .kern .groot{font-family:var(--disp);font-size:2.2rem;color:var(--orange);line-height:1}
+  .kern .zin{margin-top:.5rem;color:var(--ink);font-size:.95rem}
+  .rij{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin:1rem 0}
+  .cijfer{background:var(--warm);border:1px solid var(--rule);padding:.9rem 1rem}
+  .cijfer b{font-family:var(--disp);font-size:1.5rem;display:block;line-height:1}
+  .cijfer span{font-size:.76rem;color:var(--soft)}
+  .dek{margin-bottom:.9rem}.dek .lbl{display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:.3rem}
+  .dek .lbl b{font-family:var(--disp);font-size:.76rem}.dek .balk{height:11px;background:var(--rule)}.dek .balk i{display:block;height:100%;background:var(--orange)}
+  .profiel{background:var(--white);border:1px solid var(--rule);margin-bottom:1rem}
+  .profiel .kop{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.9rem 1.1rem;border-bottom:1px solid var(--rule)}
+  .profiel .kop b{font-size:.95rem}
+  .stempel{font-family:var(--disp);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .55rem;border:1px solid}
+  .stempel.vast{color:var(--bad);border-color:var(--bad)}.stempel.kwetsbaar{color:var(--warn);border-color:var(--warn)}.stempel.uitstapbaar{color:var(--ok);border-color:var(--ok)}
+  .profiel table{width:100%;border-collapse:collapse;font-size:.82rem}
+  .profiel td{padding:.55rem 1.1rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  .profiel td:first-child{color:var(--faint);width:34%}
+  .profiel .wet{padding:.9rem 1.1rem;background:var(--warm);font-size:.8rem;color:var(--soft)}
+  .profiel .wet b{color:var(--ink)}
+  .kader{background:var(--white);border-left:3px solid var(--orange);padding:1.1rem 1.3rem;margin:1.2rem 0;font-size:.9rem}
+  .kader.tekst{font-family:var(--mono);white-space:pre-wrap;color:var(--ink);font-size:.86rem;line-height:1.7}
+  .agenda{background:var(--ink);color:var(--paper);padding:1.4rem 1.5rem;margin:1.2rem 0}
+  .agenda h3{color:var(--paper);margin-top:0}
+  .agenda ol{margin:.6rem 0 0 1.2rem;color:rgba(240,237,230,.85);font-size:.9rem}
+  .agenda li{margin-bottom:.7rem}
+  .clausule{background:var(--white);border:1px solid var(--rule);padding:1rem 1.2rem;margin-bottom:.8rem;font-size:.86rem}
+  .clausule b{display:block;font-family:var(--disp);font-size:.78rem;margin-bottom:.4rem}
+  .clausule .bron{display:block;margin-top:.5rem;font-size:.72rem;color:var(--faint)}
+  .actie{display:grid;grid-template-columns:auto 1fr;gap:1rem;background:var(--white);border:1px solid var(--rule);padding:1rem 1.2rem;margin-bottom:.8rem}
+  .actie .wk{font-family:var(--disp);font-size:.7rem;color:var(--orange);white-space:nowrap;padding-top:.15rem}
+  .actie b{display:block;font-size:.9rem;margin-bottom:.25rem}
+  .actie span{font-size:.82rem;color:var(--soft)}
+  .actie .eig{display:block;margin-top:.4rem;font-size:.74rem;color:var(--faint)}
+  .bench{background:var(--warm);border:1px solid var(--rule);padding:1.1rem 1.3rem;font-size:.86rem}
+  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);font-size:.72rem;color:var(--faint);line-height:1.8}
+  @media (max-width:600px){.rij{grid-template-columns:1fr}}
+  @media print{.demo{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="demo">Voorbeeldrapport met fictieve gegevens. <a href="/scan/">Doe de gratis toets</a> voor je eigen uitkomst.</div>
+<div class="pag">
+
+<section class="omslag">
+  <div class="merk">Will Switch, uitstaprapport</div>
+  <h1>Kun je nog weg, en wat moet je daarvoor nu doen?</h1>
+  <div class="meta">
+    <span>Organisatie</span><b>Gemeente Voorbeeld (fictief)</b>
+    <span>Ingevuld door</span><b>Bestuur en uitvoering, twee metingen</b>
+    <span>Datum</span><b>3 september 2026</b>
+    <span>Scope</span><b>Vier kritieke systemen</b>
+    <span>Status</span><b>Input voor de Cbw-risicoanalyse. Geen conformiteitsoordeel.</b>
+  </div>
+</section>
+
+<h2>1. Waar je staat</h2>
+<p class="lead">Je organisatie draait voor drie van de vier kritieke systemen op leveranciers buiten de EU. Van twee daarvan weet niemand wanneer het contract afloopt. En op vier van de tien wettelijke vragen kon niemand een antwoord geven.</p>
+<div class="kern"><div class="groot">4 van 10</div><div class="zin">vragen konden niet worden beantwoord. Dat is geen kennisprobleem maar een eigenaarschapsprobleem, en het is de eerste bevinding die een toezichthouder zal doen.</div></div>
+<div class="rij">
+  <div class="cijfer"><b>3 van 4</b><span>kritieke systemen buiten de EU</span></div>
+  <div class="cijfer"><b>2</b><span>contracteinde onbekend</span></div>
+  <div class="cijfer"><b>1</b><span>loopt binnen een jaar af</span></div>
+</div>
+<h3>Wat je per verplichting kunt aantonen</h3>
+<div class="dek"><div class="lbl"><b>Ketenzorgplicht, Cyberbeveiligingswet</b><span>25%</span></div><div class="balk"><i style="width:25%"></i></div></div>
+<div class="dek"><div class="lbl"><b>Overstaprecht, Data Act</b><span>17%</span></div><div class="balk"><i style="width:17%"></i></div></div>
+<div class="dek"><div class="lbl"><b>Exitplan, rijkscloudbeleid</b><span>33%</span></div><div class="balk"><i style="width:33%"></i></div></div>
+<p>Deze percentages zeggen niet of je veilig bent. Ze zeggen wat je nu kunt laten zien als iemand ernaar vraagt. Onder de Cbw is dat het verschil tussen een gesprek en een last onder dwangsom.</p>
+
+<h3>De mandaatkloof</h3>
+<p>Bestuur en uitvoering vulden de toets los van elkaar in. Op ketenzorgplicht zit 50 procentpunt verschil: het bestuur denkt dat het geregeld is, de uitvoering weet dat het niet zo is. Dit is geen verwijt aan een van beide. Het is de plek waar het gesprek moet beginnen, en het is exact wat de zorgplicht van het bestuur vraagt: weten wat er speelt.</p>
+
+<h2>2. Uitstapprofiel per kritieke leverancier</h2>
+<p>Per systeem: wat je weet, wat je niet weet, en wat de wet precies van je vraagt. De leveranciersnamen komen uit je eigen invoer en staan alleen in dit rapport.</p>
+
+<div class="profiel">
+  <div class="kop"><b>Kantoorsuite, mail en documenten</b><span class="stempel vast">Vastgezet</span></div>
+  <table>
+    <tr><td>Leverancier</td><td>Amerikaanse leverancier, publieke cloud</td></tr>
+    <tr><td>Contracteinde</td><td>Onbekend bij bestuur en uitvoering</td></tr>
+    <tr><td>Exporteerbare data</td><td>Niet vastgesteld. Mailboxen en documenten zijn technisch exporteerbaar, maar het formaat en de volledigheid zijn nooit getest.</td></tr>
+    <tr><td>Alternatief</td><td>Bekend (open source samenwerkingsplatform, vergelijk SURF en Sleeswijk-Holstein), maar er is nooit mee gesproken.</td></tr>
+    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd</td></tr>
+  </table>
+  <div class="wet"><b>Wat de wet hier van je vraagt.</b> Onder de Cbw moet je kunnen aantonen wat er met deze data gebeurt bij contracteinde, faillissement of overname. Onder het rijkscloudbeleid wordt de publieke cloud voor e-mail en documentbeheer afgeraden en geldt een exitplan als verplicht; medeoverheden volgen. Onder de Data Act heb je recht op export binnen dertig dagen en vanaf 12 januari 2027 zonder overstapkosten. Je oefent dat recht nu niet uit omdat niemand weet wat het contract zegt.</div>
+</div>
+
+<div class="profiel">
+  <div class="kop"><b>Cloudinfrastructuur</b><span class="stempel kwetsbaar">Kwetsbaar</span></div>
+  <table>
+    <tr><td>Leverancier</td><td>Amerikaanse leverancier, IaaS</td></tr>
+    <tr><td>Contracteinde</td><td>Bekend, loopt binnen een jaar af</td></tr>
+    <tr><td>Exporteerbare data</td><td>Contractueel geregeld, egress-kosten van toepassing tot 12 januari 2027</td></tr>
+    <tr><td>Alternatief</td><td>Twee EU-aanbieders in beeld, geen gesprek gevoerd</td></tr>
+    <tr><td>Bestuurlijk eigenaar</td><td>Informatiemanager, zonder formeel mandaat</td></tr>
+  </table>
+  <div class="wet"><b>Wat de wet hier van je vraagt.</b> De Data Act verplicht IaaS-aanbieders tot functionele gelijkwaardigheid bij overstap en verbiedt overstapkosten vanaf 12 januari 2027. Je contract loopt binnen een jaar af: dat is je natuurlijke moment. Verlengen zonder de Data Act-clausules af te dwingen, is een gemiste kans die je vier jaar bindt.</div>
+</div>
+
+<div class="profiel">
+  <div class="kop"><b>Zaaksysteem</b><span class="stempel kwetsbaar">Kwetsbaar</span></div>
+  <table>
+    <tr><td>Leverancier</td><td>Nederlandse leverancier</td></tr>
+    <tr><td>Contracteinde</td><td>Onbekend</td></tr>
+    <tr><td>Exporteerbare data</td><td>Open standaarden ondersteund (ZGW-API's), exportpad gedocumenteerd, kosten op aanvraag</td></tr>
+    <tr><td>Alternatief</td><td>Drie bekend, overstappen gerapporteerd bij twee gemeenten</td></tr>
+    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd</td></tr>
+  </table>
+  <div class="wet"><b>Wat de wet hier van je vraagt.</b> Technisch sta je hier het best. Wat ontbreekt is administratief: een bekende einddatum en een eigenaar. Dat is een middag werk en het maakt van dit systeem je eerste aantoonbaar uitstapbare dienst.</div>
+</div>
+
+<div class="profiel">
+  <div class="kop"><b>Geo-informatie</b><span class="stempel uitstapbaar">Uitstapbaar</span></div>
+  <table>
+    <tr><td>Leverancier</td><td>Open source in eigen beheer</td></tr>
+    <tr><td>Contracteinde</td><td>Niet van toepassing</td></tr>
+    <tr><td>Exporteerbare data</td><td>Open standaarden (WFS, WMS, GeoPackage)</td></tr>
+    <tr><td>Alternatief</td><td>Niet nodig; kennis in huis is het risico</td></tr>
+    <tr><td>Bestuurlijk eigenaar</td><td>Teamleider geo</td></tr>
+  </table>
+  <div class="wet"><b>Wat de wet hier van je vraagt.</b> Hier is je afhankelijkheid niet de leverancier maar de kennis. De Cbw vraagt ook daar continuiteit op: wat gebeurt er als de twee mensen die dit beheren vertrekken. Leg dat vast, en je hebt een voorbeeld dat je aan de andere drie systemen kunt voorhouden.</div>
+</div>
+
+<h2>3. Paragraaf voor je Cbw-risicoanalyse</h2>
+<p>Onderstaande tekst kun je overnemen in je risicoanalyse toeleveringsketen. Hij is geschreven in de structuur die de RDI hanteert en benoemt wat je weet, wat je niet weet en wat je gaat doen. Dat laatste is wat een toezichthouder wil zien.</p>
+<div class="kader tekst">Ketenafhankelijkheid kritieke informatiesystemen, stand 3 september 2026
+
+De organisatie heeft vier kritieke informatiesystemen geinventariseerd. Drie daarvan worden geleverd door aanbieders buiten de EU/EER. Voor twee systemen is de contractuele einddatum niet centraal bekend.
+
+Per leverancier is de impact bij wegvallen, faillissement of overname als volgt beoordeeld:
+[zie uitstapprofielen, sectie 2]
+
+Vastgestelde tekortkomingen:
+1. Geen benoemde bestuurlijke eigenaar voor drie van de vier afhankelijkheden.
+2. Geen geteste exportprocedure voor de kantoorsuite en cloudinfrastructuur.
+3. Overstapbepalingen conform Verordening (EU) 2023/2854 niet geverifieerd in lopende cloudcontracten.
+
+Maatregelen en termijnen:
+[zie negentigdagenplan, sectie 6]
+
+Deze analyse is opgesteld als input voor het beleid ketenbeveiliging (Cbw, zorgplicht) en wordt jaarlijks herhaald.</div>
+
+<h2>4. Agendapunt voor het bestuur</h2>
+<p>Onder de Cbw is het bestuur eindverantwoordelijk en verplicht getraind. Dit is geen IT-onderwerp meer. Dit agendapunt past in een kwartier en vraagt drie besluiten.</p>
+<div class="agenda">
+  <h3>Ketenafhankelijkheid: drie besluiten</h3>
+  <ol>
+    <li><b>Wie is eigenaar?</b> Voor elk van de vier systemen een bestuurlijk eigenaar benoemen, met mandaat om een exit voor te bereiden en het budget daarvoor aan te vragen. Zonder dit besluit vervallen de andere twee.</li>
+    <li><b>Wat is het wegval-scenario?</b> Opdracht aan de eigenaren om binnen zestig dagen per systeem een A4 op te leveren: wat gebeurt er met onze dienstverlening en onze data als de leverancier morgen stopt.</li>
+    <li><b>Wat doen we voor 12 januari 2027?</b> Besluit om voor die datum minimaal een export te testen en de cloudcontracten op Data Act-conformiteit te laten controleren, zodat de organisatie haar overstaprecht kan uitoefenen.</li>
+  </ol>
+</div>
+
+<h2>5. Exitclausules voor je volgende aanbesteding</h2>
+<p>Vier bepalingen die je in elk nieuw contract kunt opnemen. Ze volgen de Data Act en de modelclausules van de Europese Commissie (april 2025). Dit is geen juridisch advies; leg ze voor aan je inkoopjurist.</p>
+<div class="clausule"><b>Overstaptermijnen</b>Opzegtermijn maximaal twee maanden. Na opzegging voltooit leverancier de overgang naar een andere aanbieder of naar eigen infrastructuur binnen dertig dagen, tenzij technisch aantoonbaar onmogelijk.<span class="bron">Data Act art. 25</span></div>
+<div class="clausule"><b>Exporteerbare data en digitale activa</b>Leverancier specificeert in het contract welke data en configuraties exporteerbaar zijn, in welk open en machineleesbaar formaat, en levert deze kosteloos bij overstap.<span class="bron">Data Act art. 25, 30</span></div>
+<div class="clausule"><b>Geen overstapkosten</b>Leverancier brengt geen kosten in rekening voor het overstapproces. Voor contracten die voor 12 januari 2027 lopen: uitsluitend directe kosten, zonder marge.<span class="bron">Data Act art. 29</span></div>
+<div class="clausule"><b>Continuiteit bij faillissement of overname</b>Bij faillissement, overname of beeindiging van de dienst krijgt opdrachtgever binnen tien werkdagen een volledige export en behoudt hij toegang tot de dienst gedurende de overgangstermijn. Broncode-escrow voor maatwerkcomponenten.<span class="bron">Cbw zorgplicht, RDI toelichting toeleveringsketen</span></div>
+
+<h2>6. Je eerste negentig dagen</h2>
+<p>Drie acties, elk met een eigenaar en een week. Niet meer, want meer wordt niet gedaan. Na negentig dagen doe je de toets opnieuw en zie je het verschil.</p>
+<div class="actie"><span class="wk">Week 1 tot 2</span><div><b>Eigenaren benoemen en contracteindes ophalen</b><span>Bestuursbesluit over eigenaarschap. Inkoop haalt van alle vier systemen de contracten en einddata boven tafel. Kost een middag, lost twee van de vier onbekenden op.</span><span class="eig">Eigenaar: gemeentesecretaris of directeur bedrijfsvoering</span></div></div>
+<div class="actie"><span class="wk">Week 3 tot 6</span><div><b>Eén export testen</b><span>Kies het zaaksysteem, want daar staan de open standaarden al. Haal een volledige export terug, lees hem in een neutrale omgeving, noteer wat ontbreekt. Dat is je eerste bewijs van uitstapbaarheid.</span><span class="eig">Eigenaar: informatiemanager, met de beheerder van het zaaksysteem</span></div></div>
+<div class="actie"><span class="wk">Week 7 tot 12</span><div><b>Cloudcontract op Data Act toetsen en wegval-scenario's vastleggen</b><span>Laat de inkoopjurist de twee cloudcontracten naast de vier clausules uit sectie 5 leggen. Per systeem een A4 met het wegval-scenario. Beide gaan mee in de risicoanalyse.</span><span class="eig">Eigenaar: inkoop, met de vier systeemeigenaren</span></div></div>
+
+<h2>7. Vergelijking met andere gemeenten</h2>
+<div class="bench">Beschikbaar zodra 25 gemeenten de toets hebben gedaan. Je ziet dan waar je staat ten opzichte van organisaties van jouw type, zonder dat iemand ziet wie je bent. Stand: 7 van 25.</div>
+
+<footer>
+  Will Switch, praktijkonderzoek naar digitale autonomie in de publieke sector. Gebouwd met open source, gehost in Nederland.<br>
+  Dit rapport is input voor de eigen risicoanalyse van de organisatie. Het is geen oordeel over naleving van de Cyberbeveiligingswet, de Data Act of andere wetgeving, en geen juridisch advies. Bronnen: RDI, toelichting zorgplicht toeleveringsketen (2026); Verordening (EU) 2023/2854; Kamerbrief Herziening Rijksbreed Cloudbeleid (26 643, nr. 1541).
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will Switch - aan de andere kant</title>
+  <meta name="description" content="Praktijkonderzoek naar digitale autonomie in de publieke sector. Voorbeelden die werken, en wat de overstap van Big Tech naar open alternatieven tegenhoudt.">
+  <link rel="canonical" href="https://willswitch.nl/switch.html">
+  <!-- OpenGraph / social share -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Will Switch">
+  <meta property="og:title" content="Will Switch: van afhankelijkheid naar keuzevrijheid">
+  <meta property="og:description" content="Praktijkonderzoek naar digitale autonomie in de publieke sector. Voorbeelden die werken, en wat de overstap tegenhoudt.">
+  <meta property="og:image" content="https://willswitch.nl/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://willswitch.nl/switch.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Will Switch: van afhankelijkheid naar keuzevrijheid">
+  <meta name="twitter:description" content="Praktijkonderzoek naar digitale autonomie in de publieke sector.">
+  <meta name="twitter:image" content="https://willswitch.nl/og-image.jpg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --orange: #E84500;
+      --orange-glow: #FF6B2B;
+      --paper: #F0EDE6;
+      --paper-warm: #E8E3D6;
+      --ink: #1a1612;
+      --ink-soft: #4a443c;
+      --ink-faint: rgba(26,22,18,0.45);
+      --rule: rgba(26,22,18,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Space Mono', monospace;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Subtle paper grain — not heavy, just texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(232,69,0,0.04), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(26,22,18,0.05), transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: multiply;
+    }
+
+    /* Glitch-in opening — feels continuous from the index page glitch */
+    .reveal {
+      animation: glitchIn 0.6s steps(1) backwards;
+      will-change: opacity, transform, filter;
+    }
+    @keyframes glitchIn {
+      0%   { opacity: 0; filter: brightness(4); transform: translate(0,0); }
+      15%  { opacity: 1; filter: brightness(1.5) hue-rotate(180deg); transform: translate(-4px, 2px); }
+      30%  { opacity: 0.6; filter: invert(0.3) saturate(2); transform: translate(3px, -2px); }
+      45%  { opacity: 1; filter: hue-rotate(40deg); transform: translate(-2px, 0); }
+      60%  { opacity: 0.85; filter: none; transform: translate(2px, 1px); }
+      80%  { opacity: 1; filter: none; transform: translate(0, 0); }
+      100% { opacity: 1; filter: none; transform: translate(0, 0); }
+    }
+
+    /* === Hero image === */
+    .hero {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: clamp(300px, 38vw, 500px);
+      overflow: hidden;
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 72%;
+      display: block;
+      animation: heroFade 1.6s ease 0.3s backwards;
+    }
+    /* Soft fade to paper at the bottom so the image dissolves into the page */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        transparent 65%,
+        rgba(240,237,230,0.4) 85%,
+        var(--paper) 100%
+      );
+    }
+    @keyframes heroFade {
+      from { opacity: 0; transform: scale(1.02); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* On hero pages, topbar overlays the image */
+    .topbar.over-hero {
+      position: absolute;
+      top: 2rem;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      color: rgba(26,22,18,0.7);
+    }
+    .topbar.over-hero a { color: rgba(26,22,18,0.7); }
+    .topbar.over-hero .brand { color: var(--ink); }
+    .topbar.over-hero a:hover { color: var(--orange); }
+
+    @media (max-width: 600px) {
+      .topbar.over-hero { top: 1.25rem; padding: 0 1.25rem; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 2.5rem 1.25rem 4rem; }
+    }
+
+    /* === Top bar: back to switch === */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .topbar a {
+      color: var(--ink-faint);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .topbar a:hover { color: var(--orange); }
+    .topbar .brand { color: var(--ink); }
+
+    /* === Block 1: De overgang === */
+    .overture {
+      margin-bottom: 7rem;
+      max-width: 42rem;
+    }
+    .overture .marker {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .overture .marker::before {
+      content: '';
+      width: 32px;
+      height: 1.5px;
+      background: var(--orange);
+    }
+    .overture h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .overture h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+    .overture p {
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      color: var(--ink-soft);
+      max-width: 38rem;
+      margin-bottom: 1.25rem;
+    }
+    .overture p:last-child { margin-bottom: 0; }
+    .overture p.footnote {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.8rem;
+      color: var(--ink-faint);
+      font-style: italic;
+      max-width: 36rem;
+    }
+
+    /* === Block 2: Lessons learned cards === */
+    .lessons-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--rule);
+      gap: 2rem;
+    }
+    .lessons-header h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .lessons-header .lessons-intro {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin-top: 0.6rem;
+      max-width: 36rem;
+      line-height: 1.5;
+    }
+    .lessons-header .count {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding-top: 0.25rem;
+    }
+    @media (max-width: 600px) {
+      .lessons-header { flex-direction: column; gap: 0.5rem; }
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 7rem;
+    }
+
+    @media (max-width: 800px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--paper-warm);
+      border: 1px solid var(--rule);
+      padding: 2rem 1.75rem;
+      position: relative;
+      transition: transform 0.4s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--orange);
+    }
+
+    /* Asymmetric grid: not all cards equal — let rhythm show */
+    .card.span-3 { grid-column: span 3; }
+    .card.span-4 { grid-column: span 4; }
+    .card.span-2 { grid-column: span 2; }
+
+    @media (max-width: 800px) {
+      .card.span-3, .card.span-4, .card.span-2 { grid-column: 1 / -1; }
+    }
+
+    .card .num {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--orange);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .card h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .card .placeholder-text {
+      color: var(--ink-faint);
+      font-size: 0.85rem;
+      font-style: italic;
+      line-height: 1.6;
+      border-left: 2px solid var(--rule);
+      padding-left: 0.85rem;
+    }
+    .card .card-body {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+    .card .quote-slot {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px dashed var(--rule);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .card .quote-slot.filled {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink-soft);
+      font-style: italic;
+      line-height: 1.55;
+    }
+    .card .quote-slot.filled .attr {
+      display: block;
+      margin-top: 0.6rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-style: normal;
+    }
+    .card .quote-slot.filled .attr-context {
+      display: block;
+      margin-top: 0.25rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink-faint);
+      font-style: italic;
+      line-height: 1.45;
+    }
+
+    /* === Block 2.5: Agenda === */
+    .agenda {
+      margin-bottom: 6rem;
+    }
+    .agenda h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .agenda .sub {
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+      margin-bottom: 2.5rem;
+    }
+    .agenda ul {
+      list-style: none;
+      border-top: 1px solid var(--rule);
+    }
+    .agenda li {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    @media (max-width: 600px) {
+      .agenda li { grid-template-columns: 1fr; gap: 0.4rem; }
+    }
+    .agenda .when {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      color: var(--orange);
+    }
+    .agenda .what {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .agenda .what a {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.1rem;
+      transition: color 0.3s ease, border-color 0.3s ease;
+      align-self: flex-start;
+    }
+    .agenda .what a:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+    .agenda .where {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    /* === Block 2.6: Ik beweeg ook === */
+    .movement {
+      margin-bottom: 6rem;
+      max-width: 1100px;
+    }
+    .movement .marker {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .movement .marker::before {
+      content: '';
+      width: 32px;
+      height: 1.5px;
+      background: var(--orange);
+    }
+    .movement h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .movement .sub,
+    .movement .confirm {
+      font-size: clamp(0.9rem, 1.4vw, 1rem);
+      color: var(--ink-soft);
+      line-height: 1.6;
+      max-width: 42rem;
+    }
+    .movement .confirm {
+      display: none;
+      padding: 1rem 1.25rem;
+      background: rgba(232, 69, 0, 0.05);
+      border-left: 3px solid var(--orange);
+      margin-top: 0;
+    }
+    .movement .confirm strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .movement.has-clicked .sub { display: none; }
+    .movement.has-clicked .confirm { display: block; }
+
+    .movement-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+      margin: 2rem 0 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .movement-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .movement-grid { grid-template-columns: 1fr; }
+    }
+
+    .movement-btn {
+      background: #fff;
+      border: 1px solid #D8D2C6;
+      border-radius: 6px;
+      padding: 1.1rem 1rem;
+      text-align: left;
+      cursor: pointer;
+      font-family: 'Space Mono', monospace;
+      color: var(--ink);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      min-height: 6rem;
+      box-shadow: 0 1px 2px rgba(26,22,18,0.05);
+    }
+    /* radio-style affordance: signals "pick one" */
+    .movement-btn::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #C4BCAD;
+      flex: none;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+    .movement-btn:hover {
+      border-color: var(--orange);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(26,22,18,0.10);
+    }
+    .movement-btn:hover::before {
+      border-color: var(--orange);
+    }
+    .movement-btn:focus-visible {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232,69,0,0.25);
+    }
+    .movement-btn .label {
+      font-size: 0.95rem;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+    .movement-btn .count {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+      margin-top: auto;
+    }
+    .movement-btn.selected {
+      border-color: var(--orange);
+      background: #fff;
+      box-shadow: 0 0 0 1px var(--orange), 0 6px 16px rgba(232,69,0,0.12);
+    }
+    .movement-btn.selected::before {
+      border-color: var(--orange);
+      background: var(--orange);
+      box-shadow: inset 0 0 0 4px #fff;
+    }
+    .movement-btn.selected .count {
+      color: var(--orange);
+    }
+    .movement-btn.pulse {
+      animation: btnPulse 0.5s ease;
+    }
+    @keyframes btnPulse {
+      0%   { transform: translateY(-3px) scale(1); }
+      40%  { transform: translateY(-3px) scale(1.04); }
+      100% { transform: translateY(-3px) scale(1); }
+    }
+
+    /* === Block 4: Fase 2 outlook (compact) === */
+    .outlook {
+      margin-bottom: 6rem;
+      max-width: 42rem;
+    }
+    .outlook .marker {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .outlook .marker::before {
+      content: '';
+      width: 32px;
+      height: 1.5px;
+      background: var(--orange);
+    }
+    .outlook .outlook-line {
+      font-size: clamp(0.9rem, 1.4vw, 1rem);
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    /* === Block 1.4: Onderzoeksbasis === */
+    .research-basis {
+      margin-bottom: 5rem;
+    }
+    .research-basis .rb-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 1.25rem;
+    }
+    .research-basis .rb-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem 1.25rem;
+      padding: 1.4rem 0;
+      border-top: 1px solid var(--rule);
+    }
+    .research-basis .rb-row:last-child {
+      border-bottom: 1px solid var(--rule);
+    }
+    .research-basis .rb-lead {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      font-weight: 700;
+      color: var(--orange);
+      white-space: nowrap;
+    }
+    .research-basis .rb-practice {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      max-width: 36rem;
+    }
+    .research-basis .rb-tags {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .research-basis .rb-tags li {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink);
+      background: var(--paper-warm);
+      border: 1px solid var(--rule);
+      padding: 0.35rem 0.75rem;
+      border-radius: 2px;
+    }
+
+    /* === Block 3: Supporters van digitale autonomie === */
+    .credits h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .credits .sub {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+      max-width: 38rem;
+    }
+    /* named credits (with permission) */
+    .credits .named {
+      list-style: none;
+      border-top: 1px solid var(--rule);
+    }
+    .credits .named li {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    @media (max-width: 600px) {
+      .credits .named li { grid-template-columns: 1fr; gap: 0.4rem; }
+    }
+    .credits .name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+    }
+    .credits .context {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    .credits .context a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+    .credits .context a:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    /* === Initiatiefnemer === */
+    .initiator {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+      max-width: 42rem;
+    }
+    .initiator .init-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.6rem;
+    }
+    .initiator .init-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .initiator .init-desc {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      margin-bottom: 0.6rem;
+    }
+    .initiator .init-link a {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+    .initiator .init-link a:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    /* === Footer === */
+    footer {
+      margin-top: 6rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    footer a {
+      color: var(--ink-faint);
+      text-decoration: none;
+    }
+    footer a:hover { color: var(--orange); }
+
+    @media (max-width: 600px) {
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+    /* === Clickable case card === */
+    .card-case {
+      cursor: pointer;
+    }
+    .card-case:hover {
+      transform: translateY(-3px);
+      border-color: var(--orange);
+      box-shadow: 0 8px 22px rgba(26,22,18,0.10);
+    }
+    .card-case:focus-visible {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232,69,0,0.25);
+    }
+    .card-case .case-more {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--orange);
+    }
+    .card-case .case-more::after { content: " \2192"; }
+
+    /* === Case popup / modal === */
+    .case-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .case-modal[hidden] { display: none; }
+    .case-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(6,8,16,0.55);
+      backdrop-filter: blur(2px);
+    }
+    .case-modal-panel {
+      position: relative;
+      background: var(--paper);
+      color: var(--ink);
+      max-width: 640px;
+      width: 100%;
+      max-height: 86vh;
+      overflow-y: auto;
+      padding: 2.75rem 2.4rem 2.2rem;
+      border-radius: 8px;
+      box-shadow: 0 30px 80px rgba(6,8,16,0.45);
+    }
+    .case-modal-close {
+      position: absolute;
+      top: 0.6rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.9rem;
+      line-height: 1;
+      color: var(--ink-faint);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .case-modal-close:hover { color: var(--orange); }
+    .case-data .case-eyebrow {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.6rem;
+    }
+    .case-data h2 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .case-data p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+    .case-data .case-quote {
+      font-size: 1.05rem;
+      color: var(--orange);
+      font-weight: 700;
+      padding-left: 1rem;
+      margin: 1.4rem 0;
+    }
+    .case-data .case-link-wrap { margin-top: 1.6rem; }
+    .case-data .case-link-wrap a {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--orange);
+      text-decoration: none;
+      border-bottom: 1px solid var(--orange);
+      padding-bottom: 2px;
+    }
+    .case-data .case-link-wrap a:hover { color: var(--ink); border-color: var(--ink); }
+    /* === New-card glow (signals freshness) === */
+    .card-new::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      pointer-events: none;
+      border: 1px solid rgba(232,69,0, calc(0.7 * var(--new-intensity, 1)));
+      box-shadow: 0 0 calc(24px * var(--new-intensity, 1)) 2px rgba(232,69,0, calc(0.35 * var(--new-intensity, 1)));
+      animation: newGlow 2.6s ease-in-out infinite;
+    }
+    @keyframes newGlow {
+      0%, 100% { opacity: 0.45; }
+      50%      { opacity: 1; }
+    }
+    .card-flag {
+      position: absolute;
+      top: 0.85rem;
+      right: 1rem;
+      z-index: 2;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--orange);
+      background: rgba(232,69,0,0.10);
+      border: 1px solid rgba(232,69,0,0.45);
+      padding: 0.22rem 0.5rem;
+      border-radius: 2px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card-new::before { animation: none; opacity: 0.7; }
+    }
+
+    /* === Popup image === */
+    .case-data figure { margin: 1.5rem 0; }
+    .case-data img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      border: 1px solid var(--rule);
+    }
+    .case-data .case-cap {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--ink-faint);
+      margin-top: 0.55rem;
+      line-height: 1.4;
+    }
+    .case-data .case-credit {
+      margin-top: 1.7rem;
+      padding-top: 1.15rem;
+      border-top: 1px solid var(--rule);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: var(--ink-faint);
+    }
+    .case-data .case-credit a {
+      color: var(--orange);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(232,69,0,0.4);
+    }
+    .case-data .case-credit a:hover { color: var(--ink); border-color: var(--ink); }
+    /* === Case share bar === */
+    .case-share {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--rule);
+    }
+    .case-share-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--ink-faint);
+      margin-right: 0.2rem;
+    }
+    .case-share-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    }
+    .case-share-btn:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-1px);
+    }
+    .case-data p a {
+      color: var(--orange);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(232,69,0,0.4);
+    }
+    .case-data p a:hover { color: var(--ink); border-color: var(--ink); }
+  </style>
+</head>
+<body class="reveal">
+
+  <section class="hero">
+    <img src="switch-hero.png" alt="Astronaut die uitkijkt over een Nederlands landschap, helm in de hand">
+    <div class="topbar over-hero">
+      <span class="brand">Will Switch</span>
+      <a href="index.html">← terug naar de switch</a>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Blok 1: De overgang -->
+    <section class="overture">
+      <p class="marker">resultaten fase 1</p>
+      <h1>Het is <em>begonnen</em>. Op meer plekken dan je denkt.</h1>
+      <p>Sleeswijk-Holstein investeert €9 miljoen in de migratie en verwacht jaarlijks ruim €15 miljoen aan licentiekosten te besparen. Daarmee is de investering in minder dan een jaar terugverdiend. Frankrijk zet 2,5 miljoen ambtenaren over naar Linux. Ook in Nederland komt het op gang: de Rijksuniversiteit Groningen wil in 2030 los zijn van Big Tech en werkt daarbij samen met andere kennisinstellingen in het Noorden.</p>
+      <p>Wat begon als een zoektocht naar de katalysator om de transitie te versnellen, is in mijn ervaring veranderd. De versnelling is begonnen. Nu gaat het erom dat we 'm praktisch ondersteunen en richting geven. Daar kan Will Switch in helpen: mensen en middelen aan elkaar koppelen, en de echte vragen op tafel krijgen.</p>
+      <p>In de gesprekken die ik tot nu toe voer, valt me iets op. De voorbeelden die er zijn, Sleeswijk-Holstein bijvoorbeeld, zijn nauwelijks bekend bij Nederlandse gemeenten. En als ik leveranciers spreek, blijkt vaak iets anders dan ik dacht: Big Tech praat met directie en bestuur, terwijl alternatieven het gesprek voeren met IT. Zelfde techniek, totaal andere weg naar een handtekening.</p>
+    </section>
+
+    <!-- Blok 1.4: Onderzoeksbasis -->
+    <section class="research-basis">
+      <p class="rb-label">Waar deze inzichten vandaan komen</p>
+      <div class="rb-row">
+        <span class="rb-lead">Gesprekken met</span>
+        <ul class="rb-tags">
+          <li>Gemeenten</li>
+          <li>Provincies</li>
+          <li>Universiteiten</li>
+          <li>Onderzoekers</li>
+          <li>Leveranciers</li>
+          <li>Tweede Kamer</li>
+          <li>IT-managers</li>
+          <li>Geo-consultants</li>
+        </ul>
+      </div>
+      <div class="rb-row">
+        <span class="rb-lead">En praktijk die we volgen</span>
+        <p class="rb-practice">in binnen- en buitenland, van Sleeswijk-Holstein tot Data Space Groningen.</p>
+      </div>
+    </section>
+
+    <!-- Blok 1.6: Beweeg mee -->
+    <section class="movement" id="movement">
+      <p class="marker">beweeg mee</p>
+      <h2>Waar staat jouw organisatie vandaag?</h2>
+      <p class="sub"><strong>Doe mee.</strong> Eén klik, geen registratie, geen mailadres. Een teken dat jullie ergens in deze beweging staan.</p>
+      <p class="confirm" id="movement-confirm"></p>
+
+      <div class="movement-grid" id="movement-grid">
+        <button class="movement-btn" data-phase="verkennen" type="button">
+          <span class="label">We verkennen</span>
+          <span class="count" data-count>·</span>
+        </button>
+        <button class="movement-btn" data-phase="praten" type="button">
+          <span class="label">We praten erover</span>
+          <span class="count" data-count>·</span>
+        </button>
+        <button class="movement-btn" data-phase="pilot" type="button">
+          <span class="label">We draaien een pilot</span>
+          <span class="count" data-count>·</span>
+        </button>
+        <button class="movement-btn" data-phase="overstap" type="button">
+          <span class="label">We stappen over</span>
+          <span class="count" data-count>·</span>
+        </button>
+        <button class="movement-btn" data-phase="verder" type="button">
+          <span class="label">We zijn al verder</span>
+          <span class="count" data-count>·</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Blok 2: Lessons learned -->
+    <header class="lessons-header">
+      <div>
+        <h2>Patronen</h2>
+        <p class="lessons-intro">Voorbeelden die werken, en wat de overstap tegenhoudt.</p>
+      </div>
+      <span class="count">in opbouw</span>
+    </header>
+
+    <div class="cards">
+
+      <article class="card span-2 card-case card-new" data-publish-on="2026-09-09" data-case="frankrijk" role="button" tabindex="0" aria-label="Lees het nieuws over Frankrijk, Linux en het Nederlandse beleid">
+        <span class="card-flag">nieuw</span>
+        <span class="num">01</span>
+        <h3>Frankrijk verplicht. Nederland belooft.</h3>
+        <p class="card-body">Frankrijk haalt Windows van 2,5 miljoen overheidscomputers, van bovenaf en met een deadline. Nederland heeft sinds 2020 hetzelfde beleid op papier, maar de praktijk beweegt de andere kant op.</p>
+        <span class="case-more">Lees het nieuws</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-publish-on="2026-08-28" data-case="meta" role="button" tabindex="0" aria-label="Lees het nieuws over de Meta-schikking">
+        <span class="card-flag">nieuw</span>
+        <span class="num">01</span>
+        <h3>18 miljard aan pleisters. Het algoritme blijft.</h3>
+        <p class="card-body">Meta schikt voor 18 miljard dollar en belooft tieners nachtsloten en tijdslimieten. Maar de eindeloze scroll en het verdienmodel blijven staan. Symptoombestrijding, geen structuur.</p>
+        <span class="case-more">Lees het nieuws</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-publish-on="2026-08-12" data-case="mecklenburg" role="button" tabindex="0" aria-label="Lees het nieuws over Mecklenburg-Vorpommern en Nextcloud">
+        <span class="card-flag">nieuw</span>
+        <span class="num">04</span>
+        <h3>Twee deelstaten, één soeverein platform.</h3>
+        <p class="card-body">Mecklenburg-Vorpommern vervangt SharePoint door Nextcloud en sluit aan bij buurstaat Sleeswijk-Holstein. Geen los eiland erbij, maar een gedeelde basis.</p>
+        <span class="case-more">Lees het nieuws</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-publish-on="2026-07-20" data-case="belastingdienst" role="button" tabindex="0" aria-label="Lees het nieuws over de Belastingdienst en Microsoft 365">
+        <span class="card-flag">nieuw</span>
+        <span class="num">01</span>
+        <h3>Belastingdienst zet uitrol Microsoft 365 in de pauzestand.</h3>
+        <p class="card-body">Een vernietigend advies over vendor lock-in en het ontbreken van een realistische exitstrategie. De grootste IT-organisatie van het Rijk gaat het on-premises-scenario uitwerken.</p>
+        <span class="case-more">Lees het nieuws</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-publish-on="2026-07-28" data-case="rijkscloud" role="button" tabindex="0" aria-label="Lees het nieuws over de soevereine overheidscloud">
+        <span class="card-flag">nieuw</span>
+        <span class="num">02</span>
+        <h3>Het Rijk bouwt een eigen soevereine cloud. Op open source.</h3>
+        <p class="card-body">Het kabinet kiest het meest vergaande scenario: een nieuwe overheidscloud in eigen datacenters, met een technische basis van open source om lock-in te beperken.</p>
+        <span class="case-more">Lees het nieuws</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-publish-on="2026-08-05" data-case="rechter" role="button" tabindex="0" aria-label="Lees het nieuws over stilgelegde IT-aanbestedingen">
+        <span class="card-flag">nieuw</span>
+        <span class="num">03</span>
+        <h3>Rechter legt 3,3 miljard aan IT-aanbestedingen stil.</h3>
+        <p class="card-body">Twee grote inkooptrajecten voor onder meer Microsoft en Oracle werden gestaakt. De Kamer vroeg meteen door: waarom een merknaam uitvragen in plaats van functionele eisen?</p>
+        <span class="case-more">Lees het nieuws</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-publish-on="2026-08-19" data-case="wildgroei" role="button" tabindex="0" aria-label="Lees het inzicht over migreren en opruimen">
+        <span class="card-flag">nieuw</span>
+        <span class="num">01</span>
+        <h3>Migreer niet alles. Ruim eerst op.</h3>
+        <p class="card-body">Vierhonderd viewers in de lucht, vijftig echt in gebruik. De grootste valkuil is alles 1-op-1 willen overzetten, inclusief de wildgroei.</p>
+        <span class="case-more">Lees het inzicht</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-new-since="2026-07-15" data-case="aanbesteden" role="button" tabindex="0" aria-label="Lees het inzicht over open source en aanbesteden">
+        <span class="card-flag">nieuw</span>
+        <span class="num">02</span>
+        <h3>Open source verliest de aanbesteding. Dat hoeft niet.</h3>
+        <p class="card-body">Het beleid bestaat al sinds 2007: bij gelijke geschiktheid gaat de voorkeur naar open source. De praktijk hapert, vooral door onbekendheid bij inkoop.</p>
+        <span class="case-more">Lees het inzicht</span>
+      </article>
+
+
+      <article class="card span-2 card-case card-new" data-new-since="2026-07-08" data-case="dsg" role="button" tabindex="0" aria-label="Lees de case over Data Space Groningen">
+        <span class="card-flag">nieuw</span>
+        <span class="num">03</span>
+        <h3>Zeventien organisaties, één open platform.</h3>
+        <p class="card-body">In Groningen delen overheden en waterschappen hun data via een federatief, open source platform. Van overheden, door overheden.</p>
+        <span class="case-more">Lees de case</span>
+      </article>
+
+      <article class="card span-2 card-case card-new" data-new-since="2026-07-08" data-case="bavaria" role="button" tabindex="0" aria-label="Lees het nieuws over Bavaria en Microsoft">
+        <span class="card-flag">nieuw</span>
+        <span class="num">04</span>
+        <h3>Bavaria zegt miljardencontract met Microsoft op.</h3>
+        <p class="card-body">De grootste Duitse deelstaat kiest voor een soevereine, open source werkplek. Reden: dataprivacy, prijsstijgingen en het risico van een kill switch.</p>
+        <span class="case-more">Lees het nieuws</span>
+      </article>
+
+      <article class="card span-2 card-case" data-case="surf" role="button" tabindex="0" aria-label="Lees de case over SURF en Nextcloud">
+        <span class="num">05</span>
+        <h3>SURF is zelf proefkonijn.</h3>
+        <p class="card-body">De IT-coöperatie van het hoger onderwijs zette zijn eigen diensten over naar het open source Nextcloud. Niet als test op afstand, maar om leden te laten zien dat het kan.</p>
+        <span class="case-more">Lees de case</span>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">06</span>
+        <h3>Schaal op wat al werkt, niet alles tegelijk.</h3>
+        <p class="quote-slot filled">"Het kabinet denkt dat je de hele overheid meteen moet aanpakken. Dat kan niet. Schaal op wat werkt, bij de koplopers van de VNG en de Tweede Kamer zelf."<span class="attr">- Barbara Kathmann · Tweede Kamer</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">07</span>
+        <h3>Van afhankelijkheid naar autonomie: 30.000 ambtenaren gingen voor.</h3>
+        <p class="quote-slot filled">„Jetzt können wir auch bei der E-Mail-Kommunikation sagen: Mission erfüllt."<span class="attr">- Dirk Schrödter</span><span class="attr-context">na migratie van Exchange/Outlook naar Open-Xchange en Thunderbird in Sleeswijk-Holstein</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">08</span>
+        <h3>Losweken begint met zelfvertrouwen.</h3>
+        <p class="card-body">De Rijksuniversiteit Groningen wil zich in 2030 hebben losgemaakt van Google, Microsoft, Meta en Amazon. De roadmap ontstond na workshops en gesprekken binnen de eigen organisatie, samen met andere kennisinstellingen in het Noorden.</p>
+        <p class="quote-slot filled">"We moeten ook een beetje zelfverzekerd zijn."<span class="attr">- Rijksuniversiteit Groningen</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">09</span>
+        <h3>97.000 werkplekken. Geen pilot.</h3>
+        <p class="card-body">De Franse Gendarmerie stapte al jaren geleden over op Ubuntu. Geen experiment, maar een organisatie met bijna 100.000 werkplekken. De aanleiding? Meer controle over de eigen digitale omgeving.</p>
+        <p class="quote-slot filled">"The main goals were to gain greater independence and flexibility."<span class="attr">- Franse Gendarmerie</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">10</span>
+        <h3>Digitale afhankelijkheid is een beleidsvraag.</h3>
+        <p class="card-body">Frankrijk vraagt ministeries actief om afhankelijkheden van niet-Europese technologie terug te dringen. Niet vanuit nostalgie, maar vanuit strategische autonomie.</p>
+        <p class="quote-slot filled">"Eliminate extra-European digital dependencies."<span class="attr">- DINUM · Franse overheid</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">11</span>
+        <h3>Open source als standaard.</h3>
+        <p class="card-body">De Europese Commissie gebruikt open source niet alleen zelf, maar moedigt het ook actief aan binnen de eigen organisatie en bij lidstaten.</p>
+        <p class="quote-slot filled">"Whenever equivalent functionality can be achieved, open source should be preferred."<span class="attr">- Europese Commissie</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">12</span>
+        <h3>Publiek geld, publieke code.</h3>
+        <p class="card-body">Een simpele vraag die steeds vaker gesteld wordt: waarom zouden overheden belastinggeld gebruiken om software te financieren die vervolgens niet opnieuw gebruikt mag worden?</p>
+        <p class="quote-slot filled">"Public money? Public code."<span class="attr">- FSFE · campagne binnen Europa</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">13</span>
+        <h3>Van voorkeur naar wet.</h3>
+        <p class="card-body">In Zwitserland is open source voor veel nieuwe overheidssoftware geen ambitie meer. Het is vastgelegd in wetgeving.</p>
+        <p class="quote-slot filled">"Software developed by or for public authorities shall be published as Open Source Software."<span class="attr">- Zwitserse EMBAG-wet</span></p>
+      </article>
+
+      <article class="card span-2">
+        <span class="num">14</span>
+        <h3>Skin in the game maakt het verschil.</h3>
+        <p class="quote-slot filled">"Het veranderde pas toen teammanagers zelf verantwoordelijk werden gemaakt voor de transitie."</p>
+      </article>
+
+    </div>
+
+    <!-- Blok 2.5: Agenda -->
+    <section class="agenda">
+      <h2>Agenda</h2>
+      <p class="sub">Meepraten? Kom dan naar:</p>
+      <ul>
+        <li>
+          <div class="when">9 juli 2026 · 13:35</div>
+          <div class="what">
+            <a href="https://pretalx.com/foss4gnl/talk/YFEFFR/" target="_blank" rel="noopener">Will Switch: help mee de overheid los te weken van Big Tech</a>
+            <span class="where">FOSS4G NL · Brunsemazaal, Groningen</span>
+          </div>
+        </li>
+        <li>
+          <div class="when">1 oktober 2026</div>
+          <div class="what">
+            <a href="https://leiderschapstop.nl/" target="_blank" rel="noopener">LeiderschapsTop Open Source</a>
+            <span class="where">Koorkerk, Middelburg · op uitnodiging</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Blok 3: Supporters van digitale autonomie -->
+    <section class="credits">
+      <h2>Supporters van digitale autonomie</h2>
+      <p class="sub">Mensen en organisaties die zich openlijk achter de beweging scharen.</p>
+
+      <ul class="named">
+        <li>
+          <span class="name">Oskar J. Gstrein</span>
+          <span class="context">Rijksuniversiteit Groningen, <a href="https://daix.web.rug.nl/" target="_blank" rel="noopener">Data Autonomy Index</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Initiatiefnemer -->
+    <section class="initiator">
+      <p class="init-label">Initiatiefnemer</p>
+      <p class="init-name">Govert Schoof</p>
+      <p class="init-desc">Werkt op het snijvlak van overheid, onderzoek, geo-informatie en digitale autonomie.</p>
+      <p class="init-link"><a href="https://www.linkedin.com/in/govertschoof/" target="_blank" rel="noopener">LinkedIn</a></p>
+    </section>
+
+
+    <footer>
+      <span>Will Switch · willswitch.nl</span>
+      <span>Research funded by <a href="https://www.sidn.nl/pioniersfonds" target="_blank">SIDN Pioniersfonds</a></span>
+    </footer>
+
+  </div>
+
+  <script>
+    // Remove the reveal class once flip-in completes so it doesn't replay on resize
+    window.addEventListener('load', () => {
+      setTimeout(() => document.body.classList.remove('reveal'), 800);
+    });
+
+    // ===== Movement signal section =====
+    (function () {
+      const API_BASE = 'https://abacus.jasoncameron.dev';
+      const NAMESPACE = 'willswitch.nl';
+      const STORAGE_KEY = 'willswitch_movement_phase';
+
+      const PHASES = {
+        verkennen: 'We verkennen',
+        praten:    'We praten erover',
+        pilot:     'We draaien een pilot',
+        overstap:  'We stappen over',
+        verder:    'We zijn al verder'
+      };
+
+      const section   = document.getElementById('movement');
+      if (!section) return;
+      const confirmEl = document.getElementById('movement-confirm');
+      const buttons   = section.querySelectorAll('.movement-btn');
+
+      function countEl(phase) {
+        return section.querySelector(`[data-phase="${phase}"] [data-count]`);
+      }
+      function currentCount(phase) {
+        const n = parseInt(countEl(phase).textContent, 10);
+        return isNaN(n) ? 0 : n;
+      }
+      function setCount(phase, value) {
+        countEl(phase).textContent = value;
+      }
+
+      // Friendly confirmation: number + reassurance, not official-data tone
+      function confirmationText(phase) {
+        const label = PHASES[phase];
+        const n = currentCount(phase);
+        if (n <= 1) {
+          return `Genoteerd: <strong>"${label}"</strong>. Het eerste signaal in deze fase. Anderen volgen vast.`;
+        }
+        return `Dit patroon zien we vaker. Inmiddels <strong>${n} signalen</strong> in <strong>"${label}"</strong>. Je bent niet de enige.`;
+      }
+
+      function highlight(phase, animate) {
+        buttons.forEach((b) => b.classList.remove('selected'));
+        const btn = section.querySelector(`[data-phase="${phase}"]`);
+        if (!btn) return;
+        btn.classList.add('selected');
+        if (animate) {
+          btn.classList.add('pulse');
+          setTimeout(() => btn.classList.remove('pulse'), 500);
+        }
+        confirmEl.innerHTML = confirmationText(phase);
+        section.classList.add('has-clicked');
+      }
+
+      // Load counts from backend on page load
+      async function loadCounts() {
+        await Promise.all(
+          Object.keys(PHASES).map(async (phase) => {
+            try {
+              const r = await fetch(`${API_BASE}/get/${NAMESPACE}/beweeg-${phase}`);
+              if (r.ok) {
+                const data = await r.json();
+                setCount(phase, data.value || 0);
+              } else {
+                setCount(phase, 0);
+              }
+            } catch (e) {
+              setCount(phase, 0);
+            }
+          })
+        );
+      }
+
+      async function hit(phase) {
+        try {
+          const r = await fetch(`${API_BASE}/hit/${NAMESPACE}/beweeg-${phase}`);
+          if (r.ok) {
+            const data = await r.json();
+            setCount(phase, data.value);
+          } else {
+            setCount(phase, currentCount(phase) + 1);
+          }
+        } catch (e) {
+          setCount(phase, currentCount(phase) + 1);
+        }
+      }
+
+      // Abacus exposes increment but not decrement on the free tier.
+      // When a visitor switches choice we correct the display locally so the
+      // numbers stay believable, without pretending to be exact research data.
+      function decrementLocal(phase) {
+        setCount(phase, Math.max(0, currentCount(phase) - 1));
+      }
+
+      async function vote(phase) {
+        const previous = localStorage.getItem(STORAGE_KEY);
+
+        if (previous === phase) {
+          // same choice clicked again: never double-counts
+          highlight(phase, false);
+          return;
+        }
+
+        if (previous && PHASES[previous]) {
+          // switching choice: visually move the signal across
+          decrementLocal(previous);
+        }
+
+        await hit(phase);
+        localStorage.setItem(STORAGE_KEY, phase);
+        highlight(phase, true);
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const phase = btn.dataset.phase;
+          if (phase) vote(phase);
+        });
+      });
+
+      // Initialize: load counts, then restore any prior choice
+      loadCounts().then(() => {
+        const previous = localStorage.getItem(STORAGE_KEY);
+        if (previous && PHASES[previous]) {
+          highlight(previous, false);
+        }
+      });
+    })();
+
+    /* === Card scheduling: publish date, new-glow fade, auto-numbering === */
+    (function () {
+      var WINDOW_DAYS = 21;
+      var now = Date.now();
+
+      function dayStart(s) {
+        var t = new Date(s + 'T00:00:00').getTime();
+        return isNaN(t) ? null : t;
+      }
+
+      // 1) Hide cards whose publish date lies in the future
+      document.querySelectorAll('.card[data-publish-on]').forEach(function (card) {
+        var t = dayStart(card.getAttribute('data-publish-on'));
+        if (t !== null && now < t) card.hidden = true;
+      });
+
+      // 2) Fade the "nieuw" glow, counted from publish date or data-new-since
+      document.querySelectorAll('.card-new').forEach(function (card) {
+        var since = card.getAttribute('data-new-since') || card.getAttribute('data-publish-on');
+        if (!since) return;
+        var start = dayStart(since);
+        if (start === null) return;
+        var days = (now - start) / 86400000;
+        var flag = card.querySelector('.card-flag');
+        if (days >= WINDOW_DAYS) {
+          card.classList.remove('card-new');
+          if (flag) flag.remove();
+          return;
+        }
+        var intensity = Math.min(1, Math.max(0.12, 1 - days / WINDOW_DAYS));
+        card.style.setProperty('--new-intensity', intensity.toFixed(3));
+        if (flag) flag.style.opacity = Math.max(0.4, intensity).toFixed(2);
+      });
+
+      // 3) Renumber the visible cards so the sequence never shows gaps
+      var n = 0;
+      document.querySelectorAll('.cards .card').forEach(function (card) {
+        if (card.hidden) return;
+        n++;
+        var num = card.querySelector('.num');
+        if (num) num.textContent = ('0' + n).slice(-2);
+      });
+    })();
+    /* === Case popup === */
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('case-modal');
+      const content = document.getElementById('case-modal-content');
+      if (!modal || !content) return;
+      let lastFocused = null;
+
+      function caseUrl(id) {
+        return location.origin + location.pathname + '?case=' + id;
+      }
+      function caseTitle(id) {
+        const h = document.querySelector('#case-' + id + ' h2');
+        return h ? h.textContent : 'Will Switch';
+      }
+      function wireShare(id) {
+        const url = caseUrl(id);
+        const li = document.getElementById('share-linkedin');
+        const cp = document.getElementById('share-copy');
+        if (li) li.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
+        if (cp) {
+          cp.textContent = 'Kopieer link';
+          cp.onclick = function () {
+            (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject())
+              .then(function () { cp.textContent = 'Gekopieerd'; })
+              .catch(function () {
+                const t = document.createElement('input');
+                t.value = url; document.body.appendChild(t); t.select();
+                try { document.execCommand('copy'); cp.textContent = 'Gekopieerd'; } catch (e) {}
+                document.body.removeChild(t);
+              });
+          };
+        }
+      }
+
+      function openCase(id, push) {
+        const src = document.getElementById('case-' + id);
+        if (!src) return;
+        lastFocused = document.activeElement;
+        content.innerHTML = src.innerHTML;
+        wireShare(id);
+        content.querySelectorAll('[data-open-case]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            openCase(a.getAttribute('data-open-case'));
+          });
+        });
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        modal.querySelector('.case-modal-panel').scrollTop = 0;
+        const closeBtn = modal.querySelector('.case-modal-close');
+        if (closeBtn) closeBtn.focus();
+        if (push !== false) history.replaceState(null, '', caseUrl(id));
+        // privacy-friendly analytics event (only fires if GoatCounter is loaded)
+        if (window.goatcounter && window.goatcounter.count) {
+          window.goatcounter.count({ path: 'case/' + id, title: caseTitle(id), event: true });
+        }
+      }
+      function closeCase() {
+        modal.hidden = true;
+        content.innerHTML = '';
+        document.body.style.overflow = '';
+        history.replaceState(null, '', location.origin + location.pathname);
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
+      }
+
+      document.querySelectorAll('.card-case').forEach(function (card) {
+        card.addEventListener('click', function () { openCase(card.dataset.case); });
+        card.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openCase(card.dataset.case); }
+        });
+      });
+      modal.querySelectorAll('[data-close]').forEach(function (el) {
+        el.addEventListener('click', closeCase);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hidden) closeCase();
+      });
+
+      // Deep link: open a case directly via ?case=<id>
+      const wanted = new URLSearchParams(location.search).get('case');
+      if (wanted && document.getElementById('case-' + wanted)) {
+        openCase(wanted, false);
+      }
+    });
+  </script>
+
+  <!-- Case popup -->
+  <div class="case-modal" id="case-modal" hidden>
+    <div class="case-modal-backdrop" data-close></div>
+    <div class="case-modal-panel" role="dialog" aria-modal="true" aria-labelledby="case-modal-content">
+      <button class="case-modal-close" type="button" data-close aria-label="Sluiten">&times;</button>
+      <div class="case-data" id="case-modal-content"></div>
+      <div class="case-share">
+        <span class="case-share-label">Deel deze case</span>
+        <a class="case-share-btn" id="share-linkedin" target="_blank" rel="noopener">LinkedIn</a>
+        <button class="case-share-btn" id="share-copy" type="button">Kopieer link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden case content (cloned into modal) -->
+
+  <div class="case-data" id="case-frankrijk" hidden>
+    <p class="case-eyebrow">Nieuws · Frankrijk en Nederland</p>
+    <h2>Frankrijk verplicht. Nederland belooft.</h2>
+    <p>De Franse digitale dienst DINUM kondigde in april 2026 aan dat 2,5 miljoen overheidscomputers Windows verruilen voor Linux. Het is de grootste vrije-softwaremigratie ooit door een Europese overheid. Elk ministerie moet voor het najaar van 2026 een gedetailleerd migratieplan indienen. Geen aanbeveling, maar een verplichting, van bovenaf en over alle departementen tegelijk.</p>
+    <p>En het gaat verder dan het besturingssysteem. Ook Teams, Zoom en Dropbox gaan eruit, ten gunste van eigen, op open source gebaseerde alternatieven. Frankrijk en Duitsland bouwden samen al Docs, een alternatief voor Google Docs.</p>
+    <p>De voor de hand liggende tegenwerping is: en al die Windows-applicaties dan? Dat is precies waar het eerder misging. Duitsland probeerde het met München, jarenlang geroemd, en draaide uiteindelijk terug naar Windows omdat losse applicaties en werkprocessen bleven haken. Frankrijk trekt daar een les uit: niet per stad of per afdeling, maar met een mandaat over de hele linie en een migratieplan per ministerie.</p>
+    <p class="case-quote">"En al die Windows-applicaties dan?"</p>
+    <p>Dat de vraag naar de applicaties opduikt, is dus geen argument tegen. Het is het argument voor een aanpak die verder gaat dan het besturingssysteem. Juist ook weg van de afhankelijkheid van al die losse Windows-applicaties, met open source alternatieven, in samenhang aangepakt in plaats van een voor een.</p>
+    <p>En Nederland? Op papier staan we er hetzelfde in. Sinds 2020 geldt het beleid "open, tenzij": overheidssoftware moet zoveel mogelijk open source zijn. De ambitie is er dus. Maar de praktijk beweegt de andere kant op. De Belastingdienst verhuisde juist zijn mail naar Microsoft 365, en het kabinet erkende in antwoord op Kamervragen dat dit de afhankelijkheid van de Verenigde Staten vergroot. Zoals een analyse het scherp stelde: "open, tenzij" bestaat als principe, maar de praktijk wordt nog steeds gedomineerd door bestaande afhankelijkheden.</p>
+    <p>Dat is precies de kloof waar dit onderzoek over gaat. Het beleid is er. Het verschil zit in de durf om het ook te doen. Frankrijk liet zien dat een mandaat van bovenaf dat verschil kan maken. De vraag voor Nederland is of we wachten tot de afhankelijkheid ons dwingt, of dat we zelf kiezen zolang het nog kan.</p>
+    <p class="case-link-wrap"><a href="https://www.ictmagazine.nl/nieuws/frankrijk-vervangt-windows-door-linux-op-overheidssystemen-voor-digitale-soevereiniteit/" target="_blank" rel="noopener">Lees het nieuwsbericht</a></p>
+  </div>
+
+  <div class="case-data" id="case-meta" hidden>
+    <p class="case-eyebrow">Nieuws · Verenigde Staten</p>
+    <h2>18 miljard aan pleisters. Het algoritme blijft.</h2>
+    <p>Meta trof eind augustus 2026 een schikking met een brede coalitie van Amerikaanse staten, na een rechtszaak over de vraag of Facebook en Instagram bewust verslavend zijn ontworpen voor minderjarigen. Het bedrijf betaalt ongeveer 18 miljard dollar, uit te keren over tien jaar, en voert een reeks beschermingsmaatregelen voor tieners in.</p>
+    <p>Op papier zien die er serieus uit. Een tijdslimiet van standaard twee uur per dag over beide apps, alleen op te heffen met toestemming van een ouder. Een nachtmodus tussen middernacht en zes uur waarin niets te posten of te bekijken valt. Geen meldingen tijdens schooltijd. En de mogelijkheid om te kiezen voor een feed zonder algoritme, autoplay uit te zetten en likes te verbergen.</p>
+    <p>Maar kijk naar wat er niet verandert. De eindeloze scroll blijft. De niet-gepersonaliseerde feed is een keuze die je zelf moet aanzetten, geen standaard. Het algoritme dat op betrokkenheid stuurt, de kern van het verdienmodel, blijft precies zoals het was.</p>
+    <p class="case-quote">"De eindeloze scroll, het kloppend hart van elk verslavend platform, blijft gewoon bestaan."</p>
+    <p>Nog veelzeggender is de constructie eromheen. Een deel van het geld komt pas vrij als TikTok en YouTube dezelfde maatregelen invoeren. Meta zet zijn eigen schikking om in een drukmiddel voor de rest van de sector, met als argument dat beperkingen op één platform weinig uithalen zolang gebruikers kunnen uitwijken naar een ander.</p>
+    <p>En daar zit precies de les die deze beweging raakt. Een tiener kan niet weg bij Instagram, dus voor hem zijn dit de enige knoppen die er zijn. Maar afhankelijkheid los je niet op aan de symptoomkant, met een nachtslot of een tijdslimiet. Je lost het op aan de structuur, door te zorgen dat je niet volledig van één partij afhankelijk bent. Dat is wat een tiener niet kan, maar een overheid wel. De vraag is niet of Big Tech zich netjes gedraagt. De vraag is of je nog weg kunt als dat niet zo is.</p>
+    <p class="case-link-wrap"><a href="https://tweakers.net/reviews/15206/nachtslot-tijdslimiet-en-weg-algoritme-instagram-verandert-voor-tieners-in-vs.html" target="_blank" rel="noopener">Lees het nieuwsbericht</a></p>
+  </div>
+
+  <div class="case-data" id="case-mecklenburg" hidden>
+    <p class="case-eyebrow">Nieuws · Duitsland</p>
+    <h2>Twee deelstaten, één soeverein platform</h2>
+    <p>De Duitse deelstaat Mecklenburg-Vorpommern vervangt Microsoft SharePoint door het open source Nextcloud als samenwerkingsplatform voor de hele deelstaat. Op termijn moeten ruim 50.000 medewerkers van deelstaat en gemeenten ermee werken. Het beheer ligt bij de eigen IT-dienstverlener van de deelstaat, op eigen infrastructuur en onder eigen controle.</p>
+    <p>Het opvallendste is niet de techniek, maar de samenwerking. In november 2025 tekende het ministerie al een overeenkomst met de staatskanselarij van Sleeswijk-Holstein, de Duitse koploper die eveneens op Nextcloud draait. Daarmee ontstaat tussen twee overheden iets zeldzaams: een gedeelde soevereine basis in plaats van weer een losse oplossing erbij.</p>
+    <p class="case-quote">"Allianties zijn cruciaal om open source de norm te maken."</p>
+    <p>Dat raakt een echt probleem. De Europese soevereiniteitsbeweging kent vooral geïsoleerde successen: Nextcloud in Oostenrijk, LibreOffice in Sleeswijk-Holstein, OpenStack in Frankrijk. Stuk voor stuk bewijzen ze dat het kan, maar elk eiland koos zijn eigen oplossing, waardoor de schaal en het netwerkeffect van de grote aanbieders buiten bereik bleven.</p>
+    <p>De uitrol staat niet op zichzelf: de deelstaat gebruikt ook OpenProject en ontwikkelde een eigen, lokaal beheerde AI-assistent op basis van OpenWebUI. En eerlijk over het tempo: de ambitie is 50.000 medewerkers, in de praktijk werken er nu zo'n 5.000 mee, voorlopig vooral voor het delen van bestanden. De Windows-werkplekken blijven voorlopig gewoon staan.</p>
+    <p>Dat laatste is geen zwakte van het verhaal, maar de kern ervan. Het gaat niet om uit principe elk commercieel product vervangen, maar om kritieke afhankelijkheden verminderen, juist daar waar bestuur, communicatie en gevoelige data samenkomen.</p>
+    <p class="case-link-wrap"><a href="https://www.computable.nl/2026/07/08/mecklenburg-vorpommern-kiest-voor-nextcloud/" target="_blank" rel="noopener">Lees het nieuwsbericht</a></p>
+  </div>
+
+  <div class="case-data" id="case-belastingdienst" hidden>
+    <p class="case-eyebrow">Nieuws · Rijksoverheid</p>
+    <h2>Belastingdienst zet uitrol Microsoft 365 in de pauzestand</h2>
+    <p>In juli 2026 kreeg de Belastingdienst een hard oordeel van het Adviescollege ICT-toetsing over de uitrol van Microsoft 365. De conclusie: deze aanpak leidt niet tot een werkbare, veilige en toekomstvaste digitale werkomgeving. Het advies is om de uitrol in de publieke cloud terug te draaien en uiterlijk eind 2026 te kiezen voor een ander groeipad.</p>
+    <p>De kern van de kritiek raakt precies waar deze beweging om draait. Door te kiezen voor één allesomvattende oplossing zonder realistische exitstrategie manoeuvreert de organisatie zichzelf in een vendor lock-in, met grotere concentratierisico's en minder flexibiliteit en digitale soevereiniteit.</p>
+    <p>Het exit-plan leunde op een back-upvoorziening van een Amerikaanse leverancier, bedoeld voor het scenario waarin de dienstverlening plotseling wegvalt door bijvoorbeeld geopolitieke ontwikkelingen of sancties. Maar in zo'n situatie is de kans groot dat ook andere leveranciers stoppen. Bovendien werkt die back-upoplossing voor de eigen beheerders als een black box: herstel kan alleen via de standaardinterfaces, en valt die ondersteuning weg, dan is herstel misschien niet meer mogelijk.</p>
+    <p class="case-quote">"Een allesomvattende oplossing zonder realistische exitstrategie."</p>
+    <p>De staatssecretaris zette het programma stil en laat eerst het on-premises-scenario uitwerken, waarbij de software op eigen of eigen beheerde servers draait. Ook Douane en Toeslagen krijgen met die pauze te maken. De eerdere keuze werd verdedigd als destijds de enige realistische optie, met de kanttekening dat omstandigheden zoals beschikbare datacentercapaciteit en marktaanbod in een jaar tijd kunnen veranderen.</p>
+    <p>Dat is misschien wel de bruikbaarste les: wat vorig jaar onhaalbaar leek, kan dit jaar wel kunnen. Een afweging die je één keer maakt, is geen afweging voor altijd.</p>
+    <p class="case-link-wrap"><a href="https://www.computable.nl/2026/07/10/belastingdienst-stopt-uitrol-microsoft-365-in-de-publieke-cloud/" target="_blank" rel="noopener">Lees het nieuwsbericht</a></p>
+  </div>
+
+  <div class="case-data" id="case-rijkscloud" hidden>
+    <p class="case-eyebrow">Nieuws · Rijksoverheid</p>
+    <h2>Het Rijk bouwt een eigen soevereine cloud, op open source</h2>
+    <p>Het kabinet koos in juli 2026 voor een soevereine overheidscloud onder centrale regie, waar mogelijk ondergebracht in de eigen datacenters van het Rijk. Van de onderzochte scenario's werd het meest vergaande gekozen: een volledig nieuwe cloud die los van de bestaande systemen wordt opgebouwd. Volgens de betrokken adviseurs is dat ook de meest kansrijke route.</p>
+    <p>Maximale soevereiniteit betekent hier dat de overheid praktisch en juridisch beschikt over de hardware, de fysieke toegang en de locatie. Technologie en exploitatie komen volledig onder EU-regels te vallen, zonder kritieke afhankelijkheden van landen daarbuiten. Nederland mikt daarmee op de hoogste categorie uit het Europese soevereiniteitsraamwerk.</p>
+    <p>Voor deze beweging is één detail het belangrijkst: om leveranciersafhankelijkheid te beperken wordt de technische basis op open source gebouwd, met een containerplatform volgens de Haven-standaard. Open source is hier dus geen ideologische keuze, maar het middel om lock-in te voorkomen.</p>
+    <p class="case-quote">"De huidige situatie rond cloudtechnologie is niet langer houdbaar."</p>
+    <p>De schaal van de opgave blijkt uit de verkenning zelf: de drie grote Amerikaanse aanbieders hebben samen zo'n zeventig procent van de Europese cloudmarkt, terwijl Europese aanbieders elk rond de twee procent zitten. De eerste applicaties zouden eind 2026 op de nieuwe omgeving moeten draaien. Het ontwerp gaat openbaar in consultatie, en zonder voorfinanciering wordt de transitie complexer en langduriger.</p>
+    <p class="case-link-wrap"><a href="https://www.computable.nl/2026/07/03/kabinet-kiest-voor-maximale-digitale-soevereiniteit/" target="_blank" rel="noopener">Lees het nieuwsbericht</a></p>
+  </div>
+
+  <div class="case-data" id="case-rechter" hidden>
+    <p class="case-eyebrow">Nieuws · Aanbestedingsrecht</p>
+    <h2>Rechter legt 3,3 miljard aan IT-aanbestedingen stil</h2>
+    <p>Begin 2026 werden twee grote IT-aanbestedingen van de rijksoverheid door de rechter stilgelegd, samen goed voor maximaal 3,3 miljard euro over vier jaar. Het ging om standaardsoftware, onder meer van Microsoft en Oracle, voor ministeries, de Raad voor de Rechtspraak, Defensie en andere overheidsorganisaties. De zaak was aangespannen door resellers.</p>
+    <p>De rechter oordeelde dat het sublicentiemodel en de voorwaarde dat resellers de financiële risico's voor datalekken en privacyschendingen dragen disproportioneel zijn en de marktwerking verstoren.</p>
+    <p>Interessanter voor deze beweging is wat er daarna in de Tweede Kamer gebeurde. Kamerleden vroegen of deze aanbestedingen de digitale autonomie van Nederland vergroten of juist verkleinen, hoe je die afhankelijkheid nog kunt afbouwen als je de inkoopvoorwaarden jarenlang vastlegt in een raamovereenkomst, en waarom er wordt gevraagd om levering van software van een specifieke leverancier in plaats van om de technische eisen waaraan die software moet voldoen.</p>
+    <p class="case-quote">"Waarom vraagt u om een merknaam in plaats van technische eisen?"</p>
+    <p>Dat is precies het voorsorteren waar open source in de inkoop op stukloopt. Het antwoord vanuit het Rijk was dat niet alleen Microsoft of Oracle aan de eisen kunnen voldoen, en dat productgericht uitvragen is toegestaan waar de Aanbestedingswet een uitzondering biedt. De aanbestedingen worden voortgezet nadat de voorwaarden zijn aangepast.</p>
+    <p>Hoe dat voorsorteren werkt, en wat je ertegen kunt doen, staat in <a href="?case=aanbesteden" data-open-case="aanbesteden">het inzicht over open source en aanbesteden</a>.</p>
+    <p class="case-link-wrap"><a href="https://ibestuur.nl/markt-en-overheid/inkoop-en-aanbesteding/twee-grote-it-aanbestedingen-van-het-rijk-stilgelegd" target="_blank" rel="noopener">Lees het nieuwsbericht</a></p>
+  </div>
+
+  <div class="case-data" id="case-wildgroei" hidden>
+    <p class="case-eyebrow">Inzicht · Uit de praktijk</p>
+    <h2>Migreer niet alles. Ruim eerst op.</h2>
+    <p>Kan het echt, minder Big Tech? Ja. De software is er, en de businesscase is in veel gevallen al positief. Het vraagt wel een fundamentele omslag: je betaalt niet langer met licentiegeld, maar investeert in eigen expertise.</p>
+    <p>De grootste valkuil zit aan het begin. Organisaties willen alles 1-op-1 overzetten, en dat kost onnodig veel tijd en kennis. Moet je vierhonderd viewers migreren als er wekelijks maar vijftig echt gebruikt worden? Die inventarisatie is ongemakkelijk, maar je hebt hem sowieso nodig, ook als je helemaal niet migreert.</p>
+    <p class="case-quote">"Je moet kritisch naar je huidige wildgroei durven kijken."</p>
+    <p>De tweede bottleneck zit bij het management. De transitie kost tijd, kennis en energie, terwijl de directe winst vooraf laag lijkt: waarom overstappen als je er straks hetzelfde of net iets minder voor terugkrijgt? Zo blijven de risico's op korte termijn zwaarder wegen dan de strategische kansen op lange termijn.</p>
+    <p>Wat trekt organisaties dan wel over de streep? Inzicht in wat het op lange termijn oplevert, waardoor de angst voor het onbekende afneemt. Zodra de focus verschuift van brandjes blussen naar grip op je eigen data en strategische onafhankelijkheid, ontstaat er ruimte.</p>
+    <p>En misschien wel het krachtigste: praten met een organisatie die het al heeft gedaan. Pioniers in het geo-vakgebied zoals de provincie Zeeland en Hoogheemraadschap Rijnland zijn open over hun proces en trots op het resultaat. Dat enthousiasme neemt de koudwatervrees bij anderen effectief weg.</p>
+    <p class="case-credit">Met dank aan Jorn Habes voor het gesprek.</p>
+  </div>
+
+  <div class="case-data" id="case-aanbesteden" hidden>
+    <p class="case-eyebrow">Inzicht · Aanbestedingsrecht</p>
+    <h2>Open source verliest de aanbesteding. Dat hoeft niet.</h2>
+    <p>Wie open source wil, strandt vaak bij de inkoop. Niet omdat het niet mag, maar omdat bestekken direct of indirect voorsorteren op een gesloten product. Een voorbeeld dat tot Kamervragen leidde: een aanbesteding die eist dat de leverancier trainingen in een specifiek videobelproduct kan geven. Dat klinkt als een neutrale eis, maar sluit alternatieven feitelijk uit.</p>
+    <p>Er zijn twee routes eromheen. De eerste: besteed het product niet aan. Open source software kun je gewoon downloaden. Sorteer daarop voor en besteed vervolgens de dienstverlening eromheen aan: implementatie, beheer, ondersteuning.</p>
+    <p>De tweede route: volg de wet, want die is er al. Sinds 2007 geldt in Nederland dat bij gelijke geschiktheid de voorkeur naar open source gaat. Kun je met de software hetzelfde bereiken, dan levert open source dus extra punten op. Recenter is het beleid "open, tenzij", vooral voor maatwerk: broncode valt onder de open overheid en moet opvraagbaar zijn, met uitzonderingen zoals staatsveiligheid.</p>
+    <p class="case-quote">"Bij gelijke geschiktheid gaat de voorkeur naar open source."</p>
+    <p>Het beleid is dus op orde. De praktijk is anders, en vaak simpelweg omdat inkoop er niet van op de hoogte is. Twee hardnekkige fabels helpen daarbij niet. "Wij willen gesloten software, dan kunnen we iemand verantwoordelijk houden": dat kan met open source net zo goed, via de dienstverlener. En eisen als een minimale omzet of honderd medewerkers: die mogen alleen als ze samenhangen met de opdracht en aantoonbaar noodzakelijk zijn.</p>
+    <p>Wat kan een leverancier doen? Zie je in een bestek dat er op gesloten producten of koppelingen wordt gestuurd, stel dan de vraag in de nota van inlichtingen: voldoet dit aan het aanbestedingsrecht? Die ene vraag dwingt zorgvuldigheid af. En dit speelt bij meer inkoop dan je denkt: nationale drempels beginnen vaak al rond de 30.000 euro, Europese rond de twee ton.</p>
+    <p class="case-credit">Aantekeningen van de sessie over aanbesteden op FOSS4G NL in Groningen, met dank aan Mathieu Paapst (Rijksuniversiteit Groningen).</p>
+  </div>
+
+  <div class="case-data" id="case-dsg" hidden>
+    <p class="case-eyebrow">Praktijk · Regionale overheden</p>
+    <h2>Data Space Groningen: van overheden, door overheden</h2>
+    <p>Data Space Groningen (DSG) is een federatief samenwerkingsverband van overheden en semi-overheden in Groningen, die maatschappelijke vraagstukken samen aanpakken met data. Het grootste misverstand: DSG is geen leverancier. De deelnemers zijn samen eigenaar en vormen een community die elkaars data deelt, verrijkt en er kennis uit haalt.</p>
+    <figure>
+      <img src="dsg-viewer.jpg" alt="De open WebGIS-viewer van Data Space Groningen met waterketen-lagen over Noord-Nederland">
+      <figcaption class="case-cap">De open WebGIS-viewer van DSG, hier met de waterketen-lagen over Noord-Nederland. Vanaf 1 augustus 2026 is dit de standaardviewer van het platform.</figcaption>
+    </figure>
+    <p>Het begon in 2015, toen de Nationaal Coördinator Groningen vroeg om een dataplatform voor aardbevingen. Waterschap Hunze en Aa's, gemeente Groningen, provincie Groningen en gemeente Delfzijl namen samen met <a href="https://geon.nl/" target="_blank" rel="noopener">Geon</a> het initiatief voor het Gegevens Knooppunt Groningen. In 2024 kreeg het onder de nieuwe naam Data Space Groningen een vervolg: vijftien overheden en twee kennisinstellingen zeiden ja, gedreven door de wens om datagestuurd te werken.</p>
+    <p>De kern draait bewust op open source en open standaarden (GeoServer, WFS, WMS), om zo onafhankelijk mogelijk te zijn. Die onafhankelijkheid zit ook in het beheer, dat op elk moment overdraagbaar is. Alles draait geïsoleerd via Docker op een server bij de RUG, en de inrichting dient als sjabloon voor soortgelijke initiatieven elders. Waar een bronhouder alleen propriëtair kan aanleveren, wordt daar een tijdelijke tussenstap voor gemaakt.</p>
+    <p class="case-quote">"Van overheden, door overheden."</p>
+    <p>Eerlijk over de obstakels: in het begin bouw je aan netwerkinfrastructuur zonder tastbaar resultaat, en lever je soms data aan producten waar je zelf niet meteen iets aan hebt. Dan wordt de meerwaarde van samenwerken niet gelijk gezien, en haken organisaties soms af. Corona bracht het initiatief in de problemen toen gezamenlijk overleg wegviel. Het kantelpunt kwam toen het voormalige knooppunt dreigde om te vallen: niemand wilde de stekker eruit trekken.</p>
+    <p>Waarom federatief? Omdat bronhouders eigenaar blijven van hun eigen data, met duidelijkheid over eigenaarschap en regie. Het is het model van de basisregistraties, waarin elke organisatie zijn eigen gegevens onderhoudt en delen een gezamenlijk belang is. En de onafhankelijke positie is voor DSG juist wat het legitiem maakt: een grote overheidspartij heeft vaak een eigen belang, en is daardoor minder neutraal.</p>
+    <p>Wat het oplevert? Neem de waterketenkaart: veertien gemeenten, twee waterschappen en twee waterbedrijven in één gebiedsdekkende kaart. Door volgens gedeelde standaarden te werken maakte vooral de datakwaliteit een sprong, en werd data bruikbaar over gebiedsgrenzen heen. De les voor wie nog twijfelt: data hoeft niet perfect te zijn om gedeeld te worden. Juist door te delen en samen afspraken te maken wordt ze beter.</p>
+    <p>Data Space Groningen deelt zijn aanpak bewust als sjabloon. Overweeg je hier zelf mee te beginnen, dan ligt er dus een uitgewerkt voorbeeld om van te leren.</p>
+    <p class="case-credit">Met dank aan Bert, Jetske en Harm van Geon bv voor het gesprek. Meer weten of aansluiten? Kijk op <a href="https://dataspacegroningen.nl/" target="_blank" rel="noopener">dataspacegroningen.nl</a>.</p>
+  </div>
+
+  <div class="case-data" id="case-bavaria" hidden>
+    <p class="case-eyebrow">Nieuws · Duitsland</p>
+    <h2>Bavaria zegt miljardencontract met Microsoft op</h2>
+    <p>Bavaria, de grootste Duitse deelstaat, heeft in juni 2026 een raamcontract van bijna een miljard euro met Microsoft geannuleerd. In plaats daarvan komt er een soevereine basiswerkplek op basis van open source componenten. Het contract zou over vijf jaar bijna een miljard euro hebben gekost.</p>
+    <p>Digitaal minister Fabian Mehring noemt drie redenen: bescherming tegen prijsstijgingen, grip op dataprivacy, en de zekerheid dat diensten ook in een crisis blijven werken. Dat laatste raakt precies het scenario waar deze beweging om draait: het risico dat toegang tot je eigen systemen afhangt van een beslissing elders. Een kill switch.</p>
+    <p>Daarmee volgt Bavaria het spoor van Sleeswijk-Holstein, dat al zo'n 80 procent van zijn werkplekken naar open source bracht. De keuze kwam er na een maandenlange richtingenstrijd tussen het ministerie van Financiën, dat kortingen bij Microsoft wilde, en het digitale ministerie, dat voor open source koos.</p>
+    <p class="case-link-wrap"><a href="https://cybernews.com/tech/germany-bavaria-microsoft/" target="_blank" rel="noopener">Lees het nieuwsbericht</a></p>
+  </div>
+
+  <div class="case-data" id="case-surf" hidden>
+    <p class="case-eyebrow">Praktijk · Hoger onderwijs</p>
+    <h2>SURF is zelf proefkonijn</h2>
+    <p>SURF, de IT-coöperatie voor het hoger onderwijs en onderzoek, rolt het open source samenwerkingsplatform Nextcloud breed uit. Vanaf januari 2026 kunnen instellingen meedoen. Het bijzondere zit in hoe SURF het aanpakt: de organisatie test het niet op afstand, ze gebruikt het zelf.</p>
+    <p>De eigen opslagdiensten SURFdrive en Research Drive, samen goed voor zo'n 100.000 gebruikers en sinds 2014 in de lucht, draaien inmiddels volledig op Nextcloud. De eigen collega's zijn de proefkonijnen. De redenering is simpel: als wij het zelf niet aandurven, hoe kunnen we leden dan adviseren om over te stappen?</p>
+    <p>De drijfveer is niet anti-Amerikaans, maar keuzevrijheid. SURF wil niet afhankelijk zijn van één partij en spreidt risico's bewust, tot aan de keuze van software toe.</p>
+    <p class="case-quote">"Keuzevrijheid is belangrijker dan niet-Amerikaans."</p>
+    <p>En misschien wel het meest herkenbaar voor deze beweging: de grootste drempel is niet techniek, maar cultuur. SURF noemt het een "calimerocomplex", het idee dat je als sector toch niet kunt opboksen tegen de miljarden van Google of Microsoft. Volgens SURF is dat vooral een kwestie van zelfvertrouwen, en van mouwen opstropen en beginnen.</p>
+    <p>Open source betekent hier niet automatisch goedkoper: SURF betaalt voor ondersteuning, draagt zelf bij aan het Nextcloud-project, en de migratie kostte twee jaar. Wat het oplevert is grip, vertrouwen en de mogelijkheid om via open standaarden met andere partijen samen te werken.</p>
+    <p class="case-link-wrap"><a href="https://tweakers.net/reviews/14890/surf-is-met-nextcloud-zelf-proefkonijn-op-weg-naar-uitrol-in-hoger-onderwijs.html" target="_blank" rel="noopener">Lees het volledige interview op Tweakers</a></p>
+  </div>
+  <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
+  <script data-goatcounter="https://willswitch.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

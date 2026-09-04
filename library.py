@@ -1,0 +1,141 @@
+"""Bouw de casebibliotheek (switch.html) uit de bron.
+
+De kaarten linken naar echte pagina's in plaats van popups te openen.
+Wordt aangeroepen vanuit build.py.
+"""
+import re, datetime, json, pathlib
+
+TODAY = datetime.date.today()
+
+
+def card_html(c, published_ids):
+    """Eén kaart in het overzicht, als link naar de eigen pagina."""
+    classes = ["card", "span-2", "card-case"]
+    attrs = ""
+    # de nieuw-gloed blijft werken op basis van de publicatiedatum
+    since = c.get("publish_on") or c.get("new_since")
+    if since:
+        days = (TODAY - datetime.date.fromisoformat(since)).days
+        if days < 21:
+            classes.append("card-new")
+            attrs += f' data-new-since="{since}"'
+    flag = '\n        <span class="card-flag">nieuw</span>' if "card-new" in classes else ""
+    title = c.get("card_title") or c["title"]
+    body = c.get("card_body", "")
+    cta = c.get("cta", "Lees de case")
+    return f'''      <a class="{' '.join(classes)}" href="/cases/{c['id']}/"{attrs}>{flag}
+        <span class="num">00</span>
+        <h3>{title}</h3>
+        <p class="card-body">{body}</p>
+        <span class="case-more">{cta}</span>
+      </a>'''
+
+
+def load_quotes():
+    """Quote-kaarten: korte uitspraken die het beeld completeren.
+    Ze krijgen geen eigen pagina, want een quote van twee zinnen is te
+    dun om als losse pagina te publiceren."""
+    d = pathlib.Path(__file__).resolve().parent.parent / "content" / "quotes"
+    if not d.exists():
+        return []
+    out = [json.loads(f.read_text()) for f in sorted(d.glob("*.json"))]
+    out.sort(key=lambda q: q.get("order", 999))
+    return out
+
+
+def quote_html(q):
+    body = f'\n        <p class="card-body">{q["body"]}</p>' if q.get("body") else ""
+    attr = f'<span class="attr">- {q["attr"]}</span>' if q.get("attr") else ""
+    note = f'\n        <p class="quote-note">{q["note"]}</p>' if q.get("note") else ""
+    return f'''      <article class="card span-{q.get("span",2)}">
+        <span class="num">00</span>
+        <h3>{q["title"]}</h3>{body}
+        <p class="quote-slot filled">"{q["quote"]}"{attr}</p>{note}
+      </article>'''
+
+
+def build_library(source_html, cases):
+    """Vervang het kaartenraster en haal de popup-machinerie eruit."""
+    doc = source_html
+    ids = [c["id"] for c in cases]
+
+    # 1) nieuw kaartenraster
+    blokken = [card_html(c, ids) for c in cases]
+    blokken += [quote_html(q) for q in load_quotes()]
+    cards = "\n\n".join(blokken)
+    doc = re.sub(
+        r'(<div class="cards">)(.*?)(\n    </div>)',
+        lambda m: m.group(1) + "\n\n" + cards + m.group(3),
+        doc, count=1, flags=re.S)
+
+    # 2) verborgen case-inhoud weg, die staat nu op de eigen pagina's
+    doc = re.sub(
+        r'\n  <!-- Hidden case content.*?(?=\n  <!--|\n</body>)', "\n", doc, flags=re.S)
+    doc = re.sub(
+        r'\n  <div class="case-data" id="case-[a-z]+" hidden>.*?\n  </div>\n', "\n",
+        doc, flags=re.S)
+
+    # 3) de modal en de bijbehorende scripts weg
+    doc = re.sub(r'\n  <!-- Case popup -->.*?\n  </div>\n', "\n", doc, flags=re.S)
+    doc = re.sub(r'\n    /\* === Case popup === \*/.*?\n    \}\);', "", doc, flags=re.S)
+
+    # 4) nummering: de kaarten krijgen hun nummer bij het laden
+    # De nummering krijgt een eigen script-blok, los van de teller erboven.
+    # Faalt die teller (geen netwerk, geblokkeerde dienst), dan blijft de
+    # nummering gewoon werken.
+    nummering = '''
+  <script>
+    /* === Nummering van de zichtbare kaarten === */
+    (function () {
+      function nummer() {
+        var n = 0;
+        document.querySelectorAll('.cards .card').forEach(function (card) {
+          n++;
+          var num = card.querySelector('.num');
+          if (num) num.textContent = ('0' + n).slice(-2);
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', nummer);
+      } else {
+        nummer();
+      }
+    })();
+  </script>
+'''
+    doc = doc.replace("</body>", nummering + "</body>", 1)
+
+    # 5) kaarten zijn nu links, dus de knop-rollen eruit
+    doc = doc.replace(' role="button" tabindex="0"', "")
+
+    # 6) kaarten zijn links: geen onderstreping, kleur van de kaart behouden
+    doc = doc.replace("    .card-case {\n      cursor: pointer;\n    }",
+"""    .card-case {
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card-case h3, .card-case .card-body, .card-case .num {
+      text-decoration: none;
+    }""")
+
+    # css die alleen bij de popup hoorde
+    for sel in ("case-modal", "case-modal-backdrop", "case-modal-panel",
+                "case-modal-close", "case-share", "case-share-label",
+                "case-share-btn"):
+        doc = re.sub(r"\n    \.%s(\[[^\]]*\])?(:hover|:focus-visible)?\s*\{[^}]*\}" % sel,
+                     "", doc)
+    doc = re.sub(r"\n    /\* === Case (popup / modal|share bar) === \*/", "", doc)
+
+    # de case-data opmaak hoort nu bij de casepagina's
+    for sel in ("case-eyebrow", "case-quote", "case-link-wrap", "case-credit",
+                "case-cap"):
+        doc = re.sub(r"\n    \.case-data \.%s(:hover)?\s*\{[^}]*\}" % sel, "", doc)
+    doc = re.sub(r"\n    \.case-data (h2|p|figure|img)\s*\{[^}]*\}", "", doc)
+    doc = re.sub(r"\n    \.case-data p a(:hover)?\s*\{[^}]*\}", "", doc)
+    doc = re.sub(r"\n    \.case-data \.(case-link-wrap|case-credit) a(:hover)?\s*\{[^}]*\}",
+                 "", doc)
+    doc = re.sub(r"\n    /\* === Popup image === \*/", "", doc)
+
+    return doc

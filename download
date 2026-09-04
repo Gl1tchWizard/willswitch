@@ -1,0 +1,16 @@
+# gegenereerde site
+dist/
+
+# werkbestanden
+*.pyc
+__pycache__/
+.DS_Store
+
+# concepten en aantekeningen blijven buiten de publieke repo
+notes/
+drafts/
+
+# geheimen en gegenereerde rapporten
+server/lib/config.php
+server/vendor/
+opslag/
