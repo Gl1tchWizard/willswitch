@@ -55,6 +55,7 @@ PAGE = """<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} | Will Switch</title>
+{robots}
   <meta name="description" content="{description}">
   <link rel="canonical" href="{base}/cases/{id}/">
   <meta property="og:type" content="article">
@@ -93,13 +94,7 @@ PAGE = """<!DOCTYPE html>
     <h1>{title}</h1>
     {body}
 
-    <section class="next">
-      <h2>Waar staat jouw organisatie?</h2>
-      <p>Deze verhalen laten zien wat er mogelijk is. De volgende vraag is
-      wat er bij jou speelt. De scan brengt in kaart waar je staat en wat
-      een logische eerste stap is.</p>
-      <a class="cta" href="/scan/">Doe de autonomie-scan</a>
-    </section>
+{scanblok}
 
     <nav class="more">
       <span>Meer praktijkverhalen</span>
@@ -113,6 +108,9 @@ PAGE = """<!DOCTYPE html>
     <span>Will Switch &middot; willswitch.nl</span>
     <span>Onderzoek met steun van het <a href="https://www.sidn.nl/pioniersfonds" target="_blank" rel="noopener">SIDN Pioniersfonds</a></span>
   </footer>
+  <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
+  <script data-goatcounter="https://willswitch.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
 """
@@ -210,9 +208,24 @@ CSS = """
 """
 
 
+SCAN_AAN = True   # FASE 1: gratis toets is open. Bestellen staat nog uit, zie tools/scan.py
+
+SCANBLOK = """    <section class="next">
+      <h2>Waar staat jouw organisatie?</h2>
+      <p>Deze verhalen laten zien wat er mogelijk is. De volgende vraag is
+      wat er bij jou speelt. De uitstaptoets brengt in kaart waar je staat en wat
+      een logische eerste stap is.</p>
+      <a class="cta" href="/scan/">Doe de uitstaptoets</a>
+    </section>"""
+
+
 def build():
     cases = load_cases()
     live = [c for c in cases if is_published(c)]
+    # Toekomstige cases krijgen alvast een pagina, met noindex en buiten de sitemap.
+    # Anders wijst een kaart die op zijn publicatiedatum verschijnt naar een pagina
+    # die pas bij de volgende bouw wordt aangemaakt, en dat geeft een 404.
+    komend = [c for c in cases if not is_published(c)]
     print(f"{len(cases)} cases, waarvan {len(live)} gepubliceerd op {TODAY}")
 
     if DIST.exists():
@@ -223,9 +236,13 @@ def build():
     for f in SITE.glob("*"):
         if f.is_file():
             shutil.copy(f, DIST / f.name)
+    ht = SITE / ".htaccess"
+    if ht.exists():
+        shutil.copy(ht, DIST / ".htaccess")
 
     # casepagina's
-    for c in live:
+    for c in live + komend:
+        vooruit = c in komend
         others = [o for o in live if o["id"] != c["id"]][:4]
         related = "\n".join(
             f'        <li><a href="/cases/{o["id"]}/">{o["title"]}</a></li>'
@@ -235,6 +252,8 @@ def build():
         body = re.sub(r'(src|href)="(?!https?://|/|#)', r'\1="/', body)
         d = description(c)
         page = PAGE.format(
+            robots=('  <meta name="robots" content="noindex">\n' if vooruit else ''),
+            scanblok=SCANBLOK if SCAN_AAN else '',
             id=c["id"],
             title=c["title"],
             eyebrow=c.get("eyebrow", ""),
@@ -250,7 +269,7 @@ def build():
         out = DIST / "cases" / c["id"]
         out.mkdir(parents=True, exist_ok=True)
         (out / "index.html").write_text(page)
-        print(f"  /cases/{c['id']}/")
+        print(f"  /cases/{c['id']}/" + ("   (vooruit, noindex tot " + c["publish_on"] + ")" if vooruit else ""))
 
     # homepage met inhoud onder het portaal
     home = SITE / "index.html"
@@ -263,6 +282,22 @@ def build():
     if src.exists():
         (DIST / "switch.html").write_text(build_library(src.read_text(), live))
         print("  switch.html (casebibliotheek)")
+
+    # voorbeeldrapport (vaste pagina)
+    rp = SITE / "rapport"
+    if rp.exists():
+        (DIST / "rapport").mkdir(exist_ok=True)
+        for f in rp.glob("*.html"):
+            shutil.copy(f, DIST / "rapport" / f.name)
+        print("  /rapport/voorbeeld.html")
+
+    # bestelpagina's (vast)
+    bp = SITE / "bestel"
+    if bp.exists():
+        (DIST / "bestel").mkdir(exist_ok=True)
+        for f in bp.glob("*.html"):
+            shutil.copy(f, DIST / "bestel" / f.name)
+        print("  /bestel/")
 
     # scanpagina
     (DIST / "scan").mkdir(exist_ok=True)
@@ -277,6 +312,7 @@ def write_sitemap(live):
     urls = [(f"{BASE}/", "1.0", "weekly"),
             (f"{BASE}/switch.html", "0.9", "weekly"),
             (f"{BASE}/scan/", "0.9", "monthly")]
+    # /rapport/voorbeeld.html komt in de sitemap zodra bestellen open gaat
     for c in live:
         urls.append((f"{BASE}/cases/{c['id']}/", "0.8", "monthly"))
     body = "\n".join(

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestel het uitstaprapport | Will Switch</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--orange:#E84500;--paper:#F0EDE6;--warm:#E8E3D6;--white:#FBFAF7;--ink:#1a1612;--soft:#4a443c;--faint:rgba(26,22,18,.45);--rule:rgba(26,22,18,.14);--bad:#B3453A;--mono:'Space Mono',monospace;--disp:'Orbitron',monospace}
+  body{background:var(--paper);color:var(--ink);font-family:var(--mono);line-height:1.6}
+  .wrap{max-width:40rem;margin:0 auto;padding:0 1.5rem 5rem}
+  .topbar{display:flex;justify-content:space-between;padding:2rem 0 1.2rem;border-bottom:2px solid var(--ink);font-family:var(--disp);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase}
+  .topbar a{color:var(--ink);text-decoration:none}.topbar span{color:var(--faint)}
+  h1{font-family:var(--disp);font-size:clamp(1.4rem,4vw,2rem);margin:2rem 0 .8rem;line-height:1.15}
+  p{color:var(--soft);font-size:.92rem;margin-bottom:1rem}
+  .klein{font-size:.78rem;color:var(--faint)}
+  .over{background:var(--warm);border:1px solid var(--rule);padding:1rem 1.2rem;margin:1.2rem 0;font-size:.86rem}
+  .over b{font-family:var(--disp);font-size:.78rem}
+  label{display:block;font-size:.82rem;margin:1rem 0 .3rem;color:var(--ink)}
+  input,select{width:100%;font-family:var(--mono);font-size:.9rem;padding:.75rem .85rem;border:1px solid var(--rule);background:var(--white);color:var(--ink);border-radius:3px}
+  input:focus,select:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+  .twee{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+  @media (max-width:520px){.twee{grid-template-columns:1fr}}
+  .check{display:flex;gap:.7rem;align-items:flex-start;margin:1.2rem 0;font-size:.84rem;color:var(--soft)}
+  .check input{width:auto;margin-top:.25rem}
+  button{font-family:var(--disp);font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:none;border-radius:3px;padding:.95rem 1.5rem;background:var(--orange);color:var(--paper);width:100%;margin-top:.6rem}
+  button:hover{background:var(--ink)}button:disabled{opacity:.35;cursor:not-allowed}
+  .fout{color:var(--bad);font-size:.82rem;margin-top:.5rem;display:none}
+  .fout.zien{display:block}
+  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);font-size:.72rem;color:var(--faint);line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar"><a href="/">Will Switch</a><span>bestellen</span></header>
+  <h1>Het uitstaprapport voor je organisatie</h1>
+  <p>Je toetsuitkomst is meegekomen. Vul hieronder in voor wie het rapport is en waar de factuur heen mag. Je betaalt met iDEAL en ontvangt het rapport als pdf binnen een werkdag.</p>
+
+  <div class="over" id="over"><b>Wat er meegaat</b><br><span id="over-tekst">Je uitkomst wordt geladen.</span></div>
+
+  <form id="f" novalidate>
+    <label for="org">Organisatie</label>
+    <input id="org" name="org" required autocomplete="organization" placeholder="Gemeente Voorbeeld">
+    <div class="twee">
+      <div><label for="naam">Je naam</label><input id="naam" name="naam" required autocomplete="name"></div>
+      <div><label for="functie">Functie</label><input id="functie" name="functie" placeholder="bijvoorbeeld informatiemanager"></div>
+    </div>
+    <label for="email">E-mailadres voor het rapport</label>
+    <input id="email" name="email" type="email" required autocomplete="email" placeholder="naam@organisatie.nl">
+    <div class="twee">
+      <div><label for="kvk">KvK-nummer (voor de factuur)</label><input id="kvk" name="kvk" inputmode="numeric" placeholder="8 cijfers"></div>
+      <div><label for="ref">Jullie referentie of PO-nummer</label><input id="ref" name="ref" placeholder="optioneel"></div>
+    </div>
+    <label for="lev">Leveranciersnamen voor in het rapport</label>
+    <p class="klein" style="margin-top:0">Alleen voor jouw rapport. Deze worden niet gedeeld en na twaalf maanden verwijderd.</p>
+    <input id="lev" name="lev" placeholder="Kantoorsuite: Microsoft 365, Cloud: Azure, Zaaksysteem: leverancier X">
+    <div class="check"><input type="checkbox" id="akkoord" required><label for="akkoord" style="margin:0">Ik begrijp dat het rapport input is voor onze eigen risicoanalyse en geen oordeel over naleving van wetgeving. Ik ga akkoord met de <a href="/voorwaarden.html" style="color:var(--orange)">voorwaarden</a>.</label></div>
+    <p class="over" style="margin:0"><b>Prijs</b><br><span id="prijs">750 euro excl. btw (907,50 incl.). Eenmalig. Hermeting na een jaar: 250 euro.</span></p>
+    <button type="submit" id="knop">Betaal met iDEAL en ontvang het rapport</button>
+    <div class="fout" id="fout"></div>
+  </form>
+  <p class="klein" style="margin-top:1.4rem">Je antwoorden staan alleen in je browser tot je op de knop drukt. Daarna worden ze versleuteld opgeslagen om het rapport te maken, en na twaalf maanden verwijderd. Geen account, geen nieuwsbrief.</p>
+  <footer>Will Switch, praktijkonderzoek naar digitale autonomie. Betaling via Mollie (Nederland). Gehost in Nederland.</footer>
+</div>
+<script>
+'use strict';
+const el=id=>document.getElementById(id);
+let S=null;
+function laad(){
+  const h=location.hash.slice(1);
+  if(h){ try{ S=JSON.parse(atob(h)); }catch(e){} }
+  if(!S||!S.sys){ el('over-tekst').textContent='Geen toetsuitkomst gevonden. Doe eerst de gratis toets.'; el('knop').disabled=true; el('knop').textContent='Ga naar de toets'; el('knop').onclick=()=>location.href='/scan/'; return; }
+  const n=S.sys.length, ne=S.sys.filter(i=>S.herkomst[i]&&S.herkomst[i][0]==='0').length;
+  el('over-tekst').textContent=n+' kritieke systemen, waarvan '+ne+' buiten de EU. Rol: '+S.rol+'. Organisatietype: '+S.org+'.';
+}
+laad(); window.addEventListener('hashchange', laad);
+el('f').addEventListener('submit', async e=>{
+  e.preventDefault(); const f=el('fout'); f.classList.remove('zien');
+  if(!el('org').value||!el('naam').value||!el('email').value||!el('akkoord').checked){ f.textContent='Vul organisatie, naam en e-mailadres in en bevestig de voorwaarden.'; f.classList.add('zien'); return; }
+  el('knop').disabled=true; el('knop').textContent='Even geduld';
+  const body={ org:el('org').value, naam:el('naam').value, functie:el('functie').value, email:el('email').value, kvk:el('kvk').value, ref:el('ref').value, leveranciers:el('lev').value, toets:S };
+  try{
+    const r=await fetch('/api/order.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json();
+    if(j.checkout){ location.href=j.checkout; }          /* Mollie */
+    else throw new Error(j.fout||'onbekend');
+  }catch(err){ f.textContent='Het bestellen is niet gelukt: '+err.message+'. Probeer het opnieuw of mail naar info@willswitch.nl.'; f.classList.add('zien'); el('knop').disabled=false; el('knop').textContent='Probeer opnieuw'; }
+});
+</script>
+<script data-goatcounter="https://willswitch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

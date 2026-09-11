@@ -71,12 +71,23 @@ SECTION_CSS = '''
 '''
 
 
+SCAN_AAN = True   # FASE 1: gratis toets is open. Bestellen staat nog uit, zie tools/scan.py
+
+SCANBLOK = '''      <div class="scan-block">
+        <h3>Waar staat jouw organisatie?</h3>
+        <p>De uitstaptoets brengt in kaart hoe afhankelijk je bent van je leveranciers,
+        wat de wet daarover van je vraagt en wat een logische eerste stap is. Kost een
+        kwartier, geen registratie nodig.</p>
+        <a class="scan-cta" href="/scan/">Doe de toets</a>
+      </div>'''
+
 def section_html(cases):
     items = "\n".join(
         f'''          <li><a href="/cases/{c['id']}/">
             <span class="k">{c.get('card_title') or c['title']}</span>
             <span class="s">{c.get('card_body','')}</span>
           </a></li>''' for c in cases[:4])
+    scanblok = SCANBLOK if SCAN_AAN else ''
     return f'''
   <section class="below">
     <div class="inner">
@@ -92,13 +103,7 @@ def section_html(cases):
       <p>Op deze site verzamel ik de voorbeelden die werken en de drempels die er
       in de praktijk echt toe doen. Niet anti-Big Tech, wel pro-keuzevrijheid.</p>
 
-      <div class="scan-block">
-        <h3>Waar staat jouw organisatie?</h3>
-        <p>De autonomie-scan brengt in kaart hoe afhankelijk je bent, waar je
-        ruimte hebt en wat een logische eerste stap is. Kost een paar minuten,
-        geen registratie nodig.</p>
-        <a class="scan-cta" href="/scan/">Doe de scan</a>
-      </div>
+{scanblok}
 
       <div class="recent">
         <p class="marker">uit de praktijk</p>

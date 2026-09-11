@@ -54,13 +54,47 @@ def quote_html(q):
       </article>'''
 
 
+STRIP = """
+      <a class="toets-strip" href="/scan/">
+        <span class="ts-kop">Kun je nog weg bij je leveranciers?</span>
+        <span class="ts-tekst">Drie wetten stellen die vraag. De uitstaptoets geeft je in een kwartier het antwoord, zonder registratie.</span>
+        <span class="ts-cta">Doe de uitstaptoets</span>
+      </a>
+"""
+
+STRIP_CSS = """
+    .toets-strip {
+      display:block; grid-column:1 / -1;
+      background:var(--ink); color:var(--paper);
+      padding:1.6rem 1.75rem; margin-bottom:0.5rem;
+      text-decoration:none; border-radius:3px;
+      transition:background 0.2s ease;
+    }
+    .toets-strip:hover { background:#2a241e; }
+    .toets-strip .ts-kop {
+      display:block; font-family:'Orbitron', monospace; font-size:1.05rem;
+      font-weight:700; line-height:1.25; margin-bottom:0.45rem;
+    }
+    .toets-strip .ts-tekst {
+      display:block; font-size:0.88rem; line-height:1.55;
+      color:rgba(240,237,230,0.75); max-width:34rem;
+    }
+    .toets-strip .ts-cta {
+      display:inline-block; margin-top:0.9rem;
+      font-family:'Orbitron', monospace; font-size:0.7rem; font-weight:700;
+      letter-spacing:0.12em; text-transform:uppercase; color:var(--orange);
+    }
+    .toets-strip .ts-cta::after { content:" \\2192"; }
+"""
+
+
 def build_library(source_html, cases):
     """Vervang het kaartenraster en haal de popup-machinerie eruit."""
     doc = source_html
     ids = [c["id"] for c in cases]
 
     # 1) nieuw kaartenraster
-    blokken = [card_html(c, ids) for c in cases]
+    blokken = [STRIP] + [card_html(c, ids) for c in cases]
     blokken += [quote_html(q) for q in load_quotes()]
     cards = "\n\n".join(blokken)
     doc = re.sub(
@@ -107,6 +141,8 @@ def build_library(source_html, cases):
 
     # 5) kaarten zijn nu links, dus de knop-rollen eruit
     doc = doc.replace(' role="button" tabindex="0"', "")
+
+    doc = doc.replace("  </style>", STRIP_CSS + "  </style>", 1)
 
     # 6) kaarten zijn links: geen onderstreping, kleur van de kaart behouden
     doc = doc.replace("    .card-case {\n      cursor: pointer;\n    }",

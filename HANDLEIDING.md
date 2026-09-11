@@ -30,6 +30,8 @@ Wat de velden doen:
 
 - `order` bepaalt de plek in het overzicht, lager is hoger
 - `publish_on` verbergt de case tot die datum, laat leeg voor direct
+  (de pagina zelf wordt wel vast gebouwd, met noindex en buiten de sitemap,
+  zodat er nooit een 404 ontstaat op de dag dat de kaart verschijnt)
 - `title` is de kop op de eigen pagina en in Google
 - `card_title` en `card_body` staan in het overzicht
 
