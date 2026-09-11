@@ -19,7 +19,7 @@ PAGE = r'''<!DOCTYPE html>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Will Switch">
   <meta property="og:title" content="Uitstaptoets: kun je nog weg bij je leveranciers?">
-  <meta property="og:description" content="Toets in een kwartier je ketenafhankelijkheid tegen drie wettelijke verplichtingen. Gratis, geen registratie.">
+  <meta property="og:description" content="Toets in een kwartier of je organisatie nog weg kan bij haar leveranciers, langs de Cyberbeveiligingswet, de Data Act en het rijksbrede cloudbeleid. Gratis, geen registratie.">
   <meta property="og:image" content="https://willswitch.nl/og-image.jpg">
   <meta property="og:url" content="https://willswitch.nl/scan/">
   <meta name="twitter:card" content="summary_large_image">
@@ -172,6 +172,20 @@ PAGE = r'''<!DOCTYPE html>
     .rapport ul { list-style:none; margin:0.8rem 0 1.2rem; }
     .rapport li { padding:0.4rem 0; border-bottom:1px solid var(--rule); font-size:0.88rem; }
     .aanmeld { margin-top:1.2rem; padding-top:1.2rem; border-top:1px solid var(--rule); }
+    .aanmeld .b-primair, .aanmeld .b-tweede {
+      display:inline-block; text-decoration:none; margin:0 0.5rem 0.5rem 0;
+      font-family:var(--disp); font-size:0.74rem; font-weight:700;
+      letter-spacing:0.1em; text-transform:uppercase;
+      padding:0.95rem 1.5rem; border-radius:3px; cursor:pointer;
+    }
+    .aanmeld .b-primair { background:var(--orange); color:var(--paper); border:1px solid var(--orange); }
+    .aanmeld .b-primair:hover { background:var(--ink); border-color:var(--ink); }
+    .b-tweede {
+      font-family:var(--disp); font-size:0.74rem; font-weight:700; letter-spacing:0.1em;
+      text-transform:uppercase; padding:0.95rem 1.5rem; border-radius:3px;
+      background:transparent; color:var(--orange); border:1px solid rgba(232,69,0,0.5);
+    }
+    .b-tweede:hover { background:var(--orange); color:var(--paper); }
     .aanmeld .veld { display:block; margin-bottom:0.7rem; }
     .aanmeld .veld span { display:block; font-size:0.78rem; color:var(--ink-soft); margin-bottom:0.25rem; }
     .aanmeld .veld span i { color:var(--ink-faint); font-style:normal; }
@@ -305,14 +319,10 @@ PAGE = r'''<!DOCTYPE html>
       <p><a href="/rapport/voorbeeld.html" id="link-voorbeeld" style="color:var(--orange);font-family:var(--disp);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(232,69,0,0.4)">Bekijk een voorbeeldrapport</a></p>
 
       <div class="aanmeld" id="aanmeld">
-        <p class="klein" style="margin-bottom:0.7rem">Het rapport bestaat nog niet en wordt waarschijnlijk betaald. Laat je mailadres achter als je wilt horen wanneer het er is, of als je wilt meedenken over wat erin hoort.</p>
-        <div class="keuzes" id="soort"></div>
-        <label class="veld"><span>E-mailadres</span><input type="email" id="a-mail" autocomplete="email" placeholder="naam@organisatie.nl"></label>
-        <label class="veld"><span>Organisatie <i>optioneel</i></span><input type="text" id="a-org" autocomplete="organization"></label>
-        <label class="veld"><span>Waar loop je tegenaan? <i>optioneel</i></span><input type="text" id="a-vraag" placeholder="bijvoorbeeld: contract loopt in maart af"></label>
-        <p class="klein">We gebruiken je adres alleen hiervoor. Geen nieuwsbrief, en je kunt je altijd afmelden.</p>
-        <button class="b-primair" id="k-rapport" onclick="meld()">Stuur mijn aanmelding</button>
-        <div class="melding" id="a-melding"></div>
+        <p class="klein" style="margin-bottom:0.9rem">Het rapport bestaat nog niet en wordt waarschijnlijk betaald. Wil je horen wanneer het er is, of meedenken over wat erin hoort? Stuur een mail, dan zet ik je op de lijst.</p>
+        <a class="b-primair" id="k-rapport" href="#" onclick="return mailtje('update')">Hou me op de hoogte</a>
+        <a class="b-tweede" id="k-pilot" href="#" onclick="return mailtje('pilot')">Ik wil meedenken of meedoen</a>
+        <p class="klein" style="margin-top:0.9rem">Dat opent je mailprogramma met een bericht aan info@willswitch.nl. Je uitkomst gaat niet automatisch mee; ik vraag erom als dat nodig is.</p>
       </div>
     </div>
 
@@ -522,7 +532,7 @@ function resultaat(){
   }
   else if (eig==='x'){
     getal='Onbekend';
-    zin='of er een bestuurlijk eigenaar is voor de exit. Dat is zelf al een bevinding: als jij het niet weet, weet de organisatie het waarschijnlijk ook niet.';
+    zin='of er een bestuurlijk eigenaar is voor de exit. Uitzoeken of die er is, en wie het dan is, is een kleine stap met veel gevolg.';
   }
   else if (r.nietEU >= Math.ceil(r.n/2) && r.n>1){
     getal=r.nietEU+' van '+r.n;
@@ -565,7 +575,8 @@ function resultaat(){
     dk.appendChild(div); });
   /* eerste stap */
   let kop, tekst;
-  if (kloof>=2){ kop='Begin met een eigenaar.'; tekst='Zolang niemand de vragen kan beantwoorden, is elk plan een plan. Wijs een bestuurlijk eigenaar aan, geef die een middag met inkoop en IT, en laat de toets opnieuw doen. Dat is je eerste aantoonbare stap onder de Cbw.'; }
+  if (onbekend>=3){ kop='Zoek uit wie het weet.'; tekst='Op '+onbekend+' vragen was nu geen antwoord. Dat zegt weinig over hoe goed het geregeld is, en veel over waar de kennis zit. Zet de onbeantwoorde vragen op een A4, loop ze langs met inkoop, beheer en de verantwoordelijke bestuurder, en doe de toets daarna opnieuw. Dan weet je pas waar je staat.'; }
+  else if (eig==='0' || eig==='x'){ kop='Begin met een eigenaar.'; tekst='Zonder iemand met mandaat en budget blijft elk plan een plan. Wijs een bestuurlijk eigenaar aan voor de exit, en geef die persoon de opdracht om met inkoop en beheer in kaart te brengen wat er bij wegvallen van een leverancier gebeurt.'; }
   else if (r.onb>0){ kop='Haal je contracteindes boven tafel.'; tekst='Van '+r.onb+' kritiek'+(r.onb>1?'e systemen':' systeem')+' weet je niet wanneer het contract afloopt. Dat is het goedkoopste wat je kunt oplossen, en zonder die datum kun je geen opzegtermijn plannen, geen exit voorbereiden en geen aanbesteding op tijd starten.'; }
   else if (r.b.pct<50){ kop='Test een export voor 12 januari 2027.'; tekst='Kies je kleinste clouddienst en haal de data terug. Een dag werk. Je leert wat er exporteerbaar is, in welk formaat, en wat het kost. Na 12 januari mag de leverancier daar niets meer voor rekenen, dus je onderhandelingspositie wordt alleen maar beter.'; }
   else if (r.a.pct<50){ kop='Leg per leverancier het wegval-scenario vast.'; tekst='Eén A4 per kritieke leverancier: wat gebeurt er met onze dienstverlening als hij morgen stopt, en wat gebeurt er met onze data. Dat is exact wat de RDI onder de ketenzorgplicht verstaat, en het is het stuk dat bij de meeste organisaties ontbreekt.'; }
@@ -607,40 +618,30 @@ function stuurScores(r){
   const body={org:S.org,rol:S.rol,n:r.n,niet_eu:r.nietEU,contract_onbekend:r.onb,a:r.a.pct,b:r.b.pct,c:r.c.pct,onbekend:r.a.onbekend+r.b.onbekend+r.c.onbekend};
   try{ fetch('/api/scan.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),keepalive:true}).catch(()=>{}); }catch(e){}
 }
-const SOORT=[['update','Hou me op de hoogte van het rapport'],['pilot','Ik wil meedenken of meedoen aan een pilot']];
-let soortKeuze='update';
-(function(){
-  const c=el('soort'); if(!c) return;
-  SOORT.forEach(([v,t],i)=>{
-    const b=document.createElement('button'); b.type='button'; b.className='keuze'+(i===0?' aan':'');
-    b.innerHTML='<span class="rond"></span>'+t;
-    b.onclick=()=>{ soortKeuze=v; [...c.children].forEach(k=>k.classList.remove('aan')); b.classList.add('aan'); };
-    c.appendChild(b);
-  });
-})();
-function meld(){
-  const m=el('a-melding'), knop=el('k-rapport');
-  const mail=(el('a-mail').value||'').trim();
-  m.className='melding';
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)){ m.textContent='Vul een geldig e-mailadres in.'; m.className='melding fout'; el('a-mail').focus(); return; }
-  knop.disabled=true; knop.textContent='Versturen';
-  const r=scores();
-  fetch('/api/interesse.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-    soort:soortKeuze, email:mail,
-    org:(el('a-org').value||'').slice(0,160), vraag:(el('a-vraag').value||'').slice(0,300),
-    org_type:S.org, rol:S.rol, n:r.n
-  })})
-  .then(res=>{ if(!res.ok) throw new Error('status '+res.status); return res.json(); })
-  .then(j=>{ if(!j || j.ok!==true) throw new Error(j && j.fout ? j.fout : 'onbekende fout');
-    m.textContent = soortKeuze==='pilot'
-      ? 'Gelukt. Je hoort van me zodra de pilot start, meestal binnen twee weken.'
-      : 'Gelukt. Je krijgt bericht zodra het rapport er is.';
-    m.className='melding goed';
-    knop.textContent='Aangemeld'; el('aanmeld').querySelectorAll('input').forEach(i=>i.disabled=true);
-    if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:'scan/aanmelding-'+soortKeuze, event:true});
-  })
-  .catch(err=>{ m.innerHTML='Het versturen lukte niet ('+err.message+'). Probeer het opnieuw, of mail naar <a href="mailto:info@willswitch.nl" style="color:var(--orange)">info@willswitch.nl</a>.';
-    m.className='melding fout'; knop.disabled=false; knop.textContent='Probeer opnieuw'; });
+function mailtje(soort){
+  const r = scores();
+  const rolNaam = {bestuur:'bestuur of directie',cio:'CIO, CISO of informatiemanager',uitvoering:'beheer, inkoop of uitvoering',anders:'anders'}[S.rol] || S.rol;
+  const onderwerp = soort==='pilot'
+    ? 'Uitstaptoets: ik wil meedenken'
+    : 'Uitstaptoets: hou me op de hoogte van het rapport';
+  const regels = [
+    soort==='pilot'
+      ? 'Ik heb de uitstaptoets gedaan en wil graag meedenken of meedoen aan een pilot.'
+      : 'Ik heb de uitstaptoets gedaan en hoor graag wanneer het rapport er is.',
+    '',
+    'Mijn organisatie: ',
+    'Mijn rol: ' + rolNaam,
+    'Type organisatie: ' + S.org,
+    'Aantal kritieke systemen in de toets: ' + r.n,
+    '',
+    'Waar ik tegenaan loop: ',
+    ''
+  ];
+  location.href = 'mailto:info@willswitch.nl'
+    + '?subject=' + encodeURIComponent(onderwerp)
+    + '&body=' + encodeURIComponent(regels.join('\n'));
+  if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:'scan/aanmelding-'+soort, event:true});
+  return false;
 }
 function bestel(){
   /* FASE 0: nog geen bestelling. Zet dit terug naar de bestelpagina zodra betalen aan mag:
