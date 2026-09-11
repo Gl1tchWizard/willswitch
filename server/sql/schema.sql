@@ -40,3 +40,20 @@ CREATE TABLE bestelling (
   geleverd_op   DATETIME,
   INDEX (status), INDEX (aangemaakt)
 );
+
+-- 3. Aanmeldingen voor updates over het rapport, of interesse in een pilot.
+--    Persoonsgegevens: valt onder dezelfde bewaartermijn als bestellingen.
+CREATE TABLE interesse (
+  id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  aangemaakt    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  soort         ENUM('update','pilot') NOT NULL DEFAULT 'update',
+  email         VARCHAR(190) NOT NULL UNIQUE,
+  org           VARCHAR(160),
+  vraag         VARCHAR(300),
+  org_type      VARCHAR(20),
+  rol           VARCHAR(20),
+  n_systemen    TINYINT UNSIGNED,
+  ip_hash       CHAR(16) NOT NULL,
+  benaderd_op   DATETIME,
+  INDEX (soort, aangemaakt)
+);

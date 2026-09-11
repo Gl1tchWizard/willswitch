@@ -81,6 +81,7 @@ PAGE = r'''<!DOCTYPE html>
     button:disabled { opacity:0.35; cursor:not-allowed; }
     .b-primair { background:var(--orange); color:var(--paper); }
     .b-primair:hover:not(:disabled) { background:var(--ink); }
+    #sysstatus b { color:var(--ink); }
     .b-stil { background:none; color:var(--ink-faint); padding:0.95rem 0.5rem; letter-spacing:0.06em; }
     .b-stil:hover { color:var(--ink); }
     .nav { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-top:2rem; }
@@ -143,6 +144,13 @@ PAGE = r'''<!DOCTYPE html>
     .dek .lbl b { font-family:var(--disp); font-size:0.78rem; }
     .dek .lbl span { font-family:var(--disp); font-size:0.78rem; color:var(--ink-faint); }
     .dek .balk { height:12px; background:var(--rule); border-radius:2px; overflow:hidden; }
+    .dek .staaf { display:flex; height:14px; border-radius:2px; overflow:hidden; background:var(--rule); }
+    .dek .staaf i { display:block; }
+    .dek .staaf .v-ja { background:var(--ok); }
+    .dek .staaf .v-deels { background:var(--warn); }
+    .dek .staaf .v-nee { background:var(--bad); }
+    .dek .staaf .v-onb { background:#B9B3A8; }
+    .dek .lbl span { font-family:var(--mono); font-size:0.76rem; letter-spacing:0; }
     .dek .balk i { display:block; height:100%; width:0; background:var(--orange); transition:width 0.6s ease; }
     .dek .klein { margin-top:0.35rem; }
     .concentratie { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin:1.2rem 0; }
@@ -163,6 +171,18 @@ PAGE = r'''<!DOCTYPE html>
     .rapport { background:var(--paper-warm); border:1px solid var(--rule); padding:1.5rem; margin:2rem 0 1rem; }
     .rapport ul { list-style:none; margin:0.8rem 0 1.2rem; }
     .rapport li { padding:0.4rem 0; border-bottom:1px solid var(--rule); font-size:0.88rem; }
+    .aanmeld { margin-top:1.2rem; padding-top:1.2rem; border-top:1px solid var(--rule); }
+    .aanmeld .veld { display:block; margin-bottom:0.7rem; }
+    .aanmeld .veld span { display:block; font-size:0.78rem; color:var(--ink-soft); margin-bottom:0.25rem; }
+    .aanmeld .veld span i { color:var(--ink-faint); font-style:normal; }
+    .aanmeld input { width:100%; font-family:var(--mono); font-size:0.88rem; padding:0.65rem 0.75rem;
+      border:1px solid var(--rule); background:var(--white); color:var(--ink); border-radius:3px; }
+    .aanmeld input:focus { outline:2px solid var(--orange); border-color:var(--orange); }
+    .aanmeld .keuzes { margin:0 0 0.9rem; }
+    .aanmeld .keuze { padding:0.7rem 0.9rem; font-size:0.85rem; }
+    .melding { margin-top:0.7rem; font-size:0.84rem; display:none; }
+    .melding.goed { display:block; color:var(--ok); }
+    .melding.fout { display:block; color:var(--bad); }
     .rapport .prijs { font-family:var(--disp); font-size:0.8rem; color:var(--ink-faint); margin-bottom:0.6rem; }
     .toast { position:fixed; left:50%; bottom:1.5rem; transform:translateX(-50%); background:var(--ink); color:var(--paper); padding:0.8rem 1.2rem; font-size:0.82rem; opacity:0; pointer-events:none; transition:opacity 0.3s; max-width:90vw; text-align:center; }
     .toast.zien { opacity:1; }
@@ -182,12 +202,15 @@ PAGE = r'''<!DOCTYPE html>
   <!-- 0 · start -->
   <section id="s0">
     <h1>Kun je nog weg bij je leveranciers?</h1>
-    <p class="lead">Drie wetten stellen sinds kort dezelfde vraag, elk vanuit een andere hoek. De meeste organisaties hebben op geen van de drie een compleet antwoord.</p>
+    <p class="lead">Twee wetten en een beleidskader stellen sinds kort dezelfde vraag, elk vanuit een andere hoek. De meeste organisaties hebben op geen van de drie een compleet antwoord.</p>
     <div class="wet">
-      Sinds 15 augustus 2026 verplicht de Cyberbeveiligingswet je om per kritieke leverancier te weten wat er gebeurt bij contracteinde, faillissement of overname. De Data Act geeft je sinds september 2025 het recht om binnen dertig dagen over te stappen, en verbiedt vanaf 12 januari 2027 overstapkosten. En het rijkscloudbeleid eist een exitplan, ook voor het scenario dat een dienst plotseling wegvalt.
-      <span class="bron">Bronnen: RDI, toelichting zorgplicht toeleveringsketen; Verordening (EU) 2023/2854, hoofdstuk VI; Kamerbrief Herziening Rijksbreed Cloudbeleid, juli 2026</span>
+      <b>Cyberbeveiligingswet</b>, van kracht sinds 15 augustus 2026. Vraagt een risicoanalyse per leverancier, inclusief wat er gebeurt bij contracteinde, faillissement of overname. Geldt voor het Rijk, ZBO's, gemeenten, provincies en waterschappen.<br><br>
+      <b>Data Act</b>, van toepassing sinds 12 september 2025. Geeft je als cloudklant het recht om over te stappen, en verbiedt vanaf 12 januari 2027 overstapkosten. Geldt voor iedere afnemer van clouddiensten.<br><br>
+      <b>Rijksbreed cloudbeleid</b>, vastgesteld 3 juli 2026. Dit is beleid, geen wet. Het verplicht rijksorganisaties tot een exitplan, met een overgangstermijn tot medio 2030. Voor gemeenten, provincies en waterschappen geldt het nu nog niet: de staatssecretaris kondigde aan hierover met de medeoverheden in gesprek te gaan.
+      <span class="bron">Bronnen: RDI, toelichting zorgplicht toeleveringsketen; Verordening (EU) 2023/2854, hoofdstuk VI; Kamerbrief Herziening Rijksbreed Cloudbeleid (26 643, nr. 1541). Gecontroleerd op 11 september 2026. Dit is geen juridisch advies.</span>
     </div>
-    <p>Deze toets duurt een kwartier en vraagt geen registratie. Je krijgt direct je concentratiebeeld, ziet per verplichting wat je kunt aantonen en krijgt een eerste stap. Je antwoorden blijven in je browser; alleen scores zonder naam of leverancier gaan naar de server.</p>
+    <p>Deze toets duurt een kwartier en vraagt geen registratie. Je krijgt direct je beeld: waar je afhankelijkheden zitten, wat je per onderwerp zelf meldt, en een eerste stap die daarbij past.</p>
+    <p class="klein">De toets werkt met je eigen opgave. Er wordt niets gecontroleerd aan de hand van documenten, en er komt geen oordeel uit over naleving. Je antwoorden blijven in je browser. Bij het resultaat sturen we alleen geaggregeerde uitkomsten mee: je rol, je organisatietype, het aantal systemen en de telling per onderwerp. Geen namen, geen leveranciers, geen vrije tekst.</p>
     <div class="nav"><span></span><button class="b-primair" onclick="naar(1)">Start de toets</button></div>
   </section>
 
@@ -204,9 +227,9 @@ PAGE = r'''<!DOCTYPE html>
   <!-- 2 · inventaris -->
   <section id="s2" class="verborgen">
     <h2>Welke systemen zijn kritiek voor je?</h2>
-    <p>Kies er drie tot vijf. Per systeem twee feiten: wie levert het, en weet je wanneer het contract afloopt. Meer niet.</p>
+    <p>Kies de systemen waar je organisatie echt van afhankelijk is, maximaal vijf. Per systeem twee feiten: wie levert het, en weet je wanneer het contract afloopt. Meer niet.</p>
     <div class="kaart" id="kaart"></div>
-    <p class="klein">Kies eerst je systemen, dan verschijnen de vragen eronder.</p>
+    <p class="klein" id="sysstatus">Kies eerst je systemen, dan verschijnen de vragen eronder.</p>
     <div id="sysvragen"></div>
     <div class="nav"><button class="b-stil" onclick="naar(1)">Terug</button><button class="b-primair" id="k2" disabled onclick="naar(3)">Verder</button></div>
   </section>
@@ -247,20 +270,21 @@ PAGE = r'''<!DOCTYPE html>
     </div>
     <div class="kaart" id="kaart-uit"></div>
 
-    <h3>Wat je per verplichting kunt aantonen</h3>
+    <h3>Wat je per onderwerp meldt</h3>
+    <p class="klein" style="margin:-0.4rem 0 0.9rem">Dit is je eigen opgave, niet getoetst aan documenten. Onbekend telt apart: het verlaagt je beeld niet, maar het is wel een vraag die nog ergens beantwoord moet worden.</p>
     <div class="dekking" id="dekking"></div>
 
     <div class="stap1"><h2 id="stap-kop"></h2><p id="stap-tekst"></p></div>
 
     <h3>De klok</h3>
     <div class="deadline">
-      <div><b>12 januari 2027</b>Overstapkosten bij clouddiensten zijn verboden. Ook voor lopende contracten.</div>
-      <div><b>Medio 2030</b>Einde overgangstermijn rijkscloudbeleid. Medeoverheden volgen.</div>
+      <div><b>12 januari 2027</b>Overstapkosten bij clouddiensten vervallen. Let op: dat betekent niet dat een migratie gratis is. Je eigen uren, testwerk en dubbele licenties blijven.</div>
+      <div><b>Medio 2030</b>Einde overgangstermijn rijksbreed cloudbeleid. Dat geldt nu voor rijksorganisaties; over medeoverheden is aangekondigd dat er gesprek komt.</div>
       <div><b>Nu</b>Ketenzorgplicht geldt al. De toezichthouder kan ernaar vragen.</div>
     </div>
 
     <div class="duo" id="duo">
-      <b style="font-size:0.9rem" id="duo-kop">Zie je mandaatkloof</b>
+      <b style="font-size:0.9rem" id="duo-kop">Vergelijk met een collega</b>
       <p class="klein" style="margin-top:0.4rem" id="duo-tekst"></p>
       <input readonly id="duo-link" onclick="this.select()">
       <button class="b-stil" style="padding-left:0" onclick="kopieer()">Kopieer link</button>
@@ -278,11 +302,21 @@ PAGE = r'''<!DOCTYPE html>
         <li>Exitclausules voor je volgende aanbesteding, op basis van de Data Act</li>
         <li>Je eerste negentig dagen: drie acties, elk met een eigenaar</li>
       </ul>
-      <p><a href="/rapport/voorbeeld.html" style="color:var(--orange);font-family:var(--disp);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(232,69,0,0.4)">Bekijk een voorbeeldrapport</a></p>
-      <button class="b-primair" id="k-rapport" onclick="bestel()">Hou me op de hoogte</button>
+      <p><a href="/rapport/voorbeeld.html" id="link-voorbeeld" style="color:var(--orange);font-family:var(--disp);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(232,69,0,0.4)">Bekijk een voorbeeldrapport</a></p>
+
+      <div class="aanmeld" id="aanmeld">
+        <p class="klein" style="margin-bottom:0.7rem">Het rapport bestaat nog niet en wordt waarschijnlijk betaald. Laat je mailadres achter als je wilt horen wanneer het er is, of als je wilt meedenken over wat erin hoort.</p>
+        <div class="keuzes" id="soort"></div>
+        <label class="veld"><span>E-mailadres</span><input type="email" id="a-mail" autocomplete="email" placeholder="naam@organisatie.nl"></label>
+        <label class="veld"><span>Organisatie <i>optioneel</i></span><input type="text" id="a-org" autocomplete="organization"></label>
+        <label class="veld"><span>Waar loop je tegenaan? <i>optioneel</i></span><input type="text" id="a-vraag" placeholder="bijvoorbeeld: contract loopt in maart af"></label>
+        <p class="klein">We gebruiken je adres alleen hiervoor. Geen nieuwsbrief, en je kunt je altijd afmelden.</p>
+        <button class="b-primair" id="k-rapport" onclick="meld()">Stuur mijn aanmelding</button>
+        <div class="melding" id="a-melding"></div>
+      </div>
     </div>
 
-    <p class="klein">Dit resultaat is input voor je eigen risicoanalyse. Het is geen oordeel over naleving van de Cyberbeveiligingswet of andere wetgeving.</p>
+    <p class="klein">Dit resultaat is gebaseerd op je eigen antwoorden en is bedoeld als startpunt voor je eigen risicoanalyse. Er is niets gecontroleerd aan de hand van documenten. Het is geen oordeel over naleving van de Cyberbeveiligingswet, de Data Act of het cloudbeleid, en geen juridisch advies.</p>
     <div class="nav"><button class="b-stil" onclick="location.href='/scan/'">Opnieuw beginnen</button><a href="/switch.html" style="font-family:var(--disp);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);text-decoration:none">Praktijkverhalen</a></div>
   </section>
 
@@ -366,7 +400,9 @@ keuzeknoppen('org', ORGS, 'org', true, ()=>el('k1').disabled=!(S.rol&&S.org));
     t.innerHTML='<span class="naam">'+naam+'</span><span class="stat"><i></i><i></i></span>';
     t.onclick=()=>{
       const i=S.sys.indexOf(id);
-      if(i>=0){ S.sys.splice(i,1); delete S.herkomst[id]; delete S.contract[id]; t.className='tegel'; }
+      if(i>=0){ S.sys.splice(i,1); delete S.herkomst[id]; delete S.contract[id];
+        t.className='tegel';
+        [...t.querySelector('.stat').children].forEach(b=>b.className='');   /* balkjes leegmaken */ }
       else { if(S.sys.length>=5){ toast('Maximaal vijf. Kies je kritiekste.'); return; } S.sys.push(id); t.classList.add('aan'); }
       bouwSys(); checkK2();
     };
@@ -397,7 +433,20 @@ function tegelStatus(id){
   st[0].className = h ? 'o'+h[0] : ''; st[1].className = c ? 'c'+c[0] : '';
   t.classList.toggle('klaar', !!(h&&c));
 }
-function checkK2(){ el('k2').disabled = !(S.sys.length>=3 && S.sys.every(id=>S.herkomst[id]&&S.contract[id])); }
+function checkK2(){
+  const n = S.sys.length;
+  const open = S.sys.filter(id=>!S.herkomst[id]||!S.contract[id]);
+  const klaar = n>=1 && open.length===0;
+  el('k2').disabled = !klaar;
+  const st = el('sysstatus');
+  if (n===0) st.textContent='Kies eerst je systemen, dan verschijnen de vragen eronder.';
+  else if (open.length) {
+    const namen = open.map(id=>SYSTEMEN.find(s=>s[0]===id)[1]);
+    st.innerHTML='Nog invullen: <b>'+namen.join('</b>, <b>')+'</b>';
+  }
+  else if (n===1) st.innerHTML='<b>1 systeem ingevuld.</b> Je kunt verder, of er nog een paar kiezen voor een vollediger beeld.';
+  else st.innerHTML='<b>'+n+' systemen ingevuld.</b> Je kunt verder.';
+}
 
 /* 3,4,5 */
 function bouwDim(key, cid, knop){
@@ -419,39 +468,101 @@ bouwDim('a','vr-a','k3'); bouwDim('b','vr-b','k4'); bouwDim('c','vr-c','k5');
 
 /* 6 */
 function dekking(key){
-  const n=DIM[key].vragen.length; let pts=0, onbekend=0;
-  for(let i=0;i<n;i++){ const v=S[key][i]; if(v==='x') onbekend++; else pts+=Number(v||0); }
-  return { pct: Math.round(100*pts/(2*n)), onbekend };
+  /* Telt alleen de vragen die beantwoord zijn. Een 'ik weet het niet' verlaagt de
+     score niet, maar wordt apart geteld: onbekend is iets anders dan niet geregeld. */
+  const n=DIM[key].vragen.length;
+  let pts=0, beantwoord=0, ja=0, deels=0, nee=0, onbekend=0;
+  for(let i=0;i<n;i++){
+    const v=S[key][i];
+    if(v==='x'){ onbekend++; continue; }
+    beantwoord++; pts+=Number(v||0);
+    if(v==='2') ja++; else if(v==='1') deels++; else nee++;
+  }
+  return {
+    pct: beantwoord ? Math.round(100*pts/(2*beantwoord)) : null,
+    ja, deels, nee, onbekend, beantwoord, totaal:n
+  };
 }
 function scores(){
-  const nietEU=S.sys.filter(id=>S.herkomst[id]&&S.herkomst[id][0]==='0').length;
-  const onb=S.sys.filter(id=>S.contract[id]==='0').length;
-  const binnenJaar=S.sys.filter(id=>S.contract[id]==='1').length;
-  const eigen=S.sys.filter(id=>S.herkomst[id]==='2').length;
-  return { n:S.sys.length, nietEU, onb, binnenJaar, eigen, a:dekking('a'), b:dekking('b'), c:dekking('c') };
+  const nietEU = S.sys.filter(id=>S.herkomst[id] && S.herkomst[id][0]==='0');
+  const onbSys = S.sys.filter(id=>S.contract[id]==='0');
+  /* de overlap expliciet, in plaats van twee losse tellingen door elkaar halen */
+  const nietEUonb = nietEU.filter(id=>S.contract[id]==='0');
+  const binnenJaar = S.sys.filter(id=>S.contract[id]==='1');
+  const eigen = S.sys.filter(id=>S.herkomst[id]==='2');
+  return { n:S.sys.length, nietEU:nietEU.length, onb:onbSys.length,
+           nietEUonb:nietEUonb.length, binnenJaar:binnenJaar.length, eigen:eigen.length,
+           a:dekking('a'), b:dekking('b'), c:dekking('c') };
 }
 function resultaat(){
   const r=scores();
-  const kloof=r.a.onbekend+r.b.onbekend+r.c.onbekend;
-  /* kernzin */
+  const onbekend = r.a.onbekend + r.b.onbekend + r.c.onbekend;
+  const eig = S.c[2];   /* bestuurlijk eigenaar: 2 ja, 1 deels, 0 nee, x onbekend */
+  const gem = [r.a.pct, r.b.pct, r.c.pct].filter(v=>v!==null);
+  const gemiddeld = gem.length ? Math.round(gem.reduce((a,b)=>a+b,0)/gem.length) : null;
+  /* Kernzin: volgt uit wat er is ingevuld, in volgorde van wat het meest opvalt.
+     Geen uitspraken over wat een toezichthouder zal vinden of hoe je scoort
+     ten opzichte van anderen: daar hebben we de gegevens niet voor. */
   let getal, zin;
-  if (kloof>=3){ getal=kloof+' van 10'; zin='vragen kon niemand in je organisatie beantwoorden. Dat is geen kennisprobleem maar een eigenaarschapsprobleem, en het is de eerste bevinding die een toezichthouder zal doen.'; }
-  else if (r.nietEU>=Math.ceil(r.n/2) && r.onb>0){ getal=r.nietEU+' van '+r.n; zin='kritieke systemen draait bij een leverancier buiten de EU, en van '+r.onb+' daarvan weet je niet wanneer het contract afloopt. Dat is de combinatie waar drie wetten tegelijk op wijzen.'; }
-  else if (S.c[2]!=='2'){ getal='Geen'; zin='bestuurlijk eigenaar met mandaat en budget voor de exit. Alles wat je verder geregeld hebt, hangt daardoor in de lucht.'; }
-  else if (r.b.pct<50){ getal=r.b.pct+'%'; zin='dekking op je overstaprecht. De Data Act geeft je rechten die je nu niet kunt uitoefenen omdat je ze niet kent of nooit hebt getest.'; }
-  else { getal=Math.round((r.a.pct+r.b.pct+r.c.pct)/3)+'%'; zin='gemiddelde dekking over de drie verplichtingen. De basis staat. Leg vast wat je hebt, want dat is je bewijs.'; }
+  if (onbekend>=3){
+    getal=onbekend+' van 10';
+    zin='vragen kon je nu niet beantwoorden. Dat hoeft geen probleem te zijn, maar het betekent wel dat het antwoord ergens anders in de organisatie ligt. Uitzoeken wie het weet is je eerste stap.';
+  }
+  else if (r.nietEUonb>0){
+    getal=r.nietEUonb+' van '+r.nietEU;
+    zin='systemen bij een leverancier buiten de EU heeft geen bekend contracteinde. Die combinatie maakt plannen lastig: je kunt geen opzegtermijn aanhouden die je niet kent.';
+  }
+  else if (eig==='0'){
+    getal='Geen';
+    zin='bestuurlijk eigenaar met mandaat en budget voor de exit, volgens je eigen opgave. Zonder eigenaar blijft elk plan een plan.';
+  }
+  else if (eig==='1'){
+    getal='Deels';
+    zin='geregeld eigenaarschap. Er is iemand, maar mandaat of budget ontbreekt. Dat is meestal het punt waarop een exit blijft liggen.';
+  }
+  else if (eig==='x'){
+    getal='Onbekend';
+    zin='of er een bestuurlijk eigenaar is voor de exit. Dat is zelf al een bevinding: als jij het niet weet, weet de organisatie het waarschijnlijk ook niet.';
+  }
+  else if (r.nietEU >= Math.ceil(r.n/2) && r.n>1){
+    getal=r.nietEU+' van '+r.n;
+    zin='kritieke systemen draait bij een leverancier buiten de EU. Dat is niet per definitie een probleem, maar het bepaalt wel welke regels op je van toepassing zijn.';
+  }
+  else if (r.b.pct!==null && r.b.pct<50){
+    getal=r.b.pct+'%';
+    zin='van je antwoorden over het overstaprecht was positief. De Data Act geeft je rechten die je pas kunt gebruiken als je weet wat er in je contract staat.';
+  }
+  else if (gemiddeld!==null){
+    getal=gemiddeld+'%';
+    zin='van je antwoorden was positief, gemiddeld over de drie onderwerpen. De basis staat. Leg vast wat je hebt, want dat is wat je later moet laten zien.';
+  }
+  else { getal='Geen beeld'; zin='op basis van je antwoorden. Vul de toets opnieuw in om een uitkomst te krijgen.'; }
   el('kern-getal').textContent=getal; el('kern-zin').textContent=zin;
-  el('c-nieteu').textContent=r.nietEU+' van '+r.n; el('c-onbekend').textContent=r.onb;
+  el('c-nieteu').textContent=r.nietEU+' van '+r.n;
+  el('c-onbekend').textContent=r.onb+' van '+r.n;
   /* kaart */
   const k=el('kaart-uit'); k.innerHTML='';
   S.sys.forEach(id=>{ const naam=SYSTEMEN.find(s=>s[0]===id)[1]; const d=document.createElement('div'); d.className='tegel uit';
     d.style.cursor='default'; d.innerHTML='<span class="naam">'+naam+'</span><span class="stat"><i class="o'+S.herkomst[id][0]+'"></i><i class="c'+S.contract[id][0]+'"></i></span>'; k.appendChild(d); });
   /* dekking */
   const dk=el('dekking'); dk.innerHTML='';
-  ['a','b','c'].forEach(key=>{ const d=r[key]; const div=document.createElement('div'); div.className='dek';
-    div.innerHTML='<div class="lbl"><b>'+DIM[key].naam+' <span style="color:var(--ink-faint);font-weight:400">'+DIM[key].wet+'</span></b><span>'+d.pct+'%</span></div><div class="balk"><i></i></div>'
-      +'<div class="klein">'+(d.onbekend? d.onbekend+' vraag'+(d.onbekend>1?'en':'')+' kon niemand beantwoorden.':(d.pct>=75?'Aantoonbaar. Leg het vast.':d.pct>=40?'Gedeeltelijk. Hier zit werk.':'Nauwelijks aantoonbaar. Dit hoort bovenaan je risicoanalyse.'))+'</div>';
-    dk.appendChild(div); requestAnimationFrame(()=>requestAnimationFrame(()=>div.querySelector('.balk i').style.width=d.pct+'%')); });
+  ['a','b','c'].forEach(key=>{
+    const d=r[key];
+    const delen=[];
+    if(d.ja) delen.push(d.ja+' geregeld');
+    if(d.deels) delen.push(d.deels+' deels');
+    if(d.nee) delen.push(d.nee+' niet geregeld');
+    if(d.onbekend) delen.push(d.onbekend+' onbekend');
+    const div=document.createElement('div'); div.className='dek';
+    div.innerHTML='<div class="lbl"><b>'+DIM[key].naam+' <span style="color:var(--ink-faint);font-weight:400">'+DIM[key].wet+'</span></b>'
+      +'<span>'+delen.join(' &middot; ')+'</span></div>'
+      +'<div class="staaf">'
+      +(d.ja?'<i class="v-ja" style="flex:'+d.ja+'"></i>':'')
+      +(d.deels?'<i class="v-deels" style="flex:'+d.deels+'"></i>':'')
+      +(d.nee?'<i class="v-nee" style="flex:'+d.nee+'"></i>':'')
+      +(d.onbekend?'<i class="v-onb" style="flex:'+d.onbekend+'"></i>':'')
+      +'</div>';
+    dk.appendChild(div); });
   /* eerste stap */
   let kop, tekst;
   if (kloof>=2){ kop='Begin met een eigenaar.'; tekst='Zolang niemand de vragen kan beantwoorden, is elk plan een plan. Wijs een bestuurlijk eigenaar aan, geef die een middag met inkoop en IT, en laat de toets opnieuw doen. Dat is je eerste aantoonbare stap onder de Cbw.'; }
@@ -468,26 +579,68 @@ function resultaat(){
   toonKloof(r);
   /* rapport */
   stuurScores(r);
+  if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:'scan/afgerond', event:true});
 }
-function codeer(r){ return btoa(JSON.stringify({rol:S.rol,org:S.org,n:r.n,ne:r.nietEU,ob:r.onb,a:r.a.pct,b:r.b.pct,c:r.c.pct,x:r.a.onbekend+r.b.onbekend+r.c.onbekend})).replace(/=+$/,''); }
+function codeer(r){ return btoa(JSON.stringify({rol:S.rol,org:S.org,n:r.n,sys:S.sys.slice().sort(),
+  ne:r.nietEU,ob:r.onb,a:r.a.pct,b:r.b.pct,c:r.c.pct,x:r.a.onbekend+r.b.onbekend+r.c.onbekend})).replace(/=+$/,''); }
 function toonKloof(r){
   const p=new URLSearchParams(location.search).get('v'); if(!p) return;
   let o; try{ o=JSON.parse(atob(p)); }catch(e){ return; }
   if(!o||o.rol===S.rol) return;
   const naam=v=>({bestuur:'Bestuur',cio:'CIO',uitvoering:'Uitvoering',anders:'Collega'})[v]||v;
-  const rijen=[['Ketenzorgplicht',o.a,r.a.pct],['Overstaprecht',o.b,r.b.pct],['Exitplan',o.c,r.c.pct],['Vragen die niemand kon beantwoorden',o.x,r.a.onbekend+r.b.onbekend+r.c.onbekend]];
+  const mijn=S.sys.slice().sort().join(','), hun=(o.sys||[]).slice().sort().join(',');
+  const zelfdeScope = mijn===hun;
+  const rijen=[['Ketenzorgplicht',o.a,r.a.pct],['Overstaprecht',o.b,r.b.pct],['Exitplan',o.c,r.c.pct],['Vragen nog te beantwoorden',o.x,r.a.onbekend+r.b.onbekend+r.c.onbekend]];
   const k=el('kloof'); k.classList.remove('verborgen');
   k.innerHTML='<div style="font-weight:700"><span></span><span>'+naam(o.rol)+'</span><span>'+naam(S.rol)+'</span></div>'
     +rijen.map(([l,a,b])=>{ const d=Math.abs(a-b); const groot=(l.startsWith('Vragen')? d>=2 : d>=25);
-      return '<div><span>'+l+'</span><span>'+a+(l.startsWith('Vragen')?'':'%')+'</span><span class="'+(groot?'verschil':'')+'">'+b+(l.startsWith('Vragen')?'':'%')+'</span></div>'; }).join('');
-  el('duo-kop').textContent='Jullie mandaatkloof';
-  el('duo-tekst').textContent='Twee mensen uit dezelfde organisatie, twee beelden. Waar het rood is, loopt het meer dan een kwart uiteen. Daar begint het gesprek.';
+      const fmt=v=>(v===null||v===undefined)?'-':(l.startsWith('Vragen')?v:v+'%');
+      return '<div><span>'+l+'</span><span>'+fmt(a)+'</span><span class="'+(groot?'verschil':'')+'">'+fmt(b)+'</span></div>'; }).join('');
+  el('duo-kop').textContent='Verschil in beeld';
+  el('duo-tekst').innerHTML='Twee mensen uit dezelfde organisatie, twee beelden. Waar het gemarkeerd is, loopt het uiteen. Dat kan aan eigenaarschap liggen, maar net zo goed aan kennis, interpretatie of aan een andere systeemselectie. Het is een startpunt voor een gesprek, geen conclusie.'
+    + (zelfdeScope ? '' : '<br><br><b>Let op:</b> jullie beoordeelden niet dezelfde systemen. Vergelijk de onderwerpen, niet de aantallen.');
 }
+(function(){ const v=el('link-voorbeeld'); if(v) v.addEventListener('click',()=>{ if(window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:'scan/voorbeeldrapport',event:true}); }); })();
 function kopieer(){ el('duo-link').select(); try{ document.execCommand('copy'); toast('Link gekopieerd'); }catch(e){ toast('Selecteer de link en kopieer hem'); } }
 function stuurScores(r){
   /* alleen geaggregeerd, geen namen, geen vrije tekst */
   const body={org:S.org,rol:S.rol,n:r.n,niet_eu:r.nietEU,contract_onbekend:r.onb,a:r.a.pct,b:r.b.pct,c:r.c.pct,onbekend:r.a.onbekend+r.b.onbekend+r.c.onbekend};
   try{ fetch('/api/scan.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),keepalive:true}).catch(()=>{}); }catch(e){}
+}
+const SOORT=[['update','Hou me op de hoogte van het rapport'],['pilot','Ik wil meedenken of meedoen aan een pilot']];
+let soortKeuze='update';
+(function(){
+  const c=el('soort'); if(!c) return;
+  SOORT.forEach(([v,t],i)=>{
+    const b=document.createElement('button'); b.type='button'; b.className='keuze'+(i===0?' aan':'');
+    b.innerHTML='<span class="rond"></span>'+t;
+    b.onclick=()=>{ soortKeuze=v; [...c.children].forEach(k=>k.classList.remove('aan')); b.classList.add('aan'); };
+    c.appendChild(b);
+  });
+})();
+function meld(){
+  const m=el('a-melding'), knop=el('k-rapport');
+  const mail=(el('a-mail').value||'').trim();
+  m.className='melding';
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)){ m.textContent='Vul een geldig e-mailadres in.'; m.className='melding fout'; el('a-mail').focus(); return; }
+  knop.disabled=true; knop.textContent='Versturen';
+  const r=scores();
+  fetch('/api/interesse.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    soort:soortKeuze, email:mail,
+    org:(el('a-org').value||'').slice(0,160), vraag:(el('a-vraag').value||'').slice(0,300),
+    org_type:S.org, rol:S.rol, n:r.n
+  })})
+  .then(res=>{ if(!res.ok) throw new Error('status '+res.status); return res.json(); })
+  .then(j=>{ if(!j || j.ok!==true) throw new Error(j && j.fout ? j.fout : 'onbekende fout');
+    m.textContent = soortKeuze==='pilot'
+      ? 'Gelukt. Je hoort van me zodra de pilot start, meestal binnen twee weken.'
+      : 'Gelukt. Je krijgt bericht zodra het rapport er is.';
+    m.className='melding goed';
+    knop.textContent='Aangemeld'; el('aanmeld').querySelectorAll('input').forEach(i=>i.disabled=true);
+    if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:'scan/aanmelding-'+soortKeuze, event:true});
+  })
+  .catch(err=>{ m.innerHTML='Het versturen lukte niet ('+err.message+'). Probeer het opnieuw, of mail naar <a href="mailto:info@willswitch.nl" style="color:var(--orange)">info@willswitch.nl</a>.';
+    m.className='melding fout'; knop.disabled=false; knop.textContent='Probeer opnieuw'; });
 }
 function bestel(){
   /* FASE 0: nog geen bestelling. Zet dit terug naar de bestelpagina zodra betalen aan mag:
