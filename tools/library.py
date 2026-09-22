@@ -38,7 +38,7 @@ def load_quotes():
     d = pathlib.Path(__file__).resolve().parent.parent / "content" / "quotes"
     if not d.exists():
         return []
-    out = [json.loads(f.read_text()) for f in sorted(d.glob("*.json"))]
+    out = [json.loads(f.read_text(encoding="utf-8")) for f in sorted(d.glob("*.json"))]
     out.sort(key=lambda q: q.get("order", 999))
     return out
 

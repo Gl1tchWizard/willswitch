@@ -20,7 +20,7 @@ TODAY = datetime.date.today()
 def load_cases():
     out = []
     for f in sorted(CASES.glob("*.html")):
-        raw = f.read_text()
+        raw = f.read_text(encoding="utf-8")
         m = re.match(r"---\n(.*?)\n---\n\n(.*)", raw, re.S)
         if not m:
             print(f"  overgeslagen (geen kop): {f.name}")
@@ -268,19 +268,19 @@ def build():
         )
         out = DIST / "cases" / c["id"]
         out.mkdir(parents=True, exist_ok=True)
-        (out / "index.html").write_text(page)
+        (out / "index.html").write_text(page, encoding="utf-8")
         print(f"  /cases/{c['id']}/" + ("   (vooruit, noindex tot " + c["publish_on"] + ")" if vooruit else ""))
 
     # homepage met inhoud onder het portaal
     home = SITE / "index.html"
     if home.exists():
-        (DIST / "index.html").write_text(build_home(home.read_text(), live))
+        (DIST / "index.html").write_text(build_home(home.read_text(encoding="utf-8"), live), encoding="utf-8")
         print("  index.html (homepage)")
 
     # casebibliotheek met links naar de eigen pagina's
     src = SITE / "switch.html"
     if src.exists():
-        (DIST / "switch.html").write_text(build_library(src.read_text(), live))
+        (DIST / "switch.html").write_text(build_library(src.read_text(encoding="utf-8"), live), encoding="utf-8")
         print("  switch.html (casebibliotheek)")
 
     # voorbeeldrapport (vaste pagina)
@@ -301,7 +301,7 @@ def build():
 
     # scanpagina
     (DIST / "scan").mkdir(exist_ok=True)
-    (DIST / "scan" / "index.html").write_text(build_scan())
+    (DIST / "scan" / "index.html").write_text(build_scan(), encoding="utf-8")
     print("  /scan/")
 
     write_sitemap(live)
@@ -322,7 +322,7 @@ def write_sitemap(live):
     (DIST / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f"{body}\n</urlset>\n")
+        f"{body}\n</urlset>\n", encoding="utf-8")
     print(f"  sitemap.xml met {len(urls)} adressen")
 
 
