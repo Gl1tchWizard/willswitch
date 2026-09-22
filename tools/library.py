@@ -57,7 +57,7 @@ def quote_html(q):
 STRIP = """
       <a class="toets-strip" href="/scan/">
         <span class="ts-kop">Kun je nog weg bij je leveranciers?</span>
-        <span class="ts-tekst">Drie wetten stellen die vraag. De uitstaptoets geeft je in een kwartier het antwoord, zonder registratie.</span>
+        <span class="ts-tekst">Twee wetten en het rijksbrede cloudbeleid stellen die vraag. De uitstaptoets geeft je in een kwartier het antwoord, zonder registratie.</span>
         <span class="ts-cta">Doe de uitstaptoets</span>
       </a>
 """
