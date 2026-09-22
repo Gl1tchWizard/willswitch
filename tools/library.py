@@ -38,7 +38,7 @@ def load_quotes():
     d = pathlib.Path(__file__).resolve().parent.parent / "content" / "quotes"
     if not d.exists():
         return []
-    out = [json.loads(f.read_text()) for f in sorted(d.glob("*.json"))]
+    out = [json.loads(f.read_text(encoding="utf-8")) for f in sorted(d.glob("*.json"))]
     out.sort(key=lambda q: q.get("order", 999))
     return out
 
@@ -57,7 +57,7 @@ def quote_html(q):
 STRIP = """
       <a class="toets-strip" href="/scan/">
         <span class="ts-kop">Kun je nog weg bij je leveranciers?</span>
-        <span class="ts-tekst">Drie wetten stellen die vraag. De uitstaptoets geeft je in een kwartier het antwoord, zonder registratie.</span>
+        <span class="ts-tekst">Twee wetten en het rijksbrede cloudbeleid stellen die vraag. De uitstaptoets geeft je in een kwartier het antwoord, zonder registratie.</span>
         <span class="ts-cta">Doe de uitstaptoets</span>
       </a>
 """

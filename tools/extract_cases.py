@@ -8,7 +8,7 @@ SRC = pathlib.Path("/mnt/user-data/outputs/switch.html")
 OUT = pathlib.Path("content/cases")
 OUT.mkdir(parents=True, exist_ok=True)
 
-doc = SRC.read_text()
+doc = SRC.read_text(encoding="utf-8")
 
 # 1) metadata uit de kaarten in het grid
 cards = {}
@@ -63,7 +63,7 @@ for i, cid in enumerate(ordered):
           ("id", "order", "publish_on", "new_since", "eyebrow", "title",
            "card_title", "card_body", "cta")}
     text = "---\n" + json.dumps(fm, ensure_ascii=False, indent=2) + "\n---\n\n" + c["body_html"] + "\n"
-    (OUT / f"{cid}.html").write_text(text)
+    (OUT / f"{cid}.html").write_text(text, encoding="utf-8")
 
 print(f"{len(ordered)} cases weggeschreven:")
 for cid in ordered:
