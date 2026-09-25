@@ -5,7 +5,7 @@ Resultaat komt in dist/ en is klaar om te publiceren.
 """
 import json, pathlib, re, datetime, shutil, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from library import build_library
+from switchpage import build_switch
 from home import build_home
 from scan import build_scan
 
@@ -277,11 +277,13 @@ def build():
         (DIST / "index.html").write_text(build_home(home.read_text(encoding="utf-8"), live), encoding="utf-8")
         print("  index.html (homepage)")
 
-    # casebibliotheek met links naar de eigen pagina's
-    src = SITE / "switch.html"
-    if src.exists():
-        (DIST / "switch.html").write_text(build_library(src.read_text(encoding="utf-8"), live), encoding="utf-8")
-        print("  switch.html (casebibliotheek)")
+    # de eigenlijke hoofdpagina, volledig uit het sjabloon
+    (DIST / "switch.html").write_text(build_switch(live), encoding="utf-8")
+    print("  switch.html (hoofdpagina)")
+
+    # lettertype, zelf gehost
+    if (SITE / "fonts").exists():
+        shutil.copytree(SITE / "fonts", DIST / "fonts")
 
     # voorbeeldrapport (vaste pagina)
     rp = SITE / "rapport"
