@@ -232,7 +232,9 @@ a.item:hover { border-color:var(--inkt); }
 .initiator .name { font-size:22px; font-weight:700; }
 .initiator .desc { color:var(--zacht); font-size:16px; max-width:52ch; margin:4px 0 10px; }
 footer.site { border-top:1px solid var(--inkt); padding:24px 0 40px; font-size:14px; color:var(--vaag); }
-footer.site .w { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px 24px; }
+footer.site .w { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 24px; }
+footer.site .fonds { display:inline-flex; align-items:center; gap:12px; text-decoration:none; }
+footer.site .fonds img { height:28px; width:auto; display:block; }
 
 /* mobiel */
 @media (max-width:820px) {
@@ -592,7 +594,7 @@ PAGE = """<!DOCTYPE html>
 
 <footer class="site"><div class="w">
   <span>Will Switch &middot; willswitch.nl</span>
-  <span>Onderzoek met steun van <a href="https://www.sidnfonds.nl/" target="_blank" rel="noopener">SIDN fonds</a></span>
+  <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
 </div></footer>
 {movement_script}
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->

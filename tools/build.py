@@ -106,7 +106,7 @@ PAGE = """<!DOCTYPE html>
 
   <footer>
     <span>Will Switch &middot; willswitch.nl</span>
-    <span>Onderzoek met steun van <a href="https://www.sidnfonds.nl/" target="_blank" rel="noopener">SIDN fonds</a></span>
+    <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
   </footer>
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
   <script data-goatcounter="https://willswitch.goatcounter.com/count"
@@ -204,6 +204,8 @@ CSS = """
       color:var(--ink-faint);
     }
     footer a { color:var(--ink-faint); }
+    footer .fonds { display:inline-flex; align-items:center; gap:0.7rem; text-decoration:none; }
+    footer .fonds img { height:24px; width:auto; display:block; }
     @media (max-width:600px) { footer { flex-direction:column; } }
 """
 
