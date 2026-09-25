@@ -106,7 +106,7 @@ PAGE = """<!DOCTYPE html>
 
   <footer>
     <span>Will Switch &middot; willswitch.nl</span>
-    <span>Onderzoek met steun van het <a href="https://www.sidn.nl/pioniersfonds" target="_blank" rel="noopener">SIDN Pioniersfonds</a></span>
+    <span>Onderzoek met steun van <a href="https://www.sidnfonds.nl/" target="_blank" rel="noopener">SIDN fonds</a></span>
   </footer>
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
   <script data-goatcounter="https://willswitch.goatcounter.com/count"
