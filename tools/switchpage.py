@@ -40,12 +40,18 @@ def case_link(ids, cid, tekst, anders="Uitleg volgt"):
     return f'<span class="volgt">{anders}</span>'
 
 
+def kicker_class(eyebrow):
+    """Kleur van het label naar de soort: Wetgeving, Nieuws, Praktijk, Inzicht, Beleid."""
+    soort = (eyebrow or "").split("·")[0].split("/")[0].strip().lower()
+    return "k-" + soort if soort in ("wetgeving", "nieuws", "praktijk", "inzicht", "beleid") else "k-overig"
+
+
 def overzicht_case(n, c):
     vlag = '<span class="vlag">nieuw</span>' if is_nieuw(c) else ""
     titel = c.get("card_title") or c["title"]
     return f'''      <a class="item" href="/cases/{c['id']}/">
         <span class="num">{n:02d}</span>{vlag}
-        <span class="kicker">{c.get("eyebrow", "")}</span>
+        <span class="kicker {kicker_class(c.get("eyebrow"))}">{c.get("eyebrow", "")}</span>
         <h3>{titel}</h3>
         <p>{c.get("card_body", "")}</p>
         <span class="meer">{c.get("cta", "Lees de case")}</span>
@@ -58,7 +64,7 @@ def overzicht_quote(n, q):
     return f'''      <article class="item quote">
         <span class="num">{n:02d}</span>
         <h3>{q["title"]}</h3>{body}
-        <blockquote>"{q["quote"]}"{attr}</blockquote>
+        <blockquote>{q["quote"]}{attr}</blockquote>
       </article>'''
 
 
@@ -111,26 +117,39 @@ nav.hoofd { display:flex; align-items:center; gap:28px; font-size:16px; }
 nav.hoofd a.l { text-decoration:none; padding:10px 0; }
 nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
 
-/* beeldstrook */
-.strook { height:260px; background:#3a3c46 url('/switch-hero.png') center 62%/cover no-repeat; color:#fff; }
-.strook-in { height:100%; display:flex; justify-content:space-between; align-items:flex-start; padding-top:44px; gap:20px; }
-.hoek { font-size:13px; letter-spacing:.14em; text-transform:uppercase; line-height:1.7; text-shadow:0 1px 2px rgba(0,0,0,.4); max-width:260px; }
-.hoek::after { content:""; display:block; width:28px; height:1px; background:#fff; margin-top:10px; }
-
-/* hero */
-.hero { padding:64px 0 56px; }
-.hero-grid { display:grid; grid-template-columns:1fr 250px; gap:56px; align-items:start; }
-h1 { font-size:58px; line-height:1.05; letter-spacing:-.01em; }
-.hero p.sub { font-size:21px; color:var(--zacht); margin:20px 0 32px; max-width:40ch; }
-.acties { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+/* hero: de astronaut en de ring links, de tekst rechts op de lucht */
+.hero {
+  background:#cfd4cf url('/switch-hero.webp') center 78% / cover no-repeat;
+  min-height:620px; display:flex; align-items:center;
+}
+.hero .w { width:100%; display:grid; grid-template-columns:1fr minmax(0, 580px); }
+.hero-tekst {
+  grid-column:2; margin:56px 0; padding:40px 40px 36px;
+  background:rgba(240,237,230,.86); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-radius:6px; box-shadow:0 20px 50px rgba(26,22,18,.12);
+}
+.hoek { font-size:13px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; line-height:1.7; }
+.hoek::after { content:""; display:block; width:28px; height:2px; background:var(--oranje); margin-top:10px; }
+.hero-tekst .hoek { margin-bottom:22px; }
+h1 { font-size:52px; line-height:1.05; letter-spacing:-.01em; }
+.hero p.sub { font-size:19px; color:var(--zacht); margin:16px 0 26px; max-width:36ch; }
+.acties { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
 .meta { font-size:15px; color:var(--vaag); }
-.manifest { border-left:1px solid var(--inkt); padding-left:26px; margin-top:10px; font-size:19px; line-height:1.45; }
-.manifest small { display:block; margin-top:14px; font-size:14px; color:var(--vaag); }
-.manifest::after { content:""; display:block; width:34px; height:1px; background:var(--inkt); margin-top:16px; }
+.hoek.drie { margin-top:28px; font-weight:400; color:var(--zacht); }
+.hoek.drie::after { display:none; }
+
+/* manifest: het citaat, met de ring als motief */
+.manifest { position:relative; overflow:hidden; padding-top:52px; padding-bottom:44px; }
+.manifest p { position:relative; font-size:30px; line-height:1.25; font-weight:700; max-width:26ch; letter-spacing:-.01em; }
+.manifest small { position:relative; display:block; margin-top:14px; font-size:14px; color:var(--vaag); }
+.ring { position:absolute; border:2px solid var(--oranje); border-radius:50%; pointer-events:none; }
+.manifest .ring { width:300px; height:300px; right:40px; top:-110px; opacity:.5; }
+.manifest .ring.klein { width:110px; height:110px; right:330px; top:60px; opacity:.3; border-width:1.5px; }
 
 /* sectiekop */
 .sectiekop { display:grid; grid-template-columns:1fr 1.1fr auto; gap:40px; align-items:end; padding:52px 0 28px; border-top:1px solid var(--inkt); }
-.sectiekop h2 { font-size:40px; line-height:1.08; letter-spacing:-.01em; }
+.sectiekop h2 { font-size:40px; line-height:1.08; letter-spacing:-.01em; display:flex; align-items:center; gap:16px; }
+.sectiekop h2::before, .movement h2::before { content:""; flex:none; width:18px; height:18px; border:3px solid var(--oranje); border-radius:50%; }
 .sectiekop p { color:var(--zacht); font-size:16px; max-width:44ch; }
 
 /* pijlers, asymmetrisch */
@@ -157,7 +176,9 @@ h1 { font-size:58px; line-height:1.05; letter-spacing:-.01em; }
 .drievragen li { margin-bottom:6px; }
 .pijler .voet .volgt { font-style:italic; }
 .pijler .voet { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:22px; padding-top:16px; border-top:1px solid var(--lijn); font-size:15px; color:var(--vaag); }
-.cta { margin:20px 0 0; display:flex; align-items:center; justify-content:space-between; gap:24px; background:var(--inkt); color:var(--papier); border-radius:6px; padding:26px 30px; }
+.cta { position:relative; overflow:hidden; margin:20px 0 0; display:flex; align-items:center; justify-content:space-between; gap:24px; background:var(--inkt); color:var(--papier); border-radius:6px; padding:26px 30px; }
+.cta .ring { width:320px; height:320px; right:300px; top:-170px; opacity:.35; }
+.cta > div, .cta > a { position:relative; }
 .cta b { display:block; font-size:22px; margin-bottom:4px; }
 .cta span { font-size:16px; color:rgba(240,237,230,.78); }
 .cta .knop { flex:none; }
@@ -181,43 +202,55 @@ h1 { font-size:58px; line-height:1.05; letter-spacing:-.01em; }
 /* overzicht van alle cases en quotes */
 .overzicht { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; padding-bottom:24px; }
 .item {
-  position:relative; display:flex; flex-direction:column; gap:6px;
+  position:relative; display:flex; flex-direction:column; gap:8px;
   background:var(--wit); border:1px solid var(--lijn); border-radius:6px;
   padding:22px 22px 20px; text-decoration:none; color:inherit;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-a.item:hover { border-color:var(--inkt); }
-.item .num { font-size:13px; font-weight:700; color:var(--vaag); margin-bottom:6px; }
+a.item:hover { border-color:var(--inkt); transform:translateY(-3px); box-shadow:0 10px 24px rgba(26,22,18,.10); }
+.item .num { font-size:14px; font-weight:700; color:var(--oranje); margin-bottom:4px; }
 .item .vlag { position:absolute; top:18px; right:18px; font-size:12px; font-weight:700; background:var(--oranje); color:#fff; padding:3px 8px; border-radius:999px; }
-.item .kicker { margin-bottom:0; }
+.item .kicker { align-self:flex-start; font-size:12px; font-weight:700; padding:3px 9px; border-radius:999px; background:var(--warm); color:var(--inkt); margin-bottom:2px; }
+.item .k-wetgeving, .item .k-beleid { background:var(--inkt); color:#fff; }
+.item .k-nieuws { background:#2F4F6F; color:#fff; }
+.item .k-praktijk { background:var(--knop); color:#fff; }
+.item .k-inzicht { background:transparent; border:1.5px solid var(--inkt); }
 .item h3 { font-size:19px; line-height:1.2; }
 .item p { font-size:15px; color:var(--zacht); }
 .item .meer { margin-top:auto; padding-top:10px; font-size:15px; font-weight:600; color:var(--link); text-decoration:underline; text-underline-offset:4px; }
 .item.quote { background:var(--warm); }
-.item.quote blockquote { margin-top:auto; padding-top:10px; font-size:16px; font-weight:600; line-height:1.4; }
+.item.quote blockquote { margin-top:auto; padding-top:6px; font-size:16px; font-weight:600; line-height:1.4; }
+.item.quote blockquote::before { content:"\\201C"; display:block; font-size:64px; line-height:.55; color:var(--oranje); margin:10px 0 6px; }
 .item.quote .attr { display:block; margin-top:8px; font-size:13px; font-weight:400; color:var(--vaag); }
 
-/* peiling */
-.movement { padding:52px 0 8px; border-top:1px solid var(--inkt); }
-.movement h2 { font-size:40px; line-height:1.08; letter-spacing:-.01em; margin-bottom:10px; }
-.movement .sub { color:var(--zacht); font-size:16px; max-width:52ch; margin-bottom:22px; }
-.movement .confirm { min-height:1.5em; font-size:16px; color:var(--inkt); margin-bottom:16px; }
+/* peiling, op inkt */
+.movement { position:relative; overflow:hidden; background:var(--inkt); color:var(--papier); padding:60px 0 64px; margin-top:24px; }
+.movement .ring { width:520px; height:520px; right:-140px; top:-260px; opacity:.28; }
+.movement .ring.klein { width:200px; height:200px; right:360px; top:140px; opacity:.18; }
+.movement .w { position:relative; }
+.movement h2 { font-size:40px; line-height:1.08; letter-spacing:-.01em; margin-bottom:10px; display:flex; align-items:center; gap:16px; }
+.movement .sub { color:rgba(240,237,230,.75); font-size:16px; max-width:52ch; margin-bottom:22px; }
+.movement .sub strong { color:var(--papier); }
+.movement .confirm { min-height:1.5em; font-size:16px; color:var(--papier); margin-bottom:16px; }
 .movement .confirm:empty { display:none; }
 .movement-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; }
 .movement-btn {
   min-height:64px; display:flex; flex-direction:column; align-items:flex-start; gap:6px;
-  background:var(--wit); border:1px solid var(--lijn); border-radius:6px; padding:16px 18px;
-  font:inherit; font-size:16px; text-align:left; color:var(--inkt); cursor:pointer;
+  background:transparent; border:1px solid rgba(240,237,230,.35); border-radius:6px; padding:16px 18px;
+  font:inherit; font-size:16px; text-align:left; color:var(--papier); cursor:pointer;
+  transition:transform .25s ease, background .2s ease, border-color .2s ease;
 }
-.movement-btn:hover { border-color:var(--inkt); }
-.movement-btn .count { font-size:24px; font-weight:700; color:var(--oranje); line-height:1; }
-.movement-btn.selected { background:var(--inkt); color:var(--papier); border-color:var(--inkt); }
+.movement-btn:hover { border-color:var(--papier); background:rgba(240,237,230,.06); }
+.movement-btn .count { font-size:26px; font-weight:700; color:var(--oranje); line-height:1; }
+.movement-btn.selected { background:var(--knop); border-color:var(--knop); color:#fff; }
+.movement-btn.selected .count { color:#fff; }
 .movement-btn.pulse { transform:scale(1.03); }
-.movement-btn { transition:transform .25s ease, background .2s ease; }
 
-/* agenda, supporters, initiatiefnemer */
-.blok { padding:44px 0 8px; }
-.blok h2 { font-size:28px; line-height:1.1; margin-bottom:6px; }
+/* agenda, supporters, initiatiefnemer: naast elkaar */
+.onder { display:grid; grid-template-columns:1.2fr 1fr; gap:56px; padding:56px 0 40px; }
+.blok h2 { font-size:26px; line-height:1.1; margin-bottom:6px; }
 .blok .sub { color:var(--zacht); font-size:16px; margin-bottom:18px; }
+.blok + .blok { margin-top:40px; }
 .agenda ul { list-style:none; }
 .agenda li { display:grid; grid-template-columns:150px 1fr; gap:20px; padding:14px 0; border-top:1px solid var(--lijn); }
 .agenda .when { font-weight:700; color:var(--oranje); }
@@ -227,7 +260,6 @@ a.item:hover { border-color:var(--inkt); }
 .credits li { padding:12px 0; border-top:1px solid var(--lijn); }
 .credits .name { font-weight:700; display:block; }
 .credits .context { font-size:15px; color:var(--zacht); }
-.initiator { padding:44px 0 56px; }
 .initiator .label { font-size:13px; font-weight:700; color:var(--vaag); margin-bottom:6px; }
 .initiator .name { font-size:22px; font-weight:700; }
 .initiator .desc { color:var(--zacht); font-size:16px; max-width:52ch; margin:4px 0 10px; }
@@ -242,10 +274,23 @@ footer.site .fonds img { height:28px; width:auto; display:block; }
   header.top .w { flex-wrap:wrap; padding-top:14px; padding-bottom:14px; }
   .merk span { display:none; }
   nav.hoofd { gap:18px; }
-  .strook { height:220px; }
-  .strook-in { padding-top:28px; flex-direction:column; justify-content:flex-start; gap:18px; }
-  .hero { padding:40px 0 36px; }
-  .hero-grid, .sectiekop, .pijlers, .verhalen, .movement-grid { grid-template-columns:1fr; }
+  .hero { display:block; min-height:0; background:none; }
+  .hero::before { content:""; display:block; aspect-ratio:4/3; background:#cfd4cf url('/switch-hero.webp') 28% 85% / cover no-repeat; }
+  .hero .w { grid-template-columns:1fr; }
+  .hero-tekst { grid-column:1; margin:0; padding:28px 0 8px; background:none; backdrop-filter:none; -webkit-backdrop-filter:none; box-shadow:none; border-radius:0; }
+  .hero-tekst .hoek { margin-bottom:14px; }
+  .hero p.sub { font-size:17px; }
+  .hoek.drie { margin-top:20px; }
+  .manifest { padding-top:36px; padding-bottom:32px; }
+  .manifest p { font-size:24px; }
+  .manifest .ring { right:-170px; top:-150px; opacity:.35; }
+  .manifest .ring.klein { display:none; }
+  .sectiekop, .pijlers, .verhalen, .movement-grid, .onder { grid-template-columns:1fr; }
+  .onder { gap:8px; padding:40px 0 24px; }
+  .movement { padding:44px 0 48px; }
+  .movement .ring { right:-260px; top:-300px; }
+  .movement .ring.klein { display:none; }
+  .cta .ring { display:none; }
   .sectiekop { gap:12px; padding:40px 0 20px; }
   .overzicht { grid-template-columns:1fr; }
   h1 { font-size:38px; }
@@ -261,8 +306,9 @@ footer.site .fonds img { height:28px; width:auto; display:block; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
-  .movement-btn { transition:none; }
+  .movement-btn, .item { transition:none; }
   .movement-btn.pulse { transform:none; }
+  a.item:hover { transform:none; }
 }
 """
 
@@ -436,22 +482,24 @@ PAGE = """<!DOCTYPE html>
   <nav class="hoofd" aria-label="Hoofdnavigatie"><a class="l" href="#verhalen">Praktijk</a><a class="knop" href="/scan/">Uitstaptoets &rarr;</a></nav>
 </div></header>
 
-<section class="strook" role="img" aria-label="Astronaut kijkt uit over een Nederlands landschap, helm in de hand"><div class="w strook-in">
-  <div class="hoek">Kun je nog weg<br>bij je leveranciers?</div>
-  <div class="hoek">Twee wetten.<br>E&eacute;n beleidskader.<br>E&eacute;n toets.</div>
-</div></section>
-
-<section class="hero"><div class="w hero-grid">
-  <div>
+<section class="hero" role="img" aria-label="Astronaut kijkt uit over een Nederlands landschap, helm in de hand"><div class="w">
+  <div class="hero-tekst">
+    <div class="hoek">Kun je nog weg bij je leveranciers?</div>
     <h1>Digitale autonomie.<br>Zo werkt het in de praktijk.</h1>
     <p class="sub">Wat publieke organisaties tegenhoudt bij de overstap van Big Tech naar open alternatieven, en wat wel werkt.</p>
     <div class="acties">
       <a class="knop groot" href="/scan/">Doe de uitstaptoets &rarr;</a>
       <span class="meta">15 minuten, geen registratie</span>
-      <a class="tekstlink" href="#verhalen">Bekijk de praktijkverhalen</a>
     </div>
+    <div class="acties" style="margin-top:14px"><a class="tekstlink" href="#verhalen">Bekijk de praktijkverhalen</a></div>
+    <div class="hoek drie">Twee wetten. E&eacute;n beleidskader. E&eacute;n toets.</div>
   </div>
-  <aside class="manifest">Het ligt zelden aan de techniek. Het ligt aan wie zich eigenaar voelt.<small>Uit 62 stemmen op FOSS4G NL 2026</small></aside>
+</div></section>
+
+<section class="manifest-band"><div class="w manifest">
+  <span class="ring" aria-hidden="true"></span><span class="ring klein" aria-hidden="true"></span>
+  <p>Het ligt zelden aan de techniek. Het ligt aan wie zich eigenaar voelt.</p>
+  <small>Uit 62 stemmen op FOSS4G NL 2026</small>
 </div></section>
 
 <section class="w" id="waarom">
@@ -496,6 +544,7 @@ PAGE = """<!DOCTYPE html>
     </div>
   </div>
   <div class="cta">
+    <span class="ring" aria-hidden="true"></span>
     <div><b>De uitstaptoets toetst alle drie</b><span>In een kwartier weet je waar je staat en wat een logische eerste stap is.</span></div>
     <a class="knop groot" href="/scan/">Doe de uitstaptoets &rarr;</a>
   </div>
@@ -509,7 +558,7 @@ PAGE = """<!DOCTYPE html>
   </div>
   <div class="verhalen">
     <article class="verhaal groot">
-      <div class="beeld"><img src="/dsg-viewer.jpg" alt="Kaartviewer van Data Space Groningen" loading="lazy"></div>
+      <div class="beeld"><img src="/dsg-viewer.webp" alt="Kaartviewer van Data Space Groningen" width="1400" height="657" loading="lazy"></div>
       <div class="kicker">Praktijk &middot; Groningen</div>
       <h3>Zeventien organisaties, &eacute;&eacute;n open platform</h3>
       <p>Overheden en waterschappen in Groningen delen hun data via een federatief, open source platform. Van overheden, door overheden. Wat het opleverde, en waar het bijna misging.</p>
@@ -537,7 +586,9 @@ PAGE = """<!DOCTYPE html>
   </div>
 </section>
 
-<section class="movement" id="movement"><div class="w">
+<section class="movement" id="movement">
+<span class="ring" aria-hidden="true"></span><span class="ring klein" aria-hidden="true"></span>
+<div class="w">
   <h2>Waar staat jouw organisatie vandaag?</h2>
   <p class="sub"><strong>Doe mee.</strong> E&eacute;n klik, geen registratie, geen mailadres. Een teken dat jullie ergens in deze beweging staan.</p>
   <p class="confirm" id="movement-confirm"></p>
@@ -550,7 +601,8 @@ PAGE = """<!DOCTYPE html>
   </div>
 </div></section>
 
-<section class="blok agenda"><div class="w">
+<div class="w onder">
+<section class="blok agenda">
   <h2>Agenda</h2>
   <p class="sub">Meepraten? Kom dan naar:</p>
   <ul>
@@ -572,9 +624,10 @@ PAGE = """<!DOCTYPE html>
       </div>
     </li>
   </ul>
-</div></section>
+</section>
 
-<section class="blok credits"><div class="w">
+<div>
+<section class="blok credits">
   <h2>Supporters van digitale autonomie</h2>
   <p class="sub">Mensen en organisaties die zich openlijk achter de beweging scharen.</p>
   <ul>
@@ -583,14 +636,16 @@ PAGE = """<!DOCTYPE html>
       <span class="context">Rijksuniversiteit Groningen, <a href="https://daix.web.rug.nl/" target="_blank" rel="noopener">Data Autonomy Index</a></span>
     </li>
   </ul>
-</div></section>
+</section>
 
-<section class="initiator"><div class="w">
+<section class="blok initiator">
   <p class="label">Initiatiefnemer</p>
   <p class="name">Govert Schoof</p>
   <p class="desc">Werkt op het snijvlak van overheid, onderzoek, geo-informatie en digitale autonomie.</p>
   <p><a class="tekstlink" href="https://www.linkedin.com/in/govertschoof/" target="_blank" rel="noopener">LinkedIn</a></p>
-</div></section>
+</section>
+</div>
+</div>
 
 <footer class="site"><div class="w">
   <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
