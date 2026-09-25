@@ -33,10 +33,11 @@ def is_nieuw(c):
     return (TODAY - datetime.date.fromisoformat(since)).days < NIEUW_DAGEN
 
 
-def case_link(ids, cid, tekst, fallback="#overzicht"):
-    """Link naar een casepagina als die bestaat, anders naar het overzicht."""
-    href = f"/cases/{cid}/" if cid in ids else fallback
-    return f'<a class="tekstlink" href="{href}">{tekst}</a>'
+def case_link(ids, cid, tekst, anders="Uitleg volgt"):
+    """Link naar een casepagina als die bestaat, anders een stille melding."""
+    if cid in ids:
+        return f'<a class="tekstlink" href="/cases/{cid}/">{tekst}</a>'
+    return f'<span class="volgt">{anders}</span>'
 
 
 def overzicht_case(n, c):
@@ -154,6 +155,7 @@ h1 { font-size:58px; line-height:1.05; letter-spacing:-.01em; }
 .drievragen b { display:block; font-size:15px; margin-bottom:10px; }
 .drievragen ol { padding-left:20px; font-size:15.5px; color:var(--zacht); }
 .drievragen li { margin-bottom:6px; }
+.pijler .voet .volgt { font-style:italic; }
 .pijler .voet { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:22px; padding-top:16px; border-top:1px solid var(--lijn); font-size:15px; color:var(--vaag); }
 .cta { margin:20px 0 0; display:flex; align-items:center; justify-content:space-between; gap:24px; background:var(--inkt); color:var(--papier); border-radius:6px; padding:26px 30px; }
 .cta b { display:block; font-size:22px; margin-bottom:4px; }
@@ -452,9 +454,8 @@ PAGE = """<!DOCTYPE html>
 
 <section class="w" id="waarom">
   <div class="sectiekop">
-    <h2>Waarom nu</h2>
-    <p>Twee wetten en een beleidskader stellen sinds kort dezelfde vraag. De meeste organisaties hebben op geen van de drie een compleet antwoord.</p>
-    <a class="tekstlink" href="#overzicht">Alle wetgeving</a>
+    <h2>Actuele wetgeving</h2>
+    <p>Let op: het bestuur is sinds 15 augustus 2026 aanspreekbaar op de leveranciersketen. Wie niet kan aantonen wat er gebeurt bij contracteinde of uitval, loopt bestuurlijk risico.</p>
   </div>
   <div class="pijlers">
     <article class="pijler groot">
@@ -525,8 +526,8 @@ PAGE = """<!DOCTYPE html>
 
 <section class="w" id="overzicht">
   <div class="sectiekop">
-    <h2>Alles op een rij</h2>
-    <p>Wetgeving, nieuws, praktijk en uitspraken die het beeld completeren. Nieuwste bovenaan.</p>
+    <h2>Cases</h2>
+    <p>Wetgeving, nieuws, praktijkverhalen en uitspraken</p>
     <span class="meta">{aantal} onderdelen</span>
   </div>
   <div class="overzicht">
