@@ -4,7 +4,7 @@ Praktijkonderzoek naar digitale autonomie in de publieke sector.
 Voorbeelden die werken, en wat de overstap van Big Tech naar open
 alternatieven tegenhoudt.
 
-Met steun van het SIDN Pioniersfonds. https://willswitch.nl
+Met steun van SIDN fonds, https://www.sidnfonds.nl/. Site: https://willswitch.nl
 
 ## Hoe deze repo werkt
 

@@ -592,7 +592,7 @@ PAGE = """<!DOCTYPE html>
 
 <footer class="site"><div class="w">
   <span>Will Switch &middot; willswitch.nl</span>
-  <span>Onderzoek met steun van het <a href="https://www.sidn.nl/pioniersfonds" target="_blank" rel="noopener">SIDN Pioniersfonds</a></span>
+  <span>Onderzoek met steun van <a href="https://www.sidnfonds.nl/" target="_blank" rel="noopener">SIDN fonds</a></span>
 </div></footer>
 {movement_script}
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
