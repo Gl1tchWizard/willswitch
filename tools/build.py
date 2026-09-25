@@ -5,7 +5,7 @@ Resultaat komt in dist/ en is klaar om te publiceren.
 """
 import json, pathlib, re, datetime, shutil, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from library import build_library
+from switchpage import build_switch
 from home import build_home
 from scan import build_scan
 
@@ -85,7 +85,7 @@ PAGE = """<!DOCTYPE html>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/">Will Switch</a>
+    <a class="brand" href="/switch.html">Will Switch</a>
     <a href="/switch.html">alle praktijkverhalen</a>
   </header>
 
@@ -105,8 +105,8 @@ PAGE = """<!DOCTYPE html>
   </main>
 
   <footer>
-    <span>Will Switch &middot; willswitch.nl</span>
-    <span>Onderzoek met steun van <a href="https://www.sidnfonds.nl/" target="_blank" rel="noopener">SIDN fonds</a></span>
+    <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
+    <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
   </footer>
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
   <script data-goatcounter="https://willswitch.goatcounter.com/count"
@@ -204,6 +204,8 @@ CSS = """
       color:var(--ink-faint);
     }
     footer a { color:var(--ink-faint); }
+    footer .fonds { display:inline-flex; align-items:center; gap:0.7rem; text-decoration:none; }
+    footer .fonds img { height:24px; width:auto; display:block; }
     @media (max-width:600px) { footer { flex-direction:column; } }
 """
 
@@ -277,11 +279,13 @@ def build():
         (DIST / "index.html").write_text(build_home(home.read_text(encoding="utf-8"), live), encoding="utf-8")
         print("  index.html (homepage)")
 
-    # casebibliotheek met links naar de eigen pagina's
-    src = SITE / "switch.html"
-    if src.exists():
-        (DIST / "switch.html").write_text(build_library(src.read_text(encoding="utf-8"), live), encoding="utf-8")
-        print("  switch.html (casebibliotheek)")
+    # de eigenlijke hoofdpagina, volledig uit het sjabloon
+    (DIST / "switch.html").write_text(build_switch(live), encoding="utf-8")
+    print("  switch.html (hoofdpagina)")
+
+    # lettertype, zelf gehost
+    if (SITE / "fonts").exists():
+        shutil.copytree(SITE / "fonts", DIST / "fonts")
 
     # voorbeeldrapport (vaste pagina)
     rp = SITE / "rapport"
@@ -309,8 +313,8 @@ def build():
 
 
 def write_sitemap(live):
-    urls = [(f"{BASE}/", "1.0", "weekly"),
-            (f"{BASE}/switch.html", "0.9", "weekly"),
+    urls = [(f"{BASE}/switch.html", "1.0", "weekly"),
+            (f"{BASE}/", "0.5", "monthly"),
             (f"{BASE}/scan/", "0.9", "monthly")]
     # /rapport/voorbeeld.html komt in de sitemap zodra bestellen open gaat
     for c in live:

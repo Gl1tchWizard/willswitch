@@ -208,7 +208,7 @@ PAGE = r'''<!DOCTYPE html>
 <body>
 <div class="wrap">
   <header class="topbar">
-    <a href="/">Will Switch</a>
+    <a href="/switch.html">Will Switch</a>
     <span class="sub">uitstaptoets</span>
   </header>
   <div class="stappen" id="stappen" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
