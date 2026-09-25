@@ -593,7 +593,7 @@ PAGE = """<!DOCTYPE html>
 </div></section>
 
 <footer class="site"><div class="w">
-  <span>Will Switch &middot; willswitch.nl</span>
+  <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
   <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
 </div></footer>
 {movement_script}

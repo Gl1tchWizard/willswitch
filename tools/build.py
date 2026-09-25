@@ -85,7 +85,7 @@ PAGE = """<!DOCTYPE html>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/">Will Switch</a>
+    <a class="brand" href="/switch.html">Will Switch</a>
     <a href="/switch.html">alle praktijkverhalen</a>
   </header>
 
@@ -105,7 +105,7 @@ PAGE = """<!DOCTYPE html>
   </main>
 
   <footer>
-    <span>Will Switch &middot; willswitch.nl</span>
+    <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
     <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
   </footer>
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
@@ -313,8 +313,8 @@ def build():
 
 
 def write_sitemap(live):
-    urls = [(f"{BASE}/", "1.0", "weekly"),
-            (f"{BASE}/switch.html", "0.9", "weekly"),
+    urls = [(f"{BASE}/switch.html", "1.0", "weekly"),
+            (f"{BASE}/", "0.5", "monthly"),
             (f"{BASE}/scan/", "0.9", "monthly")]
     # /rapport/voorbeeld.html komt in de sitemap zodra bestellen open gaat
     for c in live:
