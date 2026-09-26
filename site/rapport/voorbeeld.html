@@ -8,6 +8,7 @@
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://willswitch.nl/rapport/voorbeeld.html">
 <meta property="og:type" content="article">
+<meta property="og:locale" content="nl_NL">
 <meta property="og:site_name" content="Will Switch">
 <meta property="og:title" content="Uitstaprapport, voorbeeld">
 <meta property="og:description" content="Wat je krijgt na de gratis uitstaptoets: uitstapprofiel per leverancier, Cbw-paragraaf, bestuursagenda, exitclausules en een plan voor de eerste negentig dagen.">
@@ -15,99 +16,287 @@
 <meta property="og:url" content="https://willswitch.nl/rapport/voorbeeld.html">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+<link rel="preload" href="/fonts/AtkinsonNext.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  :root{--orange:#E84500;--paper:#F0EDE6;--warm:#E8E3D6;--white:#FBFAF7;--ink:#1a1612;--soft:#4a443c;--faint:rgba(26,22,18,.45);--rule:rgba(26,22,18,.14);--ok:#2F6F4E;--warn:#B8760F;--bad:#B3453A;--mono:'Space Mono',monospace;--disp:'Orbitron',monospace}
-  body{background:var(--paper);color:var(--ink);font-family:var(--mono);line-height:1.6}
-  .demo{background:var(--ink);color:var(--paper);text-align:center;font-family:var(--disp);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;padding:.6rem}
-  .demo a{color:var(--orange)}
-  .pag{max-width:48rem;margin:0 auto;padding:0 1.5rem 5rem}
-  .omslag{padding:4rem 0 3rem;border-bottom:2px solid var(--ink)}
-  .omslag .merk{font-family:var(--disp);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
-  .omslag h1{font-family:var(--disp);font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.1;margin:1rem 0 1.2rem}
-  .omslag .meta{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1.2rem;font-size:.82rem;color:var(--soft)}
-  .omslag .meta b{color:var(--ink)}
-  h2{font-family:var(--disp);font-size:1.35rem;margin:3rem 0 1rem;padding-top:1.4rem;border-top:1px solid var(--rule)}
-  h3{font-family:var(--disp);font-size:.95rem;margin:1.6rem 0 .6rem}
-  p{color:var(--soft);font-size:.93rem;margin-bottom:1rem;max-width:42rem}
-  p.lead{color:var(--ink);font-size:1.02rem}
-  .klein{font-size:.78rem;color:var(--faint)}
-  .kern{border:2px solid var(--ink);background:var(--white);padding:1.3rem 1.5rem;margin:1.4rem 0}
-  .kern .groot{font-family:var(--disp);font-size:2.2rem;color:var(--orange);line-height:1}
-  .kern .zin{margin-top:.5rem;color:var(--ink);font-size:.95rem}
-  .rij{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin:1rem 0}
-  .cijfer{background:var(--warm);border:1px solid var(--rule);padding:.9rem 1rem}
-  .cijfer b{font-family:var(--disp);font-size:1.5rem;display:block;line-height:1}
-  .cijfer span{font-size:.76rem;color:var(--soft)}
-  .dek{margin-bottom:.9rem}.dek .lbl{display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:.3rem}
-  .dek .lbl b{font-family:var(--disp);font-size:.76rem}.dek .balk{height:11px;background:var(--rule)}.dek .balk i{display:block;height:100%;background:var(--orange)}
-  .profiel{background:var(--white);border:1px solid var(--rule);margin-bottom:1rem}
-  .profiel .kop{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.9rem 1.1rem;border-bottom:1px solid var(--rule)}
-  .profiel .kop b{font-size:.95rem}
-  .stempel{font-family:var(--disp);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .55rem;border:1px solid}
-  .stempel.vast{color:var(--bad);border-color:var(--bad)}.stempel.kwetsbaar{color:var(--warn);border-color:var(--warn)}.stempel.uitstapbaar{color:var(--ok);border-color:var(--ok)}
-  .profiel table{width:100%;border-collapse:collapse;font-size:.82rem}
-  .profiel td{padding:.55rem 1.1rem;border-bottom:1px solid var(--rule);vertical-align:top}
-  .profiel td:first-child{color:var(--faint);width:34%}
-  .profiel .wet{padding:.9rem 1.1rem;background:var(--warm);font-size:.8rem;color:var(--soft)}
-  .profiel .wet b{color:var(--ink)}
-  .kader{background:var(--white);border-left:3px solid var(--orange);padding:1.1rem 1.3rem;margin:1.2rem 0;font-size:.9rem}
-  .kader.tekst{font-family:var(--mono);white-space:pre-wrap;color:var(--ink);font-size:.86rem;line-height:1.7}
-  .agenda{background:var(--ink);color:var(--paper);padding:1.4rem 1.5rem;margin:1.2rem 0}
-  .agenda h3{color:var(--paper);margin-top:0}
-  .agenda ol{margin:.6rem 0 0 1.2rem;color:rgba(240,237,230,.85);font-size:.9rem}
-  .agenda li{margin-bottom:.7rem}
-  .clausule{background:var(--white);border:1px solid var(--rule);padding:1rem 1.2rem;margin-bottom:.8rem;font-size:.86rem}
-  .clausule b{display:block;font-family:var(--disp);font-size:.78rem;margin-bottom:.4rem}
-  .clausule .bron{display:block;margin-top:.5rem;font-size:.72rem;color:var(--faint)}
-  .actie{display:grid;grid-template-columns:auto 1fr;gap:1rem;background:var(--white);border:1px solid var(--rule);padding:1rem 1.2rem;margin-bottom:.8rem}
-  .actie .wk{font-family:var(--disp);font-size:.7rem;color:var(--orange);white-space:nowrap;padding-top:.15rem}
-  .actie b{display:block;font-size:.9rem;margin-bottom:.25rem}
-  .actie span{font-size:.82rem;color:var(--soft)}
-  .actie .eig{display:block;margin-top:.4rem;font-size:.74rem;color:var(--faint)}
-  .bench{background:var(--warm);border:1px solid var(--rule);padding:1.1rem 1.3rem;font-size:.86rem}
-  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);font-size:.72rem;color:var(--faint);line-height:1.8}
-  @media (max-width:600px){.rij{grid-template-columns:1fr}}
-  @media print{.demo{display:none}body{background:#fff}}
+  @font-face {
+    font-family:'Atkinson Hyperlegible Next';
+    src:url('/fonts/AtkinsonNext.woff2') format('woff2');
+    font-weight:200 800; font-style:normal; font-display:swap;
+  }
+  :root {
+    --papier:#F0EDE6; --warm:#E8E3D6; --wit:#FBFAF7;
+    --inkt:#1a1612; --zacht:#4a443c; --vaag:#6b645a;
+    --lijn:rgba(26,22,18,.16); --oranje:#E84500; --knop:#D63F00; --link:#B83500;
+    --op-inkt:rgba(240,237,230,.78); --op-inkt-2:rgba(240,237,230,.7); --lijn-inkt:rgba(240,237,230,.25);
+    --mono:ui-monospace, 'Cascadia Mono', Consolas, Menlo, monospace;
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { overflow-x:clip; scrollbar-gutter:stable; scroll-behavior:smooth; }
+  body {
+    background:var(--papier); color:var(--inkt);
+    font-family:'Atkinson Hyperlegible Next', system-ui, sans-serif; font-synthesis:none;
+    font-size:17px; line-height:1.55;
+  }
+  .w { max-width:1280px; margin:0 auto; padding:0 40px; }
+  a { color:inherit; }
+  h1, h2, h3, h4 { font-weight:700; }
+  h1, h2 { text-wrap:balance; }
+  img { max-width:100%; }
+  :focus-visible { outline:3px solid var(--knop); outline-offset:3px; }
+  .mono { font-family:var(--mono); font-size:13px; letter-spacing:.02em; line-height:1.6; color:var(--zacht); }
+
+  /* knoppen en links */
+  .knop {
+    display:inline-flex; align-items:center; justify-content:center; gap:.55em;
+    min-height:44px; padding:0 20px; background:var(--knop); color:#fff; font-weight:700;
+    text-decoration:none; font-size:16px; line-height:1.1; border-radius:0;
+  }
+  .knop:hover { background:var(--inkt); color:#fff; }
+  .tekstlink {
+    color:var(--link); font-weight:600; text-decoration:underline;
+    text-underline-offset:4px; text-decoration-thickness:1.5px;
+  }
+  .tekstlink:hover { color:var(--inkt); }
+
+  /* header */
+  header.top { border-bottom:1px solid var(--inkt); background:var(--papier); }
+  header.top .w { display:flex; align-items:center; justify-content:space-between; min-height:84px; gap:20px; }
+  .merk { display:flex; align-items:center; gap:18px; text-decoration:none; }
+  .merk img { height:36px; width:auto; display:block; }
+  .merk span { font-size:13px; color:var(--zacht); line-height:1.35; padding-left:18px; border-left:1px solid var(--inkt); }
+  nav.hoofd { display:flex; align-items:center; gap:32px; font-size:16px; }
+  nav.hoofd a.l { text-decoration:none; padding:10px 0; }
+  nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
+  nav.hoofd .kort { display:none; }
+
+  /* motief */
+  .ring { position:absolute; border-radius:50%; border:1px solid var(--oranje); pointer-events:none; }
+
+  /* voorbeeldbalk */
+  .voorbeeld { background:var(--warm); border-bottom:1px solid var(--inkt); }
+  .voorbeeld .w { display:flex; align-items:center; justify-content:space-between; gap:24px; padding-top:16px; padding-bottom:16px; }
+  .voorbeeld p { font-size:16px; max-width:52ch; }
+  .voorbeeld p b { display:block; }
+  .voorbeeld .rechts { display:flex; align-items:center; gap:20px; flex:none; }
+  .voorbeeld .prijs { font-size:15px; color:var(--zacht); line-height:1.35; text-align:right; }
+  .voorbeeld .prijs b { display:block; font-size:17px; color:var(--inkt); }
+
+  /* omslag */
+  .omslag-wrap { position:relative; overflow:hidden; border-bottom:1px solid var(--inkt); }
+  .omslag-wrap .ring { width:520px; height:520px; border-width:1.5px; opacity:.4; right:-180px; top:-220px; }
+  .lees { position:relative; max-width:68ch; margin:0 auto; }
+  .omslag { padding:72px 0 56px; }
+  .omslag .mono { display:block; }
+  .omslag h1 { font-size:clamp(40px, 5vw, 64px); font-weight:800; letter-spacing:-.02em; line-height:1.02; margin:16px 0 40px; max-width:18ch; }
+  .omslag .meta { display:grid; grid-template-columns:150px 1fr; border-top:1px solid var(--inkt); }
+  .omslag .meta > * { padding:10px 0; border-bottom:1px solid var(--lijn); }
+  .omslag .meta span { font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--zacht); padding-top:12px; }
+  .omslag .meta b { font-size:16px; }
+
+  /* lopende tekst */
+  .rapport { padding:8px 0 64px; }
+  .rapport h2 { font-size:32px; line-height:1.1; letter-spacing:-.01em; margin:72px 0 20px; padding-top:20px; border-top:1px solid var(--inkt); }
+  .rapport h2 .n { display:block; font-family:var(--mono); font-size:13px; font-weight:400; letter-spacing:.02em; color:var(--zacht); margin-bottom:10px; }
+  .rapport h3 { font-size:22px; line-height:1.2; margin:40px 0 12px; }
+  .rapport p { color:var(--zacht); margin-bottom:16px; }
+  .rapport p.lead { color:var(--inkt); font-size:20px; line-height:1.45; }
+  .rapport b { color:var(--inkt); }
+
+  /* cijfers: groot in inkt, een oranje lijn */
+  .kern { position:relative; margin:36px 0 28px; padding-left:28px; }
+  .kern .lijn { position:absolute; left:0; top:4px; bottom:4px; width:5px; background:var(--oranje); }
+  .kern .groot { display:block; font-size:clamp(72px, 9vw, 112px); font-weight:800; letter-spacing:-.04em; line-height:.9; font-variant-numeric:tabular-nums; }
+  .kern .zin { margin-top:14px; max-width:44ch; color:var(--zacht); }
+  .rij { display:grid; grid-template-columns:repeat(3, 1fr); gap:0 24px; margin:0 0 8px; }
+  .cijfer { border-top:1px solid var(--inkt); padding:14px 0 12px; }
+  .cijfer b { display:block; font-size:44px; font-weight:800; letter-spacing:-.03em; line-height:1; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .cijfer span { display:block; font-size:15px; color:var(--zacht); margin-top:8px; }
+  .dek { display:grid; grid-template-columns:110px 1fr; gap:0 24px; align-items:end; padding:14px 0 16px; border-top:1px solid var(--lijn); }
+  .dek:first-of-type { border-top:1px solid var(--inkt); }
+  .dek .pct { font-size:44px; font-weight:800; letter-spacing:-.03em; line-height:1; font-variant-numeric:tabular-nums; }
+  .dek .lbl { font-size:16px; font-weight:700; margin-bottom:10px; }
+  .dek .balk { height:6px; background:var(--lijn); }
+  .dek .balk i { display:block; height:100%; background:var(--oranje); }
+  .dek + p { margin-top:24px; }
+
+  /* kaders en tabellen: 1px inkt */
+  .kader { background:var(--wit); border:1px solid var(--inkt); padding:20px 24px; margin:24px 0; font-size:16px; color:var(--zacht); }
+  .kader b { color:var(--inkt); }
+  .kader.tekst { white-space:pre-wrap; color:var(--inkt); line-height:1.6; }
+  .profiel { background:var(--wit); border:1px solid var(--inkt); margin:0 0 24px; }
+  .profiel .kop { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 24px; border-bottom:1px solid var(--inkt); }
+  .profiel .kop b { font-size:19px; line-height:1.2; }
+  .stempel { flex:none; display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:13px; letter-spacing:.02em; text-transform:lowercase; white-space:nowrap; }
+  .stempel::before { content:""; width:10px; height:10px; }
+  .stempel.vast::before { background:var(--inkt); }
+  .stempel.kwetsbaar::before { box-shadow:inset 0 0 0 1.5px var(--inkt); }
+  .stempel.uitstapbaar::before { width:18px; height:3px; background:var(--oranje); }
+  .profiel table { width:100%; border-collapse:collapse; font-size:16px; }
+  .profiel td { padding:10px 24px; border-bottom:1px solid var(--lijn); vertical-align:top; }
+  .profiel tr:last-child td { border-bottom:1px solid var(--inkt); }
+  .profiel td:first-child { width:34%; color:var(--zacht); }
+  .profiel .wet { padding:18px 24px; background:var(--warm); font-size:16px; color:var(--zacht); }
+  .profiel .wet b { color:var(--inkt); }
+
+  /* agenda, op inkt */
+  .agenda { background:var(--inkt); color:var(--papier); padding:28px 32px; margin:28px 0; }
+  .rapport .agenda h3 { color:var(--papier); margin:0 0 12px; }
+  .agenda ol { padding-left:22px; color:var(--op-inkt); font-size:16px; }
+  .agenda li { margin-bottom:12px; padding-left:6px; }
+  .agenda li b { color:var(--papier); }
+
+  /* clausules, acties, vergelijking */
+  .clausule { background:var(--wit); border:1px solid var(--inkt); padding:18px 24px; margin:0 0 -1px; font-size:16px; color:var(--zacht); }
+  .clausule b { display:block; font-size:17px; margin-bottom:6px; }
+  .clausule .bron { display:block; margin-top:10px; font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--vaag); }
+  .actie { display:grid; grid-template-columns:110px 1fr; gap:20px; background:var(--wit); border:1px solid var(--inkt); padding:18px 24px; margin:0 0 -1px; }
+  .actie .wk { font-family:var(--mono); font-size:13px; letter-spacing:.02em; padding-top:4px; }
+  .actie b { display:block; font-size:17px; margin-bottom:6px; }
+  .actie span { font-size:16px; color:var(--zacht); }
+  .actie .eig { display:block; margin-top:10px; font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--vaag); }
+  .bench { background:var(--warm); border:1px solid var(--inkt); padding:20px 24px; font-size:16px; color:var(--zacht); }
+  .colofon { margin-top:64px; padding-top:20px; border-top:1px solid var(--inkt); font-size:15px; color:var(--vaag); line-height:1.6; }
+
+  /* voettekst */
+  footer.site { border-top:3px solid var(--inkt); padding:28px 0 48px; font-size:14px; color:var(--vaag); }
+  footer.site .w { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 24px; }
+  footer.site .fonds { display:inline-flex; align-items:center; gap:12px; text-decoration:none; }
+  footer.site .fonds img { height:28px; width:auto; display:block; }
+
+  /* mobiel */
+  @media (max-width:820px) {
+    .w { padding:0 16px; }
+    header.top .w { min-height:64px; }
+    .merk img { height:30px; }
+    .merk span { display:none; }
+    nav.hoofd { gap:16px; font-size:15px; }
+    nav.hoofd .lang { display:none; }
+    nav.hoofd .kort { display:inline; }
+    .voorbeeld .w { flex-direction:column; align-items:stretch; gap:14px; }
+    .voorbeeld .rechts { flex-direction:column; align-items:stretch; gap:12px; }
+    .voorbeeld .prijs { text-align:left; }
+    .voorbeeld .prijs b { display:inline; margin-right:6px; }
+    .voorbeeld .knop { width:100%; min-height:52px; white-space:nowrap; }
+    .omslag-wrap .ring { width:300px; height:300px; right:-170px; top:-140px; opacity:.3; }
+    .omslag { padding:48px 0 40px; }
+    .omslag .meta { grid-template-columns:1fr; }
+    .omslag .meta span { padding-bottom:0; border-bottom:0; }
+    .omslag .meta b { padding-top:2px; }
+    .rapport h2 { font-size:28px; margin-top:56px; }
+    .kern { padding-left:20px; }
+    .kern .lijn { width:4px; }
+    .rij { grid-template-columns:1fr; gap:0; }
+    .cijfer { display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:baseline; }
+    .cijfer b { font-size:36px; }
+    .cijfer span { margin-top:0; }
+    .dek { grid-template-columns:1fr; gap:8px; }
+    .dek .pct { font-size:36px; }
+    .profiel .kop { flex-direction:column; align-items:flex-start; gap:8px; padding:14px 16px; }
+    .profiel td { padding:10px 16px; }
+    .profiel td:first-child { width:38%; }
+    .profiel .wet, .kader, .clausule, .bench { padding:16px; }
+    .agenda { padding:20px 16px; }
+    .actie { grid-template-columns:1fr; gap:6px; padding:16px; }
+    footer.site .w { flex-direction:column; align-items:flex-start; gap:12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; }
+  }
+
+  /* print: zwart op wit, geen knop, geen ring */
+  @media print {
+    :root { --papier:#fff; --warm:#fff; --wit:#fff; --inkt:#000; --zacht:#000; --vaag:#333; --lijn:#999; --oranje:#000; }
+    html { overflow-x:visible; }
+    body { background:#fff; color:#000; font-size:11pt; line-height:1.45; }
+    .w { max-width:none; padding:0; }
+    header.top { border-bottom:1px solid #000; }
+    header.top .w { min-height:0; padding:0 0 12px; }
+    .merk img { filter:grayscale(1) contrast(1.6); }
+    nav.hoofd, .ring, .voorbeeld .knop, footer.site .fonds { display:none; }
+    .omslag-wrap { border-bottom:0; }
+    .kern .lijn, .dek .balk, .dek .balk i, .stempel::before { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .voorbeeld { background:#fff; border-bottom:1px solid #000; }
+    .voorbeeld .w { padding:10px 0; }
+    .voorbeeld p { max-width:none; }
+    .lees { max-width:none; }
+    .omslag { padding:28pt 0 20pt; }
+    .omslag h1 { font-size:26pt; }
+    .rapport h2 { font-size:18pt; margin-top:32pt; page-break-after:avoid; break-after:avoid; }
+    .rapport h3 { font-size:13pt; page-break-after:avoid; break-after:avoid; }
+    .rapport p.lead { font-size:12pt; }
+    .kern .groot { font-size:44pt; }
+    .kern .lijn { background:#000; }
+    .cijfer b, .dek .pct { font-size:22pt; }
+    .dek .balk { background:#ddd; border:1px solid #000; }
+    .dek .balk i { background:#000; }
+    .agenda { background:#fff; color:#000; border:1px solid #000; }
+    .rapport .agenda h3, .agenda li b { color:#000; }
+    .agenda ol { color:#000; }
+    .profiel .wet, .bench { background:#fff; }
+    .profiel .wet { border-top:1px solid #000; }
+    .kern, .profiel, .kader, .clausule, .actie, .agenda, .bench, .cijfer, .dek { page-break-inside:avoid; break-inside:avoid; }
+    .stempel.uitstapbaar::before { background:#000; }
+    footer.site { border-top:1px solid #000; padding:12px 0 0; color:#000; }
+    a { text-decoration:none; color:#000; }
+  }
 </style>
 </head>
 <body>
-<div class="demo">Voorbeeldrapport met fictieve gegevens. <a href="/scan/">Doe de gratis toets</a> voor je eigen uitkomst.</div>
-<div class="pag">
 
-<section class="omslag">
-  <div class="merk">Will Switch, uitstaprapport</div>
-  <h1>Kun je nog weg, en wat moet je daarvoor nu doen?</h1>
-  <div class="meta">
-    <span>Organisatie</span><b>Gemeente Voorbeeld (fictief)</b>
-    <span>Ingevuld door</span><b>Bestuur en uitvoering, twee metingen</b>
-    <span>Datum</span><b>3 september 2026</b>
-    <span>Scope</span><b>Vier kritieke systemen</b>
-    <span>Status</span><b>Input voor de Cbw-risicoanalyse. Geen conformiteitsoordeel.</b>
+<header class="top"><div class="w">
+  <a class="merk" href="/switch.html"><img src="/wordmark.png" alt="Will Switch" width="705" height="153"><span>Praktijkonderzoek naar<br>digitale autonomie</span></a>
+  <nav class="hoofd" aria-label="Hoofdnavigatie"><a class="l" href="/switch.html#verhalen">Praktijk</a><a class="l" href="/switch.html#rapport">Rapport</a><a class="knop" href="/scan/"><span class="lang">Uitstaptoets</span><span class="kort">Toets</span> &rarr;</a></nav>
+</div></header>
+
+<div class="voorbeeld"><div class="w">
+  <p><b>Dit is een voorbeeld.</b> Je eigen rapport wordt geschreven op je toetsuitkomst.</p>
+  <div class="rechts">
+    <div class="prijs"><b>750 euro</b>excl. btw, eenmalig</div>
+    <a class="knop" href="/scan/">Doe de uitstaptoets &rarr;</a>
   </div>
-</section>
+</div></div>
 
-<h2>1. Waar je staat</h2>
+<div class="omslag-wrap"><span class="ring" aria-hidden="true"></span><div class="w"><div class="lees">
+  <section class="omslag">
+    <span class="mono">Will Switch, uitstaprapport</span>
+    <h1>Kun je nog weg, en wat moet je daarvoor nu doen?</h1>
+    <div class="meta">
+      <span>Organisatie</span><b>Gemeente Voorbeeld (fictief)</b>
+      <span>Ingevuld door</span><b>Bestuur en uitvoering, twee metingen</b>
+      <span>Datum</span><b>3 september 2026</b>
+      <span>Scope</span><b>Vier kritieke systemen</b>
+      <span>Status</span><b>Input voor de Cbw-risicoanalyse. Geen conformiteitsoordeel.</b>
+    </div>
+  </section>
+</div></div></div>
+
+<main class="w"><div class="lees rapport">
+
+<h2><span class="n">01</span>Waar je staat</h2>
 <p class="lead">Je organisatie draait voor twee van de vier kritieke systemen op een leverancier buiten de EU. Van twee systemen is het contracteinde niet bekend, waarvan een bij een leverancier buiten de EU. En op vier van de tien vragen was er geen antwoord.</p>
-<div class="kern"><div class="groot">4 van 10</div><div class="zin">vragen konden bij het invullen niet worden beantwoord. Dat betekent dat het antwoord elders in de organisatie ligt, of nergens. Uitzoeken wie het weet is de eerste stap.</div></div>
+<div class="kern"><span class="lijn" aria-hidden="true"></span><span class="groot">4 van 10</span><div class="zin">vragen konden bij het invullen niet worden beantwoord. Dat betekent dat het antwoord elders in de organisatie ligt, of nergens. Uitzoeken wie het weet is de eerste stap.</div></div>
 <div class="rij">
   <div class="cijfer"><b>2 van 4</b><span>kritieke systemen buiten de EU</span></div>
   <div class="cijfer"><b>2</b><span>contracteinde onbekend</span></div>
   <div class="cijfer"><b>1</b><span>loopt binnen een jaar af</span></div>
 </div>
 <h3>Wat je per onderwerp meldt</h3>
-<div class="dek"><div class="lbl"><b>Ketenzorgplicht, Cyberbeveiligingswet</b><span>25%</span></div><div class="balk"><i style="width:25%"></i></div></div>
-<div class="dek"><div class="lbl"><b>Overstaprecht, Data Act</b><span>17%</span></div><div class="balk"><i style="width:17%"></i></div></div>
-<div class="dek"><div class="lbl"><b>Exitplan, rijkscloudbeleid</b><span>33%</span></div><div class="balk"><i style="width:33%"></i></div></div>
+<div class="dek"><div class="pct">25%</div><div><div class="lbl">Ketenzorgplicht, Cyberbeveiligingswet</div><div class="balk"><i style="width:25%"></i></div></div></div>
+<div class="dek"><div class="pct">17%</div><div><div class="lbl">Overstaprecht, Data Act</div><div class="balk"><i style="width:17%"></i></div></div></div>
+<div class="dek"><div class="pct">33%</div><div><div class="lbl">Exitplan, rijkscloudbeleid</div><div class="balk"><i style="width:33%"></i></div></div></div>
 <p>Deze cijfers komen uit je eigen opgave en zijn niet getoetst aan documenten. Ze zeggen dus niet of je voldoet, en ook niet of je veilig bent. Ze laten zien waar je zelf denkt te staan, en waar dat nog onderbouwd moet worden.</p>
 
 <h3>Verschil in beeld tussen bestuur en uitvoering</h3>
 <p>Bestuur en uitvoering vulden de toets los van elkaar in, over dezelfde vier systemen. Op ketenzorgplicht zit een groot verschil. Dat kan betekenen dat het bestuur een te rooskleurig beeld heeft, maar het kan ook gaan over interpretatie van de vraag of over kennis die niet gedeeld is. Wat het ook is: dit is de plek waar het gesprek begint.</p>
 
-<h2>2. Uitstapprofiel per kritieke leverancier</h2>
+<h2><span class="n">02</span>Uitstapprofiel per kritieke leverancier</h2>
 <p>Per systeem: wat je weet, wat je niet weet, en wat de regels hierover zeggen. De leveranciersnamen komen uit je eigen invoer en staan alleen in dit rapport.</p>
-    <div class="kader" style="font-size:0.84rem"><b>Waar deze informatie vandaan komt.</b> Herkomst en contracteinde komen rechtstreeks uit de gratis toets. Exporteerbare data, alternatieven en bestuurlijk eigenaarschap per systeem komen uit een korte aanvullende intake. Waar die informatie ontbreekt, staat er een onderzoeksvraag in plaats van een aanname.</div>
+<div class="kader"><b>Waar deze informatie vandaan komt.</b> Herkomst en contracteinde komen rechtstreeks uit de gratis toets. Exporteerbare data, alternatieven en bestuurlijk eigenaarschap per systeem komen uit een korte aanvullende intake. Waar die informatie ontbreekt, staat er een onderzoeksvraag in plaats van een aanname.</div>
 
 <div class="profiel">
   <div class="kop"><b>Kantoorsuite, mail en documenten</b><span class="stempel vast">Vastgezet</span></div>
@@ -157,7 +346,7 @@
   <div class="wet"><b>Wat de wet hier van je vraagt.</b> Hier is je afhankelijkheid niet de leverancier maar de kennis. De Cbw vraagt ook daar continuiteit op: wat gebeurt er als de twee mensen die dit beheren vertrekken. Leg dat vast, en je hebt een voorbeeld dat je aan de andere drie systemen kunt voorhouden.</div>
 </div>
 
-<h2>3. Paragraaf voor je Cbw-risicoanalyse</h2>
+<h2><span class="n">03</span>Paragraaf voor je Cbw-risicoanalyse</h2>
 <p>Onderstaande tekst kun je overnemen in je risicoanalyse toeleveringsketen. Hij is geschreven in de structuur die de RDI hanteert en benoemt wat je weet, wat je niet weet en wat je gaat doen. Dat laatste is wat een toezichthouder wil zien.</p>
 <div class="kader tekst">Ketenafhankelijkheid kritieke informatiesystemen, stand 3 september 2026
 
@@ -176,7 +365,7 @@ Maatregelen en termijnen:
 
 Deze analyse is opgesteld als input voor het beleid ketenbeveiliging (Cbw, zorgplicht) en wordt jaarlijks herhaald.</div>
 
-<h2>4. Agendapunt voor het bestuur</h2>
+<h2><span class="n">04</span>Agendapunt voor het bestuur</h2>
 <p>Onder de Cbw is het bestuur eindverantwoordelijk en verplicht getraind. Dit is geen IT-onderwerp meer. Dit agendapunt past in een kwartier en vraagt drie besluiten.</p>
 <div class="agenda">
   <h3>Ketenafhankelijkheid: drie besluiten</h3>
@@ -187,26 +376,35 @@ Deze analyse is opgesteld als input voor het beleid ketenbeveiliging (Cbw, zorgp
   </ol>
 </div>
 
-<h2>5. Exitclausules voor je volgende aanbesteding</h2>
+<h2><span class="n">05</span>Exitclausules voor je volgende aanbesteding</h2>
 <p>Vier bespreekpunten voor je inkoop en je jurist, gebaseerd op de Data Act en op de modelclausules die de Europese Commissie in 2025 publiceerde. Ze zijn niet juridisch gevalideerd en niet zonder toetsing bruikbaar als contracttekst. Gebruik ze om het gesprek te openen.</p>
 <div class="clausule"><b>Overstaptermijnen</b>Opzegtermijn maximaal twee maanden. Na opzegging voltooit leverancier de overgang naar een andere aanbieder of naar eigen infrastructuur binnen dertig dagen, tenzij technisch aantoonbaar onmogelijk.<span class="bron">Data Act art. 25</span></div>
 <div class="clausule"><b>Exporteerbare data en digitale activa</b>Leverancier specificeert in het contract welke data en configuraties exporteerbaar zijn, in welk open en machineleesbaar formaat, en levert deze kosteloos bij overstap.<span class="bron">Data Act art. 25, 30</span></div>
 <div class="clausule"><b>Geen overstapkosten</b>Leverancier brengt geen kosten in rekening voor het overstapproces. Voor contracten die voor 12 januari 2027 lopen: uitsluitend directe kosten, zonder marge.<span class="bron">Data Act art. 29</span></div>
 <div class="clausule"><b>Continuiteit bij faillissement of overname</b>Bij faillissement, overname of beeindiging van de dienst krijgt opdrachtgever binnen tien werkdagen een volledige export en behoudt hij toegang tot de dienst gedurende de overgangstermijn. Broncode-escrow voor maatwerkcomponenten.<span class="bron">Cbw zorgplicht, RDI toelichting toeleveringsketen</span></div>
 
-<h2>6. Je eerste negentig dagen</h2>
+<h2><span class="n">06</span>Je eerste negentig dagen</h2>
 <p>Drie acties, elk met een eigenaar en een week. Niet meer, want meer wordt niet gedaan. Na negentig dagen doe je de toets opnieuw en zie je het verschil.</p>
 <div class="actie"><span class="wk">Week 1 tot 2</span><div><b>Eigenaren benoemen en contracteindes ophalen</b><span>Bestuursbesluit over eigenaarschap. Inkoop haalt van alle vier systemen de contracten en einddata boven tafel. Hoeveel tijd dit kost hangt af van hoe je contractadministratie is ingericht. Het lost twee van de vier onbekenden op.</span><span class="eig">Eigenaar: gemeentesecretaris of directeur bedrijfsvoering</span></div></div>
 <div class="actie"><span class="wk">Week 3 tot 6</span><div><b>Eén export testen</b><span>Kies het zaaksysteem, want daar staan de open standaarden al. Haal een volledige export terug, lees hem in een neutrale omgeving, noteer wat ontbreekt. Dat is je eerste bewijs van uitstapbaarheid.</span><span class="eig">Eigenaar: informatiemanager, met de beheerder van het zaaksysteem</span></div></div>
 <div class="actie"><span class="wk">Week 7 tot 12</span><div><b>Cloudcontract op Data Act toetsen en wegval-scenario's vastleggen</b><span>Laat de inkoopjurist de twee cloudcontracten naast de vier clausules uit sectie 5 leggen. Per systeem een A4 met het wegval-scenario. Beide gaan mee in de risicoanalyse.</span><span class="eig">Eigenaar: inkoop, met de vier systeemeigenaren</span></div></div>
 
-<h2>7. Vergelijking met andere gemeenten</h2>
+<h2><span class="n">07</span>Vergelijking met andere gemeenten</h2>
 <div class="bench"><b>Nog niet beschikbaar.</b> Een vergelijking met andere organisaties heeft pas betekenis als duidelijk is hoe we omgaan met herhaalde metingen, verschillende systeemselecties en zelfselectie van deelnemers. Zolang dat niet is uitgewerkt, laten we dit blok leeg in plaats van een getal te tonen dat suggereert dat het representatief is.</div>
 
-<footer>
+<div class="colofon">
   Will Switch, praktijkonderzoek naar digitale autonomie in de publieke sector. Gebouwd met open source, gehost in Nederland.<br>
   Dit rapport is input voor de eigen risicoanalyse van de organisatie. Het is geen oordeel over naleving van de Cyberbeveiligingswet, de Data Act of andere wetgeving, en geen juridisch advies. Bronnen: RDI, toelichting zorgplicht toeleveringsketen (2026); Verordening (EU) 2023/2854; Kamerbrief Herziening Rijksbreed Cloudbeleid (26 643, nr. 1541).
-</footer>
 </div>
+
+</div></main>
+
+<footer class="site"><div class="w">
+  <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
+  <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
+</div></footer>
+  <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
+  <script data-goatcounter="https://willswitch.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
