@@ -75,7 +75,9 @@ veranderen dan mee. De toets zelf heeft zijn eigen vlaggen in `tools/scan.py`.
 - `content/cases/` de cases, hier bewerk je
 - `content/quotes/` de quotes
 - `site/` vaste bestanden: de poort (`index.html`), het voorbeeldrapport, de
-  bestelpagina's, de 404, het lettertype in `fonts/`, beelden en favicons
+  bestelpagina's, de voorwaarden, de 404, de talk-pagina in `talk/`, het
+  lettertype in `fonts/`, beelden en favicons, en `.htaccess` (koppelt de
+  404-pagina en de bestandstypen voor webp en woff2 aan Apache)
 - `tools/build.py` het bouwscript, met het sjabloon voor casepagina's
 - `tools/switchpage.py` het sjabloon voor de hoofdpagina, met de teksten van
   de veelgestelde vragen en het rapportblok
