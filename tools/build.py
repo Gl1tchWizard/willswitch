@@ -3,7 +3,7 @@
 Draai: python3 tools/build.py
 Resultaat komt in dist/ en is klaar om te publiceren.
 """
-import json, pathlib, re, datetime, shutil, sys
+import html, json, pathlib, re, datetime, shutil, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from switchpage import build_switch
 from home import build_home
@@ -227,7 +227,7 @@ header.top { border-bottom:1px solid var(--inkt); background:var(--papier); }
 header.top .w { display:flex; align-items:center; justify-content:space-between; min-height:84px; gap:20px; }
 .merk { display:flex; align-items:center; gap:18px; text-decoration:none; }
 .merk img { height:36px; width:auto; display:block; }
-.merk span { font-size:13px; color:var(--zacht); line-height:1.35; padding-left:18px; border-left:1px solid var(--inkt); }
+.merk span { font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--zacht); line-height:1.5; padding-left:18px; border-left:1px solid var(--inkt); }
 nav.hoofd { display:flex; align-items:center; gap:32px; font-size:16px; }
 nav.hoofd a.l { text-decoration:none; padding:10px 0; }
 nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
@@ -381,11 +381,11 @@ def build():
             robots=('  <meta name="robots" content="noindex">\n' if vooruit else ''),
             scanblok=SCANBLOK if SCAN_AAN else '',
             id=c["id"],
-            title=c["title"],
-            page_title=page_title(c).replace('"', "&quot;"),
+            title=html.escape(c["title"], quote=True),
+            page_title=html.escape(page_title(c), quote=True),
             eyebrow=c.get("eyebrow", ""),
-            description=d.replace('"', "&quot;"),
-            jsonld=jsonld_case(c, d),
+            description=html.escape(d, quote=True),
+            jsonld=jsonld_case(c, d).replace("</", "<\\/"),
             published=gepubliceerd,
             modified=gepubliceerd,
             body=body,
@@ -428,6 +428,12 @@ def build():
             shutil.copy(f, DIST / "bestel" / f.name)
         print("  /bestel/")
 
+    # het verhaal van FOSS4G NL (vaste pagina, de hoofdpagina linkt ernaar)
+    tp = SITE / "talk"
+    if tp.exists():
+        shutil.copytree(tp, DIST / "talk")
+        print("  /talk/")
+
     # scanpagina
     (DIST / "scan").mkdir(exist_ok=True)
     (DIST / "scan" / "index.html").write_text(build_scan(), encoding="utf-8")
@@ -438,16 +444,21 @@ def build():
 
 
 def write_sitemap(live):
-    urls = [(f"{BASE}/switch.html", "1.0", "weekly"),
-            (f"{BASE}/", "0.5", "monthly"),
-            (f"{BASE}/scan/", "0.9", "monthly")]
+    """lastmod: de bouwdatum voor de pagina's die bij elke bouw veranderen,
+    de publicatiedatum voor cases, zodat Google de waarde serieus neemt."""
+    urls = [(f"{BASE}/switch.html", "1.0", "weekly", TODAY),
+            (f"{BASE}/", "0.5", "monthly", TODAY),
+            (f"{BASE}/scan/", "0.9", "monthly", TODAY)]
+    if (SITE / "talk").exists():
+        urls.append((f"{BASE}/talk/", "0.6", "yearly", "2026-07-09"))
     # /rapport/voorbeeld.html komt in de sitemap zodra bestellen open gaat
     for c in live:
-        urls.append((f"{BASE}/cases/{c['id']}/", "0.8", "monthly"))
+        datum = c.get("publish_on") or c.get("new_since") or TODAY
+        urls.append((f"{BASE}/cases/{c['id']}/", "0.8", "monthly", datum))
     body = "\n".join(
-        f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{TODAY}</lastmod>\n"
+        f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{datum}</lastmod>\n"
         f"    <changefreq>{freq}</changefreq>\n    <priority>{pri}</priority>\n  </url>"
-        for u, pri, freq in urls)
+        for u, pri, freq, datum in urls)
     (DIST / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
