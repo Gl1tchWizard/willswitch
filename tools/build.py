@@ -26,7 +26,9 @@ def load_cases():
             print(f"  overgeslagen (geen kop): {f.name}")
             continue
         meta = json.loads(m.group(1))
-        meta["body"] = m.group(2).strip()
+        body = m.group(2).strip()
+        # Tussenkoppen in de body zijn h2: de h1 is de titel van de pagina.
+        meta["body"] = re.sub(r"<(/?)h3\b", r"<\1h2", body)
         out.append(meta)
     out.sort(key=lambda c: c.get("order", 999))
     return out
@@ -43,9 +45,66 @@ def strip_tags(s):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", s)).strip()
 
 
+def eerste_zinnen(txt, maxlen=160):
+    """De eerste volledige zin(nen), zolang ze samen binnen maxlen blijven.
+    De eerste zin gaat altijd mee, ook als die langer is."""
+    zinnen = re.split(r"(?<=[.!?])\s+", txt.strip())
+    out = ""
+    for z in zinnen:
+        kandidaat = (out + " " + z).strip()
+        if out and len(kandidaat) > maxlen:
+            break
+        out = kandidaat
+    return out
+
+
 def description(case):
+    if case.get("description"):
+        return case["description"].strip()
     txt = case.get("card_body") or strip_tags(case["body"])
-    return (txt[:157] + "...") if len(txt) > 160 else txt
+    return eerste_zinnen(txt)
+
+
+def page_title(case):
+    return case.get("seo_title") or f'{case["title"]} | Will Switch'
+
+
+def jsonld_case(case, d):
+    """Article plus BreadcrumbList voor een casepagina."""
+    url = f"{BASE}/cases/{case['id']}/"
+    gepubliceerd = case.get("publish_on") or case.get("new_since") or "2026-07-01"
+    gewijzigd = case.get("publish_on") or case.get("new_since") or gepubliceerd
+    artikel = {
+        "@type": "Article",
+        "@id": f"{url}#article",
+        "headline": case["title"],
+        "description": d,
+        "url": url,
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+        "image": {"@type": "ImageObject", "url": f"{BASE}/og-image.jpg", "width": 1200, "height": 630},
+        "datePublished": gepubliceerd,
+        "dateModified": gewijzigd,
+        "inLanguage": "nl-NL",
+        "articleSection": case.get("eyebrow", ""),
+        "author": {"@type": "Person", "name": "Govert Schoof", "url": "https://www.linkedin.com/in/govertschoof/"},
+        "publisher": {
+            "@type": "Organization", "@id": f"{BASE}/#organization",
+            "name": "Will Switch", "url": f"{BASE}/",
+            "logo": {"@type": "ImageObject", "url": f"{BASE}/wordmark.png", "width": 705, "height": 153},
+        },
+        "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "name": "Will Switch", "url": f"{BASE}/"},
+    }
+    kruimels = {
+        "@type": "BreadcrumbList",
+        "@id": f"{url}#breadcrumb",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Will Switch", "item": f"{BASE}/switch.html"},
+            {"@type": "ListItem", "position": 2, "name": "Praktijk", "item": f"{BASE}/switch.html#verhalen"},
+            {"@type": "ListItem", "position": 3, "name": case["title"], "item": url},
+        ],
+    }
+    graph = {"@context": "https://schema.org", "@graph": [artikel, kruimels]}
+    return json.dumps(graph, ensure_ascii=False, indent=2)
 
 
 # ---------- de losse casepagina ----------
@@ -54,60 +113,65 @@ PAGE = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} | Will Switch</title>
+  <title>{page_title}</title>
 {robots}
   <meta name="description" content="{description}">
   <link rel="canonical" href="{base}/cases/{id}/">
   <meta property="og:type" content="article">
+  <meta property="og:locale" content="nl_NL">
   <meta property="og:site_name" content="Will Switch">
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{description}">
   <meta property="og:image" content="{base}/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:url" content="{base}/cases/{id}/">
+  <meta property="article:published_time" content="{published}">
+  <meta property="article:modified_time" content="{modified}">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{description}">
+  <meta name="twitter:image" content="{base}/og-image.jpg">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <link rel="preload" href="/fonts/AtkinsonNext.woff2" as="font" type="font/woff2" crossorigin>
   <script type="application/ld+json">
-  {{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": {headline_json},
-    "description": {description_json},
-    "datePublished": "{published}",
-    "author": {{ "@type": "Person", "name": "Govert Schoof" }},
-    "publisher": {{ "@type": "Organization", "name": "Will Switch", "url": "{base}/" }},
-    "mainEntityOfPage": "{base}/cases/{id}/"
-  }}
+{jsonld}
   </script>
-  <style>
-{css}
-  </style>
+  <style>{css}  </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="/switch.html">Will Switch</a>
-    <a href="/switch.html">alle praktijkverhalen</a>
-  </header>
 
-  <main class="case">
-    <p class="eyebrow">{eyebrow}</p>
+<header class="top"><div class="w">
+  <a class="merk" href="/switch.html"><img src="/wordmark.png" alt="Will Switch" width="705" height="153"><span>Praktijkonderzoek naar<br>digitale autonomie</span></a>
+  <nav class="hoofd" aria-label="Hoofdnavigatie"><a class="l" href="/switch.html#verhalen">Praktijk</a><a class="l" href="/switch.html#rapport">Rapport</a><a class="knop" href="/scan/"><span class="lang">Uitstaptoets</span><span class="kort">Toets</span> &rarr;</a></nav>
+</div></header>
+
+<main class="case"><div class="w">
+  <article class="lees">
+    <p class="kicker">{eyebrow}</p>
     <h1>{title}</h1>
     {body}
+  </article>
 
 {scanblok}
 
-    <nav class="more">
-      <span>Meer praktijkverhalen</span>
-      <ul>
+  <section class="meer" aria-labelledby="meer-kop">
+    <h2 id="meer-kop">Meer praktijkverhalen</h2>
+    <ul class="register">
 {related}
-      </ul>
-    </nav>
-  </main>
+    </ul>
+    <p class="alle"><a class="tekstlink" href="/switch.html#overzicht">Alle cases op de hoofdpagina</a></p>
+  </section>
+</div></main>
 
-  <footer>
-    <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
-    <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
-  </footer>
+<footer class="site"><div class="w">
+  <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
+  <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
+</div></footer>
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
   <script data-goatcounter="https://willswitch.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
@@ -115,110 +179,172 @@ PAGE = """<!DOCTYPE html>
 </html>
 """
 
+# Tokens, header, knoppen en voettekst zijn overgenomen uit tools/switchpage.py.
 CSS = """
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    :root {
-      --orange:#E84500; --paper:#F0EDE6; --paper-warm:#E8E3D6;
-      --ink:#1a1612; --ink-soft:#4a443c; --ink-faint:rgba(26,22,18,0.45);
-      --rule:rgba(26,22,18,0.12);
-    }
-    body {
-      background:var(--paper); color:var(--ink);
-      font-family:'Space Mono', monospace; line-height:1.6;
-    }
-    .topbar {
-      display:flex; justify-content:space-between; align-items:center;
-      max-width:44rem; margin:0 auto; padding:2rem 1.5rem 0;
-      font-family:'Orbitron', monospace; font-size:0.7rem;
-      letter-spacing:0.25em; text-transform:uppercase;
-    }
-    .topbar a { color:var(--ink-faint); text-decoration:none; }
-    .topbar a:hover { color:var(--orange); }
-    .topbar .brand { color:var(--ink); }
-    main.case { max-width:44rem; margin:0 auto; padding:3rem 1.5rem 4rem; }
-    .eyebrow {
-      font-family:'Orbitron', monospace; font-size:0.66rem;
-      letter-spacing:0.18em; text-transform:uppercase;
-      color:var(--orange); margin-bottom:0.8rem;
-    }
-    h1 {
-      font-family:'Orbitron', monospace;
-      font-size:clamp(1.6rem, 4vw, 2.4rem); font-weight:700;
-      line-height:1.15; margin-bottom:1.6rem;
-    }
-    main.case h3 {
-      font-family:'Orbitron', monospace; font-size:1.15rem; font-weight:700;
-      margin:2.4rem 0 0.9rem; color:var(--ink);
-    }
-    main.case p { font-size:0.95rem; color:var(--ink-soft); margin-bottom:1.1rem; }
-    main.case p a { color:var(--orange); text-decoration:none;
-      border-bottom:1px solid rgba(232,69,0,0.4); }
-    main.case p a:hover { color:var(--ink); border-color:var(--ink); }
-    .case-quote {
-      font-size:1.05rem; color:var(--orange); font-weight:700;
-      padding-left:1rem; border-left:3px solid var(--orange); margin:1.6rem 0;
-    }
-    figure { margin:1.8rem 0; }
-    figure img { width:100%; height:auto; display:block;
-      border-radius:6px; border:1px solid var(--rule); }
-    .case-cap { font-size:0.72rem; color:var(--ink-faint); margin-top:0.5rem; }
-    .case-credit {
-      margin-top:1.8rem; padding-top:1.2rem; border-top:1px solid var(--rule);
-      font-size:0.8rem; color:var(--ink-faint);
-    }
-    .case-credit a, .case-link-wrap a { color:var(--orange); text-decoration:none;
-      border-bottom:1px solid rgba(232,69,0,0.4); }
-    .case-link-wrap { margin-top:1.6rem; }
-    .next {
-      margin-top:3.5rem; padding:2rem 1.75rem;
-      background:var(--paper-warm); border:1px solid var(--rule); border-radius:4px;
-    }
-    .next h2 {
-      font-family:'Orbitron', monospace; font-size:1.1rem;
-      margin-bottom:0.8rem;
-    }
-    .next p { font-size:0.9rem; }
-    .cta {
-      display:inline-block; margin-top:0.8rem;
-      background:var(--orange); color:var(--paper); text-decoration:none;
-      font-family:'Orbitron', monospace; font-size:0.75rem; font-weight:700;
-      letter-spacing:0.12em; text-transform:uppercase;
-      padding:0.9rem 1.5rem; border-radius:3px;
-    }
-    .cta:hover { background:var(--ink); }
-    .more { margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--rule); }
-    .more span {
-      font-family:'Orbitron', monospace; font-size:0.62rem;
-      letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint);
-    }
-    .more ul { list-style:none; margin-top:0.8rem; }
-    .more li { margin-bottom:0.5rem; }
-    .more a { color:var(--ink); text-decoration:none; font-size:0.9rem;
-      border-bottom:1px solid var(--rule); }
-    .more a:hover { color:var(--orange); border-color:var(--orange); }
-    footer {
-      max-width:44rem; margin:0 auto; padding:2rem 1.5rem 3rem;
-      border-top:1px solid var(--rule);
-      display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;
-      font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase;
-      color:var(--ink-faint);
-    }
-    footer a { color:var(--ink-faint); }
-    footer .fonds { display:inline-flex; align-items:center; gap:0.7rem; text-decoration:none; }
-    footer .fonds img { height:24px; width:auto; display:block; }
-    @media (max-width:600px) { footer { flex-direction:column; } }
+@font-face {
+  font-family:'Atkinson Hyperlegible Next';
+  src:url('/fonts/AtkinsonNext.woff2') format('woff2');
+  font-weight:200 800; font-style:normal; font-display:swap;
+}
+:root {
+  --papier:#F0EDE6; --warm:#E8E3D6; --wit:#FBFAF7;
+  --inkt:#1a1612; --zacht:#4a443c; --vaag:#6b645a;
+  --lijn:rgba(26,22,18,.16); --oranje:#E84500; --knop:#D63F00; --link:#B83500;
+  --op-inkt:rgba(240,237,230,.78); --op-inkt-2:rgba(240,237,230,.7); --lijn-inkt:rgba(240,237,230,.25);
+  --mono:ui-monospace, 'Cascadia Mono', Consolas, Menlo, monospace;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { overflow-x:clip; scrollbar-gutter:stable; scroll-behavior:smooth; }
+body {
+  background:var(--papier); color:var(--inkt);
+  font-family:'Atkinson Hyperlegible Next', system-ui, sans-serif; font-synthesis:none;
+  font-size:17px; line-height:1.55;
+}
+.w { max-width:1280px; margin:0 auto; padding:0 40px; }
+a { color:inherit; }
+h1, h2, h3 { font-weight:700; }
+h1, h2 { text-wrap:balance; }
+img { max-width:100%; }
+:focus-visible { outline:3px solid var(--knop); outline-offset:3px; }
+.mono, .kicker { font-family:var(--mono); font-size:13px; letter-spacing:.02em; line-height:1.6; color:var(--zacht); }
+
+/* knoppen en links */
+.knop {
+  display:inline-flex; align-items:center; justify-content:center; gap:.55em;
+  min-height:44px; padding:0 20px; background:var(--knop); color:#fff; font-weight:700;
+  text-decoration:none; font-size:16px; line-height:1.1; border-radius:0;
+}
+.knop:hover { background:var(--inkt); color:#fff; }
+.knop.groot { min-height:56px; padding:0 28px; font-size:18px; }
+.tekstlink, .lees p a {
+  color:var(--link); font-weight:600; text-decoration:underline;
+  text-underline-offset:4px; text-decoration-thickness:1.5px;
+}
+.tekstlink:hover, .lees p a:hover { color:var(--inkt); }
+
+/* header */
+header.top { border-bottom:1px solid var(--inkt); background:var(--papier); }
+header.top .w { display:flex; align-items:center; justify-content:space-between; min-height:84px; gap:20px; }
+.merk { display:flex; align-items:center; gap:18px; text-decoration:none; }
+.merk img { height:36px; width:auto; display:block; }
+.merk span { font-size:13px; color:var(--zacht); line-height:1.35; padding-left:18px; border-left:1px solid var(--inkt); }
+nav.hoofd { display:flex; align-items:center; gap:32px; font-size:16px; }
+nav.hoofd a.l { text-decoration:none; padding:10px 0; }
+nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
+nav.hoofd .kort { display:none; }
+
+/* motief */
+.ring { position:absolute; border-radius:50%; border:1px solid var(--oranje); pointer-events:none; }
+
+/* de leeskolom */
+main.case { padding:64px 0 88px; }
+.lees { max-width:68ch; }
+.lees .kicker { margin-bottom:20px; }
+.lees h1 { font-size:clamp(40px, 5vw, 64px); font-weight:800; letter-spacing:-.02em; line-height:1.02; margin-bottom:36px; }
+.lees h2 { font-size:32px; line-height:1.1; letter-spacing:-.01em; margin:48px 0 14px; }
+.lees h3 { font-size:22px; line-height:1.2; margin:36px 0 10px; }
+.lees p { margin-bottom:20px; }
+.lees ul, .lees ol { padding-left:24px; margin-bottom:20px; }
+.lees li { margin-bottom:6px; }
+.lees .case-quote {
+  position:relative; margin:48px 0 48px 0; padding-left:28px;
+  font-size:30px; font-weight:700; line-height:1.15; letter-spacing:-.01em; color:var(--inkt);
+}
+.lees .case-quote::before { content:""; position:absolute; left:0; top:-20px; bottom:-20px; width:6px; background:var(--oranje); }
+.lees figure { margin:32px 0 36px; }
+.lees figure img { width:100%; height:auto; display:block; }
+.lees .case-cap { font-family:var(--mono); font-size:13px; letter-spacing:.02em; line-height:1.6; color:var(--zacht); margin:10px 0 0; }
+.lees .case-credit { margin-top:40px; padding-top:16px; border-top:1px solid var(--inkt); font-size:15px; color:var(--vaag); }
+.lees .case-link-wrap { margin-top:4px; }
+
+/* het toetsblok, op inkt */
+.toets {
+  position:relative; overflow:hidden; margin-top:72px; padding:44px 48px 48px;
+  background:var(--inkt); color:var(--papier);
+  display:grid; grid-template-columns:7fr 5fr; gap:48px; align-items:center;
+}
+.toets > *:not(.ring) { position:relative; }
+.toets .ring { width:360px; height:360px; border-width:1.5px; opacity:.55; right:-140px; top:-200px; }
+.toets .kicker { color:var(--op-inkt-2); }
+.toets h2 { font-size:32px; line-height:1.08; letter-spacing:-.02em; margin-top:8px; }
+.toets p { font-size:17px; color:var(--op-inkt); max-width:48ch; margin-top:12px; }
+.toets .actie { justify-self:end; text-align:right; }
+.toets .micro { display:block; font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--op-inkt-2); margin-top:12px; line-height:1.5; }
+
+/* meer praktijkverhalen, als register */
+.meer { margin-top:80px; }
+.meer h2 { font-size:32px; line-height:1.08; letter-spacing:-.02em; }
+.register { list-style:none; margin-top:20px; display:grid; grid-template-columns:1fr 1fr; column-gap:48px; }
+.register li { border-top:1px solid var(--inkt); }
+.register li:nth-last-child(-n+2) { border-bottom:1px solid var(--inkt); }
+.register a { display:grid; grid-template-columns:48px 1fr; gap:16px; padding:18px 0; min-height:44px; text-decoration:none; color:inherit; }
+.register .n { font-family:var(--mono); font-size:14px; color:var(--link); padding-top:3px; }
+.register .kicker { display:block; }
+.register b { display:block; font-size:20px; line-height:1.2; margin-top:4px; }
+.register a:hover b { text-decoration:underline; text-underline-offset:4px; }
+.meer .alle { margin-top:24px; }
+
+/* voet */
+footer.site { border-top:3px solid var(--inkt); padding:28px 0 48px; font-size:14px; color:var(--vaag); }
+footer.site .w { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px 24px; }
+footer.site .fonds { display:inline-flex; align-items:center; gap:12px; text-decoration:none; }
+footer.site .fonds img { height:28px; width:auto; display:block; }
+
+/* mobiel */
+@media (max-width:820px) {
+  .w { padding:0 16px; }
+  header.top .w { min-height:64px; }
+  .merk img { height:30px; }
+  .merk span { display:none; }
+  nav.hoofd { gap:16px; font-size:15px; }
+  nav.hoofd .lang { display:none; }
+  nav.hoofd .kort { display:inline; }
+  main.case { padding:40px 0 64px; }
+  .lees h1 { margin-bottom:28px; }
+  .lees h2 { font-size:26px; margin-top:40px; }
+  .lees .case-quote { font-size:24px; padding-left:20px; margin:36px 0; }
+  .lees .case-quote::before { width:4px; top:-12px; bottom:-12px; }
+  .toets { grid-template-columns:1fr; gap:24px; padding:32px 20px 36px; margin-top:56px; }
+  .toets .ring { width:240px; height:240px; right:-120px; top:-140px; }
+  .toets h2 { font-size:26px; }
+  .toets .actie { justify-self:stretch; text-align:left; }
+  .toets .knop { width:100%; min-height:52px; }
+  .meer { margin-top:56px; }
+  .meer h2 { font-size:26px; }
+  .register { grid-template-columns:1fr; }
+  .register li:nth-last-child(-n+2) { border-bottom:0; }
+  .register li:last-child { border-bottom:1px solid var(--inkt); }
+  .register a { grid-template-columns:40px 1fr; }
+  .register b { font-size:18px; }
+  footer.site .w { flex-direction:column; align-items:flex-start; gap:12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+}
 """
 
 
 SCAN_AAN = True   # FASE 1: gratis toets is open. Bestellen staat nog uit, zie tools/scan.py
 
-SCANBLOK = """    <section class="next">
-      <h2>Waar staat jouw organisatie?</h2>
-      <p>Deze verhalen laten zien wat er mogelijk is. De volgende vraag is
-      wat er bij jou speelt. De uitstaptoets brengt in kaart waar je staat en wat
-      een logische eerste stap is.</p>
-      <a class="cta" href="/scan/">Doe de uitstaptoets</a>
-    </section>"""
+SCANBLOK = """  <section class="toets" aria-labelledby="toets-kop">
+    <div class="ring" aria-hidden="true"></div>
+    <div>
+      <p class="kicker">de uitstaptoets</p>
+      <h2 id="toets-kop">Waar staat jouw organisatie?</h2>
+      <p>Deze verhalen laten zien wat er mogelijk is. De volgende vraag is wat er bij jou speelt. De uitstaptoets brengt in kaart waar je staat en wat een logische eerste stap is.</p>
+    </div>
+    <div class="actie">
+      <a class="knop groot" href="/scan/">Doe de uitstaptoets &rarr;</a>
+      <span class="micro">een kwartier, geen registratie, je antwoorden blijven in je browser</span>
+    </div>
+  </section>"""
+
+
+def related_html(others):
+    return "\n".join(
+        f'      <li><a href="/cases/{o["id"]}/"><span class="n">{i:02d}</span>'
+        f'<span><span class="kicker">{o.get("eyebrow", "")}</span><b>{o["title"]}</b></span></a></li>'
+        for i, o in enumerate(others, 1))
 
 
 def build():
@@ -246,25 +372,24 @@ def build():
     for c in live + komend:
         vooruit = c in komend
         others = [o for o in live if o["id"] != c["id"]][:4]
-        related = "\n".join(
-            f'        <li><a href="/cases/{o["id"]}/">{o["title"]}</a></li>'
-            for o in others)
         # relatieve paden naar de root omzetten, de casepagina staat dieper
         body = re.sub(r'href="\?case=([a-z]+)"', r'href="/cases/\1/"', c["body"])
         body = re.sub(r'(src|href)="(?!https?://|/|#)', r'\1="/', body)
         d = description(c)
+        gepubliceerd = c.get("publish_on") or c.get("new_since") or "2026-07-01"
         page = PAGE.format(
             robots=('  <meta name="robots" content="noindex">\n' if vooruit else ''),
             scanblok=SCANBLOK if SCAN_AAN else '',
             id=c["id"],
             title=c["title"],
+            page_title=page_title(c).replace('"', "&quot;"),
             eyebrow=c.get("eyebrow", ""),
             description=d.replace('"', "&quot;"),
-            headline_json=json.dumps(c["title"], ensure_ascii=False),
-            description_json=json.dumps(d, ensure_ascii=False),
-            published=c.get("publish_on") or c.get("new_since") or "2026-07-01",
+            jsonld=jsonld_case(c, d),
+            published=gepubliceerd,
+            modified=gepubliceerd,
             body=body,
-            related=related,
+            related=related_html(others),
             base=BASE,
             css=CSS,
         )
