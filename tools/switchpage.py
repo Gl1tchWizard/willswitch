@@ -41,6 +41,10 @@ FAQ_BESTELZIN = {
 }
 
 FAQ = [
+    ("Wat is digitale autonomie voor een overheid?",
+     "Dat een overheid zelf kan kiezen. Per kritieke leverancier weten waar je data staat, of je die kunt "
+     "meenemen en of er een alternatief is, zodat je blijft functioneren als een leverancier stopt, de prijs "
+     "verhoogt of van eigenaar wisselt. Het gaat niet om alles zelf bouwen, maar om kunnen weggaan."),
     ("Wat is de uitstaptoets?",
      "Een gratis toets van een kwartier, zonder registratie. Je kiest maximaal vijf kritieke systemen en "
      "beantwoordt tien vragen over ketenzorgplicht, overstaprecht en exitplan. Je krijgt direct een beeld "
@@ -50,8 +54,8 @@ FAQ = [
      "waterschappen, het Rijk, zbo's, gemeenschappelijke regelingen en onderwijsinstellingen. Bestuur en "
      "uitvoering kunnen de toets los van elkaar doen en de uitkomsten naast elkaar leggen."),
     ("We hebben de BIO op orde, en het rijkscloudbeleid geldt niet voor gemeenten. Waarom dan dit?",
-     "De BIO gaat over je eigen huis. De Cyberbeveiligingswet vraagt sinds 15 augustus 2026 ook iets over "
-     "je keten: per leverancier wat er gebeurt bij contracteinde, faillissement of overname, en wie in het "
+     "De BIO gaat over je eigen huis. De Cyberbeveiligingswet legt sinds 15 augustus 2026 ook een "
+     "ketenzorgplicht bij je: per leverancier wat er gebeurt bij contracteinde, faillissement of overname, en wie in het "
      "bestuur daarvoor tekent. Dat geldt voor gemeenten, provincies en waterschappen net zo goed als voor "
      "het Rijk. Het cloudbeleid komt daar nog achteraan. De staatssecretaris is daarover met de "
      "medeoverheden in gesprek."),
@@ -120,24 +124,29 @@ def case_link(ids, cid, tekst, anders="uitleg volgt"):
 
 
 def overzicht_case(n, c):
+    """Teksten uit content/ zijn HTML en worden niet geëscaped.
+    De kop is de link; het klikvlak wordt met CSS over de hele rij gelegd."""
     vlag = '<span class="vlag">nieuw</span>' if is_nieuw(c) else ""
     titel = c.get("card_title") or c["title"]
-    return f'''      <a class="item" href="/cases/{c['id']}/">
+    return f'''      <article class="item">
         <span class="num">{n:02d}</span>
-        <span class="kop"><span class="kicker {kicker_class(c.get("eyebrow"))}">{c.get("eyebrow", "")}</span>{vlag}
-        <h3>{titel}</h3>
+        <div class="kop"><span class="kicker {kicker_class(c.get("eyebrow"))}">{c.get("eyebrow", "")}</span>{vlag}
+        <h3><a href="/cases/{c['id']}/">{titel}</a></h3>
         <p>{c.get("card_body", "")}</p>
-        <span class="meer">{c.get("cta", "Lees de case")}</span></span>
-      </a>'''
+        <span class="meer" aria-hidden="true">{c.get("cta", "Lees de case")}</span></div>
+      </article>'''
 
 
 def overzicht_quote(n, q):
+    """Citaten in een andere taal krijgen een lang-attribuut uit het veld 'lang'."""
     body = f'\n        <p>{q["body"]}</p>' if q.get("body") else ""
-    attr = f'<span class="attr">{q["attr"]}</span>' if q.get("attr") else ""
+    attr = f'<span class="attr" lang="nl">{q["attr"]}</span>' if q.get("attr") else ""
+    taal = q.get("lang", "nl")
+    lang = f' lang="{taal}"' if taal != "nl" else ""
     return f'''      <article class="item quote">
         <span class="num">{n:02d}</span>
-        <span class="kop"><h3>{q["title"]}</h3>{body}
-        <blockquote>{q["quote"]}{attr}</blockquote></span>
+        <div class="kop"><h3>{q["title"]}</h3>{body}
+        <blockquote{lang}>{q["quote"]}{attr}</blockquote></div>
       </article>'''
 
 
@@ -158,9 +167,7 @@ def register_html():
 
 
 def jsonld(cases):
-    datums = [c.get("publish_on") or c.get("new_since") for c in cases]
-    datums = [d for d in datums if d]
-    gewijzigd = max(datums) if datums else TODAY.isoformat()
+    gewijzigd = TODAY.isoformat()  # de pagina verandert bij elke bouw (stand, tellers)
     beschikbaar = "https://schema.org/InStock" if BESTEL_AAN else "https://schema.org/PreOrder"
     org = {
         "@type": "Organization", "@id": f"{BASE}/#organization",
@@ -204,11 +211,11 @@ def jsonld(cases):
         return {"@type": "Offer", "name": naam, "price": prijs, "priceCurrency": "EUR",
                 "priceSpecification": {"@type": "UnitPriceSpecification", "price": prijs,
                                        "priceCurrency": "EUR", "valueAddedTaxIncluded": False},
-                "availability": beschikbaar, "url": f"{BASE}/rapport/voorbeeld.html",
+                "availability": beschikbaar, "url": f"{BASE}/switch.html#rapport",
                 "eligibleRegion": {"@type": "Country", "name": "Nederland"}}
-    rapport = {"@type": "Service", "@id": f"{BASE}/rapport/voorbeeld.html#uitstaprapport",
+    rapport = {"@type": "Service", "@id": f"{BASE}/switch.html#uitstaprapport",
                "name": "Uitstaprapport", "serviceType": "Uitstaprapport digitale autonomie",
-               "url": f"{BASE}/rapport/voorbeeld.html",
+               "url": f"{BASE}/switch.html#rapport",
                "description": ("Rapport na de gratis uitstaptoets, in zeven delen: waar je staat, uitstapprofiel per "
                                "kritieke leverancier, paragraaf voor de Cbw-risicoanalyse, agendapunt voor het "
                                "bestuur, exitclausules voor de volgende aanbesteding, de eerste negentig dagen en "
@@ -221,7 +228,8 @@ def jsonld(cases):
            "mainEntity": [{"@type": "Question", "name": v,
                            "acceptedAnswer": {"@type": "Answer", "text": a}} for v, a in FAQ]}
     graph = {"@context": "https://schema.org", "@graph": [org, site, page, toets, rapport, faq]}
-    return json.dumps(graph, ensure_ascii=False, indent=2)
+    # '</' ontsnappen zodat een tekst met </script> het scriptblok nooit kan afbreken
+    return json.dumps(graph, ensure_ascii=False, indent=2).replace("</", "<\\/")
 
 
 # ---------- opmaak ----------
@@ -258,7 +266,7 @@ img { max-width:100%; }
 
 /* knoppen en links */
 .knop {
-  display:inline-flex; align-items:center; justify-content:center; gap:.55em;
+  display:inline-flex; align-items:center; justify-content:center; gap:.55em; text-align:center;
   min-height:44px; padding:0 20px; background:var(--knop); color:#fff; font-weight:700;
   text-decoration:none; font-size:16px; line-height:1.1; border-radius:0;
 }
@@ -278,7 +286,9 @@ header.top { border-bottom:1px solid var(--inkt); background:var(--papier); }
 header.top .w { display:flex; align-items:center; justify-content:space-between; min-height:84px; gap:20px; }
 .merk { display:flex; align-items:center; gap:18px; text-decoration:none; }
 .merk img { height:36px; width:auto; display:block; }
-.merk span { font-size:13px; color:var(--zacht); line-height:1.35; padding-left:18px; border-left:1px solid var(--inkt); }
+.merk span { font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--zacht); line-height:1.5; padding-left:18px; border-left:1px solid var(--inkt); }
+.skip { position:absolute; left:-999px; top:8px; z-index:10; background:var(--inkt); color:var(--papier); padding:10px 14px; font-weight:700; text-decoration:none; }
+.skip:focus { left:16px; }
 nav.hoofd { display:flex; align-items:center; gap:32px; font-size:16px; }
 nav.hoofd a.l { text-decoration:none; padding:10px 0; }
 nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
@@ -297,9 +307,9 @@ html:not(.js) .marge { opacity:1; }
 
 /* hero: de portal in een cirkel, de kop eroverheen */
 .hero { position:relative; overflow:hidden; min-height:760px; padding:56px 0 64px; background:var(--papier); }
-.hero .w { position:relative; display:grid; grid-template-columns:repeat(12, 1fr); gap:24px; align-items:start; }
-.staander { position:absolute; top:-57px; left:56%; width:96px; height:420px; background:var(--oranje); z-index:2; }
-.hero-tekst { grid-column:1 / 10; grid-row:1; position:relative; z-index:3; }
+.hero .w { position:relative; display:grid; grid-template-columns:minmax(0, 1fr) auto; gap:24px; align-items:start; }
+.staander { position:absolute; top:-57px; right:calc(clamp(440px, 50vw, 640px) - 216px); width:96px; height:420px; background:var(--oranje); z-index:2; }
+.hero-tekst { grid-column:1; grid-row:1; position:relative; z-index:3; }
 .hero h1 .vraag {
   display:block; font-family:var(--mono); font-size:15px; font-weight:400;
   letter-spacing:.1em; text-transform:uppercase; line-height:1.6; margin-bottom:28px;
@@ -312,9 +322,11 @@ html:not(.js) .marge { opacity:1; }
 .hero .sub { margin-top:16px; font-size:18px; color:var(--zacht); max-width:44ch; line-height:1.5; }
 .acties { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
 .hero .acties { margin-top:36px; }
-.micro { font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--zacht); max-width:42ch; line-height:1.5; }
+.micro { font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--zacht); max-width:34ch; line-height:1.5; }
+.hero .acties { flex-direction:column; align-items:flex-start; gap:12px; }
 .hero-link { margin-top:18px; }
-.portal-wrap { grid-column:8 / 13; grid-row:1; position:relative; justify-self:start; width:640px; aspect-ratio:1; margin-top:180px; }
+.portal-wrap { grid-column:2; grid-row:1; position:relative; width:clamp(440px, 50vw, 640px); aspect-ratio:1; margin-top:180px; margin-right:-40px; }
+@media (min-width:1400px) { .portal-wrap { margin-right:-180px; } .staander { right:calc(640px - 216px - 140px); } }
 .portal {
   position:relative; z-index:1; width:100%; height:100%; border-radius:50%; overflow:hidden;
   background:#cfd4cf url('/switch-hero.webp') 13% 64% / auto 140% no-repeat;
@@ -325,7 +337,7 @@ html:not(.js) .marge { opacity:1; }
 .uitsteek::before, .uitsteek::after { background:var(--src) center / cover no-repeat; }
 .portal::before, .uitsteek::before { clip-path:inset(34% 0 46% 0); transform:translateX(6px); }
 .portal::after, .uitsteek::after { clip-path:inset(58% 0 22% 0); transform:translateX(-6px); }
-.ring.orbit { width:720px; height:720px; left:-40px; top:-40px; opacity:.35; z-index:0; }
+.ring.orbit { width:calc(100% + 80px); height:calc(100% + 80px); left:-40px; top:-40px; border-width:1.5px; opacity:.5; z-index:0; }
 
 /* beloften: dunne zwarte strook */
 .beloften { background:var(--inkt); color:var(--papier); padding:48px 0 52px; }
@@ -342,12 +354,12 @@ html:not(.js) .marge { opacity:1; }
 /* stemmen: het getal en de lucht */
 .stemmen { position:relative; overflow:hidden; padding:112px 0 96px; }
 .stemmen .w { position:relative; display:grid; grid-template-columns:repeat(12, 1fr); gap:24px; }
-.stemmen h2 { grid-column:1 / 9; display:grid; grid-template-columns:auto 1fr; gap:32px; align-items:end; }
+.stemmen h2 { grid-column:1 / 12; display:grid; grid-template-columns:auto 1fr; gap:32px; align-items:end; }
 .stemmen .getal {
   font-size:clamp(160px, 18vw, 260px); font-weight:800; letter-spacing:-.05em; line-height:.85;
   font-variant-numeric:tabular-nums; margin-left:-16px;
 }
-.stemmen .regels { font-size:56px; font-weight:800; text-transform:uppercase; letter-spacing:-.02em; line-height:.95; padding-bottom:12px; }
+.stemmen .regels { font-size:clamp(60px, 6.6vw, 86px); font-weight:800; text-transform:uppercase; letter-spacing:-.02em; line-height:.92; padding-bottom:8px; }
 .citaat { grid-column:6 / 13; position:relative; margin-top:56px; padding-left:32px; }
 .citaat p { font-size:36px; font-weight:700; line-height:1.15; max-width:22ch; }
 .citaat .lijn { left:0; top:-80px; bottom:-80px; width:6px; }
@@ -371,6 +383,10 @@ html:not(.js) .marge { opacity:1; }
 .datum .t { position:relative; display:block; }
 .datum .s { position:absolute; inset:0; opacity:0; }
 .teller { font-family:var(--mono); font-size:13px; color:var(--op-inkt-2); line-height:1.7; }
+.wetgeving .vragen { margin-top:40px; padding-top:20px; border-top:1px solid var(--lijn-inkt); max-width:44ch; }
+.wetgeving .vragen b { display:block; font-size:15px; margin-bottom:8px; }
+.wetgeving .vragen ol { padding-left:20px; font-size:16px; line-height:1.45; color:rgba(240,237,230,.86); }
+.wetgeving .vragen li { margin-bottom:6px; }
 .tabelwrap { position:relative; }
 .tabelwrap .lijn.liggend { left:0; right:0; top:-2px; height:2px; }
 table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; border-top:2px solid var(--papier); }
@@ -389,13 +405,9 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .datasheet th .sub { display:block; font-size:15px; font-weight:400; color:var(--op-inkt-2); margin-top:6px; }
 .datasheet th .sinds { display:block; font-family:var(--mono); font-size:12px; font-weight:400; color:var(--op-inkt-2); line-height:1.6; margin-top:14px; }
 .datasheet td.wat p { font-size:17px; color:rgba(240,237,230,.86); max-width:48ch; }
-.datasheet .vragen { margin-top:18px; }
-.datasheet .vragen b { display:block; font-size:15px; margin-bottom:8px; }
-.datasheet .vragen ol { padding-left:20px; font-size:16px; line-height:1.45; color:rgba(240,237,230,.86); }
-.datasheet .vragen li { margin-bottom:6px; }
 .datasheet td.wat { padding-right:0; }
 .datasheet td.wat .tekstlink { display:inline-block; margin-top:16px; font-size:16px; }
-.balk { margin:64px calc(50% - 50vw) 0; background:var(--papier); color:var(--inkt); min-height:104px; }
+.balk { margin-top:64px; background:var(--papier); color:var(--inkt); min-height:104px; }
 .balk .w { display:flex; justify-content:space-between; align-items:center; gap:24px; padding-top:24px; padding-bottom:24px; }
 .balk b { display:block; font-size:22px; }
 .balk span { font-size:16px; color:var(--zacht); }
@@ -415,7 +427,7 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .register b { display:block; font-size:20px; }
 .register .uitleg { display:block; font-size:15px; color:var(--zacht); margin-top:4px; }
 .prijs { position:sticky; top:24px; background:var(--inkt); color:var(--papier); padding:40px 40px 36px; overflow:hidden; }
-.prijs > * { position:relative; }
+.prijs > :not(.ring) { position:relative; }
 .prijs .ring { width:320px; height:320px; border-width:1.5px; opacity:.5; right:-160px; top:-160px; }
 .prijs .mono { color:var(--op-inkt-2); font-size:12px; }
 .bedrag { display:flex; align-items:baseline; gap:12px; margin-top:8px; }
@@ -436,7 +448,7 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .afzender .fonds img, footer.site .fonds img { height:28px; width:auto; display:block; }
 
 /* vragen */
-.faq { padding:80px 0 72px; }
+.faq { padding:80px 0 72px; background:var(--warm); }
 .faq .w { display:grid; grid-template-columns:4fr 8fr; gap:48px; align-items:start; }
 .faq h2 { font-size:40px; line-height:1.08; letter-spacing:-.02em; }
 .faq .hulp { font-size:16px; color:var(--zacht); margin-top:16px; }
@@ -445,8 +457,8 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .faq summary { list-style:none; cursor:pointer; padding:18px 40px 18px 0; position:relative; min-height:44px; }
 .faq summary::-webkit-details-marker { display:none; }
 .faq summary h3 { font-size:19px; line-height:1.3; display:inline; }
-.faq summary::after { content:"+"; position:absolute; right:0; top:14px; font-family:var(--mono); font-size:22px; }
-.faq details[open] summary::after { content:"\\2212"; }
+.faq summary::after { content:"+" / ""; position:absolute; right:0; top:14px; font-family:var(--mono); font-size:22px; }
+.faq details[open] summary::after { content:"\\2212" / ""; }
 .faq details div p { font-size:16px; color:var(--zacht); line-height:1.55; max-width:62ch; padding:0 0 20px; }
 
 /* verhalen */
@@ -455,7 +467,7 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .verhalen h2 { font-size:52px; letter-spacing:-.02em; line-height:1.02; margin-top:8px; }
 .verhalen .intro { font-size:18px; color:var(--zacht); max-width:36ch; margin-top:16px; }
 .verhalen .intro + .tekstlink { display:inline-block; margin-top:14px; }
-.verhalen .ring { width:160px; height:160px; opacity:.4; left:-60px; top:40px; }
+.verhalen .ring { width:640px; height:640px; border-width:1.5px; opacity:.3; left:-400px; top:-320px; }
 .klein-verhalen { margin-top:48px; }
 .klein-verhalen article { display:grid; grid-template-columns:160px 1fr; gap:20px; border-top:1px solid var(--inkt); padding:20px 0; }
 .tegel { aspect-ratio:4/3; display:flex; flex-direction:column; justify-content:center; padding:14px; }
@@ -463,56 +475,65 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .tegel.inkt { background:var(--inkt); color:var(--papier); }
 .tegel b { font-size:40px; font-weight:800; line-height:1; letter-spacing:-.03em; }
 .tegel.inkt b { font-size:26px; }
-.tegel .mono { font-size:11px; margin-top:6px; color:inherit; opacity:.75; }
+.tegel .mono { font-size:12px; margin-top:6px; color:inherit; opacity:.75; }
 .klein-verhalen h3 { font-size:22px; line-height:1.15; margin-top:4px; }
 .klein-verhalen p { font-size:16px; color:var(--zacht); margin-top:6px; }
 .klein-verhalen .tekstlink { display:inline-block; margin-top:8px; }
 figure.uitsteek { position:relative; margin:0 calc(50% - 50vw) 0 0; }
-figure.uitsteek img { width:100%; aspect-ratio:16/10; object-fit:cover; display:block; }
+figure.uitsteek img { width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; display:block; }
 .opschrift { position:absolute; left:0; bottom:0; background:var(--inkt); color:var(--papier); padding:16px 20px; font-family:var(--mono); font-size:12px; line-height:1.6; }
 .dsg-tekst { margin-top:24px; }
 .dsg-tekst h3 { font-size:30px; line-height:1.1; margin-top:6px; }
 .dsg-tekst p { font-size:17px; color:var(--zacht); max-width:60ch; margin-top:8px; }
 .dsg-tekst .tekstlink { display:inline-block; margin-top:10px; }
 
-/* overzicht: register */
-.overzicht { padding:80px 0 64px; }
-.overzicht .kopregel { border-top:2px solid var(--inkt); padding-top:24px; display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end; }
+/* overzicht: zwarte kopband, dan het register */
+.overzicht { padding:0 0 64px; }
+.kopband { background:var(--inkt); color:var(--papier); }
+.overzicht .kopregel { padding-top:48px; padding-bottom:40px; display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end; }
+.overzicht .kopregel .mono { color:var(--op-inkt-2); }
 .overzicht h2 { font-size:40px; line-height:1.08; letter-spacing:-.02em; }
-.register-lijst { margin-top:24px; display:grid; grid-template-columns:1fr 1fr; column-gap:48px; align-items:start; }
-.item { display:grid; grid-template-columns:48px 1fr; gap:16px; padding:20px 0; border-top:1px solid var(--inkt); text-decoration:none; color:inherit; }
+.register-lijst { margin-top:8px; display:grid; grid-template-columns:1fr 1fr; column-gap:48px; align-items:start; }
+.item { position:relative; display:grid; grid-template-columns:48px 1fr; gap:16px; padding:20px 0; border-top:1px solid var(--inkt); color:inherit; }
+.register-lijst > .item:nth-child(-n+2) { border-top:0; }
 .item .num { font-family:var(--mono); font-size:14px; color:var(--link); }
-.item .kop { display:block; }
-.item .kicker { font-family:inherit; font-size:12px; font-weight:700; color:var(--inkt); letter-spacing:0; }
+.item h3 a { color:inherit; text-decoration:none; }
+.item h3 a::after { content:""; position:absolute; inset:0; }
+.item:hover h3 a { text-decoration:underline; text-underline-offset:4px; }
+.item:has(h3 a:focus-visible) { outline:3px solid var(--knop); outline-offset:3px; }
+.item h3 a:focus-visible { outline:none; }
+.item .kicker { font-family:inherit; font-size:13px; font-weight:700; color:var(--inkt); letter-spacing:0; }
 .item .kicker::before { content:""; display:inline-block; width:8px; height:8px; margin-right:8px; background:var(--inkt); vertical-align:1px; }
 .item .k-nieuws::before { background:#2F4F6F; }
 .item .k-praktijk::before { background:var(--knop); }
 .item .k-inzicht::before { background:transparent; box-shadow:inset 0 0 0 1.5px var(--inkt); }
-.item .vlag { font-family:var(--mono); font-size:11px; color:#fff; background:var(--knop); padding:2px 6px; margin-left:8px; }
+.item .vlag { font-family:var(--mono); font-size:12px; color:#fff; background:var(--knop); padding:2px 6px; margin-left:8px; }
 .item h3 { font-size:20px; line-height:1.2; margin-top:6px; }
 .item p { font-size:15px; color:var(--zacht); margin-top:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .item .meer { display:inline-block; font-size:15px; font-weight:600; color:var(--link); text-decoration:underline; text-underline-offset:4px; margin-top:8px; }
-a.item:hover h3 { text-decoration:underline; text-underline-offset:4px; }
 .item.quote { background:var(--warm); padding:20px 16px; }
 .item.quote h3 { font-size:16px; }
 .item.quote p { font-size:14px; -webkit-line-clamp:3; }
 .item.quote blockquote { font-size:18px; font-weight:600; line-height:1.35; margin-top:8px; }
-.item.quote blockquote::before { content:"\\201C"; display:block; font-size:44px; line-height:.5; margin:10px 0 6px; }
-.item.quote .attr { display:block; font-family:var(--mono); font-size:12px; font-weight:400; color:var(--zacht); margin-top:8px; }
+.item.quote blockquote::before { content:"\\201C" / ""; display:block; font-size:44px; line-height:.5; margin:10px 0 6px; }
+.item.quote .attr { display:block; font-family:var(--mono); font-size:13px; font-weight:400; color:var(--zacht); margin-top:8px; }
+@media (min-width:1200px) {
+  .register-lijst { grid-template-columns:repeat(3, 1fr); column-gap:40px; }
+  .register-lijst > .item:nth-child(3) { border-top:0; }
+  .item h3 { font-size:19px; }
+}
 
 /* peiling, op inkt */
 .movement { position:relative; overflow:hidden; background:var(--inkt); color:var(--papier); padding:80px 0 88px; }
 .movement .w { position:relative; }
 .movement h2 { font-size:48px; line-height:1.08; letter-spacing:-.02em; }
-.movement h2::before { content:""; display:inline-block; width:18px; height:18px; border:3px solid var(--oranje); border-radius:50%; margin-right:16px; vertical-align:middle; }
 .movement .sub { font-size:17px; color:var(--op-inkt); max-width:52ch; margin-top:10px; }
 .movement .sub strong { color:var(--papier); }
 .movement .confirm { min-height:1.5em; font-size:16px; margin:16px 0; }
-.movement .confirm:empty { display:none; }
 .movement-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:0; margin-top:24px; }
 .movement-btn {
   min-height:96px; padding:20px; display:flex; flex-direction:column; justify-content:space-between; align-items:flex-start;
-  background:transparent; border:1px solid rgba(240,237,230,.35); margin-left:-1px; border-radius:0;
+  background:transparent; border:1px solid rgba(240,237,230,.4); margin-left:-1px; border-radius:0;
   font:inherit; font-size:16px; color:var(--papier); cursor:pointer; text-align:left;
   transition:transform .25s ease, background .2s ease;
 }
@@ -561,8 +582,8 @@ footer.site .fonds { display:inline-flex; align-items:center; gap:12px; text-dec
 @keyframes flits { 0% { opacity:0; } 40% { opacity:1; } 100% { opacity:0; } }
 .kraak .k-tekst { animation:kraak-tekst 200ms steps(3); }
 .kraak .portal::before, .kraak .portal::after, .kraak.uitsteek::before, .kraak.uitsteek::after { animation:flits 180ms steps(2); }
-.kraak .datum .s:first-of-type { clip-path:inset(0 0 66% 0); transform:translateX(5px); animation:flits 180ms steps(2); }
-.kraak .datum .s:last-of-type { clip-path:inset(66% 0 0 0); transform:translateX(-3px); animation:flits 180ms steps(2); }
+.datum.kraak .s:nth-of-type(2) { clip-path:inset(0 0 66% 0); transform:translateX(5px); animation:flits 180ms steps(2); }
+.datum.kraak .s:nth-of-type(3) { clip-path:inset(66% 0 0 0); transform:translateX(-3px); animation:flits 180ms steps(2); }
 .tabelwrap td.strook.oranje { transform:scaleY(0); }
 .tabelwrap.is-in td.strook.oranje { transform:none; transition:transform .3s cubic-bezier(.2,.9,.2,1); }
 html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
@@ -573,10 +594,8 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
 /* tussenmaat */
 @media (min-width:821px) and (max-width:1000px) {
   .register-lijst { grid-template-columns:1fr; }
-  .portal-wrap { width:520px; }
-  .ring.orbit { width:600px; height:600px; }
 }
-@media (max-height:800px) { .prijs { position:static; } }
+@media (max-height:800px) { .prijs { position:relative; } }
 
 /* mobiel */
 @media (max-width:820px) {
@@ -589,11 +608,16 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   nav.hoofd .kort { display:inline; }
   .hero { min-height:0; padding:32px 0 48px; }
   .hero .w { display:block; }
-  .staander { top:-33px; left:auto; right:16px; width:56px; height:140px; }
+  .staander { top:-33px; left:auto; right:16px; width:40px; height:290px; }
   .hero h1 .vraag { font-size:13px; }
   .hero h1 .groot { font-size:clamp(40px, 13vw, 64px); letter-spacing:-.04em; line-height:.9; white-space:normal; overflow-wrap:anywhere; }
-  .portal-wrap { width:88vw; margin-left:24vw; margin-top:-20px; }
+  .portal-wrap { width:min(88vw, 560px); margin-left:auto; margin-right:-14vw; margin-top:12px; }
   .ring.orbit { display:none; }
+  .tekstlink { display:inline-block; padding:9px 0; margin-bottom:-9px; }
+  .merk { padding:7px 0; }
+  nav.hoofd a.l { padding:11px 0; }
+  .fonds { padding:8px 0; }
+  .wetgeving .rij0, .datasheet td.status, .datasheet th .sinds, .prijs .mono, .opschrift, .item .kicker, .item.quote .attr, .tegel .mono, .item .vlag { font-size:13px; }
   .hero .lead { font-size:20px; margin-top:24px; }
   .hero .sub { font-size:17px; }
   .hero .acties { margin-top:24px; }
@@ -616,7 +640,7 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .wetgeving h2 { font-size:32px; }
   .ladder .d { font-size:44px; }
   .ladder .datum { font-size:clamp(64px, 22vw, 88px); }
-  .datasheet thead, .datasheet colgroup { display:none; }
+  .datasheet colgroup { display:none; }
   table.datasheet, .datasheet tbody, .datasheet tr, .datasheet th, .datasheet td { display:block; width:auto; }
   .datasheet tr { border-top:1px solid var(--lijn-inkt); border-bottom:0; padding:20px 0 20px 16px; position:relative; }
   .datasheet td.strook { position:absolute; left:0; top:0; bottom:0; width:6px; }
@@ -634,7 +658,7 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .rapport h2 { font-size:32px; }
   .register li { grid-template-columns:44px 1fr; }
   .register b { font-size:18px; }
-  .prijs { position:static; padding:28px 20px; }
+  .prijs { position:relative; padding:28px 20px; }
   .bedrag .getal { font-size:88px; }
   .faq { padding:56px 0 48px; }
   .faq .w { grid-template-columns:1fr; gap:24px; }
@@ -648,8 +672,9 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   figure.uitsteek img { aspect-ratio:4/3; }
   .klein-verhalen article { grid-template-columns:1fr; }
   .tegel { aspect-ratio:auto; height:120px; }
-  .overzicht { padding:56px 0 40px; }
-  .overzicht .kopregel { grid-template-columns:1fr; gap:8px; }
+  .overzicht { padding:0 0 40px; }
+  .overzicht .kopregel { grid-template-columns:1fr; gap:8px; padding-top:36px; padding-bottom:28px; }
+  .register-lijst > .item:nth-child(2) { border-top:1px solid var(--inkt); }
   .overzicht h2 { font-size:30px; }
   .register-lijst { grid-template-columns:1fr; }
   .item { grid-template-columns:40px 1fr; }
@@ -659,8 +684,8 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .movement-grid { grid-template-columns:1fr; }
   .movement-btn { min-height:64px; flex-direction:row; align-items:center; margin-left:0; margin-top:-1px; }
   .movement-btn .count { font-size:28px; }
-  .ring.orbit-open { width:480px; height:480px; right:-300px; top:-320px; }
-  .onder { grid-template-columns:1fr; gap:8px; padding:48px 0 32px; }
+  .ring.orbit-open { width:360px; height:360px; right:-260px; top:-280px; opacity:.4; }
+  .onder { grid-template-columns:1fr; gap:8px; padding-top:48px; padding-bottom:32px; }
   .agenda li { grid-template-columns:1fr; gap:4px; }
   .slot { padding:48px 0 56px; }
   .slot .w { grid-template-columns:1fr; gap:24px; }
@@ -670,11 +695,11 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
-  .kraak .k-tekst, .kraak .datum .s, .portal::before, .portal::after, .uitsteek::before, .uitsteek::after { animation:none !important; }
+  .kraak .k-tekst, .datum.kraak .s, .portal::before, .portal::after, .uitsteek::before, .uitsteek::after { animation:none !important; }
   .portal::before, .portal::after, .uitsteek::before, .uitsteek::after { display:none; }
-  .lijn { transform:none; transition:none; }
-  .marge { opacity:1; transition:none; }
-  .tabelwrap td.strook.oranje { transform:none; transition:none; }
+  .lijn, .is-in .lijn { transform:none; transition:none; }
+  .marge, .is-in .marge { opacity:1; transition:none; }
+  .tabelwrap td.strook.oranje, .tabelwrap.is-in td.strook.oranje { transform:none; transition:none; }
   .ring.drijft, .ring.orbit-open { animation:none; }
   .movement-btn { transition:none; }
   .movement-btn.pulse { transform:none; }
@@ -688,12 +713,12 @@ KRAAK_SCRIPT = """
   <script>
     /* De kraak: vijf plekken kraken een keer, 200 ms, zodra ze in beeld komen. */
     (function () {
+      var stil = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (stil || !('IntersectionObserver' in window)) return; /* zonder klasse js staat alles direct aan */
       var root = document.documentElement;
       root.classList.add('js');
       var els = document.querySelectorAll('[data-kraak]');
-      var stil = matchMedia('(prefers-reduced-motion: reduce)').matches;
       function aan(el) { el.classList.add('is-in'); }
-      if (stil || !('IntersectionObserver' in window)) { els.forEach(aan); return; }
       function kraak(el) {
         if (el.classList.contains('kraak') || el.classList.contains('is-in')) return;
         el.classList.add('kraak');
@@ -707,10 +732,14 @@ KRAAK_SCRIPT = """
           if (e.target.classList.contains('hero')) { klaar.then(function () { kraak(e.target); }); }
           else { kraak(e.target); }
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0 });
       els.forEach(function (el) { io.observe(el); });
-      /* Vangnet: wat na twee seconden nog niet in beeld kwam, staat gewoon aan. */
-      setTimeout(function () { els.forEach(function (el) { if (!el.classList.contains('is-in')) { io.unobserve(el); aan(el); } }); }, 2000);
+      /* Vangnet: wat al in beeld staat maar na twee seconden nog niet is opgemerkt, staat gewoon aan. */
+      setTimeout(function () {
+        els.forEach(function (el) {
+          if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < innerHeight) { io.unobserve(el); aan(el); }
+        });
+      }, 2000);
     })();
   </script>
 """
@@ -745,6 +774,13 @@ MOVEMENT_SCRIPT = """
       }
       function setCount(phase, value) {
         countEl(phase).textContent = value;
+        countEl(phase).removeAttribute('aria-hidden');
+      }
+      function onthoud(phase) {
+        try { localStorage.setItem(STORAGE_KEY, phase); } catch (e) {}
+      }
+      function onthouden() {
+        try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
       }
 
       // Friendly confirmation: number + reassurance, not official-data tone
@@ -758,10 +794,11 @@ MOVEMENT_SCRIPT = """
       }
 
       function highlight(phase, animate) {
-        buttons.forEach((b) => b.classList.remove('selected'));
+        buttons.forEach((b) => { b.classList.remove('selected'); b.setAttribute('aria-pressed', 'false'); });
         const btn = section.querySelector(`[data-phase="${phase}"]`);
         if (!btn) return;
         btn.classList.add('selected');
+        btn.setAttribute('aria-pressed', 'true');
         if (animate) {
           btn.classList.add('pulse');
           setTimeout(() => btn.classList.remove('pulse'), 500);
@@ -779,11 +816,10 @@ MOVEMENT_SCRIPT = """
               if (r.ok) {
                 const data = await r.json();
                 setCount(phase, data.value || 0);
-              } else {
-                setCount(phase, 0);
               }
+              // bij een fout blijft de placeholder staan, in plaats van een valse 0
             } catch (e) {
-              setCount(phase, 0);
+              // idem
             }
           })
         );
@@ -811,7 +847,7 @@ MOVEMENT_SCRIPT = """
       }
 
       async function vote(phase) {
-        const previous = localStorage.getItem(STORAGE_KEY);
+        const previous = onthouden();
 
         if (previous === phase) {
           // same choice clicked again: never double-counts
@@ -825,7 +861,7 @@ MOVEMENT_SCRIPT = """
         }
 
         await hit(phase);
-        localStorage.setItem(STORAGE_KEY, phase);
+        onthoud(phase);
         highlight(phase, true);
       }
 
@@ -838,7 +874,7 @@ MOVEMENT_SCRIPT = """
 
       // Initialize: load counts, then restore any prior choice
       loadCounts().then(() => {
-        const previous = localStorage.getItem(STORAGE_KEY);
+        const previous = onthouden();
         if (previous && PHASES[previous]) {
           highlight(previous, false);
         }
@@ -884,10 +920,12 @@ PAGE = """<!DOCTYPE html>
 <body>
 
 <header class="top"><div class="w">
+  <a class="skip" href="#inhoud">Naar de inhoud</a>
   <a class="merk" href="/switch.html"><img src="/wordmark.png" alt="Will Switch" width="705" height="153"><span>Praktijkonderzoek naar<br>digitale autonomie</span></a>
-  <nav class="hoofd" aria-label="Hoofdnavigatie"><a class="l" href="#verhalen">Praktijk</a><a class="l" href="#rapport">Rapport</a><a class="knop" href="/scan/"><span class="lang">Uitstaptoets</span><span class="kort">Toets</span> &rarr;</a></nav>
+  <nav class="hoofd" aria-label="Hoofdnavigatie"><a class="l" href="#verhalen">Praktijk</a><a class="l" href="#rapport">Rapport</a><a class="knop" href="/scan/"><span class="lang">Uitstaptoets</span><span class="kort">Toets</span> <span aria-hidden="true">&rarr;</span></a></nav>
 </div></header>
 
+<main id="inhoud">
 <section class="hero" data-kraak><div class="w">
   <div class="staander" aria-hidden="true"></div>
   <div class="hero-tekst">
@@ -895,7 +933,7 @@ PAGE = """<!DOCTYPE html>
     <p class="lead">Niet alles hoeft anders. Maar je moet wel kunnen kiezen.</p>
     <p class="sub">Sinds 15 augustus 2026 moet je bestuur die vraag per leverancier kunnen beantwoorden. De gratis uitstaptoets laat in een kwartier zien waar je staat. Het uitstaprapport zegt wat je daarna doet.</p>
     <div class="acties">
-      <a class="knop groot" href="/scan/">Doe de gratis uitstaptoets &rarr;</a>
+      <a class="knop groot" href="/scan/">Doe de gratis uitstaptoets <span aria-hidden="true">&rarr;</span></a>
       <span class="micro">een kwartier, geen registratie, je antwoorden blijven in je browser</span>
     </div>
     <p class="hero-link"><a class="tekstlink" href="#verhalen">Bekijk de praktijkverhalen</a></p>
@@ -922,7 +960,7 @@ PAGE = """<!DOCTYPE html>
     <blockquote class="citaat">
       <div class="lijn staand" aria-hidden="true"></div>
       <p>Het ligt zelden aan de techniek. Het ligt aan wie zich eigenaar voelt.</p>
-      <p class="bron mono marge">uit 62 stemmen op FOSS4G NL 2026, Groningen <a class="tekstlink" href="/talk/">Bekijk het verhaal</a></p>
+      <p class="bron mono marge">uit 62 stemmen op FOSS4G NL 2026, Groningen <a class="tekstlink" href="/talk/">Bekijk het verhaal van die dag</a></p>
     </blockquote>
   </div>
 </section>
@@ -941,33 +979,33 @@ PAGE = """<!DOCTYPE html>
         <li><span class="d">medio 2030</span><span class="l">rijksbreed cloudbeleid, einde overgangstermijn</span></li>
       </ol>
       <p class="teller">{teller_cbw}<br>{teller_dataact}</p>
+      <div class="vragen"><b>Drie vragen die je vandaag zou moeten kunnen beantwoorden</b>
+        <ol>
+          <li>Van welke leveranciers hangt je dienstverlening af, en wanneer lopen die contracten af?</li>
+          <li>Wat gebeurt er met je data als zo'n leverancier stopt?</li>
+          <li>Wie in het bestuur is daarvoor verantwoordelijk, en is dat formeel vastgesteld?</li>
+        </ol>
+      </div>
     </div>
     <div class="tabelwrap" data-kraak>
       <div class="lijn liggend" aria-hidden="true"></div>
       <table class="datasheet" role="table">
         <colgroup><col class="c-strook"><col class="c-status"><col class="c-kader"><col class="c-wat"></colgroup>
-        <thead class="sr-only"><tr><th></th><th>status</th><th>kader, sinds en voor wie</th><th>wat je moet kunnen aantonen</th></tr></thead>
-        <tbody>
+        <thead class="sr-only" role="rowgroup"><tr role="row"><th scope="col" role="columnheader">markering</th><th scope="col" role="columnheader">status</th><th scope="col" role="columnheader">kader, sinds en voor wie</th><th scope="col" role="columnheader">wat je moet kunnen aantonen</th></tr></thead>
+        <tbody role="rowgroup">
           <tr role="row">
             <td class="strook oranje" role="cell"></td>
             <td class="status" role="cell">nu</td>
             <th scope="row" role="rowheader"><h3>Cyberbeveiligingswet: ketenzorgplicht per leverancier</h3><span class="sub">Van kracht sinds 15 augustus 2026</span><span class="sinds">wet, voor Rijk, zbo's, gemeenten, provincies en waterschappen<br>de zorgplicht geldt al</span></th>
             <td class="wat" role="cell">
               <p>Per leverancier moet je kunnen aantonen wat er gebeurt bij contracteinde, faillissement of overname. Het bestuur is eindverantwoordelijk, en de toezichthouder kan ernaar vragen.</p>
-              <div class="vragen"><b>Drie vragen die je vandaag zou moeten kunnen beantwoorden</b>
-                <ol>
-                  <li>Van welke leveranciers hangt je dienstverlening af, en wanneer lopen die contracten af?</li>
-                  <li>Wat gebeurt er met je data als zo'n leverancier stopt?</li>
-                  <li>Wie in het bestuur is daarvoor verantwoordelijk, en is dat formeel vastgesteld?</li>
-                </ol>
-              </div>
               {link_cbw}
             </td>
           </tr>
           <tr role="row">
             <td class="strook papier" role="cell"></td>
             <td class="status" role="cell">12.01.27</td>
-            <th scope="row" role="rowheader"><h3>Data Act: overstaprecht zonder overstapkosten</h3><span class="sub">Vanaf 12 januari 2027</span><span class="sinds">eu-verordening, voor iedere afnemer van clouddiensten<br>ook voor lopende contracten</span></th>
+            <th scope="row" role="rowheader"><h3>Data Act: overstappen van cloud zonder overstapkosten</h3><span class="sub">Vanaf 12 januari 2027</span><span class="sinds">eu-verordening, voor iedere afnemer van clouddiensten<br>ook voor lopende contracten</span></th>
             <td class="wat" role="cell"><p>Het recht om binnen dertig dagen over te stappen, ook naar eigen infrastructuur. Vanaf die datum vervallen overstapkosten.</p>{link_dataact}</td>
           </tr>
           <tr role="row">
@@ -980,11 +1018,12 @@ PAGE = """<!DOCTYPE html>
       </table>
     </div>
   </div>
+</div>
   <div class="balk"><div class="w">
     <div><b>De uitstaptoets toetst alle drie.</b><span>In een kwartier weet je waar je staat en wat een logische eerste stap is.</span></div>
-    <a class="knop groot" href="/scan/">Doe de uitstaptoets &rarr;</a>
+    <a class="knop groot" href="/scan/">Doe de uitstaptoets <span aria-hidden="true">&rarr;</span></a>
   </div></div>
-</div></section>
+</section>
 
 <section class="rapport" id="rapport"><div class="w">
   <div>
@@ -1022,8 +1061,8 @@ PAGE = """<!DOCTYPE html>
     <div class="afzender">
       <p class="kicker">initiatiefnemer</p>
       <p class="naam">Govert Schoof</p>
-      <p>Werkt op het snijvlak van overheid, onderzoek, geo-informatie en digitale autonomie. <a class="tekstlink" href="https://www.linkedin.com/in/govertschoof/" target="_blank" rel="noopener">LinkedIn</a></p>
-      <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
+      <p>Werkt op het snijvlak van overheid, onderzoek, geo-informatie en digitale autonomie. <a class="tekstlink" href="https://www.linkedin.com/in/govertschoof/">LinkedIn</a></p>
+      <a class="fonds" href="https://www.sidnfonds.nl/"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
     </div>
   </div>
 </div></section>
@@ -1059,7 +1098,7 @@ PAGE = """<!DOCTYPE html>
     </div>
     <div>
       <figure class="uitsteek" style="--src:url(/dsg-viewer.webp)" data-kraak>
-        <img src="/dsg-viewer.webp" alt="Kaartviewer van Data Space Groningen" width="1400" height="657" loading="lazy">
+        <img src="/dsg-viewer.webp" alt="Kaartviewer van Data Space Groningen" width="1293" height="588" loading="lazy">
         <figcaption class="opschrift marge">data space groningen<br>samen data, meer waarde<br>17 organisaties, 1 open platform</figcaption>
       </figure>
       <div class="dsg-tekst">
@@ -1072,28 +1111,28 @@ PAGE = """<!DOCTYPE html>
   </div>
 </section>
 
-<section class="overzicht" id="overzicht"><div class="w">
-  <div class="kopregel">
+<section class="overzicht" id="overzicht">
+  <div class="kopband"><div class="w kopregel">
     <h2>Alle cases: wetgeving, nieuws, praktijk en uitspraken</h2>
     <p class="mono">{aantal} onderdelen: wetgeving, nieuws, praktijk, inzicht, beleid en uitspraken</p>
-  </div>
-  <div class="register-lijst">
+  </div></div>
+  <div class="w"><div class="register-lijst">
 {items}
-  </div>
-</div></section>
+  </div></div>
+</section>
 
 <section class="movement" id="movement">
   <div class="ring orbit-open" aria-hidden="true"></div>
   <div class="w">
-    <h2>Waar staat jouw organisatie vandaag?</h2>
+    <h2 id="movement-kop">Waar staat jouw organisatie vandaag?</h2>
     <p class="sub"><strong>Doe mee.</strong> E&eacute;n klik, geen registratie, geen mailadres. Een teken dat jullie ergens in deze beweging staan.</p>
-    <p class="confirm" id="movement-confirm"></p>
-    <div class="movement-grid" id="movement-grid">
-      <button class="movement-btn" data-phase="verkennen" type="button"><span class="label">We verkennen</span><span class="count" data-count>&middot;</span></button>
-      <button class="movement-btn" data-phase="praten" type="button"><span class="label">We praten erover</span><span class="count" data-count>&middot;</span></button>
-      <button class="movement-btn" data-phase="pilot" type="button"><span class="label">We draaien een pilot</span><span class="count" data-count>&middot;</span></button>
-      <button class="movement-btn" data-phase="overstap" type="button"><span class="label">We stappen over</span><span class="count" data-count>&middot;</span></button>
-      <button class="movement-btn" data-phase="verder" type="button"><span class="label">We zijn al verder</span><span class="count" data-count>&middot;</span></button>
+    <p class="confirm" id="movement-confirm" role="status" aria-live="polite"></p>
+    <div class="movement-grid" id="movement-grid" role="group" aria-labelledby="movement-kop">
+      <button class="movement-btn" data-phase="verkennen" type="button" aria-pressed="false"><span class="label">We verkennen</span><span class="count" data-count aria-hidden="true">&middot;</span></button>
+      <button class="movement-btn" data-phase="praten" type="button" aria-pressed="false"><span class="label">We praten erover</span><span class="count" data-count aria-hidden="true">&middot;</span></button>
+      <button class="movement-btn" data-phase="pilot" type="button" aria-pressed="false"><span class="label">We draaien een pilot</span><span class="count" data-count aria-hidden="true">&middot;</span></button>
+      <button class="movement-btn" data-phase="overstap" type="button" aria-pressed="false"><span class="label">We stappen over</span><span class="count" data-count aria-hidden="true">&middot;</span></button>
+      <button class="movement-btn" data-phase="verder" type="button" aria-pressed="false"><span class="label">We zijn al verder</span><span class="count" data-count aria-hidden="true">&middot;</span></button>
     </div>
   </div>
 </section>
@@ -1103,7 +1142,7 @@ PAGE = """<!DOCTYPE html>
     <h2>Agenda</h2>
     <p class="sub">Meepraten? Kom dan naar:</p>
     <ul>
-      <li><div class="when">01.10.2026</div><div class="what"><a href="https://leiderschapstop.nl/" target="_blank" rel="noopener">LeiderschapsTop Open Source</a><span class="where">Koorkerk, Middelburg &middot; op uitnodiging</span></div></li>
+      <li><div class="when">01.10.2026</div><div class="what"><a href="https://leiderschapstop.nl/">LeiderschapsTop Open Source</a><span class="where">Koorkerk, Middelburg &middot; op uitnodiging</span></div></li>
     </ul>
     <p class="sub" style="margin-top:1.6rem">Geweest:</p>
     <ul>
@@ -1114,7 +1153,7 @@ PAGE = """<!DOCTYPE html>
     <h2>Supporters van digitale autonomie</h2>
     <p class="sub">Mensen en organisaties die zich openlijk achter de beweging scharen.</p>
     <ul>
-      <li><span class="name">Oskar J. Gstrein</span><span class="context">Rijksuniversiteit Groningen, <a href="https://daix.web.rug.nl/" target="_blank" rel="noopener">Data Autonomy Index</a></span></li>
+      <li><span class="name">Oskar J. Gstrein</span><span class="context">Rijksuniversiteit Groningen, <a href="https://daix.web.rug.nl/">Data Autonomy Index</a></span></li>
     </ul>
   </section>
 </div>
@@ -1122,14 +1161,15 @@ PAGE = """<!DOCTYPE html>
 <section class="slot"><div class="w">
   <p class="slotzin">Niet alles hoeft anders. Maar je moet wel kunnen kiezen, en dat begint met weten of je nog weg kunt. Een kwartier, en je weet het.</p>
   <div>
-    <a class="knop groot" href="/scan/">Doe de gratis uitstaptoets &rarr;</a>
+    <a class="knop groot" href="/scan/">Doe de gratis uitstaptoets <span aria-hidden="true">&rarr;</span></a>
     <span class="micro">een kwartier, geen registratie, je antwoorden blijven in je browser</span>
   </div>
 </div></section>
+</main>
 
 <footer class="site"><div class="w">
   <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
-  <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
+  <a class="fonds" href="https://www.sidnfonds.nl/"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
 </div></footer>
 {movement_script}{kraak_script}
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
@@ -1169,8 +1209,8 @@ def build_switch(cases):
         stand=TODAY.strftime("%d.%m.%Y"),
         teller_cbw=teller_cbw,
         teller_dataact=teller_dataact,
-        link_cbw=case_link(ids, "cbw", "Wat de Cyberbeveiligingswet van je vraagt"),
-        link_dataact=case_link(ids, "dataact", "Wat de Data Act regelt voor je cloudcontract"),
+        link_cbw=case_link(ids, "cbw", "Ketenzorgplicht Cyberbeveiligingswet: wat je per leverancier moet aantonen"),
+        link_dataact=case_link(ids, "dataact", "Wat de Data Act regelt als je van cloud wilt overstappen"),
         link_cloudbeleid=case_link(ids, "cloudbeleid", "Wat het rijksbreed cloudbeleid eist"),
         register=register_html(),
         bestel_tekst=BESTEL_TEKST[BESTEL_AAN],
