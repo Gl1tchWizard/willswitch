@@ -25,7 +25,10 @@ def load_cases():
         if not m:
             print(f"  overgeslagen (geen kop): {f.name}")
             continue
-        meta = json.loads(m.group(1))
+        try:
+            meta = json.loads(m.group(1))
+        except ValueError as e:
+            raise SystemExit(f"{f.name}: de kop is geen geldige JSON: {e}")
         body = m.group(2).strip()
         # Tussenkoppen in de body zijn h2: de h1 is de titel van de pagina.
         meta["body"] = re.sub(r"<(/?)h3\b", r"<\1h2", body)
@@ -38,7 +41,15 @@ def is_published(case):
     d = case.get("publish_on")
     if not d:
         return True
-    return datetime.date.fromisoformat(d) <= TODAY
+    try:
+        return datetime.date.fromisoformat(d) <= TODAY
+    except ValueError:
+        raise SystemExit(f"{case['id']}: publish_on {d!r} is geen datum als JJJJ-MM-DD")
+
+
+def case_datum(case):
+    """Een datum per case, overal dezelfde: JSON-LD, article-meta en sitemap."""
+    return case.get("publish_on") or case.get("new_since") or "2026-07-01"
 
 
 def strip_tags(s):
@@ -61,19 +72,25 @@ def eerste_zinnen(txt, maxlen=160):
 def description(case):
     if case.get("description"):
         return case["description"].strip()
-    txt = case.get("card_body") or strip_tags(case["body"])
-    return eerste_zinnen(txt)
+    kaart = case.get("card_body", "")
+    if kaart and len(kaart) <= 175:
+        return kaart
+    return eerste_zinnen(kaart or strip_tags(case["body"]))
 
 
 def page_title(case):
-    return case.get("seo_title") or f'{case["title"]} | Will Switch'
+    """Het achtervoegsel alleen als de title er niet te lang van wordt (Google kapt rond 65)."""
+    if case.get("seo_title"):
+        return case["seo_title"]
+    t = case["title"]
+    return f"{t} | Will Switch" if len(t) + 14 <= 65 else t
 
 
 def jsonld_case(case, d):
     """Article plus BreadcrumbList voor een casepagina."""
     url = f"{BASE}/cases/{case['id']}/"
-    gepubliceerd = case.get("publish_on") or case.get("new_since") or "2026-07-01"
-    gewijzigd = case.get("publish_on") or case.get("new_since") or gepubliceerd
+    gepubliceerd = case_datum(case)
+    gewijzigd = gepubliceerd
     artikel = {
         "@type": "Article",
         "@id": f"{url}#article",
@@ -170,7 +187,7 @@ PAGE = """<!DOCTYPE html>
 
 <footer class="site"><div class="w">
   <span>Will Switch &middot; willswitch.nl &middot; <a href="/">terug naar de switch</a></span>
-  <a class="fonds" href="https://www.sidnfonds.nl/" target="_blank" rel="noopener"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
+  <a class="fonds" href="https://www.sidnfonds.nl/"><span>Onderzoek met steun van</span><img src="/sidnfonds.png" alt="SIDN fonds" width="150" height="28"></a>
 </div></footer>
   <!-- Privacyvriendelijke analytics (GoatCounter, geen cookies) -->
   <script data-goatcounter="https://willswitch.goatcounter.com/count"
@@ -229,7 +246,7 @@ header.top .w { display:flex; align-items:center; justify-content:space-between;
 .merk img { height:36px; width:auto; display:block; }
 .merk span { font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--zacht); line-height:1.5; padding-left:18px; border-left:1px solid var(--inkt); }
 nav.hoofd { display:flex; align-items:center; gap:32px; font-size:16px; }
-nav.hoofd a.l { text-decoration:none; padding:10px 0; }
+nav.hoofd a.l { text-decoration:none; padding:11px 0; }
 nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
 nav.hoofd .kort { display:none; }
 
@@ -238,7 +255,8 @@ nav.hoofd .kort { display:none; }
 
 /* de leeskolom */
 main.case { padding:64px 0 88px; }
-.lees { max-width:68ch; }
+.lees { max-width:640px; }
+.lees h1 { max-width:none; }
 .lees .kicker { margin-bottom:20px; }
 .lees h1 { font-size:clamp(40px, 5vw, 64px); font-weight:800; letter-spacing:-.02em; line-height:1.02; margin-bottom:36px; }
 .lees h2 { font-size:32px; line-height:1.1; letter-spacing:-.01em; margin:48px 0 14px; }
@@ -268,8 +286,8 @@ main.case { padding:64px 0 88px; }
 .toets .kicker { color:var(--op-inkt-2); }
 .toets h2 { font-size:32px; line-height:1.08; letter-spacing:-.02em; margin-top:8px; }
 .toets p { font-size:17px; color:var(--op-inkt); max-width:48ch; margin-top:12px; }
-.toets .actie { justify-self:end; text-align:right; }
-.toets .micro { display:block; font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--op-inkt-2); margin-top:12px; line-height:1.5; }
+.toets .actie { justify-self:end; display:flex; flex-direction:column; align-items:flex-start; gap:12px; text-align:left; }
+.toets .micro { display:block; font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--op-inkt-2); max-width:34ch; line-height:1.5; }
 
 /* meer praktijkverhalen, als register */
 .meer { margin-top:80px; }
@@ -294,9 +312,11 @@ footer.site .fonds img { height:28px; width:auto; display:block; }
 @media (max-width:820px) {
   .w { padding:0 16px; }
   header.top .w { min-height:64px; }
-  .merk img { height:30px; }
+  .merk { flex-shrink:0; }
+  .merk img { max-width:none; height:26px; }
+  nav.hoofd .knop { padding:0 14px; }
   .merk span { display:none; }
-  nav.hoofd { gap:16px; font-size:15px; }
+  nav.hoofd { gap:12px; font-size:15px; }
   nav.hoofd .lang { display:none; }
   nav.hoofd .kort { display:inline; }
   main.case { padding:40px 0 64px; }
@@ -318,6 +338,7 @@ footer.site .fonds img { height:28px; width:auto; display:block; }
   .register b { font-size:18px; }
   footer.site .w { flex-direction:column; align-items:flex-start; gap:12px; }
 }
+@media (max-width:400px) { nav.hoofd a.l { display:none; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
 }
@@ -341,10 +362,22 @@ SCANBLOK = """  <section class="toets" aria-labelledby="toets-kop">
 
 
 def related_html(others):
+    """title en eyebrow zijn platte tekst en worden geëscaped; card_body en body zijn HTML."""
     return "\n".join(
         f'      <li><a href="/cases/{o["id"]}/"><span class="n">{i:02d}</span>'
-        f'<span><span class="kicker">{o.get("eyebrow", "")}</span><b>{o["title"]}</b></span></a></li>'
+        f'<span><span class="kicker">{html.escape(o.get("eyebrow", ""))}</span><b>{html.escape(o["title"])}</b></span></a></li>'
         for i, o in enumerate(others, 1))
+
+
+def soort(case):
+    return (case.get("eyebrow") or "").split("·")[0].split("/")[0].strip().lower()
+
+
+def verwant(case, live):
+    """Eerst cases van dezelfde soort (wetgeving, praktijk, ...), dan de rest, nooit zichzelf."""
+    zelfde = [o for o in live if o["id"] != case["id"] and soort(o) == soort(case)]
+    rest = [o for o in live if o["id"] != case["id"] and o not in zelfde]
+    return (zelfde + rest)[:4]
 
 
 def build():
@@ -360,9 +393,10 @@ def build():
         shutil.rmtree(DIST)
     DIST.mkdir()
 
-    # vaste bestanden meenemen
+    # vaste bestanden meenemen; de originelen van de webp's en de oude sitemap niet
+    OVERSLAAN = {"sitemap.xml", "switch-hero.png", "dsg-viewer.jpg"}
     for f in SITE.glob("*"):
-        if f.is_file():
+        if f.is_file() and f.name not in OVERSLAAN:
             shutil.copy(f, DIST / f.name)
     ht = SITE / ".htaccess"
     if ht.exists():
@@ -371,19 +405,19 @@ def build():
     # casepagina's
     for c in live + komend:
         vooruit = c in komend
-        others = [o for o in live if o["id"] != c["id"]][:4]
+        others = verwant(c, live)
         # relatieve paden naar de root omzetten, de casepagina staat dieper
         body = re.sub(r'href="\?case=([a-z]+)"', r'href="/cases/\1/"', c["body"])
-        body = re.sub(r'(src|href)="(?!https?://|/|#)', r'\1="/', body)
+        body = re.sub(r'(src|href|srcset)="(?![a-z][a-z0-9+.-]*:|/|#)', r'\1="/', body)
         d = description(c)
-        gepubliceerd = c.get("publish_on") or c.get("new_since") or "2026-07-01"
+        gepubliceerd = case_datum(c)
         page = PAGE.format(
             robots=('  <meta name="robots" content="noindex">\n' if vooruit else ''),
             scanblok=SCANBLOK if SCAN_AAN else '',
             id=c["id"],
             title=html.escape(c["title"], quote=True),
             page_title=html.escape(page_title(c), quote=True),
-            eyebrow=c.get("eyebrow", ""),
+            eyebrow=html.escape(c.get("eyebrow", "")),
             description=html.escape(d, quote=True),
             jsonld=jsonld_case(c, d).replace("</", "<\\/"),
             published=gepubliceerd,
@@ -453,8 +487,7 @@ def write_sitemap(live):
         urls.append((f"{BASE}/talk/", "0.6", "yearly", "2026-07-09"))
     # /rapport/voorbeeld.html komt in de sitemap zodra bestellen open gaat
     for c in live:
-        datum = c.get("publish_on") or c.get("new_since") or TODAY
-        urls.append((f"{BASE}/cases/{c['id']}/", "0.8", "monthly", datum))
+        urls.append((f"{BASE}/cases/{c['id']}/", "0.8", "monthly", case_datum(c)))
     body = "\n".join(
         f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{datum}</lastmod>\n"
         f"    <changefreq>{freq}</changefreq>\n    <priority>{pri}</priority>\n  </url>"
