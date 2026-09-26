@@ -14,7 +14,7 @@ PAGE = r'''<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Uitstaptoets: kun je nog weg bij je leveranciers? | Will Switch</title>
-  <meta name="description" content="Gratis toets voor gemeenten, waterschappen en andere publieke organisaties. Toetst in een kwartier je ketenafhankelijkheid tegen de Cyberbeveiligingswet, de Data Act en het rijkscloudbeleid. Geen registratie.">
+  <meta name="description" content="Gratis uitstaptoets voor gemeenten, waterschappen en andere publieke organisaties. In een kwartier je ketenafhankelijkheid langs Cbw, Data Act en cloudbeleid.">
   <link rel="canonical" href="https://willswitch.nl/scan/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Will Switch">
@@ -78,17 +78,25 @@ PAGE = r'''<!DOCTYPE html>
     .merk img { height:36px; width:auto; display:block; }
     .merk span { font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--zacht); line-height:1.5; padding-left:18px; border-left:1px solid var(--inkt); }
     nav.hoofd { display:flex; align-items:center; gap:32px; font-size:16px; }
-    nav.hoofd a.l { text-decoration:none; padding:10px 0; }
+    nav.hoofd a.l { text-decoration:none; padding:11px 0; }
     nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
 
     /* voortgang: een dunne oranje lijn onder de header */
-    .stappen { display:flex; height:3px; background:var(--lijn); }
+    .stappen { display:flex; gap:4px; height:4px; background:var(--lijn); }
     .stappen i { flex:1; }
     .stappen i.aan { background:var(--oranje); }
 
     /* de stappen zelf: een leeskolom in de brede container */
     .wrap > section { max-width:1280px; margin:0 auto; padding:48px 40px 96px; }
     .wrap > section > * { max-width:760px; }
+    .wrap > section > p, .wrap > section > .wet { max-width:62ch; }
+    #s0 { position:relative; overflow:hidden; }
+    #s0 .ring { position:absolute; border-radius:50%; border:1.5px solid var(--oranje); pointer-events:none; width:640px; height:640px; right:-320px; top:-260px; opacity:.3; }
+    #s0 > * { position:relative; }
+    #s0 .ring { position:absolute; }
+    .kicker { font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--zacht); margin-bottom:20px; }
+    .acties { display:flex; flex-direction:column; align-items:flex-start; gap:12px; margin:8px 0 32px; }
+    .micro { font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--zacht); max-width:34ch; line-height:1.5; }
 
     h1 { font-size:clamp(40px, 5vw, 64px); font-weight:800; letter-spacing:-.02em; line-height:1.02; margin-bottom:24px; text-wrap:balance; }
     h2 { font-size:32px; font-weight:700; line-height:1.1; margin-bottom:12px; text-wrap:balance; }
@@ -109,19 +117,21 @@ PAGE = r'''<!DOCTYPE html>
     button:disabled { opacity:.35; cursor:not-allowed; }
     .b-primair {
       display:inline-flex; align-items:center; justify-content:center; gap:.55em;
-      min-height:48px; padding:0 24px; background:var(--knop); color:#fff;
+      min-height:52px; padding:0 26px; background:var(--knop); color:#fff;
       font-size:16px; font-weight:700; line-height:1.1; text-decoration:none; border:0; border-radius:0;
     }
     .b-primair:hover:not(:disabled) { background:var(--inkt); color:#fff; }
+    .acties .b-primair { min-height:56px; padding:0 28px; font-size:17px; }
     #sysstatus b { color:var(--inkt); }
     .b-stil {
-      display:inline-flex; align-items:center; min-height:44px; padding:0; background:none;
+      display:inline-flex; align-items:center; min-height:44px; min-width:44px; padding:0; background:none;
       color:var(--link); font-size:16px; font-weight:600;
       text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:1.5px;
     }
     .b-stil:hover { color:var(--inkt); }
     .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:40px; padding-top:24px; border-top:1px solid var(--inkt); }
     #s6 .nav > a {
+      display:inline-flex; align-items:center; min-height:44px;
       color:var(--link) !important; font-family:inherit !important; font-size:16px !important; font-weight:600;
       letter-spacing:0 !important; text-transform:none !important;
       text-decoration:underline !important; text-underline-offset:4px; text-decoration-thickness:1.5px;
@@ -227,6 +237,7 @@ PAGE = r'''<!DOCTYPE html>
     .rapport li:last-child { border-bottom:1px solid var(--lijn-inkt); }
     .rapport .klein { color:var(--op-inkt-2); }
     .rapport #link-voorbeeld {
+      display:inline-flex; align-items:center; min-height:44px;
       color:var(--papier) !important; font-family:inherit !important; font-size:16px !important; font-weight:600;
       letter-spacing:0 !important; text-transform:none !important; border-bottom:0 !important;
       text-decoration:underline !important; text-underline-offset:4px; text-decoration-thickness:1.5px;
@@ -267,9 +278,11 @@ PAGE = r'''<!DOCTYPE html>
     @media (max-width:820px) {
       .w { padding:0 16px; }
       header.top .w { min-height:64px; }
-      .merk img { height:30px; }
+      .merk { flex-shrink:0; }
+  .merk img { max-width:none; height:26px; }
+  nav.hoofd .knop { padding:0 14px; }
       .merk span { display:none; }
-      nav.hoofd { gap:16px; font-size:15px; }
+      nav.hoofd { gap:12px; font-size:15px; }
       .wrap > section { padding:32px 16px 64px; }
       h2 { font-size:28px; }
       .keuzes.twee { grid-template-columns:1fr; }
@@ -293,8 +306,11 @@ PAGE = r'''<!DOCTYPE html>
 
   <!-- 0 · start -->
   <section id="s0">
+    <div class="ring" aria-hidden="true"></div>
+    <p class="kicker">de uitstaptoets, een kwartier, geen registratie</p>
     <h1>Kun je nog weg bij je leveranciers?</h1>
     <p class="lead">Twee wetten en een beleidskader stellen sinds kort dezelfde vraag, elk vanuit een andere hoek. De meeste organisaties hebben op geen van de drie een compleet antwoord.</p>
+    <div class="acties"><button class="b-primair" onclick="naar(1)">Start de toets <span aria-hidden="true">&rarr;</span></button><span class="micro">een kwartier, geen registratie, je antwoorden blijven in je browser</span></div>
     <div class="wet">
       <b>Cyberbeveiligingswet</b>, van kracht sinds 15 augustus 2026. Vraagt een risicoanalyse per leverancier, inclusief wat er gebeurt bij contracteinde, faillissement of overname. Geldt voor het Rijk, ZBO's, gemeenten, provincies en waterschappen.<br><br>
       <b>Data Act</b>, van toepassing sinds 12 september 2025. Geeft je als cloudklant het recht om over te stappen, en verbiedt vanaf 12 januari 2027 overstapkosten. Geldt voor iedere afnemer van clouddiensten.<br><br>
@@ -378,7 +394,7 @@ PAGE = r'''<!DOCTYPE html>
     <div class="duo" id="duo">
       <b style="font-size:0.9rem" id="duo-kop">Vergelijk met een collega</b>
       <p class="klein" style="margin-top:0.4rem" id="duo-tekst"></p>
-      <input readonly id="duo-link" onclick="this.select()">
+      <input readonly id="duo-link" aria-label="Deellink voor een collega" onclick="this.select()">
       <button class="b-stil" style="padding-left:0" onclick="kopieer()">Kopieer link</button>
       <div class="kloof verborgen" id="kloof"></div>
     </div>
