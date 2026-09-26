@@ -307,8 +307,8 @@ PAGE = r'''<!DOCTYPE html>
 
     <div class="rapport">
       <h2>Het uitstaprapport</h2>
-      <div class="prijs">in ontwikkeling</div>
-      <p>De toets zegt waar je staat. Het rapport zegt wat je nu moet doen, in de taal die je bestuur en de toezichthouder verstaan. Het wordt op dit moment gebouwd, samen met de organisaties die aan dit onderzoek meewerken.</p>
+      <div class="prijs">750 euro excl. btw, eenmalig. Hermeting na een jaar: 250 euro.</div>
+      <p>De toets zegt waar je staat. Het rapport zegt wat je nu moet doen, in de taal die je bestuur en de toezichthouder verstaan. Het wordt geschreven op jouw toetsuitkomst, aangevuld met een korte intake over je leveranciers.</p>
       <ul>
         <li>Uitstapprofiel per kritieke leverancier, met wat de wet daarover van je vraagt</li>
         <li>Kant-en-klare paragraaf voor je Cbw-risicoanalyse</li>
@@ -319,8 +319,8 @@ PAGE = r'''<!DOCTYPE html>
       <p><a href="/rapport/voorbeeld.html" id="link-voorbeeld" style="color:var(--orange);font-family:var(--disp);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(232,69,0,0.4)">Bekijk een voorbeeldrapport</a></p>
 
       <div class="aanmeld" id="aanmeld">
-        <p class="klein" style="margin-bottom:0.9rem">Het rapport bestaat nog niet en wordt waarschijnlijk betaald. Wil je horen wanneer het er is, of meedenken over wat erin hoort? Stuur een mail, dan zet ik je op de lijst.</p>
-        <a class="b-primair" id="k-rapport" href="#" onclick="return mailtje('update')">Hou me op de hoogte</a>
+        <p class="klein" style="margin-bottom:0.9rem">Bestellen gaat in deze fase per mail. Vraag het rapport aan, dan krijg je persoonlijk antwoord van de initiatiefnemer. Wil je liever meedenken over wat erin hoort? Dat kan ook.</p>
+        <a class="b-primair" id="k-rapport" href="#" onclick="return mailtje('update')">Vraag het rapport aan</a>
         <a class="b-tweede" id="k-pilot" href="#" onclick="return mailtje('pilot')">Ik wil meedenken of meedoen</a>
         <p class="klein" style="margin-top:0.9rem">Dat opent je mailprogramma met een bericht aan info@willswitch.nl. Je uitkomst gaat niet automatisch mee; ik vraag erom als dat nodig is.</p>
       </div>
@@ -623,11 +623,11 @@ function mailtje(soort){
   const rolNaam = {bestuur:'bestuur of directie',cio:'CIO, CISO of informatiemanager',uitvoering:'beheer, inkoop of uitvoering',anders:'anders'}[S.rol] || S.rol;
   const onderwerp = soort==='pilot'
     ? 'Uitstaptoets: ik wil meedenken'
-    : 'Uitstaptoets: hou me op de hoogte van het rapport';
+    : 'Uitstaptoets: aanvraag uitstaprapport';
   const regels = [
     soort==='pilot'
       ? 'Ik heb de uitstaptoets gedaan en wil graag meedenken of meedoen aan een pilot.'
-      : 'Ik heb de uitstaptoets gedaan en hoor graag wanneer het rapport er is.',
+      : 'Ik heb de uitstaptoets gedaan en wil het uitstaprapport (750 euro excl. btw) aanvragen.',
     '',
     'Mijn organisatie: ',
     'Mijn rol: ' + rolNaam,
@@ -647,7 +647,7 @@ function bestel(){
   /* FASE 0: nog geen bestelling. Zet dit terug naar de bestelpagina zodra betalen aan mag:
      location.href='/bestel/#'+btoa(JSON.stringify(S)).replace(/=+$/,''); */
   /* de klik wordt geteld: dat is het vraagbewijs voor fase 2 */
-  toast('Genoteerd. Het rapport is nog in ontwikkeling; via willswitch.nl hoor je wanneer het er is.');
+  toast('Genoteerd. Bestellen gaat in deze fase per mail, zie de knop hierboven.');
   if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:'scan/bestel-klik', event:true});
 }
 /* deep link: v = uitkomst van een ander, rol = vooraf gekozen */
