@@ -40,7 +40,9 @@ FAQ_BESTELZIN = {
     True: "Bestellen gaat via de uitstaptoets, vanuit je eigen uitkomst.",
 }
 
-FAQ = [
+def faq_lijst(bestel_aan):
+    """De veelgestelde vragen; de laatste zin van vraag 5 volgt de bestelvlag."""
+    return [
     ("Wat is digitale autonomie voor een overheid?",
      "Dat een overheid zelf kan kiezen. Per kritieke leverancier weten waar je data staat, of je die kunt "
      "meenemen en of er een alternatief is, zodat je blijft functioneren als een leverancier stopt, de prijs "
@@ -64,7 +66,7 @@ FAQ = [
      "Cbw-risicoanalyse, een agendapunt voor het bestuur, exitclausules voor je volgende aanbesteding, de "
      "eerste negentig dagen en een vergelijking met andere gemeenten. Het rapport kost 750 euro exclusief "
      "btw (907,50 euro inclusief), eenmalig. Een hermeting na een jaar kost 250 euro. "
-     + FAQ_BESTELZIN[BESTEL_AAN]),
+     + FAQ_BESTELZIN[bestel_aan]),
     ("Is dit juridisch advies? Zijn we hiermee compliant?",
      "Nee, en nee. Het rapport is input voor je eigen risicoanalyse en geen oordeel over naleving van de "
      "Cyberbeveiligingswet, de Data Act of het cloudbeleid. Het benoemt wat je weet, wat je niet weet en "
@@ -150,9 +152,9 @@ def overzicht_quote(n, q):
       </article>'''
 
 
-def faq_html():
+def faq_html(faq):
     out = []
-    for vraag, antwoord in FAQ:
+    for vraag, antwoord in faq:
         out.append(f'''    <details>
       <summary><h3>{html.escape(vraag)}</h3></summary>
       <div><p>{html.escape(antwoord)}</p></div>
@@ -166,9 +168,9 @@ def register_html():
         for i, (k, u) in enumerate(REGISTER, 1))
 
 
-def jsonld(cases):
+def jsonld(faq, bestel_aan):
     gewijzigd = TODAY.isoformat()  # de pagina verandert bij elke bouw (stand, tellers)
-    beschikbaar = "https://schema.org/InStock" if BESTEL_AAN else "https://schema.org/PreOrder"
+    beschikbaar = "https://schema.org/InStock" if bestel_aan else "https://schema.org/PreOrder"
     org = {
         "@type": "Organization", "@id": f"{BASE}/#organization",
         "name": "Will Switch", "alternateName": "willswitch.nl", "url": f"{BASE}/",
@@ -224,10 +226,10 @@ def jsonld(cases):
                "areaServed": {"@type": "Country", "name": "Nederland"},
                "audience": {"@type": "Audience", "audienceType": "Gemeenten, provincies, waterschappen, Rijk, zbo's en onderwijsinstellingen"},
                "offers": [offer("Uitstaprapport, eenmalig", "750.00"), offer("Hermeting na een jaar", "250.00")]}
-    faq = {"@type": "FAQPage", "@id": f"{BASE}/switch.html#faq",
-           "mainEntity": [{"@type": "Question", "name": v,
-                           "acceptedAnswer": {"@type": "Answer", "text": a}} for v, a in FAQ]}
-    graph = {"@context": "https://schema.org", "@graph": [org, site, page, toets, rapport, faq]}
+    faqpage = {"@type": "FAQPage", "@id": f"{BASE}/switch.html#faq",
+               "mainEntity": [{"@type": "Question", "name": v,
+                               "acceptedAnswer": {"@type": "Answer", "text": a}} for v, a in faq]}
+    graph = {"@context": "https://schema.org", "@graph": [org, site, page, toets, rapport, faqpage]}
     # '</' ontsnappen zodat een tekst met </script> het scriptblok nooit kan afbreken
     return json.dumps(graph, ensure_ascii=False, indent=2).replace("</", "<\\/")
 
@@ -246,6 +248,7 @@ CSS = """
   --lijn:rgba(26,22,18,.16); --oranje:#E84500; --knop:#D63F00; --link:#B83500;
   --op-inkt:rgba(240,237,230,.78); --op-inkt-2:rgba(240,237,230,.7); --lijn-inkt:rgba(240,237,230,.25);
   --mono:ui-monospace, 'Cascadia Mono', Consolas, Menlo, monospace;
+  --kop:clamp(80px, 9vw, 120px);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { overflow-x:clip; scrollbar-gutter:stable; scroll-behavior:smooth; }
@@ -287,10 +290,11 @@ header.top .w { display:flex; align-items:center; justify-content:space-between;
 .merk { display:flex; align-items:center; gap:18px; text-decoration:none; }
 .merk img { height:36px; width:auto; display:block; }
 .merk span { font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--zacht); line-height:1.5; padding-left:18px; border-left:1px solid var(--inkt); }
-.skip { position:absolute; left:-999px; top:8px; z-index:10; background:var(--inkt); color:var(--papier); padding:10px 14px; font-weight:700; text-decoration:none; }
+.skip { position:fixed; left:-999px; top:8px; z-index:10; background:var(--inkt); color:var(--papier); padding:10px 14px; font-weight:700; text-decoration:none; }
 .skip:focus { left:16px; }
+main:focus { outline:none; }
 nav.hoofd { display:flex; align-items:center; gap:32px; font-size:16px; }
-nav.hoofd a.l { text-decoration:none; padding:10px 0; }
+nav.hoofd a.l { text-decoration:none; padding:11px 0; }
 nav.hoofd a.l:hover { text-decoration:underline; text-underline-offset:4px; }
 nav.hoofd .kort { display:none; }
 
@@ -308,14 +312,17 @@ html:not(.js) .marge { opacity:1; }
 /* hero: de portal in een cirkel, de kop eroverheen */
 .hero { position:relative; overflow:hidden; min-height:760px; padding:56px 0 64px; background:var(--papier); }
 .hero .w { position:relative; display:grid; grid-template-columns:minmax(0, 1fr) auto; gap:24px; align-items:start; }
-.staander { position:absolute; top:-57px; right:calc(clamp(440px, 50vw, 640px) - 216px); width:96px; height:420px; background:var(--oranje); z-index:2; }
+/* De staander hangt aan de kop: 'AUTONOMIE.' is op elke breedte 6,09 keer de korpsgrootte breed,
+   het blok begint op 5,75 keer, zodat 'E.' er 40 px overheen loopt. */
+.staander { position:absolute; top:-57px; left:calc(var(--kop) * 5.75); width:96px; height:420px; background:var(--oranje); z-index:0; }
 .hero-tekst { grid-column:1; grid-row:1; position:relative; z-index:3; }
+.hero h1 { position:relative; z-index:1; }
 .hero h1 .vraag {
   display:block; font-family:var(--mono); font-size:15px; font-weight:400;
   letter-spacing:.1em; text-transform:uppercase; line-height:1.6; margin-bottom:28px;
 }
 .hero h1 .groot {
-  display:block; font-size:clamp(80px, 9vw, 120px); font-weight:800; text-transform:uppercase;
+  display:block; font-size:var(--kop); font-weight:800; text-transform:uppercase;
   line-height:.88; letter-spacing:-.035em; white-space:nowrap;
 }
 .hero .lead { margin-top:32px; font-size:24px; line-height:1.3; max-width:30ch; }
@@ -326,7 +333,7 @@ html:not(.js) .marge { opacity:1; }
 .hero .acties { flex-direction:column; align-items:flex-start; gap:12px; }
 .hero-link { margin-top:18px; }
 .portal-wrap { grid-column:2; grid-row:1; position:relative; width:clamp(440px, 50vw, 640px); aspect-ratio:1; margin-top:180px; margin-right:-40px; }
-@media (min-width:1400px) { .portal-wrap { margin-right:-180px; } .staander { right:calc(640px - 216px - 140px); } }
+@media (min-width:1400px) { .portal-wrap { margin-right:-180px; } }
 .portal {
   position:relative; z-index:1; width:100%; height:100%; border-radius:50%; overflow:hidden;
   background:#cfd4cf url('/switch-hero.webp') 13% 64% / auto 140% no-repeat;
@@ -392,7 +399,7 @@ html:not(.js) .marge { opacity:1; }
 table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; border-top:2px solid var(--papier); }
 .datasheet .c-strook { width:12px; }
 .datasheet .c-status { width:88px; }
-.datasheet .c-kader { width:40%; }
+.datasheet .c-kader { width:42%; }
 .datasheet tr { border-bottom:1px solid var(--lijn-inkt); vertical-align:top; }
 .datasheet td, .datasheet th { padding:24px 16px; text-align:left; }
 .datasheet td.strook { width:12px; padding:0; }
@@ -401,7 +408,13 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .datasheet td.strook.omlijnd { box-shadow:inset 0 0 0 1.5px var(--papier); }
 .datasheet td.status { font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--papier); white-space:nowrap; padding-left:12px; padding-right:8px; }
 .datasheet th { padding-left:0; }
-.datasheet th h3 { font-size:22px; line-height:1.1; overflow-wrap:anywhere; }
+.datasheet th h3 { font-size:22px; line-height:1.1; hyphens:auto; }
+@media (min-width:821px) and (max-width:1100px) {
+  .datasheet th h3 { font-size:20px; }
+  .datasheet .c-kader { width:46%; }
+  .datasheet td.wat p { font-size:16px; }
+  .wetgeving .rij2 { grid-template-columns:4fr 8fr; gap:32px; }
+}
 .datasheet th .sub { display:block; font-size:15px; font-weight:400; color:var(--op-inkt-2); margin-top:6px; }
 .datasheet th .sinds { display:block; font-family:var(--mono); font-size:12px; font-weight:400; color:var(--op-inkt-2); line-height:1.6; margin-top:14px; }
 .datasheet td.wat p { font-size:17px; color:rgba(240,237,230,.86); max-width:48ch; }
@@ -543,7 +556,8 @@ figure.uitsteek img { width:100%; height:auto; aspect-ratio:16/10; object-fit:co
 .movement-btn.selected { background:var(--knop); border-color:var(--knop); color:#fff; }
 .movement-btn.selected .count { color:#fff; }
 .movement-btn.pulse { transform:scale(1.03); }
-.ring.orbit-open { width:620px; height:620px; border-width:1.5px; opacity:.6; right:-200px; top:-300px; }
+.ring.orbit-open { width:560px; height:560px; border-width:1.5px; opacity:.6; right:-220px; top:-340px; }
+.movement-grid { position:relative; z-index:1; }
 .ring.orbit-open::before { content:""; position:absolute; top:-4px; left:50%; width:24px; height:8px; background:var(--inkt); }
 
 /* agenda en supporters */
@@ -601,23 +615,26 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
 @media (max-width:820px) {
   .w { padding:0 16px; }
   header.top .w { min-height:64px; }
-  .merk img { height:30px; }
+  .merk { flex-shrink:0; }
+  .merk img { max-width:none; height:26px; }
+  nav.hoofd .knop { padding:0 14px; }
   .merk span { display:none; }
-  nav.hoofd { gap:16px; font-size:15px; }
+  nav.hoofd { gap:12px; font-size:15px; }
   nav.hoofd .lang { display:none; }
   nav.hoofd .kort { display:inline; }
   .hero { min-height:0; padding:32px 0 48px; }
   .hero .w { display:block; }
-  .staander { top:-33px; left:auto; right:16px; width:40px; height:290px; }
+  :root { --kop:clamp(40px, 13vw, 64px); }
+  .staander { top:-33px; left:auto; right:0; width:40px; height:224px; }
   .hero h1 .vraag { font-size:13px; }
-  .hero h1 .groot { font-size:clamp(40px, 13vw, 64px); letter-spacing:-.04em; line-height:.9; white-space:normal; overflow-wrap:anywhere; }
+  .hero h1 .groot { letter-spacing:-.04em; line-height:.9; white-space:normal; overflow-wrap:anywhere; }
   .portal-wrap { width:min(88vw, 560px); margin-left:auto; margin-right:-14vw; margin-top:12px; }
   .ring.orbit { display:none; }
-  .tekstlink { display:inline-block; padding:9px 0; margin-bottom:-9px; }
+  .tekstlink { display:inline-block; padding:10px 0; margin-bottom:-10px; }
+  .agenda .what a, .credits .context a, footer.site a { display:inline-block; padding:10px 0; margin:-10px 0; }
   .merk { padding:7px 0; }
   nav.hoofd a.l { padding:11px 0; }
   .fonds { padding:8px 0; }
-  .wetgeving .rij0, .datasheet td.status, .datasheet th .sinds, .prijs .mono, .opschrift, .item .kicker, .item.quote .attr, .tegel .mono, .item .vlag { font-size:13px; }
   .hero .lead { font-size:20px; margin-top:24px; }
   .hero .sub { font-size:17px; }
   .hero .acties { margin-top:24px; }
@@ -636,10 +653,10 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .citaat .lijn { width:4px; top:-40px; bottom:-40px; }
   .stemmen .ring { width:360px; height:360px; left:-200px; top:-120px; }
   .wetgeving { padding:48px 0 0; }
-  .wetgeving .rij1, .wetgeving .rij2 { grid-template-columns:1fr; gap:24px; }
+  .wetgeving .rij1, .wetgeving .rij2 { grid-template-columns:minmax(0, 1fr); gap:24px; }
   .wetgeving h2 { font-size:32px; }
   .ladder .d { font-size:44px; }
-  .ladder .datum { font-size:clamp(64px, 22vw, 88px); }
+  .ladder .datum { font-size:clamp(56px, 17vw, 88px); }
   .datasheet colgroup { display:none; }
   table.datasheet, .datasheet tbody, .datasheet tr, .datasheet th, .datasheet td { display:block; width:auto; }
   .datasheet tr { border-top:1px solid var(--lijn-inkt); border-bottom:0; padding:20px 0 20px 16px; position:relative; }
@@ -669,7 +686,7 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .verhalen h2 { font-size:32px; }
   .verhalen .ring { display:none; }
   figure.uitsteek { margin:0 -16px; }
-  figure.uitsteek img { aspect-ratio:4/3; }
+  figure.uitsteek img { aspect-ratio:4/3; object-position:70% 50%; }
   .klein-verhalen article { grid-template-columns:1fr; }
   .tegel { aspect-ratio:auto; height:120px; }
   .overzicht { padding:0 0 40px; }
@@ -693,6 +710,7 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   footer.site .w { flex-direction:column; align-items:flex-start; gap:12px; }
 }
 
+@media (max-width:400px) { nav.hoofd a.l { display:none; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
   .kraak .k-tekst, .datum.kraak .s, .portal::before, .portal::after, .uitsteek::before, .uitsteek::after { animation:none !important; }
@@ -775,6 +793,7 @@ MOVEMENT_SCRIPT = """
       function setCount(phase, value) {
         countEl(phase).textContent = value;
         countEl(phase).removeAttribute('aria-hidden');
+        countEl(phase).setAttribute('aria-label', value + ' signalen');
       }
       function onthoud(phase) {
         try { localStorage.setItem(STORAGE_KEY, phase); } catch (e) {}
@@ -925,10 +944,10 @@ PAGE = """<!DOCTYPE html>
   <nav class="hoofd" aria-label="Hoofdnavigatie"><a class="l" href="#verhalen">Praktijk</a><a class="l" href="#rapport">Rapport</a><a class="knop" href="/scan/"><span class="lang">Uitstaptoets</span><span class="kort">Toets</span> <span aria-hidden="true">&rarr;</span></a></nav>
 </div></header>
 
-<main id="inhoud">
+<main id="inhoud" tabindex="-1">
 <section class="hero" data-kraak><div class="w">
-  <div class="staander" aria-hidden="true"></div>
   <div class="hero-tekst">
+    <div class="staander" aria-hidden="true"></div>
     <h1><span class="vraag">Kun je nog weg<br>bij je<br>leveranciers?</span><span class="groot k-tekst">Digitale<br>autonomie.</span></h1>
     <p class="lead">Niet alles hoeft anders. Maar je moet wel kunnen kiezen.</p>
     <p class="sub">Sinds 15 augustus 2026 moet je bestuur die vraag per leverancier kunnen beantwoorden. De gratis uitstaptoets laat in een kwartier zien waar je staat. Het uitstaprapport zegt wat je daarna doet.</p>
@@ -996,7 +1015,7 @@ PAGE = """<!DOCTYPE html>
           <tr role="row">
             <td class="strook oranje" role="cell"></td>
             <td class="status" role="cell">nu</td>
-            <th scope="row" role="rowheader"><h3>Cyberbeveiligingswet: ketenzorgplicht per leverancier</h3><span class="sub">Van kracht sinds 15 augustus 2026</span><span class="sinds">wet, voor Rijk, zbo's, gemeenten, provincies en waterschappen<br>de zorgplicht geldt al</span></th>
+            <th scope="row" role="rowheader"><h3>Cyberbeveiligings&shy;wet: ketenzorgplicht per leverancier</h3><span class="sub">Van kracht sinds 15 augustus 2026</span><span class="sinds">wet, voor Rijk, zbo's, gemeenten, provincies en waterschappen<br>de zorgplicht geldt al</span></th>
             <td class="wat" role="cell">
               <p>Per leverancier moet je kunnen aantonen wat er gebeurt bij contracteinde, faillissement of overname. Het bestuur is eindverantwoordelijk, en de toezichthouder kan ernaar vragen.</p>
               {link_cbw}
@@ -1098,7 +1117,7 @@ PAGE = """<!DOCTYPE html>
     </div>
     <div>
       <figure class="uitsteek" style="--src:url(/dsg-viewer.webp)" data-kraak>
-        <img src="/dsg-viewer.webp" alt="Kaartviewer van Data Space Groningen" width="1293" height="588" loading="lazy">
+        <img src="/dsg-viewer.webp" alt="Kaartviewer van Data Space Groningen" width="976" height="530" loading="lazy">
         <figcaption class="opschrift marge">data space groningen<br>samen data, meer waarde<br>17 organisaties, 1 open platform</figcaption>
       </figure>
       <div class="dsg-tekst">
@@ -1134,6 +1153,7 @@ PAGE = """<!DOCTYPE html>
       <button class="movement-btn" data-phase="overstap" type="button" aria-pressed="false"><span class="label">We stappen over</span><span class="count" data-count aria-hidden="true">&middot;</span></button>
       <button class="movement-btn" data-phase="verder" type="button" aria-pressed="false"><span class="label">We zijn al verder</span><span class="count" data-count aria-hidden="true">&middot;</span></button>
     </div>
+    <noscript><style>.movement-grid, .movement .confirm {{ display:none; }}</style><p class="sub">De peiling werkt alleen met JavaScript.</p></noscript>
   </div>
 </section>
 
@@ -1180,10 +1200,11 @@ PAGE = """<!DOCTYPE html>
 """
 
 
-def build_switch(cases):
+def build_switch(cases, bestel_aan=BESTEL_AAN):
     """Maak switch.html uit de gepubliceerde cases en de quotes.
     De nummering wordt hier geschreven, niet in de browser."""
     ids = [c["id"] for c in cases]
+    faq = faq_lijst(bestel_aan)
     blokken = []
     n = 0
     for c in cases:
@@ -1195,7 +1216,12 @@ def build_switch(cases):
 
     dagen_cbw = (TODAY - CBW_DATUM).days
     dagen_dataact = (DATAACT_DATUM - TODAY).days
-    teller_cbw = f"de zorgplicht geldt al {dagen_cbw} dagen" if dagen_cbw >= 0 else "de zorgplicht gaat in op 15.08.2026"
+    if dagen_cbw > 0:
+        teller_cbw = f"de zorgplicht geldt al {dagen_cbw} dagen"
+    elif dagen_cbw == 0:
+        teller_cbw = "de zorgplicht geldt sinds vandaag"
+    else:
+        teller_cbw = "de zorgplicht gaat in op 15.08.2026"
     teller_dataact = (f"nog {dagen_dataact} dagen tot de Data Act" if dagen_dataact > 0
                       else "de Data Act geldt sinds 12.01.2027")
 
@@ -1205,7 +1231,7 @@ def build_switch(cases):
         titel=TITEL,
         omschrijving=OMSCHRIJVING,
         hero_alt=HERO_ALT,
-        jsonld=jsonld(cases),
+        jsonld=jsonld(faq, bestel_aan),
         stand=TODAY.strftime("%d.%m.%Y"),
         teller_cbw=teller_cbw,
         teller_dataact=teller_dataact,
@@ -1213,8 +1239,8 @@ def build_switch(cases):
         link_dataact=case_link(ids, "dataact", "Wat de Data Act regelt als je van cloud wilt overstappen"),
         link_cloudbeleid=case_link(ids, "cloudbeleid", "Wat het rijksbreed cloudbeleid eist"),
         register=register_html(),
-        bestel_tekst=BESTEL_TEKST[BESTEL_AAN],
-        faq=faq_html(),
+        bestel_tekst=BESTEL_TEKST[bestel_aan],
+        faq=faq_html(faq),
         aantal=n,
         items="\n\n".join(blokken),
         movement_script=MOVEMENT_SCRIPT,
