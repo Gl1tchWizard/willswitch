@@ -237,17 +237,12 @@ def jsonld(faq, bestel_aan):
 # ---------- opmaak ----------
 
 CSS = """
-@font-face {
-  font-family:'Atkinson Hyperlegible Next';
-  src:url('/fonts/AtkinsonNext.woff2') format('woff2');
-  font-weight:200 800; font-style:normal; font-display:swap;
-}
 :root {
   --papier:#F0EDE6; --warm:#E8E3D6; --wit:#FBFAF7;
   --inkt:#1a1612; --zacht:#4a443c; --vaag:#6b645a;
   --lijn:rgba(26,22,18,.16); --oranje:#E84500; --knop:#D63F00; --link:#B83500;
   --op-inkt:rgba(240,237,230,.78); --op-inkt-2:rgba(240,237,230,.7); --lijn-inkt:rgba(240,237,230,.25);
-  --mono:ui-monospace, 'Cascadia Mono', Consolas, Menlo, monospace;
+  --mono:'Space Mono', ui-monospace, monospace; --disp:'Orbitron', 'Space Mono', sans-serif;
   --kop:clamp(80px, 9vw, 120px);
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -255,7 +250,7 @@ html { overflow-x:clip; scrollbar-gutter:stable; scroll-behavior:smooth; }
 body {
   background-color:var(--papier); color:var(--inkt);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .09 0 0 0 0 .07 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  font-family:'Atkinson Hyperlegible Next', system-ui, sans-serif; font-synthesis:none;
+  font-family:'Space Mono', ui-monospace, monospace; font-synthesis:none;
   font-size:17px; line-height:1.55;
 }
 .w { max-width:1280px; margin:0 auto; padding:0 40px; }
@@ -363,24 +358,19 @@ header.top.over .merk span { color:var(--inkt); border-left-color:var(--inkt); }
 .beloften .tekstlink { display:inline-block; margin-top:12px; }
 
 /* stemmen: de donkere kant van de poort als tweede behang */
-.stemmen { position:relative; overflow:hidden; background:#0b0d0e; color:var(--papier); }
-.stemmen-beeld { position:absolute; inset:0; background:url('/poort.webp') 72% 50% / cover no-repeat; }
-.stemmen-beeld::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, #1a1612 0, rgba(26,22,18,0) 120px), linear-gradient(90deg, rgba(8,9,10,.84) 0%, rgba(8,9,10,.6) 36%, rgba(8,9,10,0) 62%); }
-.stemmen .w { position:relative; z-index:1; min-height:min(92svh, 56vw); padding-top:120px; padding-bottom:110px; display:flex; flex-direction:column; justify-content:center; }
-.stemmen h2 { display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:end; max-width:760px; }
+.stemmen { position:relative; overflow:hidden; }
+.stemmen .w { position:relative; padding-top:112px; padding-bottom:104px; display:grid; grid-template-columns:repeat(12, 1fr); gap:24px; }
+.stemmen h2 { grid-column:1 / 13; display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:end; }
 .stemmen .getal {
   font-size:clamp(130px, 13vw, 220px); font-weight:800; letter-spacing:-.05em; line-height:.85;
   font-variant-numeric:tabular-nums; margin-left:-10px;
 }
 .stemmen .regels { font-size:clamp(46px, 4.6vw, 76px); font-weight:800; text-transform:uppercase; letter-spacing:-.02em; line-height:.92; padding-bottom:8px; }
-.stemmen .citaat p.bron { color:var(--op-inkt); }
-.stemmen .citaat .tekstlink { color:var(--papier); }
-.stemmen .bijschrift { right:40px; bottom:28px; color:var(--op-inkt); }
-.citaat { position:relative; margin-top:56px; padding-left:32px; max-width:620px; }
+.citaat { grid-column:6 / 13; position:relative; margin-top:56px; padding-left:32px; }
 .citaat p { font-size:clamp(26px, 2.4vw, 36px); font-weight:700; line-height:1.15; max-width:22ch; }
 .citaat .lijn { left:0; top:-80px; bottom:-80px; width:6px; }
 .citaat p.bron { margin-top:20px; font-size:13px; font-weight:400; line-height:1.6; max-width:none; }
-.citaat .bron .tekstlink { margin-left:12px; font-family:'Atkinson Hyperlegible Next', system-ui, sans-serif; font-size:15px; }
+.citaat .bron .tekstlink { margin-left:12px; font-family:'Space Mono', ui-monospace, monospace; font-size:15px; }
 .ring.inkt { border-color:var(--inkt); }
 .stemmen .ring { width:640px; height:640px; border-width:1.5px; opacity:.18; left:-260px; top:-200px; }
 
@@ -449,7 +439,6 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .register b { display:block; font-size:20px; }
 .register .uitleg { display:block; font-size:15px; color:var(--zacht); margin-top:4px; }
 .prijs { position:sticky; top:24px; background:var(--inkt); color:var(--papier); padding:40px 40px 36px; overflow:hidden; }
-.prijs::before { content:""; display:block; height:150px; margin:-40px -40px 28px; background:url('/poort.webp') 70% 34% / cover no-repeat; }
 .prijs > :not(.ring) { position:relative; }
 .prijs .ring { width:320px; height:320px; border-width:1.5px; opacity:.5; right:-160px; top:-160px; }
 .prijs .mono { color:var(--op-inkt-2); font-size:12px; }
@@ -473,8 +462,6 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 /* vragen */
 .faq { padding:80px 0 72px; background:var(--warm); }
 .faq .w { display:grid; grid-template-columns:4fr 8fr; gap:48px; align-items:start; }
-.faq .w > div:first-child { position:sticky; top:40px; }
-.faq .w > div:first-child::after { content:""; display:block; margin-top:40px; aspect-ratio:4/5; max-width:340px; background:url('/switch-hero.webp') 20% 62% / cover no-repeat; border-left:6px solid var(--oranje); }
 .faq h2 { font-size:40px; line-height:1.08; letter-spacing:-.02em; }
 .faq .hulp { font-size:16px; color:var(--zacht); margin-top:16px; }
 .faq details { border-top:1px solid var(--inkt); }
@@ -506,7 +493,7 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .klein-verhalen .tekstlink { display:inline-block; margin-top:8px; }
 /* de kaart blijft binnen de kolom: nooit groter tonen dan de bron (990 px) */
 figure.uitsteek { position:relative; margin:0; max-width:990px; }
-figure.uitsteek img { width:100%; height:auto; display:block; border:1px solid var(--inkt); filter:saturate(.8); box-shadow:-24px 24px 0 var(--oranje); }
+figure.uitsteek img { width:100%; height:auto; display:block; border:1px solid var(--inkt); filter:saturate(.8); }
 .opschrift { position:absolute; left:0; bottom:0; background:var(--inkt); color:var(--papier); padding:16px 20px; font-family:var(--mono); font-size:12px; line-height:1.6; }
 .dsg-tekst { margin-top:52px; }
 .dsg-tekst h3 { font-size:30px; line-height:1.1; margin-top:6px; }
@@ -515,7 +502,7 @@ figure.uitsteek img { width:100%; height:auto; display:block; border:1px solid v
 
 /* overzicht: zwarte kopband, dan het register */
 .overzicht { padding:0 0 64px; }
-.kopband { background:linear-gradient(90deg, #1a1612 50%, rgba(26,22,18,.3)), #1a1612 url('/poort.webp') right 22% / cover no-repeat; color:var(--papier); }
+.kopband { background:var(--inkt); color:var(--papier); }
 .overzicht .kopband .kopregel { grid-template-columns:1fr; gap:12px; padding-top:104px; padding-bottom:56px; }
 .overzicht .kopregel { padding-top:48px; padding-bottom:40px; display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end; }
 .overzicht .kopregel .mono { color:var(--op-inkt-2); }
@@ -523,7 +510,7 @@ figure.uitsteek img { width:100%; height:auto; display:block; border:1px solid v
 .register-lijst { margin-top:8px; display:grid; grid-template-columns:1fr 1fr; column-gap:48px; align-items:start; }
 .item { position:relative; display:grid; grid-template-columns:64px 1fr; gap:16px; padding:20px 0; border-top:1px solid var(--inkt); color:inherit; }
 .register-lijst > .item:nth-child(-n+2) { border-top:0; }
-.item .num { font-size:40px; font-weight:800; line-height:.9; letter-spacing:-.03em; color:var(--oranje); font-variant-numeric:tabular-nums; }
+.item .num { font-family:var(--disp); font-size:20px; font-weight:700; line-height:1.2; color:var(--oranje); font-variant-numeric:tabular-nums; }
 .item h3 a { color:inherit; text-decoration:none; }
 .item h3 a::after { content:""; position:absolute; inset:0; }
 .item:hover h3 a { text-decoration:underline; text-underline-offset:4px; }
@@ -661,10 +648,7 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .beloften .w { grid-template-columns:1fr; }
   .beloften article { padding:20px 0; }
   .beloften article + article { border-left:0; border-top:1px solid var(--lijn-inkt); }
-  .stemmen .w { min-height:0; padding-top:72px; padding-bottom:88px; }
-  .stemmen-beeld { background-position:80% 50%; }
-  .stemmen-beeld::after { background:linear-gradient(180deg, rgba(8,9,10,.82) 0%, rgba(8,9,10,.58) 100%); }
-  .stemmen .bijschrift { right:16px; bottom:16px; }
+  .stemmen .w { display:block; padding-top:72px; padding-bottom:64px; }
   .stemmen h2 { grid-template-columns:1fr; gap:8px; }
   .stemmen .getal { font-size:120px; margin-left:-6px; }
   .stemmen .regels { font-size:34px; padding-bottom:0; }
@@ -736,25 +720,15 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .hero-beeld { aspect-ratio:auto; height:58svh; --pos:30% 70%; }
 }
 @media (max-width:820px) {
-  .stemmen-beeld { inset:0 0 auto 0; height:360px; background-position:78% 40%; }
-  .stemmen-beeld::after { background:linear-gradient(180deg, rgba(8,9,10,.35) 0%, rgba(8,9,10,.7) 60%, #0b0d0e 100%); }
-  .stemmen .w { padding-top:220px; }
-  .prijs::before { height:120px; margin:-28px -20px 24px; }
-  .faq .w > div:first-child { position:static; }
-  .faq .w > div:first-child::after { display:none; }
   .overzicht .kopregel { padding-top:56px; padding-bottom:32px; }
   .kopband { background:#1a1612; }
   .item { grid-template-columns:52px 1fr; }
-  .item .num { font-size:32px; }
-  figure.uitsteek img { box-shadow:none; }
+  .item .num { font-size:18px; }
   .dsg-tekst { margin-top:24px; }
 }
 @media (min-width:821px) and (max-width:1279px) {
   .hero-beeld { height:min(100svh, 70vw); }
   .hero-tekst { width:min(46%, 600px); margin-right:5%; }
-  .stemmen-beeld { background-position:88% 50%; }
-  .stemmen .citaat { max-width:34rem; }
-  .stemmen-beeld::after { background:linear-gradient(180deg, #1a1612 0, rgba(26,22,18,0) 120px), linear-gradient(90deg, rgba(8,9,10,.88) 0%, rgba(8,9,10,.66) 45%, rgba(8,9,10,0) 70%); }
 }
 @media (min-width:1600px) {
   .hero-in { max-width:none; padding-left:5vw; padding-right:5vw; }
@@ -772,6 +746,49 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .ring.drijft, .ring.orbit-open { animation:none; }
   .movement-btn { transition:none; }
   .movement-btn.pulse { transform:none; }
+}
+
+/* het oude lettertype: Orbitron voor koppen, cijfers en knoppen, Space Mono voor de tekst */
+body { font-size:15px; line-height:1.65; }
+h1, h2, .knop, nav.hoofd a.l, .getal, .regels, .ladder .d, .ladder .datum, .bedrag .getal, .tegel b, .movement-btn .count { font-family:var(--disp); }
+h1, h2 { letter-spacing:.01em; }
+.hero h1 .groot { font-size:clamp(38px, 3.7vw, 70px); letter-spacing:.01em; line-height:1.02; }
+.hero h1 .vraag { font-size:14px; }
+.hero .lead { font-size:clamp(16px, 1.25vw, 20px); }
+.intro p { font-size:clamp(16px, 1.3vw, 19px); }
+.beloften h3, .klein-verhalen h3, .datasheet th h3, .afzender .naam { font-size:18px; }
+.dsg-tekst h3 { font-size:22px; }
+.register b, .item h3 { font-size:16px; }
+.stemmen .getal { font-size:clamp(100px, 11vw, 180px); letter-spacing:0; margin-left:-4px; }
+.stemmen .regels { font-size:clamp(26px, 3vw, 48px); letter-spacing:.01em; }
+.citaat p { font-size:clamp(20px, 1.9vw, 28px); }
+.wetgeving h2, .rapport h2, .verhalen h2 { font-size:clamp(26px, 2.5vw, 36px); line-height:1.15; }
+.faq h2, .overzicht h2 { font-size:clamp(22px, 2vw, 28px); line-height:1.2; }
+.movement h2 { font-size:clamp(24px, 2.3vw, 32px); }
+.blok h2 { font-size:20px; }
+.ladder .d { font-size:clamp(28px, 2.8vw, 40px); letter-spacing:0; }
+.ladder .datum { font-size:clamp(40px, 4.2vw, 64px); letter-spacing:0; }
+.bedrag .getal { font-size:88px; letter-spacing:0; }
+.slotzin { font-size:clamp(20px, 1.9vw, 26px); }
+.movement-btn .count { font-size:32px; }
+.tegel b { font-size:30px; }
+.tegel.inkt b { font-size:20px; }
+.knop { font-size:15px; letter-spacing:.02em; }
+.knop.groot { font-size:16px; }
+nav.hoofd a.l { font-size:14px; }
+@media (max-width:820px) {
+  .hero h1 .groot { font-size:clamp(28px, 8.4vw, 44px); }
+  .stemmen .getal { font-size:96px; }
+  .stemmen .regels { font-size:26px; }
+  .citaat p { font-size:20px; }
+  .wetgeving h2, .rapport h2, .verhalen h2, .faq h2, .overzicht h2, .movement h2 { font-size:22px; }
+  .ladder .d { font-size:26px; }
+  .ladder .datum { font-size:clamp(34px, 10vw, 48px); }
+  .bedrag .getal { font-size:64px; }
+  .slotzin { font-size:19px; }
+  .movement-btn .count { font-size:24px; }
+  .datasheet th h3 { font-size:17px; }
+  .knop, .knop.groot { font-size:14px; }
 }
 """
 
@@ -980,7 +997,9 @@ PAGE = """<!DOCTYPE html>
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <link rel="preload" href="/fonts/AtkinsonNext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
   <link rel="preload" href="/switch-hero.webp" as="image" fetchpriority="high">
   <script type="application/ld+json">
 {jsonld}
@@ -1028,8 +1047,6 @@ PAGE = """<!DOCTYPE html>
 </section>
 
 <section class="stemmen" data-kraak>
-  <div class="stemmen-beeld" aria-hidden="true"></div>
-  <span class="bijschrift" aria-hidden="true">aan deze kant</span>
   <div class="w">
     <h2><span class="getal k-tekst">62</span><span class="regels">Stemmen.<br>1 patroon.</span></h2>
     <blockquote class="citaat">
