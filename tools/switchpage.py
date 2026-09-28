@@ -253,7 +253,8 @@ CSS = """
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { overflow-x:clip; scrollbar-gutter:stable; scroll-behavior:smooth; }
 body {
-  background:var(--papier); color:var(--inkt);
+  background-color:var(--papier); color:var(--inkt);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .09 0 0 0 0 .07 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   font-family:'Atkinson Hyperlegible Next', system-ui, sans-serif; font-synthesis:none;
   font-size:17px; line-height:1.55;
 }
@@ -309,42 +310,45 @@ nav.hoofd .kort { display:none; }
 html:not(.js) .lijn { transform:none; }
 html:not(.js) .marge { opacity:1; }
 
-/* hero: de portal in een cirkel, de kop eroverheen */
-.hero { position:relative; overflow:hidden; min-height:760px; padding:56px 0 64px; background:var(--papier); }
-.hero .w { position:relative; display:grid; grid-template-columns:minmax(0, 1fr) auto; gap:24px; align-items:start; }
-/* De staander hangt aan de kop: 'AUTONOMIE.' is op elke breedte 6,09 keer de korpsgrootte breed,
-   het blok begint op 5,75 keer, zodat 'E.' er 40 px overheen loopt. */
-.staander { position:absolute; top:-57px; left:calc(var(--kop) * 5.75); width:96px; height:420px; background:var(--oranje); z-index:0; }
-.hero-tekst { grid-column:1; grid-row:1; position:relative; z-index:3; }
-.hero h1 { position:relative; z-index:1; }
+/* hero: het schilderij als behang over de volle breedte, de kop in de lucht rechts */
+header.top.over { position:absolute; top:0; left:0; right:0; z-index:5; background:transparent; border-bottom:0; }
+header.top.over .merk span { color:var(--inkt); border-left-color:var(--inkt); }
+.hero { position:relative; overflow:hidden; background:#b9c3be; color:var(--inkt); }
+.hero-beeld { --pos:34% 68%; position:relative; height:min(100svh, 62vw); min-height:600px; }
+.hero-beeld img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:var(--pos); display:block; }
+.hero-beeld::before, .hero-beeld::after {
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0;
+  background:url('/switch-hero.webp') var(--pos) / cover no-repeat;
+}
+.hero-beeld::before { clip-path:inset(30% 0 52% 0); transform:translateX(8px); }
+.hero-beeld::after { clip-path:inset(61% 0 24% 0); transform:translateX(-8px); }
+.hero-in { position:absolute; top:0; bottom:0; left:0; right:0; margin:0 auto; z-index:2; display:flex; justify-content:flex-end; align-items:flex-start; padding-top:clamp(112px, 15vh, 180px); pointer-events:none; }
+.hero-tekst { position:relative; width:min(44%, 600px); margin-right:9%; pointer-events:auto; }
+.hero-tekst::before { content:""; position:absolute; inset:-80px -110px -70px -110px; z-index:-1; pointer-events:none; background:radial-gradient(closest-side, rgba(240,237,230,.66), rgba(240,237,230,0)); }
 .hero h1 .vraag {
   display:block; font-family:var(--mono); font-size:15px; font-weight:400;
-  letter-spacing:.1em; text-transform:uppercase; line-height:1.6; margin-bottom:28px;
+  letter-spacing:.1em; text-transform:uppercase; line-height:1.6; margin-bottom:22px;
 }
 .hero h1 .groot {
-  display:block; font-size:var(--kop); font-weight:800; text-transform:uppercase;
-  line-height:.88; letter-spacing:-.035em; white-space:nowrap;
+  display:block; font-size:clamp(56px, 5.5vw, 104px); font-weight:800; text-transform:uppercase;
+  line-height:.88; letter-spacing:-.035em;
 }
-.hero .lead { margin-top:32px; font-size:24px; line-height:1.3; max-width:30ch; }
-.hero .sub { margin-top:16px; font-size:18px; color:var(--zacht); max-width:44ch; line-height:1.5; }
+.hero .lead { margin-top:26px; font-size:clamp(19px, 1.5vw, 24px); line-height:1.3; max-width:30ch; }
 .acties { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-.hero .acties { margin-top:36px; }
 .micro { font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--zacht); max-width:34ch; line-height:1.5; }
-.hero .acties { flex-direction:column; align-items:flex-start; gap:12px; }
-.hero-link { margin-top:18px; }
-.portal-wrap { grid-column:2; grid-row:1; position:relative; width:clamp(440px, 50vw, 640px); aspect-ratio:1; margin-top:180px; margin-right:-40px; }
-@media (min-width:1400px) { .portal-wrap { margin-right:-180px; } }
-.portal {
-  position:relative; z-index:1; width:100%; height:100%; border-radius:50%; overflow:hidden;
-  background:#cfd4cf url('/switch-hero.webp') 13% 64% / auto 140% no-repeat;
+.hero .acties { margin-top:28px; flex-direction:column; align-items:flex-start; gap:12px; }
+.hero .micro { color:var(--inkt); }
+.bijschrift { position:absolute; z-index:2; font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--papier); text-shadow:0 1px 3px rgba(0,0,0,.5); }
+.hero .bijschrift { right:40px; bottom:28px; }
+.intro { padding:44px 0 48px; border-bottom:1px solid var(--inkt); }
+.intro .w { display:flex; justify-content:space-between; align-items:flex-end; gap:24px 48px; flex-wrap:wrap; }
+.intro p { font-size:clamp(19px, 1.6vw, 24px); line-height:1.4; max-width:52ch; }
+.uitsteek::before, .uitsteek::after {
+  content:""; position:absolute; inset:0; opacity:0; pointer-events:none;
+  background:var(--src) center / cover no-repeat;
 }
-.portal::before, .portal::after, .uitsteek::before, .uitsteek::after {
-  content:""; position:absolute; inset:0; background:inherit; opacity:0; pointer-events:none;
-}
-.uitsteek::before, .uitsteek::after { background:var(--src) center / cover no-repeat; }
-.portal::before, .uitsteek::before { clip-path:inset(34% 0 46% 0); transform:translateX(6px); }
-.portal::after, .uitsteek::after { clip-path:inset(58% 0 22% 0); transform:translateX(-6px); }
-.ring.orbit { width:calc(100% + 80px); height:calc(100% + 80px); left:-40px; top:-40px; border-width:1.5px; opacity:.5; z-index:0; }
+.uitsteek::before { clip-path:inset(34% 0 46% 0); transform:translateX(6px); }
+.uitsteek::after { clip-path:inset(58% 0 22% 0); transform:translateX(-6px); }
 
 /* beloften: dunne zwarte strook */
 .beloften { background:var(--inkt); color:var(--papier); padding:48px 0 52px; }
@@ -358,17 +362,22 @@ html:not(.js) .marge { opacity:1; }
 .beloften p { font-size:16px; color:var(--op-inkt); max-width:34ch; margin-top:8px; }
 .beloften .tekstlink { display:inline-block; margin-top:12px; }
 
-/* stemmen: het getal en de lucht */
-.stemmen { position:relative; overflow:hidden; padding:112px 0 96px; }
-.stemmen .w { position:relative; display:grid; grid-template-columns:repeat(12, 1fr); gap:24px; }
-.stemmen h2 { grid-column:1 / 12; display:grid; grid-template-columns:auto 1fr; gap:32px; align-items:end; }
+/* stemmen: de donkere kant van de poort als tweede behang */
+.stemmen { position:relative; overflow:hidden; background:#0b0d0e; color:var(--papier); }
+.stemmen-beeld { position:absolute; inset:0; background:url('/poort.webp') 72% 50% / cover no-repeat; }
+.stemmen-beeld::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(8,9,10,.84) 0%, rgba(8,9,10,.6) 36%, rgba(8,9,10,0) 62%); }
+.stemmen .w { position:relative; z-index:1; min-height:min(92svh, 56vw); padding-top:120px; padding-bottom:110px; display:flex; flex-direction:column; justify-content:center; }
+.stemmen h2 { display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:end; max-width:760px; }
 .stemmen .getal {
-  font-size:clamp(160px, 18vw, 260px); font-weight:800; letter-spacing:-.05em; line-height:.85;
-  font-variant-numeric:tabular-nums; margin-left:-16px;
+  font-size:clamp(130px, 13vw, 220px); font-weight:800; letter-spacing:-.05em; line-height:.85;
+  font-variant-numeric:tabular-nums; margin-left:-10px;
 }
-.stemmen .regels { font-size:clamp(60px, 6.6vw, 86px); font-weight:800; text-transform:uppercase; letter-spacing:-.02em; line-height:.92; padding-bottom:8px; }
-.citaat { grid-column:6 / 13; position:relative; margin-top:56px; padding-left:32px; }
-.citaat p { font-size:36px; font-weight:700; line-height:1.15; max-width:22ch; }
+.stemmen .regels { font-size:clamp(46px, 4.6vw, 76px); font-weight:800; text-transform:uppercase; letter-spacing:-.02em; line-height:.92; padding-bottom:8px; }
+.stemmen .citaat p.bron { color:var(--op-inkt); }
+.stemmen .citaat .tekstlink { color:var(--papier); }
+.stemmen .bijschrift { right:40px; bottom:28px; color:var(--op-inkt); }
+.citaat { position:relative; margin-top:56px; padding-left:32px; max-width:620px; }
+.citaat p { font-size:clamp(26px, 2.4vw, 36px); font-weight:700; line-height:1.15; max-width:22ch; }
 .citaat .lijn { left:0; top:-80px; bottom:-80px; width:6px; }
 .citaat p.bron { margin-top:20px; font-size:13px; font-weight:400; line-height:1.6; max-width:none; }
 .citaat .bron .tekstlink { margin-left:12px; font-family:'Atkinson Hyperlegible Next', system-ui, sans-serif; font-size:15px; }
@@ -574,9 +583,11 @@ figure.uitsteek img { width:100%; height:auto; aspect-ratio:16/10; object-fit:co
 .credits .name { font-weight:700; display:block; }
 .credits .context { font-size:15px; color:var(--zacht); }
 
-/* slot en voet */
-.slot { border-top:2px solid var(--inkt); padding:64px 0 72px; }
-.slot .w { display:grid; grid-template-columns:8fr 4fr; gap:48px; align-items:center; }
+/* slot: de rivier en de boom uit hetzelfde schilderij */
+.slot { position:relative; overflow:hidden; background:#cfc9b6 url('/switch-hero.webp') 100% 74% / 150% auto no-repeat; }
+.slot::before { content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(240,237,230,.9) 0%, rgba(240,237,230,.62) 38%, rgba(240,237,230,0) 66%); }
+.slot .w { position:relative; z-index:1; display:block; min-height:560px; padding-top:96px; padding-bottom:96px; }
+.slot .w > div { margin-top:28px; }
 .slotzin { font-size:32px; font-weight:700; line-height:1.2; letter-spacing:-.015em; max-width:26ch; }
 .slot .micro { display:block; margin-top:12px; }
 footer.site { border-top:3px solid var(--inkt); padding:28px 0 48px; font-size:14px; color:var(--vaag); }
@@ -595,7 +606,7 @@ footer.site .fonds { display:inline-flex; align-items:center; gap:12px; text-dec
 @keyframes kraak-tekst { 0%, 100% { transform:none; } 35% { transform:translateX(-3px); } 70% { transform:translateX(3px); } }
 @keyframes flits { 0% { opacity:0; } 40% { opacity:1; } 100% { opacity:0; } }
 .kraak .k-tekst { animation:kraak-tekst 200ms steps(3); }
-.kraak .portal::before, .kraak .portal::after, .kraak.uitsteek::before, .kraak.uitsteek::after { animation:flits 180ms steps(2); }
+.kraak .hero-beeld::before, .kraak .hero-beeld::after, .kraak.uitsteek::before, .kraak.uitsteek::after { animation:flits 180ms steps(2); }
 .datum.kraak .s:nth-of-type(2) { clip-path:inset(0 0 66% 0); transform:translateX(5px); animation:flits 180ms steps(2); }
 .datum.kraak .s:nth-of-type(3) { clip-path:inset(66% 0 0 0); transform:translateX(-3px); animation:flits 180ms steps(2); }
 .tabelwrap td.strook.oranje { transform:scaleY(0); }
@@ -622,14 +633,16 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   nav.hoofd { gap:12px; font-size:15px; }
   nav.hoofd .lang { display:none; }
   nav.hoofd .kort { display:inline; }
-  .hero { min-height:0; padding:32px 0 48px; }
-  .hero .w { display:block; }
-  :root { --kop:clamp(40px, 13vw, 64px); }
-  .staander { top:-33px; left:auto; right:0; width:40px; height:224px; }
+  header.top.over { position:static; background:var(--papier); border-bottom:1px solid var(--inkt); }
+  .hero { background:var(--papier); }
+  .hero-beeld { --pos:22% 72%; height:auto; min-height:0; aspect-ratio:4/5; }
+  .hero-in { position:static; display:block; padding-top:28px; padding-bottom:40px; pointer-events:auto; }
+  .hero-tekst { width:auto; margin-right:0; }
+  .hero-tekst::before { display:none; }
+  .hero .bijschrift { right:16px; bottom:16px; }
   .hero h1 .vraag { font-size:13px; }
-  .hero h1 .groot { letter-spacing:-.04em; line-height:.9; white-space:normal; overflow-wrap:anywhere; }
-  .portal-wrap { width:min(88vw, 560px); margin-left:auto; margin-right:-14vw; margin-top:12px; }
-  .ring.orbit { display:none; }
+  .hero h1 .groot { font-size:clamp(40px, 13vw, 64px); letter-spacing:-.04em; line-height:.9; overflow-wrap:anywhere; }
+  .intro { padding:32px 0 36px; }
   .tekstlink { display:inline-block; padding:10px 0; margin-bottom:-10px; }
   .agenda .what a, .credits .context a, footer.site a { display:inline-block; padding:10px 0; margin:-10px 0; }
   .merk { padding:7px 0; }
@@ -643,15 +656,18 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .beloften .w { grid-template-columns:1fr; }
   .beloften article { padding:20px 0; }
   .beloften article + article { border-left:0; border-top:1px solid var(--lijn-inkt); }
-  .stemmen { padding:72px 0 64px; }
-  .stemmen .w { display:block; }
+  .stemmen .w { min-height:0; padding-top:72px; padding-bottom:88px; }
+  .stemmen-beeld { background-position:80% 50%; }
+  .stemmen-beeld::after { background:linear-gradient(180deg, rgba(8,9,10,.82) 0%, rgba(8,9,10,.58) 100%); }
+  .stemmen .bijschrift { right:16px; bottom:16px; }
   .stemmen h2 { grid-template-columns:1fr; gap:8px; }
   .stemmen .getal { font-size:120px; margin-left:-6px; }
   .stemmen .regels { font-size:34px; padding-bottom:0; }
   .citaat { margin-top:40px; padding-left:20px; }
   .citaat p { font-size:26px; }
   .citaat .lijn { width:4px; top:-40px; bottom:-40px; }
-  .stemmen .ring { width:360px; height:360px; left:-200px; top:-120px; }
+  .slot { background-size:cover; background-position:88% 60%; }
+  .slot::before { background:linear-gradient(180deg, rgba(240,237,230,.9) 0%, rgba(240,237,230,.72) 100%); }
   .wetgeving { padding:48px 0 0; }
   .wetgeving .rij1, .wetgeving .rij2 { grid-template-columns:minmax(0, 1fr); gap:24px; }
   .wetgeving h2 { font-size:32px; }
@@ -704,8 +720,7 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .ring.orbit-open { width:360px; height:360px; right:-260px; top:-280px; opacity:.4; }
   .onder { grid-template-columns:1fr; gap:8px; padding-top:48px; padding-bottom:32px; }
   .agenda li { grid-template-columns:1fr; gap:4px; }
-  .slot { padding:48px 0 56px; }
-  .slot .w { grid-template-columns:1fr; gap:24px; }
+  .slot .w { min-height:0; padding-top:56px; padding-bottom:64px; }
   .slotzin { font-size:24px; }
   footer.site .w { flex-direction:column; align-items:flex-start; gap:12px; }
 }
@@ -713,8 +728,8 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
 @media (max-width:400px) { nav.hoofd a.l { display:none; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
-  .kraak .k-tekst, .datum.kraak .s, .portal::before, .portal::after, .uitsteek::before, .uitsteek::after { animation:none !important; }
-  .portal::before, .portal::after, .uitsteek::before, .uitsteek::after { display:none; }
+  .kraak .k-tekst, .datum.kraak .s, .hero-beeld::before, .hero-beeld::after, .uitsteek::before, .uitsteek::after { animation:none !important; }
+  .hero-beeld::before, .hero-beeld::after, .uitsteek::before, .uitsteek::after { display:none; }
   .lijn, .is-in .lijn { transform:none; transition:none; }
   .marge, .is-in .marge { opacity:1; transition:none; }
   .tabelwrap td.strook.oranje, .tabelwrap.is-in td.strook.oranje { transform:none; transition:none; }
@@ -938,29 +953,33 @@ PAGE = """<!DOCTYPE html>
 </head>
 <body>
 
-<header class="top"><div class="w">
+<header class="top over"><div class="w">
   <a class="skip" href="#inhoud">Naar de inhoud</a>
   <a class="merk" href="/switch.html"><img src="/wordmark.png" alt="Will Switch" width="705" height="153"><span>Praktijkonderzoek naar<br>digitale autonomie</span></a>
   <nav class="hoofd" aria-label="Hoofdnavigatie"><a class="l" href="#verhalen">Praktijk</a><a class="l" href="#rapport">Rapport</a><a class="knop" href="/scan/"><span class="lang">Uitstaptoets</span><span class="kort">Toets</span> <span aria-hidden="true">&rarr;</span></a></nav>
 </div></header>
 
 <main id="inhoud" tabindex="-1">
-<section class="hero" data-kraak><div class="w">
-  <div class="hero-tekst">
-    <div class="staander" aria-hidden="true"></div>
-    <h1><span class="vraag">Kun je nog weg<br>bij je<br>leveranciers?</span><span class="groot k-tekst">Digitale<br>autonomie.</span></h1>
-    <p class="lead">Niet alles hoeft anders. Maar je moet wel kunnen kiezen.</p>
-    <p class="sub">Sinds 15 augustus 2026 moet je bestuur die vraag per leverancier kunnen beantwoorden. De gratis uitstaptoets laat in een kwartier zien waar je staat. Het uitstaprapport zegt wat je daarna doet.</p>
-    <div class="acties">
-      <a class="knop groot" href="/scan/">Doe de gratis uitstaptoets <span aria-hidden="true">&rarr;</span></a>
-      <span class="micro">een kwartier, geen registratie, je antwoorden blijven in je browser</span>
+<section class="hero" data-kraak>
+  <div class="hero-beeld">
+    <img src="/switch-hero.webp" alt="{hero_alt}" width="1672" height="941" fetchpriority="high" decoding="async">
+    <span class="bijschrift" aria-hidden="true">aan de andere kant</span>
+  </div>
+  <div class="w hero-in">
+    <div class="hero-tekst">
+      <h1><span class="vraag">Kun je nog weg<br>bij je leveranciers?</span><span class="groot k-tekst">Digitale<br>autonomie.</span></h1>
+      <p class="lead">Niet alles hoeft anders. Maar je moet wel kunnen kiezen.</p>
+      <div class="acties">
+        <a class="knop groot" href="/scan/">Doe de gratis uitstaptoets <span aria-hidden="true">&rarr;</span></a>
+        <span class="micro">een kwartier, geen registratie, je antwoorden blijven in je browser</span>
+      </div>
     </div>
-    <p class="hero-link"><a class="tekstlink" href="#verhalen">Bekijk de praktijkverhalen</a></p>
   </div>
-  <div class="portal-wrap">
-    <div class="ring orbit" aria-hidden="true"></div>
-    <div class="portal" role="img" aria-label="{hero_alt}"></div>
-  </div>
+</section>
+
+<section class="intro"><div class="w">
+  <p>Sinds 15 augustus 2026 moet je bestuur per leverancier kunnen zeggen of je nog weg kunt. De gratis uitstaptoets laat in een kwartier zien waar je staat. Het uitstaprapport zegt wat je daarna doet.</p>
+  <a class="tekstlink" href="#verhalen">Bekijk de praktijkverhalen</a>
 </div></section>
 
 <section class="beloften">
@@ -973,7 +992,8 @@ PAGE = """<!DOCTYPE html>
 </section>
 
 <section class="stemmen" data-kraak>
-  <div class="ring inkt drijft" aria-hidden="true"></div>
+  <div class="stemmen-beeld" aria-hidden="true"></div>
+  <span class="bijschrift" aria-hidden="true">aan deze kant</span>
   <div class="w">
     <h2><span class="getal k-tekst">62</span><span class="regels">Stemmen.<br>1 patroon.</span></h2>
     <blockquote class="citaat">
