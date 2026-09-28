@@ -337,7 +337,7 @@ header.top.over .merk span { color:var(--inkt); border-left-color:var(--inkt); }
 .acties { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
 .micro { font-family:var(--mono); font-size:13px; letter-spacing:.02em; color:var(--zacht); max-width:34ch; line-height:1.5; }
 .hero .acties { margin-top:28px; flex-direction:column; align-items:flex-start; gap:12px; }
-.hero .micro { color:var(--inkt); }
+.hero .micro { color:var(--inkt); text-shadow:0 0 12px rgba(240,237,230,.95), 0 0 4px rgba(240,237,230,.9); }
 .bijschrift { position:absolute; z-index:2; font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--papier); text-shadow:0 1px 3px rgba(0,0,0,.5); }
 .hero .bijschrift { right:40px; bottom:28px; }
 .intro { padding:44px 0 48px; border-bottom:1px solid var(--inkt); }
@@ -357,7 +357,7 @@ header.top.over .merk span { color:var(--inkt); border-left-color:var(--inkt); }
 .beloften article:first-child { padding-left:0; }
 .beloften article:last-child { padding-right:0; }
 .beloften article + article { border-left:1px solid var(--lijn-inkt); }
-.beloften .num { font-family:var(--mono); font-size:13px; color:var(--op-inkt-2); }
+.beloften .num { font-family:var(--mono); font-size:13px; font-weight:700; color:var(--oranje); }
 .beloften h3 { font-size:22px; line-height:1.15; margin-top:10px; }
 .beloften p { font-size:16px; color:var(--op-inkt); max-width:34ch; margin-top:8px; }
 .beloften .tekstlink { display:inline-block; margin-top:12px; }
@@ -365,7 +365,7 @@ header.top.over .merk span { color:var(--inkt); border-left-color:var(--inkt); }
 /* stemmen: de donkere kant van de poort als tweede behang */
 .stemmen { position:relative; overflow:hidden; background:#0b0d0e; color:var(--papier); }
 .stemmen-beeld { position:absolute; inset:0; background:url('/poort.webp') 72% 50% / cover no-repeat; }
-.stemmen-beeld::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(8,9,10,.84) 0%, rgba(8,9,10,.6) 36%, rgba(8,9,10,0) 62%); }
+.stemmen-beeld::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, #1a1612 0, rgba(26,22,18,0) 120px), linear-gradient(90deg, rgba(8,9,10,.84) 0%, rgba(8,9,10,.6) 36%, rgba(8,9,10,0) 62%); }
 .stemmen .w { position:relative; z-index:1; min-height:min(92svh, 56vw); padding-top:120px; padding-bottom:110px; display:flex; flex-direction:column; justify-content:center; }
 .stemmen h2 { display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:end; max-width:760px; }
 .stemmen .getal {
@@ -449,6 +449,7 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .register b { display:block; font-size:20px; }
 .register .uitleg { display:block; font-size:15px; color:var(--zacht); margin-top:4px; }
 .prijs { position:sticky; top:24px; background:var(--inkt); color:var(--papier); padding:40px 40px 36px; overflow:hidden; }
+.prijs::before { content:""; display:block; height:150px; margin:-40px -40px 28px; background:url('/poort.webp') 70% 34% / cover no-repeat; }
 .prijs > :not(.ring) { position:relative; }
 .prijs .ring { width:320px; height:320px; border-width:1.5px; opacity:.5; right:-160px; top:-160px; }
 .prijs .mono { color:var(--op-inkt-2); font-size:12px; }
@@ -472,6 +473,8 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 /* vragen */
 .faq { padding:80px 0 72px; background:var(--warm); }
 .faq .w { display:grid; grid-template-columns:4fr 8fr; gap:48px; align-items:start; }
+.faq .w > div:first-child { position:sticky; top:40px; }
+.faq .w > div:first-child::after { content:""; display:block; margin-top:40px; aspect-ratio:4/5; max-width:340px; background:url('/switch-hero.webp') 20% 62% / cover no-repeat; border-left:6px solid var(--oranje); }
 .faq h2 { font-size:40px; line-height:1.08; letter-spacing:-.02em; }
 .faq .hulp { font-size:16px; color:var(--zacht); margin-top:16px; }
 .faq details { border-top:1px solid var(--inkt); }
@@ -501,24 +504,26 @@ table.datasheet { width:100%; table-layout:fixed; border-collapse:collapse; bord
 .klein-verhalen h3 { font-size:22px; line-height:1.15; margin-top:4px; }
 .klein-verhalen p { font-size:16px; color:var(--zacht); margin-top:6px; }
 .klein-verhalen .tekstlink { display:inline-block; margin-top:8px; }
-figure.uitsteek { position:relative; margin:0 calc(50% - 50vw) 0 0; }
-figure.uitsteek img { width:100%; height:auto; aspect-ratio:16/10; object-fit:cover; display:block; }
+/* de kaart blijft binnen de kolom: nooit groter tonen dan de bron (990 px) */
+figure.uitsteek { position:relative; margin:0; max-width:990px; }
+figure.uitsteek img { width:100%; height:auto; display:block; border:1px solid var(--inkt); filter:saturate(.8); box-shadow:-24px 24px 0 var(--oranje); }
 .opschrift { position:absolute; left:0; bottom:0; background:var(--inkt); color:var(--papier); padding:16px 20px; font-family:var(--mono); font-size:12px; line-height:1.6; }
-.dsg-tekst { margin-top:24px; }
+.dsg-tekst { margin-top:52px; }
 .dsg-tekst h3 { font-size:30px; line-height:1.1; margin-top:6px; }
 .dsg-tekst p { font-size:17px; color:var(--zacht); max-width:60ch; margin-top:8px; }
 .dsg-tekst .tekstlink { display:inline-block; margin-top:10px; }
 
 /* overzicht: zwarte kopband, dan het register */
 .overzicht { padding:0 0 64px; }
-.kopband { background:var(--inkt); color:var(--papier); }
+.kopband { background:linear-gradient(90deg, #1a1612 50%, rgba(26,22,18,.3)), #1a1612 url('/poort.webp') right 22% / cover no-repeat; color:var(--papier); }
+.overzicht .kopband .kopregel { grid-template-columns:1fr; gap:12px; padding-top:104px; padding-bottom:56px; }
 .overzicht .kopregel { padding-top:48px; padding-bottom:40px; display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end; }
 .overzicht .kopregel .mono { color:var(--op-inkt-2); }
 .overzicht h2 { font-size:40px; line-height:1.08; letter-spacing:-.02em; }
 .register-lijst { margin-top:8px; display:grid; grid-template-columns:1fr 1fr; column-gap:48px; align-items:start; }
-.item { position:relative; display:grid; grid-template-columns:48px 1fr; gap:16px; padding:20px 0; border-top:1px solid var(--inkt); color:inherit; }
+.item { position:relative; display:grid; grid-template-columns:64px 1fr; gap:16px; padding:20px 0; border-top:1px solid var(--inkt); color:inherit; }
 .register-lijst > .item:nth-child(-n+2) { border-top:0; }
-.item .num { font-family:var(--mono); font-size:14px; color:var(--link); }
+.item .num { font-size:40px; font-weight:800; line-height:.9; letter-spacing:-.03em; color:var(--oranje); font-variant-numeric:tabular-nums; }
 .item h3 a { color:inherit; text-decoration:none; }
 .item h3 a::after { content:""; position:absolute; inset:0; }
 .item:hover h3 a { text-decoration:underline; text-underline-offset:4px; }
@@ -620,7 +625,7 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
 @media (min-width:821px) and (max-width:1000px) {
   .register-lijst { grid-template-columns:1fr; }
 }
-@media (max-height:800px) { .prijs { position:relative; } }
+@media (max-height:1000px) { .prijs { position:relative; } }
 
 /* mobiel */
 @media (max-width:820px) {
@@ -701,8 +706,8 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
   .verhalen .w { grid-template-columns:1fr; gap:32px; }
   .verhalen h2 { font-size:32px; }
   .verhalen .ring { display:none; }
-  figure.uitsteek { margin:0 -16px; }
-  figure.uitsteek img { aspect-ratio:4/3; object-position:70% 50%; }
+  figure.uitsteek { margin:0; }
+  figure.uitsteek img { aspect-ratio:4/3; object-fit:cover; object-position:60% 50%; }
   .klein-verhalen article { grid-template-columns:1fr; }
   .tegel { aspect-ratio:auto; height:120px; }
   .overzicht { padding:0 0 40px; }
@@ -726,6 +731,37 @@ html:not(.js) .tabelwrap td.strook.oranje { transform:none; }
 }
 
 @media (max-width:400px) { nav.hoofd a.l { display:none; } }
+/* na de snelle check: hero, 62-blok en register per breedte */
+@media (min-width:600px) and (max-width:820px) {
+  .hero-beeld { aspect-ratio:auto; height:58svh; --pos:30% 70%; }
+}
+@media (max-width:820px) {
+  .stemmen-beeld { inset:0 0 auto 0; height:360px; background-position:78% 40%; }
+  .stemmen-beeld::after { background:linear-gradient(180deg, rgba(8,9,10,.35) 0%, rgba(8,9,10,.7) 60%, #0b0d0e 100%); }
+  .stemmen .w { padding-top:220px; }
+  .prijs::before { height:120px; margin:-28px -20px 24px; }
+  .faq .w > div:first-child { position:static; }
+  .faq .w > div:first-child::after { display:none; }
+  .overzicht .kopregel { padding-top:56px; padding-bottom:32px; }
+  .kopband { background:#1a1612; }
+  .item { grid-template-columns:52px 1fr; }
+  .item .num { font-size:32px; }
+  figure.uitsteek img { box-shadow:none; }
+  .dsg-tekst { margin-top:24px; }
+}
+@media (min-width:821px) and (max-width:1279px) {
+  .hero-beeld { height:min(100svh, 70vw); }
+  .hero-tekst { width:min(46%, 600px); margin-right:5%; }
+  .stemmen-beeld { background-position:88% 50%; }
+  .stemmen .citaat { max-width:34rem; }
+  .stemmen-beeld::after { background:linear-gradient(180deg, #1a1612 0, rgba(26,22,18,0) 120px), linear-gradient(90deg, rgba(8,9,10,.88) 0%, rgba(8,9,10,.66) 45%, rgba(8,9,10,0) 70%); }
+}
+@media (min-width:1600px) {
+  .hero-in { max-width:none; padding-left:5vw; padding-right:5vw; }
+  .hero-tekst { width:min(40%, 720px); margin-right:12%; }
+  .hero .lead { font-size:26px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior:auto; }
   .kraak .k-tekst, .datum.kraak .s, .hero-beeld::before, .hero-beeld::after, .uitsteek::before, .uitsteek::after { animation:none !important; }
@@ -1137,7 +1173,7 @@ PAGE = """<!DOCTYPE html>
     </div>
     <div>
       <figure class="uitsteek" style="--src:url(/dsg-viewer.webp)" data-kraak>
-        <img src="/dsg-viewer.webp" alt="Kaartviewer van Data Space Groningen" width="976" height="530" loading="lazy">
+        <img src="/dsg-viewer.webp" alt="Kaartviewer van Data Space Groningen" width="990" height="480" loading="lazy">
         <figcaption class="opschrift marge">data space groningen<br>samen data, meer waarde<br>17 organisaties, 1 open platform</figcaption>
       </figure>
       <div class="dsg-tekst">
