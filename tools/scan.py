@@ -305,6 +305,14 @@ nav.hoofd a.l { font-size:14px; }
   h2 { font-size:20px !important; }
   .knop, .b-primair { font-size:14px; }
 }
+
+/* kleiner, dichter bij de oude site */
+body { font-size:14px; }
+h1 { font-size:clamp(24px, 2.6vw, 36px) !important; }
+h2 { font-size:clamp(18px, 1.7vw, 24px) !important; }
+h3 { font-size:16px; }
+.knop, .b-primair { font-size:14px; }
+@media (max-width:820px) { h1 { font-size:clamp(22px, 6.4vw, 28px) !important; } h2 { font-size:18px !important; } }
 </style>
 </head>
 <body>

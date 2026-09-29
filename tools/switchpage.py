@@ -790,6 +790,37 @@ nav.hoofd a.l { font-size:14px; }
   .datasheet th h3 { font-size:17px; }
   .knop, .knop.groot { font-size:14px; }
 }
+
+/* kleiner, dichter bij de oude site */
+body { font-size:14px; }
+.hero h1 .groot { font-size:clamp(32px, 3vw, 54px); }
+.hero h1 .vraag { font-size:12px; }
+.hero .lead, .intro p { font-size:clamp(15px, 1.1vw, 17px); }
+.beloften h3, .klein-verhalen h3, .datasheet th h3, .afzender .naam { font-size:16px; }
+.beloften p, .verhalen .intro, .rapport .intro, .wetgeving .intro, .datasheet td.wat p, .faq details div p { font-size:14px; }
+.dsg-tekst h3 { font-size:19px; }
+.register b, .item h3, .faq summary h3 { font-size:15px; }
+.stemmen .getal { font-size:clamp(80px, 8.5vw, 140px); }
+.stemmen .regels { font-size:clamp(22px, 2.4vw, 38px); }
+.citaat p { font-size:clamp(17px, 1.5vw, 22px); }
+.wetgeving h2, .rapport h2, .verhalen h2 { font-size:clamp(22px, 2vw, 28px); }
+.faq h2, .overzicht h2 { font-size:clamp(19px, 1.6vw, 22px); }
+.movement h2 { font-size:clamp(20px, 1.8vw, 26px); }
+.ladder .d { font-size:clamp(24px, 2.2vw, 32px); }
+.ladder .datum { font-size:clamp(34px, 3.4vw, 50px); }
+.bedrag .getal { font-size:68px; }
+.slotzin { font-size:clamp(17px, 1.5vw, 21px); }
+.movement-btn .count { font-size:26px; }
+.knop { font-size:14px; }
+.knop.groot { font-size:15px; min-height:50px; }
+@media (max-width:820px) {
+  .hero h1 .groot { font-size:clamp(26px, 7.4vw, 38px); }
+  .stemmen .getal { font-size:80px; }
+  .stemmen .regels { font-size:22px; }
+  .citaat p { font-size:18px; }
+  .wetgeving h2, .rapport h2, .verhalen h2, .faq h2, .overzicht h2, .movement h2 { font-size:20px; }
+  .bedrag .getal { font-size:56px; }
+}
 """
 
 
@@ -1026,7 +1057,6 @@ PAGE = """<!DOCTYPE html>
       <p class="lead">Niet alles hoeft anders. Maar je moet wel kunnen kiezen.</p>
       <div class="acties">
         <a class="knop groot" href="/scan/">Doe de gratis uitstaptoets <span aria-hidden="true">&rarr;</span></a>
-        <span class="micro">een kwartier, geen registratie, je antwoorden blijven in je browser</span>
       </div>
     </div>
   </div>
