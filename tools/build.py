@@ -151,6 +151,8 @@ CSS = """
       margin:2.4rem 0 0.9rem; color:var(--ink);
     }
     main.case p { font-size:0.95rem; color:var(--ink-soft); margin-bottom:1.1rem; }
+    main.case ul { margin:0 0 1.2rem 1.2rem; font-size:0.95rem; }
+    main.case li { margin-bottom:0.35rem; }
     main.case p a { color:var(--orange); text-decoration:none;
       border-bottom:1px solid rgba(232,69,0,0.4); }
     main.case p a:hover { color:var(--ink); border-color:var(--ink); }

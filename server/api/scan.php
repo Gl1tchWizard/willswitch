@@ -6,7 +6,7 @@ require __DIR__ . '/../lib/db.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') json_uit(['fout' => 'alleen POST'], 405);
 $d = json_in();
 
-$toegestaan_org = ['gemeente','waterschap','provincie','rijk','gr','kennis','anders'];
+$toegestaan_org = ['gemeente','waterschap','provincie','rijk','gr','vr','kennis','anders'];
 $toegestaan_rol = ['bestuur','cio','uitvoering','anders'];
 $org = in_array($d['org'] ?? '', $toegestaan_org, true) ? $d['org'] : 'anders';
 $rol = in_array($d['rol'] ?? '', $toegestaan_rol, true) ? $d['rol'] : 'anders';

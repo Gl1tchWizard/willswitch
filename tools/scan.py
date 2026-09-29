@@ -14,7 +14,7 @@ PAGE = r'''<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Uitstaptoets: kun je nog weg bij je leveranciers? | Will Switch</title>
-  <meta name="description" content="Gratis toets voor gemeenten, waterschappen en andere publieke organisaties. Toetst in een kwartier je ketenafhankelijkheid tegen de Cyberbeveiligingswet, de Data Act en het rijkscloudbeleid. Geen registratie.">
+  <meta name="description" content="Gratis toets voor gemeenten, provincies, waterschappen en andere publieke organisaties. Toetst in een kwartier je ketenafhankelijkheid tegen de Cyberbeveiligingswet, de Data Act en het rijkscloudbeleid. Geen registratie.">
   <link rel="canonical" href="https://willswitch.nl/scan/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Will Switch">
@@ -235,6 +235,7 @@ PAGE = r'''<!DOCTYPE html>
     <div class="keuzes twee" id="rol"></div>
     <h3>Voor welk type organisatie?</h3>
     <div class="keuzes twee" id="org"></div>
+    <p class="klein" id="org-noot" style="display:none"></p>
     <div class="nav"><button class="b-stil" onclick="naar(0)">Terug</button><button class="b-primair" id="k1" disabled onclick="naar(2)">Verder</button></div>
   </section>
 
@@ -251,7 +252,7 @@ PAGE = r'''<!DOCTYPE html>
   <!-- 3 · ketenzorgplicht -->
   <section id="s3" class="verborgen">
     <h2>Ketenzorgplicht</h2>
-    <p>Wat de Cyberbeveiligingswet van je vraagt over bestaande leveranciers. Antwoord voor je organisatie als geheel. Klik op een vraag voor de toelichting.</p>
+    <p id="a-intro">Wat de Cyberbeveiligingswet van je vraagt over bestaande leveranciers. Antwoord voor je organisatie als geheel. Klik op een vraag voor de toelichting.</p>
     <div id="vr-a"></div>
     <div class="nav"><button class="b-stil" onclick="naar(2)">Terug</button><button class="b-primair" id="k3" disabled onclick="naar(4)">Verder</button></div>
   </section>
@@ -340,7 +341,7 @@ PAGE = r'''<!DOCTYPE html>
 <script>
 'use strict';
 const ROLLEN = [['bestuur','Bestuur of directie'],['cio','CIO, CISO of informatiemanager'],['uitvoering','Beheer, inkoop of uitvoering'],['anders','Anders']];
-const ORGS = [['gemeente','Gemeente'],['waterschap','Waterschap'],['provincie','Provincie'],['rijk','Rijksdienst of ZBO'],['gr','Gemeenschappelijke regeling'],['kennis','Kennisinstelling'],['anders','Anders']];
+const ORGS = [['gemeente','Gemeente'],['waterschap','Waterschap'],['provincie','Provincie'],['rijk','Rijksdienst of ZBO'],['gr','Gemeenschappelijke regeling'],['vr','Veiligheidsregio'],['kennis','Kennisinstelling'],['anders','Anders']];
 const SYSTEMEN = [
   ['kantoor','Kantoorsuite, mail en documenten'],['cloud','Cloudinfrastructuur'],['zaak','Zaaksysteem'],
   ['fin','Financieel systeem'],['hr','HR en salaris'],['geo','Geo-informatie'],
@@ -400,7 +401,16 @@ function keuzeknoppen(cid, lijst, key, single, cb){
   });
 }
 keuzeknoppen('rol', ROLLEN, 'rol', true, ()=>el('k1').disabled=!(S.rol&&S.org));
-keuzeknoppen('org', ORGS, 'org', true, ()=>el('k1').disabled=!(S.rol&&S.org));
+keuzeknoppen('org', ORGS, 'org', true, ()=>{ el('k1').disabled=!(S.rol&&S.org); pasOrgAan(); });
+/* Veiligheidsregio's vallen niet onder de Cyberbeveiligingswet; de vragen blijven, als goed gebruik. */
+function pasOrgAan(){
+  const vr = S.org==='vr', noot=el('org-noot');
+  noot.style.display = vr ? '' : 'none';
+  noot.textContent = vr ? 'Goed om te weten: de Cyberbeveiligingswet geldt niet voor veiligheidsregio\'s. De vragen over leveranciers zijn voor jullie net zo relevant, bijvoorbeeld als een systeem voor de meldkamer of crisiscommunicatie wegvalt. Lees ze als goed gebruik. De Data Act geldt wel.' : '';
+  el('a-intro').textContent = vr
+    ? 'Wat de Cyberbeveiligingswet van andere overheden vraagt over bestaande leveranciers. Voor een veiligheidsregio is dit geen plicht maar goed gebruik. Antwoord voor je organisatie als geheel. Klik op een vraag voor de toelichting.'
+    : 'Wat de Cyberbeveiligingswet van je vraagt over bestaande leveranciers. Antwoord voor je organisatie als geheel. Klik op een vraag voor de toelichting.';
+}
 
 /* 2 */
 (function(){
@@ -564,7 +574,7 @@ function resultaat(){
     if(d.nee) delen.push(d.nee+' niet geregeld');
     if(d.onbekend) delen.push(d.onbekend+' onbekend');
     const div=document.createElement('div'); div.className='dek';
-    div.innerHTML='<div class="lbl"><b>'+DIM[key].naam+' <span style="color:var(--ink-faint);font-weight:400">'+DIM[key].wet+'</span></b>'
+    div.innerHTML='<div class="lbl"><b>'+DIM[key].naam+' <span style="color:var(--ink-faint);font-weight:400">'+(key==='a'&&S.org==='vr'?'goed gebruik, Cbw geldt niet':DIM[key].wet)+'</span></b>'
       +'<span>'+delen.join(' &middot; ')+'</span></div>'
       +'<div class="staaf">'
       +(d.ja?'<i class="v-ja" style="flex:'+d.ja+'"></i>':'')
@@ -582,6 +592,7 @@ function resultaat(){
   else if (r.a.pct<50){ kop='Leg per leverancier het wegval-scenario vast.'; tekst='Eén A4 per kritieke leverancier: wat gebeurt er met onze dienstverlening als hij morgen stopt, en wat gebeurt er met onze data. Dat is exact wat de RDI onder de ketenzorgplicht verstaat, en het is het stuk dat bij de meeste organisaties ontbreekt.'; }
   else if (r.c.pct<75){ kop='Voer één gesprek met een alternatief.'; tekst='Je hebt de basis. Wat ontbreekt is een alternatief waarmee echt gesproken is. Kies je grootste afhankelijkheid en voer één verkennend gesprek. Niet om over te stappen, maar om te weten wat het zou kosten. Dat verandert elke volgende onderhandeling.'; }
   else { kop='Leg vast wat je hebt.'; tekst='Je staat er beter voor dan de meeste organisaties. Zet het op papier, laat het bestuur het vaststellen en plan een jaarlijkse hermeting. Dat is je bewijs richting de toezichthouder, en je zekerheid als er iemand vertrekt.'; }
+  if (S.org==='vr') tekst = tekst.replace('Dat is exact wat de RDI onder de ketenzorgplicht verstaat', 'Dat is wat de RDI bij andere overheden onder de ketenzorgplicht verstaat').replace('Dat is je bewijs richting de toezichthouder', 'Dat is je bewijs richting bestuur en partners');
   el('stap-kop').textContent=kop; el('stap-tekst').textContent=tekst;
   /* duo */
   const ander = S.rol==='bestuur' ? 'iemand uit de uitvoering' : (S.rol==='uitvoering' ? 'je bestuurder' : 'een collega uit een andere laag');
