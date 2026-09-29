@@ -960,6 +960,39 @@
       border-bottom: 1px solid rgba(232,69,0,0.4);
     }
     .case-data p a:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* === Drie pijlers: wetten en beleid, boven Patronen === */
+    .pijlers-blok { margin-bottom: 4.5rem; }
+    .pijlers { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .pijler { background: var(--paper-warm); border: 1px solid var(--rule); padding: 1.75rem 1.75rem 1.5rem; display: flex; flex-direction: column; }
+    .pijler.groot { padding: 2rem 2rem 1.75rem; }
+    .pijlers .stapel { display: grid; gap: 1rem; }
+    .pijler .soort { align-self: flex-start; font-family: 'Orbitron', monospace; font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.3rem 0.6rem; border: 1px solid var(--ink); color: var(--ink); margin-bottom: 1.1rem; }
+    .pijler .soort.vol { background: var(--ink); color: var(--paper); }
+    .pijler .moment { font-family: 'Orbitron', monospace; font-weight: 700; color: var(--orange); line-height: 1; margin-bottom: 0.5rem; }
+    .pijler.groot .moment { font-size: clamp(2.2rem, 4vw, 3.2rem); }
+    .pijlers .stapel .moment { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+    .pijler h3 { font-family: 'Orbitron', monospace; font-weight: 700; font-size: 1.05rem; line-height: 1.25; color: var(--ink); margin-bottom: 0.35rem; }
+    .pijler.groot h3 { font-size: 1.3rem; }
+    .pijler .sinds { font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 0.9rem; }
+    .pijler .wat { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.6; margin-bottom: auto; }
+    .pijler .vragen { margin-top: 1.2rem; padding: 1rem 1.1rem; background: var(--paper); border: 1px solid var(--rule); }
+    .pijler .vragen b { display: block; font-size: 0.8rem; margin-bottom: 0.5rem; color: var(--ink); }
+    .pijler .vragen ol { padding-left: 1.2rem; font-size: 0.82rem; color: var(--ink-soft); line-height: 1.55; }
+    .pijler .voet { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-top: 1.2rem; padding-top: 0.9rem; border-top: 1px solid var(--rule); font-size: 0.75rem; color: var(--ink-faint); }
+    .pijler .voet a { font-family: 'Orbitron', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); text-decoration: none; white-space: nowrap; }
+    .pijler .voet a::after { content: " \2192"; }
+    .pijler .voet a:hover { color: var(--ink); }
+    .pijlers-cta { margin-top: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; background: var(--ink); color: var(--paper); padding: 1.6rem 1.75rem; }
+    .pijlers-cta b { display: block; font-family: 'Orbitron', monospace; font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .pijlers-cta span { font-size: 0.85rem; color: rgba(240,237,230,0.75); }
+    .pijlers-cta a { flex: none; display: inline-flex; align-items: center; gap: .5em; min-height: 44px; padding: 0 1.4rem; background: #D63F00; color: #fff; font-family: 'Orbitron', monospace; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.04em; text-decoration: none; }
+    .pijlers-cta a:hover { background: var(--orange); }
+    @media (max-width: 820px) {
+      .pijlers { grid-template-columns: 1fr; }
+      .pijlers-cta { flex-direction: column; align-items: stretch; }
+      .pijlers-cta a { justify-content: center; }
+    }
   </style>
 </head>
 <body class="reveal">
@@ -1044,6 +1077,56 @@
           <span class="label">We zijn al verder</span>
           <span class="count" data-count>·</span>
         </button>
+      </div>
+    </section>
+
+    <!-- Blok 1.8: Drie pijlers, wetten en beleid -->
+    <section class="pijlers-blok" id="wetgeving">
+      <header class="lessons-header">
+        <div>
+          <h2>Actuele wetgeving</h2>
+          <p class="lessons-intro">Het bestuur is sinds 15 augustus 2026 aanspreekbaar op de leveranciersketen.</p>
+        </div>
+      </header>
+      <div class="pijlers">
+        <article class="pijler groot">
+          <span class="soort vol">Wet</span>
+          <div class="moment">Nu</div>
+          <h3>Cyberbeveiligingswet</h3>
+          <p class="sinds">Van kracht sinds 15 augustus 2026, voor Rijk, zbo's, gemeenten, provincies en waterschappen</p>
+          <p class="wat">Per leverancier moet je kunnen aantonen wat er gebeurt bij contracteinde, faillissement of overname. Het bestuur is eindverantwoordelijk, en de toezichthouder kan ernaar vragen.</p>
+          <div class="vragen">
+            <b>Drie vragen die je vandaag zou moeten kunnen beantwoorden</b>
+            <ol>
+              <li>Van welke leveranciers hangt je dienstverlening af, en wanneer lopen die contracten af?</li>
+              <li>Wat gebeurt er met je data als zo'n leverancier stopt?</li>
+              <li>Wie in het bestuur is daarvoor verantwoordelijk, en is dat formeel vastgesteld?</li>
+            </ol>
+          </div>
+          <div class="voet"><span>De zorgplicht geldt al</span><a href="/cases/cbw/">Lees wat het betekent</a></div>
+        </article>
+        <div class="stapel">
+          <article class="pijler">
+            <span class="soort">EU-verordening</span>
+            <div class="moment">12 januari 2027</div>
+            <h3>Data Act</h3>
+            <p class="sinds">Voor iedere afnemer van clouddiensten</p>
+            <p class="wat">Het recht om binnen dertig dagen over te stappen, ook naar eigen infrastructuur. Vanaf die datum vervallen overstapkosten.</p>
+            <div class="voet"><span>Ook voor lopende contracten</span><a href="/cases/dataact/">Lees meer</a></div>
+          </article>
+          <article class="pijler">
+            <span class="soort">Beleid</span>
+            <div class="moment">Medio 2030</div>
+            <h3>Rijksbreed cloudbeleid</h3>
+            <p class="sinds">Voor rijksorganisaties, met medeoverheden in overleg</p>
+            <p class="wat">Een exitplan per clouddienst, ook voor het scenario dat een dienst plotseling wegvalt. Zonder extra budget.</p>
+            <div class="voet"><span>Einde overgangstermijn</span><a href="/cases/cloudbeleid/">Lees meer</a></div>
+          </article>
+        </div>
+      </div>
+      <div class="pijlers-cta">
+        <div><b>Kun je nog weg bij je leveranciers?</b><span>Twee wetten en het rijksbrede cloudbeleid stellen die vraag. De uitstaptoets geeft je in een kwartier het antwoord, zonder registratie.</span></div>
+        <a href="/scan/">Doe de uitstaptoets <span aria-hidden="true">&rarr;</span></a>
       </div>
     </section>
 

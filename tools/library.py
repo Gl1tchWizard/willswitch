@@ -94,7 +94,7 @@ def build_library(source_html, cases):
     ids = [c["id"] for c in cases]
 
     # 1) nieuw kaartenraster
-    blokken = [STRIP] + [card_html(c, ids) for c in cases]
+    blokken = [card_html(c, ids) for c in cases]  # het toetsblok staat nu als pijlers boven Patronen
     blokken += [quote_html(q) for q in load_quotes()]
     cards = "\n\n".join(blokken)
     doc = re.sub(
