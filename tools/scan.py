@@ -371,7 +371,7 @@ const DIM = {
   ]},
   c: { naam:'Exitplan', wet:'Rijkscloudbeleid', vragen:[
     ['Is er per kritieke dienst een exitplan, inclusief het scenario dat de dienst plotseling wegvalt?',
-     'Het rijkscloudbeleid eist dit expliciet, en verplicht melding bij CIO Rijk. Voor medeoverheden volgt hetzelfde. Een migratieplan is niet hetzelfde als een plan voor plotseling wegvallen.'],
+     'Het rijkscloudbeleid eist dit expliciet, met melding bij CIO Rijk. Voor gemeenten, provincies en waterschappen geldt het nog niet; het kabinet wil met hen naar overheidsbreed cloudbeleid. Als richtpunt is het bruikbaar. Een migratieplan is niet hetzelfde als een plan voor plotseling wegvallen.'],
     ['Is er een reeel alternatief benoemd, waarmee ook echt gesproken is?',
      'Een alternatief op papier is geen alternatief. De vraag is of iemand het gesprek heeft gevoerd en weet wat een overstap zou kosten.'],
     ['Is er een bestuurlijk eigenaar met mandaat en budget voor de exit?',
