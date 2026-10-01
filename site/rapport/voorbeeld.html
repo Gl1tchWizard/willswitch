@@ -117,6 +117,16 @@
   .vbalk em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
   @media (max-width:600px){.figuur{padding:1rem .7rem .8rem}.cijfertabel{table-layout:fixed}.cijfertabel th{font-size:.52rem;letter-spacing:0;white-space:normal}.cijfertabel th:first-child{width:42%}.cijfertabel td span{display:block}.cijfertabel th,.cijfertabel td{padding:.35rem .3rem}.omslag{grid-template-columns:1fr}.kaartje{width:130px}.samenvatting .drie{grid-template-columns:1fr}.profiel td{display:block;width:auto!important;overflow-wrap:anywhere}.profiel td:first-child{border-bottom:0;padding-bottom:0;font-size:.74rem}}
   @media print{.samenvatting{-webkit-print-color-adjust:exact;print-color-adjust:exact}.figuur,.uitstapkaart{break-inside:avoid}}
+  /* kopbeeld: foto van Robin Almoes met de astronaut, net als op switch.html */
+  .kopbeeld{position:relative;height:max(240px,40vw);overflow:hidden;background:#9fb0c4}
+  .kopbeeld>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:22% 85%;display:block}
+  .kb-merk{position:absolute;top:18px;right:calc(max(0px,(100% - 48rem) / 2) + 1.5rem);z-index:2;display:block;background:rgba(240,237,230,.88);padding:9px 13px}
+  .kb-merk img{height:26px;width:auto;display:block}
+  .kb-credit{position:absolute;bottom:12px;right:calc(max(0px,(100% - 48rem) / 2) + 1.5rem);z-index:2;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:rgba(240,237,230,.9);text-decoration:none;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .kb-credit:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
+  .omslag{padding-top:2.6rem}
+  @media (max-width:600px){.kopbeeld{height:auto;aspect-ratio:4/3}.kopbeeld>img{object-position:18% 80%}.kb-merk{top:12px;padding:7px 10px}.kb-merk img{height:20px}}
+  @media print{.kopbeeld{height:200px}.kb-credit{color:#fff}}
   /* feedback: invulvelden, gespreksagenda, wat je ontvangt, actievelden */
   .invul{display:block;margin-top:.4rem;padding:.4rem .55rem;border:1px dashed rgba(26,22,18,.35);font-size:.76rem;color:var(--soft);line-height:1.5}
   .invul i{font-style:normal;color:var(--faint)}
@@ -146,6 +156,11 @@
 </head>
 <body>
 <div class="demo">Voorbeeldrapport: gemeente en gegevens zijn fictief, de producten echt. <a href="/scan/">Doe de gratis toets</a> voor je eigen uitkomst.</div>
+<header class="kopbeeld">
+  <img src="/hero-wad.webp" alt="Astronaut met helm in de hand voor een lichtende ring op het wad, met een rij palen naar de horizon" width="2000" height="1333" fetchpriority="high">
+  <a class="kb-merk" href="/switch.html"><img src="/wordmark.png" alt="Will Switch" width="705" height="153"></a>
+  <a class="kb-credit" href="https://www.instagram.com/robinalmoesphotography/">foto: Robin Almoes Photography</a>
+</header>
 <div class="pag">
 
 <section class="omslag">
