@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Uitstaprapport, voorbeeld | Will Switch</title>
-<meta name="description" content="Voorbeeld van het uitstaprapport: wat je krijgt na de gratis uitstaptoets. Uitstapprofiel per leverancier, Cbw-paragraaf, bestuursagenda, exitclausules en een plan voor de eerste negentig dagen.">
+<meta name="description" content="Voorbeeld van het uitstaprapport: wat je krijgt na de gratis uitstaptoets. Uitstapprofiel per leverancier, Cbw-paragraaf, bestuursbesluit, contractafspraken, actielijst en een bewerkbaar werkdocument.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://willswitch.nl/rapport/voorbeeld.html">
 <meta property="og:type" content="article">
@@ -117,6 +117,31 @@
   .vbalk em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
   @media (max-width:600px){.figuur{padding:1rem .7rem .8rem}.cijfertabel{table-layout:fixed}.cijfertabel th{font-size:.52rem;letter-spacing:0;white-space:normal}.cijfertabel th:first-child{width:42%}.cijfertabel td span{display:block}.cijfertabel th,.cijfertabel td{padding:.35rem .3rem}.omslag{grid-template-columns:1fr}.kaartje{width:130px}.samenvatting .drie{grid-template-columns:1fr}.profiel td{display:block;width:auto!important;overflow-wrap:anywhere}.profiel td:first-child{border-bottom:0;padding-bottom:0;font-size:.74rem}}
   @media print{.samenvatting{-webkit-print-color-adjust:exact;print-color-adjust:exact}.figuur,.uitstapkaart{break-inside:avoid}}
+  /* feedback: invulvelden, gespreksagenda, wat je ontvangt, actievelden */
+  .invul{display:block;margin-top:.4rem;padding:.4rem .55rem;border:1px dashed rgba(26,22,18,.35);font-size:.76rem;color:var(--soft);line-height:1.5}
+  .invul i{font-style:normal;color:var(--faint)}
+  .basis td:last-child{color:var(--soft);font-size:.78rem}
+  .gesprek{margin:1rem 0 1.4rem}
+  .gv{background:var(--white);border:1px solid var(--rule);padding:.8rem 1rem;margin-bottom:.5rem}
+  .gv .ond{display:block;font-family:var(--disp);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .gv b{display:block;font-size:.84rem;margin:.2rem 0 .35rem;line-height:1.45}
+  .gv .antw{display:flex;gap:1.4rem;flex-wrap:wrap;font-size:.78rem;color:var(--soft)}
+  .gv .antw em{font-style:normal;font-weight:700;color:var(--ink)}
+  .gv .wat{display:block;margin-top:.4rem;font-size:.78rem;color:var(--ink)}
+  .ontvang{border:2px solid var(--ink);background:var(--white);padding:1.4rem 1.5rem;margin:1.6rem 0 0}
+  .ontvang .merk{font-family:var(--disp);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+  .ontvang .twee{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:.4rem}
+  .ontvang h3{margin:.6rem 0 .4rem;font-size:.82rem}
+  .ontvang ul{margin-left:1.1rem;font-size:.83rem;color:var(--soft)}
+  .ontvang li{margin-bottom:.25rem}
+  .ontvang .klein{margin:1rem 0 0}
+  .downloads{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+  .downloads a{font-family:var(--disp);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:.65rem .95rem;text-decoration:none;border:1px solid var(--ink)}
+  .downloads a.licht{background:transparent;color:var(--ink)}
+  .downloads a:hover{background:var(--orange);border-color:var(--orange);color:var(--paper)}
+  .actie dl{display:grid;grid-template-columns:auto 1fr;gap:.1rem .8rem;margin-top:.55rem;font-size:.74rem;color:var(--soft)}
+  .actie dt{color:var(--faint)}
+  @media (max-width:600px){.ontvang .twee{grid-template-columns:1fr}.ontvang{padding:1.1rem 1rem}}
 </style>
 </head>
 <body>
@@ -132,6 +157,7 @@
     <span>Ingevuld door</span><b>Bestuur en uitvoering, twee metingen</b>
     <span>Datum</span><b>3 september 2026</b>
     <span>Scope</span><b>Vier kritieke systemen</b>
+    <span>Bronnen</span><b>Toets (bestuur en uitvoering apart) en intake per systeem. Nog niets gecontroleerd in documenten.</b>
     <span>Status</span><b>Input voor de Cbw-risicoanalyse. Geen conformiteitsoordeel.</b>
   </div>
   </div>
@@ -146,25 +172,45 @@
 
 <section class="samenvatting" aria-labelledby="sv-kop">
   <div class="merk" id="sv-kop">In één oogopslag, voor het bestuur</div>
-  <p class="conclusie">Ravensmeer kan op dit moment voor twee van de vier kritieke systemen niet aantonen wat er gebeurt als de leverancier wegvalt. Het grootste gat is niet technisch maar bestuurlijk: drie systemen hebben geen eigenaar. Met drie besluiten en negentig dagen werk staat de basis voor de Cbw-risicoanalyse.</p>
+  <p class="conclusie">Volgens de eigen opgave kan Ravensmeer voor twee van de vier kritieke systemen niet onderbouwen wat er gebeurt als de leverancier wegvalt. Het grootste gat is niet technisch maar bestuurlijk: drie systemen hebben geen eigenaar. Met vier besluiten en negentig dagen werk ligt er een onderbouwde basis voor de Cbw-risicoanalyse.</p>
   <div class="drie">
     <div><h3>Grootste risico's</h3><ol>
       <li>Microsoft 365: buiten de EU, contracteinde onbekend, export nooit getest.</li>
-      <li>Microsoft Azure: contract loopt 30 juni 2027 af. Een Europese aanbesteding kost zes tot negen maanden, dus wie wil overstappen begint dit najaar.</li>
+      <li>Microsoft Azure: contract loopt 30 juni 2027 af. Een Europese aanbesteding kost als ervaringsgetal zes tot negen maanden, dus wie wil overstappen begint dit najaar.</li>
       <li>Drie van de vier systemen zonder bestuurlijk eigenaar.</li>
     </ol></div>
     <div><h3>Eerste acties</h3><ol>
       <li>Eigenaren benoemen en contracteindes ophalen, week 1 tot 2.</li>
       <li>Eén export testen bij het zaaksysteem, week 3 tot 6.</li>
-      <li>Azure-contract op de Data Act toetsen en besluiten: verlengen met clausules of aanbesteden, week 7 tot 12.</li>
+      <li>Azure-contract op de Data Act toetsen en besluiten: verlengen met Data Act-afspraken of aanbesteden, week 7 tot 12.</li>
     </ol></div>
   </div>
   <p class="besluit"><b>Gevraagd besluit</b>Een bestuurlijk eigenaar per kritiek systeem, met mandaat om een exit voor te bereiden. Zie hoofdstuk 4.</p>
 </section>
 
+<section class="ontvang" aria-labelledby="ontvang-kop">
+  <div class="merk" id="ontvang-kop">Wat je ontvangt</div>
+  <div class="twee">
+    <div><h3>Dit rapport</h3><ul>
+      <li>Je uitslag, uitstapkaart en tijdlijn</li>
+      <li>Per systeem wat je weet, wat je niet weet en wat de regels vragen</li>
+      <li>Waar bestuur en uitvoering verschillend antwoorden</li>
+    </ul></div>
+    <div><h3>Een bewerkbaar werkdocument</h3><ul>
+      <li>Concept-paragraaf voor je Cbw-risicoanalyse</li>
+      <li>Concept-bestuursbesluit</li>
+      <li>Actielijst met eigenaar, besluit, deadline, status en bewijsstuk</li>
+      <li>Onderzoeksvragen per systeem, met invulvelden</li>
+      <li>Gespreksagenda voor bestuur en uitvoering</li>
+    </ul></div>
+  </div>
+  <p class="klein">Elke uitspraak heeft een label: gemeld (jullie eigen opgave), gecontroleerd (gezien in een document of test) of voorgesteld (nog te besluiten). Zo klopt ook een los overgenomen stuk.</p>
+  <div class="downloads"><a href="werkdocument-ravensmeer.docx" download>Voorbeeld werkdocument (Word)</a><a class="licht" href="werkdocument-ravensmeer.odt" download>Hetzelfde als ODT</a></div>
+</section>
+
 <h2>1. Waar je staat</h2>
-<p class="lead">Ravensmeer draait voor twee van de vier kritieke systemen op een leverancier buiten de EU. Van twee systemen is het contracteinde niet bekend, waarvan een bij een leverancier buiten de EU. En op vier van de tien vragen was er geen antwoord.</p>
-<div class="kern"><div class="groot">4 van 10</div><div class="zin">vragen konden bij het invullen niet worden beantwoord. Dat betekent dat het antwoord elders in de organisatie ligt, of nergens. Uitzoeken wie het weet is de eerste stap.</div></div>
+<p class="lead">Volgens de eigen opgave draait Ravensmeer voor twee van de vier kritieke systemen op een leverancier buiten de EU, in beide gevallen dezelfde. Van twee systemen is het contracteinde niet bekend. En op drie van de tien vragen wist de uitvoering het antwoord niet.</p>
+<div class="kern"><div class="groot">3 van 10</div><div class="zin">vragen kon de uitvoering niet beantwoorden. Het bestuur gaf op alle drie wel een antwoord. Daar zit kennis die niet gedeeld is, of een beeld dat te rooskleurig is. Uitzoeken wie het weet is de eerste stap.</div></div>
 <div class="rij">
   <div class="cijfer"><b>2 van 4</b><span>kritieke systemen buiten de EU</span></div>
   <div class="cijfer"><b>2</b><span>contracteinde onbekend</span></div>
@@ -172,63 +218,63 @@
 </div>
 <h3>Waar Ravensmeer staat, naast vergelijkbare gemeenten</h3>
 <div class="figuur">
-  <div class="kop"><b>Zes onderwerpen, score 0 tot 100</b><span class="sleutel"><span class="eigen"><i></i>Ravensmeer</span><span class="bm"><i></i>benchmark</span></span></div>
+  <div class="kop"><b>Gemelde voortgang, zes onderwerpen, 0 tot 100</b><span class="sleutel"><span class="eigen"><i></i>Ravensmeer</span><span class="bm"><i></i>benchmark</span></span></div>
   <svg class="spin" viewBox="0 0 620 430" role="img" aria-labelledby="spin-titel spin-uitleg">
-<title id="spin-titel">Ravensmeer tegen de benchmark, zes onderwerpen, score 0 tot 100</title>
-<desc id="spin-uitleg">Hoe verder naar buiten, hoe beter geregeld. De tabel eronder geeft dezelfde cijfers.</desc>
+<title id="spin-titel">Gemelde voortgang van Ravensmeer naast de benchmark, zes onderwerpen, score 0 tot 100</title>
+<desc id="spin-uitleg">Eigen opgave, geen nalevingsoordeel. Hoe verder naar buiten, hoe meer volgens de eigen opgave geregeld is. De tabel eronder geeft dezelfde cijfers met de telling.</desc>
 <polygon points="310.0,70.0 439.9,145.0 439.9,295.0 310.0,370.0 180.1,295.0 180.1,145.0" fill="#2F6F4E" fill-opacity=".07" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <polygon points="310.0,121.0 395.7,170.5 395.7,269.5 310.0,319.0 224.3,269.5 224.3,170.5" fill="#9A6510" fill-opacity=".07" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <polygon points="310.0,170.5 352.9,195.2 352.9,244.8 310.0,269.5 267.1,244.8 267.1,195.2" fill="#B3261E" fill-opacity=".07" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <line x1="310" y1="220" x2="310.0" y2="70.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <text x="310.0" y="41.0" text-anchor="middle" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Ketenzorgplicht</text>
-<text x="310.0" y="53.0" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">Cbw</text>
+<text x="310.0" y="53.0" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">Cbw, toets</text>
 <line x1="310" y1="220" x2="439.9" y2="145.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <text x="463.3" y="129.5" text-anchor="start" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Overstaprecht</text>
-<text x="463.3" y="141.5" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">Data Act</text>
+<text x="463.3" y="141.5" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">Data Act, toets</text>
 <line x1="310" y1="220" x2="439.9" y2="295.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <text x="463.3" y="306.5" text-anchor="start" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Exitplan</text>
-<text x="463.3" y="318.5" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">cloudbeleid</text>
+<text x="463.3" y="318.5" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">cloudbeleid, toets</text>
 <line x1="310" y1="220" x2="310.0" y2="370.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <text x="310.0" y="395.0" text-anchor="middle" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Contractkennis</text>
-<text x="310.0" y="407.0" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">einddata bekend</text>
+<text x="310.0" y="407.0" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">toets, per systeem</text>
 <line x1="310" y1="220" x2="180.1" y2="295.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
 <text x="156.7" y="306.5" text-anchor="end" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Eigenaarschap</text>
-<text x="156.7" y="318.5" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">bestuurlijk belegd</text>
+<text x="156.7" y="318.5" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">intake, per systeem</text>
 <line x1="310" y1="220" x2="180.1" y2="145.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<text x="156.7" y="129.5" text-anchor="end" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Exporteerbaarheid</text>
-<text x="156.7" y="141.5" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">data terug te halen</text>
-<polygon points="310.0,158.5 352.9,195.2 347.7,241.8 310.0,307.0 260.6,248.5 252.8,187.0" fill="none" stroke="#3A6EA5" stroke-width="2" stroke-dasharray="5 4"/>
-<polygon points="310.0,182.5 332.1,207.2 352.9,244.8 310.0,295.0 277.5,238.8 245.0,182.5" fill="#D63F00" fill-opacity=".14" stroke="#D63F00" stroke-width="2"/>
+<text x="156.7" y="129.5" text-anchor="end" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Exportpad</text>
+<text x="156.7" y="141.5" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">intake, per systeem</text>
+<polygon points="310.0,158.5 352.9,195.2 347.7,241.8 310.0,307.0 245.0,257.5 238.6,178.8" fill="none" stroke="#3A6EA5" stroke-width="2" stroke-dasharray="5 4"/>
+<polygon points="310.0,182.5 342.5,201.2 352.9,244.8 310.0,295.0 260.6,248.5 212.6,163.8" fill="#D63F00" fill-opacity=".14" stroke="#D63F00" stroke-width="2"/>
 <rect x="306.0" y="154.5" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Ketenzorgplicht, benchmark: 41</title></rect>
 <circle cx="310.0" cy="182.5" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Ketenzorgplicht, Ravensmeer: 25</title></circle>
 <rect x="348.9" y="191.2" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Overstaprecht, benchmark: 33</title></rect>
-<circle cx="332.1" cy="207.2" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Overstaprecht, Ravensmeer: 17</title></circle>
+<circle cx="342.5" cy="201.2" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Overstaprecht, Ravensmeer: 25</title></circle>
 <rect x="343.7" y="237.8" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Exitplan, benchmark: 29</title></rect>
 <circle cx="352.9" cy="244.8" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Exitplan, Ravensmeer: 33</title></circle>
 <rect x="306.0" y="303.0" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Contractkennis, benchmark: 58</title></rect>
 <circle cx="310.0" cy="295.0" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Contractkennis, Ravensmeer: 50</title></circle>
-<rect x="256.6" y="244.5" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Eigenaarschap, benchmark: 38</title></rect>
-<circle cx="277.5" cy="238.8" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Eigenaarschap, Ravensmeer: 25</title></circle>
-<rect x="248.8" y="183.0" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Exporteerbaarheid, benchmark: 44</title></rect>
-<circle cx="245.0" cy="182.5" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Exporteerbaarheid, Ravensmeer: 50</title></circle>
+<rect x="241.0" y="253.5" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Eigenaarschap, benchmark: 50</title></rect>
+<circle cx="260.6" cy="248.5" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Eigenaarschap, Ravensmeer: 38</title></circle>
+<rect x="234.6" y="174.8" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Exportpad, benchmark: 55</title></rect>
+<circle cx="212.6" cy="163.8" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Exportpad, Ravensmeer: 75</title></circle>
 <text x="294.0" y="202.2" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a" stroke="#FBFAF7" stroke-width="3" paint-order="stroke">zwak</text>
 <text x="268.5" y="158.0" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a" stroke="#FBFAF7" stroke-width="3" paint-order="stroke">deels</text>
 <text x="243.0" y="113.9" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a" stroke="#FBFAF7" stroke-width="3" paint-order="stroke">op orde</text>
 </svg>
-  <table class="cijfertabel"><thead><tr><th>Onderwerp</th><th>Ravensmeer</th><th>Benchmark</th><th>Verschil</th></tr></thead><tbody>
-<tr><td>Ketenzorgplicht <span>Cbw</span></td><td>25</td><td>41</td><td class="onder">-16</td></tr>
-<tr><td>Overstaprecht <span>Data Act</span></td><td>17</td><td>33</td><td class="onder">-16</td></tr>
-<tr><td>Exitplan <span>cloudbeleid</span></td><td>33</td><td>29</td><td class="boven">+4</td></tr>
-<tr><td>Contractkennis <span>einddata bekend</span></td><td>50</td><td>58</td><td class="onder">-8</td></tr>
-<tr><td>Eigenaarschap <span>bestuurlijk belegd</span></td><td>25</td><td>38</td><td class="onder">-13</td></tr>
-<tr><td>Exporteerbaarheid <span>data terug te halen</span></td><td>50</td><td>44</td><td class="boven">+6</td></tr>
+  <table class="cijfertabel"><thead><tr><th>Onderwerp en telling</th><th>Ravensmeer</th><th>Benchmark</th><th>Verschil</th></tr></thead><tbody>
+<tr><td>Ketenzorgplicht <span>toets, 4 vragen: 0 ja, 1 deels, 1 nee, 2 onbekend</span></td><td>25</td><td>41</td><td class="onder">-16</td></tr>
+<tr><td>Overstaprecht <span>toets, 3 vragen: 0 ja, 1 deels, 1 nee, 1 onbekend</span></td><td>25</td><td>33</td><td class="onder">-8</td></tr>
+<tr><td>Exitplan <span>toets, 3 vragen: 0 ja, 2 deels, 1 nee</span></td><td>33</td><td>29</td><td class="boven">+4</td></tr>
+<tr><td>Contractkennis <span>toets, 4 systemen: 2 einddatum bekend of n.v.t., 2 onbekend</span></td><td>50</td><td>58</td><td class="onder">-8</td></tr>
+<tr><td>Eigenaarschap <span>intake, 4 systemen: 1 ja, 1 deels, 2 nee</span></td><td>38</td><td>50</td><td class="onder">-12</td></tr>
+<tr><td>Exportpad <span>intake, 4 systemen: 2 ja, 2 deels, niets getest</span></td><td>75</td><td>55</td><td class="boven">+20</td></tr>
 </tbody></table>
-  <p class="noot">Hoe verder naar buiten, hoe beter geregeld. De benchmark is in dit voorbeeld fictief: de mediaan van 23 vergelijkbare gemeenten tussen 30.000 en 70.000 inwoners. In echte rapporten komt hij uit eerdere metingen, zodra er genoeg zijn om een eerlijke vergelijking te maken.</p>
+  <p class="noot">Rekenregel: per onderwerp de behaalde punten gedeeld door het maximum over de beantwoorde vragen. Ja telt 2, deels 1, nee 0. 'Weet niet' telt niet mee in de score, maar staat apart in de telling: onbekend is iets anders dan niet geregeld. Contractkennis is het aandeel systemen met een bekende einddatum. De cijfers komen uit de meting van de uitvoering. De benchmark is in dit voorbeeld fictief: de mediaan van 23 vergelijkbare gemeenten tussen 30.000 en 70.000 inwoners. In echte rapporten komt hij uit eerdere metingen, zodra er genoeg zijn om een eerlijke vergelijking te maken.</p>
 </div>
-<p>Deze cijfers komen uit je eigen opgave en zijn niet getoetst aan documenten. Ze zeggen dus niet of je voldoet, en ook niet of je veilig bent. Ze laten zien waar je zelf denkt te staan, en waar dat nog onderbouwd moet worden.</p>
+<p>Deze cijfers komen uit je eigen opgave en zijn niet getoetst aan documenten. Een score van 25 op ketenzorgplicht betekent dus niet dat je voor een kwart voldoet. Hij laat zien hoe ver je volgens je eigen antwoorden bent, en waar dat nog onderbouwd moet worden.</p>
 
 <h3>Verschil in beeld tussen bestuur en uitvoering</h3>
-<p>Bestuur en uitvoering vulden de toets los van elkaar in, over dezelfde vier systemen. Op ketenzorgplicht zit een groot verschil. Dat kan betekenen dat het bestuur een te rooskleurig beeld heeft, maar het kan ook gaan over interpretatie van de vraag of over kennis die niet gedeeld is. Wat het ook is: dit is de plek waar het gesprek begint.</p>
+<p>Bestuur en uitvoering vulden de toets los van elkaar in, over dezelfde vier systemen. Op ketenzorgplicht zit het grootste verschil. Dat kan betekenen dat het bestuur een te rooskleurig beeld heeft, maar het kan ook gaan over interpretatie van de vraag of over kennis die niet gedeeld is. Hieronder staan de zeven vragen waarop de antwoorden uiteenlopen, elk met een vraag om het gesprek mee te openen. Dat is je agenda.</p>
 <div class="verschil" role="img" aria-label="Bestuur en uitvoering per onderwerp, score 0 tot 100">
 <div class="vrij"><b>Ketenzorgplicht</b>
   <div class="vbalk"><span>bestuur</span><div><i style="width:75%;background:#3A6EA5"></i></div><em>75</em></div>
@@ -236,13 +282,23 @@
 </div>
 <div class="vrij"><b>Overstaprecht</b>
   <div class="vbalk"><span>bestuur</span><div><i style="width:33%;background:#3A6EA5"></i></div><em>33</em></div>
-  <div class="vbalk"><span>uitvoering</span><div><i style="width:17%;background:#D63F00"></i></div><em>17</em></div>
+  <div class="vbalk"><span>uitvoering</span><div><i style="width:25%;background:#D63F00"></i></div><em>25</em></div>
 </div>
 <div class="vrij"><b>Exitplan</b>
   <div class="vbalk"><span>bestuur</span><div><i style="width:50%;background:#3A6EA5"></i></div><em>50</em></div>
   <div class="vbalk"><span>uitvoering</span><div><i style="width:33%;background:#D63F00"></i></div><em>33</em></div>
 </div>
 </div>
+
+<div class="gesprek">
+<div class="gv"><span class="ond">Ketenzorgplicht</span><b>Is per kritieke leverancier vastgelegd wat de impact is als hij wegvalt?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>nee</em></span></span><span class="wat">Vraag voor het gesprek: Welk document beschrijft die impact? Als het bestaat, kent de uitvoering het niet.</span></div>
+<div class="gv"><span class="ond">Ketenzorgplicht</span><b>Is vastgelegd wat er met data en middelen gebeurt bij contracteinde, faillissement of overname?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>weet niet</em></span></span><span class="wat">Vraag voor het gesprek: Voor welke leveranciers is dit vastgelegd, en waar?</span></div>
+<div class="gv"><span class="ond">Ketenzorgplicht</span><b>Heeft het bestuur de aanpak van ketenrisico's formeel vastgesteld?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>weet niet</em></span></span><span class="wat">Vraag voor het gesprek: Wanneer is dat besloten, en waarom heeft het de uitvoering niet bereikt?</span></div>
+<div class="gv"><span class="ond">Overstaprecht</span><b>Staan opzeg- en overgangstermijnen zoals de Data Act die voorschrijft in de cloudcontracten?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>weet niet</em></span></span><span class="wat">Vraag voor het gesprek: Welke contracten zijn hierop nagelezen, en door wie?</span></div>
+<div class="gv"><span class="ond">Exitplan</span><b>Is er per kritieke dienst een exitplan, ook voor plotseling wegvallen?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>deels</em></span></span><span class="wat">Vraag voor het gesprek: Waar liggen de exitplannen, en bevatten ze het scenario van plotseling wegvallen?</span></div>
+<div class="gv"><span class="ond">Exitplan</span><b>Is er een reëel alternatief benoemd, waarmee ook echt gesproken is?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>nee</em></span></span><span class="wat">Vraag voor het gesprek: Met welke partij is gesproken, en is dat ergens vastgelegd?</span></div>
+<div class="gv"><span class="ond">Exitplan</span><b>Is er een bestuurlijk eigenaar met mandaat en budget voor de exit?</b><span class="antw"><span>Bestuur: <em>nee</em></span><span>Uitvoering: <em>deels</em></span></span><span class="wat">Vraag voor het gesprek: De uitvoering ziet een eigenaar die het bestuur niet ziet. Is de informatiemanager eigenaar, of beheerder zonder mandaat?</span></div>
+<p class="klein">Gelijk beantwoord: ketenrisico in het inkoopproces (beide deels), weten welke data exporteerbaar is (beide deels) en een geteste export (beide nee).</p></div>
 
 <h2>2. Uitstapprofiel per kritieke leverancier</h2>
 <h3>De uitstapkaart</h3>
@@ -312,24 +368,25 @@
 <text x="192.2" y="116" text-anchor="middle" font-size="10" font-weight="700" font-family="Space Mono, monospace" fill="#D63F00">30.06.27</text>
 <text x="192.2" y="128" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#4a443c">contract Azure loopt af</text>
 <text x="680.0" y="128" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#B3261E">2 contracteindes onbekend</text>
-</svg><p class="noot">Het contract voor Azure loopt op 30 juni 2027 af, na 12 januari 2027. Dat is het moment om over te stappen of opnieuw te onderhandelen met de Data Act aan je kant. Overstappen betekent Europees aanbesteden, en dat kost zes tot negen maanden: het besluit hoort dus dit najaar te vallen, niet in het voorjaar.</p></div>
+</svg><p class="noot">Het contract voor Azure loopt op 30 juni 2027 af, na 12 januari 2027. Dat is het moment om over te stappen of opnieuw te onderhandelen met de Data Act aan je kant. Overstappen betekent volgens opgave Europees aanbesteden, en dat kost als ervaringsgetal zes tot negen maanden: het besluit hoort dus dit najaar te vallen, niet in het voorjaar.</p></div>
 <h3>Per systeem</h3>
 <p>Per systeem: wat je weet, wat je niet weet, en wat de regels hierover zeggen. De leveranciersnamen komen uit je eigen invoer en staan alleen in dit rapport.</p>
-    <div class="kader" style="font-size:0.84rem"><b>Waar deze informatie vandaan komt.</b> Herkomst en contracteinde komen rechtstreeks uit de gratis toets. Exporteerbare data, alternatieven en bestuurlijk eigenaarschap per systeem komen uit een korte aanvullende intake. Waar die informatie ontbreekt, staat er een onderzoeksvraag in plaats van een aanname.</div>
+    <div class="kader" style="font-size:0.84rem"><b>Waar deze informatie vandaan komt.</b> Herkomst en contracteinde komen uit de gratis toets. Exporteerbare data, alternatieven, aanbesteding en eigenaarschap komen uit een korte aanvullende intake. Alles is gemeld en nog niet gecontroleerd in documenten, tenzij het er staat. Ook de typering per systeem (vastgezet, kwetsbaar, uitstapbaar) volgt uit die opgave. Waar informatie ontbreekt, staat een onderzoeksvraag met een invulveld. In het werkdocument vul je het antwoord direct in.</div>
 
 <div class="profiel">
   <div class="kop"><b>Kantoorsuite, mail en documenten</b><span class="stempel vast">Vastgezet</span></div>
   <table>
     <tr><td>Systeem</td><td>Microsoft 365 (Exchange Online, SharePoint, Teams)</td></tr>
     <tr><td>Leverancier</td><td>Microsoft, Verenigde Staten. Publieke cloud.</td></tr>
-    <tr><td>Contracteinde</td><td>Onbekend bij bestuur en uitvoering</td></tr>
-    <tr><td>Exporteerbare data</td><td>Niet vastgesteld. Mailboxen en documenten zijn technisch exporteerbaar, maar het formaat en de volledigheid zijn nooit getest.</td></tr>
+    <tr><td>Contracteinde</td><td>Onbekend bij bestuur en uitvoering.<span class="invul"><i>Onderzoeksvraag:</i> Wie heeft de licentieovereenkomst, en wanneer loopt die af? <i>Antwoord:</i> ……</span></td></tr>
+    <tr><td>Exporteerbare data</td><td>Niet vastgesteld. Mailboxen en documenten zijn technisch exporteerbaar, maar formaat en volledigheid zijn nooit getest.<span class="invul"><i>Onderzoeksvraag:</i> Welke export is mogelijk, in welk formaat, en wat ontbreekt daarin? <i>Antwoord:</i> ……</span></td></tr>
     <tr><td>Open source</td><td>Nee. Gesloten software: je kunt alleen weg met de export die de leverancier biedt.</td></tr>
     <tr><td>Alternatief</td><td>Open source werkplekken zoals openDesk (Duitsland) en de route van Sleeswijk-Holstein zijn bekend, maar er is nooit mee gesproken.</td></tr>
-    <tr><td>Aanbesteding</td><td>Ja, Europees. Bij open source betaal je geen licentie, maar implementatie, hosting en beheer besteed je wel aan. Afnemen via een bestaande raamovereenkomst van een inkoopsamenwerking kan sneller, als die er is.</td></tr>
-    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd</td></tr>
+    <tr><td>Aanbesteding</td><td>Waarschijnlijk Europees, maar dat hangt af van de contractwaarde, en die is nog niet bekend. Bij open source betaal je geen licentie, maar implementatie, hosting en beheer besteed je wel aan. Afnemen via een bestaande raamovereenkomst van een inkoopsamenwerking kan sneller, als die er is.</td></tr>
+    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd.<span class="invul"><i>Voorstel:</i> naam en functie, vast te stellen in het bestuursbesluit. <i>Antwoord:</i> ……</span></td></tr>
+    <tr class="basis"><td>Basis</td><td>Gemeld in toets en intake. Nog niets gecontroleerd.</td></tr>
   </table>
-  <div class="wet"><b>Wat de wet hier van je vraagt.</b> Onder de Cbw moet je kunnen aantonen wat er met deze data gebeurt bij contracteinde, faillissement of overname. Onder het rijkscloudbeleid wordt de publieke cloud voor e-mail en documentbeheer afgeraden en geldt een exitplan als verplicht; medeoverheden volgen. Onder de Data Act heb je recht op export binnen dertig dagen en vanaf 12 januari 2027 zonder overstapkosten. Je oefent dat recht nu niet uit omdat niemand weet wat het contract zegt.</div>
+  <div class="wet"><b>Wat de regels hier van je vragen.</b> Onder de Cbw moet je kunnen onderbouwen wat er met deze data gebeurt bij contracteinde, faillissement of overname. Onder de Data Act heb je recht op een overstap binnen dertig dagen na de opzegtermijn, en vanaf 12 januari 2027 zonder overstapkosten. Dat recht kun je pas gebruiken als je weet wat het contract zegt. Het rijksbreed cloudbeleid geldt voor de rijksoverheid, niet voor gemeenten. Het raadt de publieke cloud voor e-mail en documentbeheer af en vraagt een exitplan per clouddienst. Het kabinet wil met de medeoverheden naar overheidsbreed cloudbeleid; dat is aangekondigd, niet vastgesteld. Als richtpunt is het wel bruikbaar.</div>
 </div>
 
 <div class="profiel">
@@ -337,14 +394,16 @@
   <table>
     <tr><td>Systeem</td><td>Microsoft Azure (virtuele machines en opslag)</td></tr>
     <tr><td>Leverancier</td><td>Microsoft, Verenigde Staten. IaaS.</td></tr>
-    <tr><td>Contracteinde</td><td>30 juni 2027, bekend bij de uitvoering, niet bij het bestuur</td></tr>
-    <tr><td>Exporteerbare data</td><td>Contractueel geregeld, egress-kosten van toepassing tot 12 januari 2027</td></tr>
-    <tr><td>Open source</td><td>Het platform niet. De applicaties erop draaien wel op open source (Linux, PostgreSQL) en zijn daardoor goed te verhuizen.</td></tr>
+    <tr><td>Contracteinde</td><td>30 juni 2027, volgens de uitvoering. Het bestuur kende de datum niet.</td></tr>
+    <tr><td>Verlenging</td><td>Onbekend.<span class="invul"><i>Onderzoeksvraag:</i> Verlengt het contract automatisch, en zo ja, met welke termijn? <i>Antwoord:</i> ……</span></td></tr>
+    <tr><td>Exporteerbare data</td><td>Volgens opgave contractueel geregeld, met egress-kosten tot 12 januari 2027.</td></tr>
+    <tr><td>Open source</td><td>Het platform niet. De applicaties erop draaien volgens opgave op open source (Linux, PostgreSQL) en zijn daardoor goed te verhuizen.</td></tr>
     <tr><td>Alternatief</td><td>Twee EU-aanbieders in beeld (OVHcloud en STACKIT), geen gesprek gevoerd</td></tr>
-    <tr><td>Aanbesteding</td><td>Ja, Europees: de waarde ligt boven de drempel. Reken op zes tot negen maanden van marktverkenning tot gunning. Wie op 30 juni 2027 wil overstappen, start dit najaar.</td></tr>
+    <tr><td>Aanbesteding</td><td>Volgens opgave ligt de contractwaarde boven de Europese drempel, dus Europees aanbesteden. Reken als ervaringsgetal, geen wettelijke termijn, op zes tot negen maanden van marktverkenning tot gunning. Wie op 30 juni 2027 wil overstappen, begint dit najaar.</td></tr>
     <tr><td>Bestuurlijk eigenaar</td><td>Informatiemanager, zonder formeel mandaat</td></tr>
+    <tr class="basis"><td>Basis</td><td>Gemeld in toets en intake. Einddatum en exportregeling nog niet gezien in het contract.</td></tr>
   </table>
-  <div class="wet"><b>Wat de wet hier van je vraagt.</b> De Data Act verplicht IaaS-aanbieders tot functionele gelijkwaardigheid bij overstap en verbiedt overstapkosten vanaf 12 januari 2027. Je contract loopt op 30 juni 2027 af: dat is je natuurlijke moment. Verlengen zonder de Data Act-clausules af te dwingen, is een gemiste kans die je vier jaar bindt. Twee van de vier systemen komen van Microsoft: een storing, prijsverhoging of geschil raakt ze allebei.</div>
+  <div class="wet"><b>Wat de regels hier van je vragen.</b> De Data Act verplicht aanbieders van clouddiensten tot een overstap binnen dertig dagen na de opzegtermijn, en aanbieders van IaaS tot functionele gelijkwaardigheid. Overstapkosten vervallen vanaf 12 januari 2027. Je contract loopt volgens opgave op 30 juni 2027 af: dat is je natuurlijke moment. Verlengen zonder de Data Act-afspraken vast te leggen is een gemiste kans; hoe lang je dan vastzit, hangt af van de verlengingstermijn. Twee van de vier systemen komen van Microsoft: een storing, prijsverhoging of geschil raakt ze allebei.</div>
 </div>
 
 <div class="profiel">
@@ -352,14 +411,15 @@
   <table>
     <tr><td>Systeem</td><td>Open Zaak, zaakregistratie volgens Common Ground</td></tr>
     <tr><td>Leverancier</td><td>Gehost en beheerd door een Nederlandse partij</td></tr>
-    <tr><td>Contracteinde</td><td>Onbekend</td></tr>
-    <tr><td>Exporteerbare data</td><td>Open standaarden (ZGW-API's), exportpad gedocumenteerd</td></tr>
+    <tr><td>Contracteinde</td><td>Onbekend.<span class="invul"><i>Onderzoeksvraag:</i> Wanneer loopt het hostingcontract af, en wat staat erin over overdracht naar een andere partij? <i>Antwoord:</i> ……</span></td></tr>
+    <tr><td>Exporteerbare data</td><td>Open standaarden (ZGW-API's), exportpad volgens opgave gedocumenteerd. Nog niet getest.</td></tr>
     <tr><td>Open source</td><td>Ja. Een andere partij kan hosting en beheer overnemen zonder dat de software of je data verandert.</td></tr>
     <tr><td>Alternatief</td><td>Drie andere hostingpartijen bekend</td></tr>
     <tr><td>Aanbesteding</td><td>Alleen voor hosting en beheer. De software zelf hoef je niet aan te besteden: die is van iedereen.</td></tr>
-    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd</td></tr>
+    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd.<span class="invul"><i>Voorstel:</i> naam en functie, vast te stellen in het bestuursbesluit. <i>Antwoord:</i> ……</span></td></tr>
+    <tr class="basis"><td>Basis</td><td>Gemeld in toets en intake. Het exportpad is nog niet getest; dat is actie 2.</td></tr>
   </table>
-  <div class="wet"><b>Wat de wet hier van je vraagt.</b> Technisch sta je hier het best, en dat komt doordat het open source is op open standaarden. Wat ontbreekt is administratief: een bekende einddatum en een eigenaar. Daarvoor hoef je geen migratie te starten, en het maakt van dit systeem je eerste aantoonbaar uitstapbare dienst.</div>
+  <div class="wet"><b>Wat de regels hier van je vragen.</b> Technisch sta je hier volgens opgave het best, en dat komt doordat het open source is op open standaarden. Wat ontbreekt is administratief: een bekende einddatum en een eigenaar. Daarvoor hoef je geen migratie te starten. Met een geslaagde exporttest wordt dit je eerste aantoonbaar uitstapbare dienst.</div>
 </div>
 
 <div class="profiel">
@@ -368,68 +428,77 @@
     <tr><td>Systeem</td><td>QGIS en GeoServer, met open data van PDOK</td></tr>
     <tr><td>Leverancier</td><td>Geen: eigen beheer</td></tr>
     <tr><td>Contracteinde</td><td>Niet van toepassing</td></tr>
-    <tr><td>Exporteerbare data</td><td>Open standaarden (WFS, WMS, GeoPackage)</td></tr>
+    <tr><td>Exporteerbare data</td><td>Open standaarden (WFS, WMS, GeoPackage). Volgens opgave gaat er maandelijks een volledige export naar GeoPackage.</td></tr>
     <tr><td>Open source</td><td>Ja</td></tr>
     <tr><td>Alternatief</td><td>Niet nodig; kennis in huis is het risico</td></tr>
-    <tr><td>Aanbesteding</td><td>Niet nodig</td></tr>
+    <tr><td>Aanbesteding</td><td>Niet nodig voor de software. Wel als je het beheer wilt uitbesteden.</td></tr>
     <tr><td>Bestuurlijk eigenaar</td><td>Teamleider geo</td></tr>
+    <tr class="basis"><td>Basis</td><td>'Uitstapbaar' berust op de opgave in de intake: open standaarden, eigen beheer en een maandelijkse export. Een hersteltest is niet aangetoond. Pas met een vastgelegde hersteltest is dit oordeel gecontroleerd.<span class="invul"><i>Onderzoeksvraag:</i> Wanneer is de export voor het laatst teruggezet, en waar staat het verslag? <i>Antwoord:</i> ……</span></td></tr>
   </table>
-  <div class="wet"><b>Wat de wet hier van je vraagt.</b> Hier is je afhankelijkheid niet de leverancier maar de kennis. De Cbw vraagt ook daar continuïteit op: wat gebeurt er als de twee mensen die dit beheren vertrekken. Leg dat vast, en je hebt een voorbeeld dat je aan de andere drie systemen kunt voorhouden.</div>
+  <div class="wet"><b>Wat de regels hier van je vragen.</b> Hier is je afhankelijkheid niet de leverancier maar de kennis. De Cbw vraagt ook daar continuïteit: wat gebeurt er als de twee mensen die dit beheren vertrekken? Leg dat vast, samen met een hersteltest, en je hebt een voorbeeld voor de andere drie systemen.</div>
 </div>
 
 <h2>3. Paragraaf voor je Cbw-risicoanalyse</h2>
-<p>Onderstaande tekst kun je overnemen in je risicoanalyse toeleveringsketen. Hij is geschreven in de structuur die de RDI hanteert en benoemt wat je weet, wat je niet weet en wat je gaat doen. Dat laatste is wat een toezichthouder wil zien.</p>
-<div class="kader tekst">Ketenafhankelijkheid kritieke informatiesystemen, stand 3 september 2026
+<p>Onderstaande tekst kun je overnemen in je risicoanalyse voor de toeleveringsketen. Hij benoemt wat je weet, wat je niet weet en wat je gaat doen. Elk onderdeel zegt zelf of het gemeld, gecontroleerd of voorgesteld is, zodat ook een los overgenomen stuk klopt. Hij staat ook bewerkbaar in het werkdocument.</p>
+<div class="kader tekst">Ketenafhankelijkheid kritieke informatiesystemen
+Concept, stand 3 september 2026. Nog niet vastgesteld.
 
-De organisatie heeft vier kritieke informatiesystemen geïnventariseerd. Twee daarvan worden geleverd door aanbieders buiten de EU/EER. Voor twee systemen is de contractuele einddatum niet centraal bekend.
+Herkomst: 'gemeld' is opgegeven in de uitstaptoets of de intake en niet getoetst aan documenten. 'Gecontroleerd' is gezien in een contract, document of test. 'Voorgesteld' moet nog worden besloten.
 
-Per leverancier is de impact bij wegvallen, faillissement of overname als volgt beoordeeld:
-- Kantoorsuite, mail en documenten (Microsoft 365, leverancier buiten de EU): hoog. Contracteinde onbekend, export niet getest, geen eigenaar.
-- Cloudinfrastructuur (Microsoft Azure, leverancier buiten de EU): middel. Contract loopt af op 30 juni 2027, export contractueel geregeld met kosten tot 12 januari 2027.
-- Zaaksysteem (Open Zaak, open source, gehost door een Nederlandse partij): middel. Open standaarden en een gedocumenteerd exportpad, maar contracteinde en eigenaar onbekend.
-- Geo-informatie (QGIS en GeoServer, open source, eigen beheer): laag. Het risico zit in de kennis van twee beheerders, niet in de leverancier.
+Inventarisatie (gemeld)
+De organisatie heeft vier kritieke informatiesystemen benoemd. Twee daarvan, Microsoft 365 en Microsoft Azure, komen van één aanbieder buiten de EU/EER. Voor twee systemen is de contractuele einddatum niet centraal bekend.
 
-Twee van de vier systemen worden door dezelfde leverancier geleverd. Een verstoring bij deze leverancier raakt beide tegelijk.
+Eerste inschatting van de impact bij wegvallen, faillissement of overname (gemeld)
+- Microsoft 365 (kantoorsuite, mail en documenten): hoog. Contracteinde onbekend, export niet getest, geen eigenaar benoemd.
+- Microsoft Azure (cloudinfrastructuur): middel. Contract loopt volgens opgave af op 30 juni 2027. Export volgens opgave contractueel geregeld, met kosten tot 12 januari 2027.
+- Open Zaak (zaaksysteem, open source, gehost door een Nederlandse partij): middel. Open standaarden en een gedocumenteerd exportpad; contracteinde en eigenaar onbekend.
+- QGIS en GeoServer (geo-informatie, open source, eigen beheer): laag. Het risico zit in de kennis van twee beheerders.
+Een verstoring bij de aanbieder van Microsoft 365 en Azure raakt twee systemen tegelijk.
 
-Vastgestelde tekortkomingen:
-1. Geen benoemde bestuurlijke eigenaar voor drie van de vier systemen.
-2. Geen geteste exportprocedure voor de kantoorsuite en cloudinfrastructuur.
-3. Overstapbepalingen conform Verordening (EU) 2023/2854 niet geverifieerd in lopende cloudcontracten.
+Gecontroleerd
+Nog niets. Geen van de punten hierboven is getoetst aan een contract of een uitgevoerde exporttest.
 
-Maatregelen en termijnen:
-1. Bestuurlijk eigenaar per kritiek systeem benoemd en contracteindes vastgelegd, binnen twee weken na het bestuursbesluit.
-2. Exportprocedure getest voor het zaaksysteem, binnen zes weken.
-3. Lopende cloudcontracten getoetst aan Verordening (EU) 2023/2854 en wegvalscenario's per systeem vastgelegd, binnen twaalf weken.
+Aandachtspunten, nog te verifiëren (gemeld)
+1. Voor drie van de vier systemen is geen bestuurlijk eigenaar benoemd.
+2. Voor Microsoft 365 en Azure is geen exportprocedure getest.
+3. Niet bekend is of de lopende cloudcontracten de overstapbepalingen van Verordening (EU) 2023/2854 (Data Act) bevatten.
 
-Deze analyse is opgesteld als input voor het beleid ketenbeveiliging (Cbw, zorgplicht) en wordt jaarlijks herhaald.</div>
+Maatregelen (voorgesteld, nog te besluiten)
+1. Bestuurlijk eigenaar per kritiek systeem benoemen en contracteindes vastleggen, binnen twee weken na het bestuursbesluit. Bewijsstuk: besluit en bijgewerkt contractregister.
+2. Exportprocedure testen voor het zaaksysteem, binnen zes weken. Bewijsstuk: testverslag.
+3. Lopende cloudcontracten toetsen aan de Data Act en per systeem een wegvalscenario vastleggen, binnen twaalf weken. Bewijsstuk: juridische toets en wegvalscenario's.
+4. Deze analyse jaarlijks herhalen.
+
+Deze tekst is een concept, opgesteld als input voor het beleid ketenbeveiliging onder de Cyberbeveiligingswet. Het is geen conformiteitsoordeel.</div>
 
 <h2>4. Agendapunt voor het bestuur</h2>
-<p>Onder de Cbw is het bestuur eindverantwoordelijk en verplicht getraind. Dit is geen IT-onderwerp meer. Dit agendapunt past in een kwartier en vraagt drie besluiten.</p>
+<p>Onder de Cbw is het bestuur eindverantwoordelijk en verplicht getraind. Dit is geen IT-onderwerp meer. Dit agendapunt past in een kwartier en vraagt vier besluiten. Het concept-besluit staat bewerkbaar in het werkdocument.</p>
 <div class="agenda">
-  <h3>Ketenafhankelijkheid: drie besluiten</h3>
+  <h3>Ketenafhankelijkheid: vier besluiten</h3>
   <ol>
     <li><b>Wie is eigenaar?</b> Voor elk van de vier systemen een bestuurlijk eigenaar benoemen, met mandaat om een exit voor te bereiden en het budget daarvoor aan te vragen. Zonder dit besluit vervallen de andere twee.</li>
     <li><b>Wat is het wegval-scenario?</b> Opdracht aan de eigenaren om binnen zestig dagen per systeem een A4 op te leveren: wat gebeurt er met onze dienstverlening en onze data als de leverancier morgen stopt.</li>
-    <li><b>Wat doen we voor 12 januari 2027?</b> Besluit om voor die datum minimaal een export te testen en de cloudcontracten op Data Act-conformiteit te laten controleren, zodat de organisatie haar overstaprecht kan uitoefenen.</li>
+    <li><b>Wat doen we voor 12 januari 2027?</b> Besluit om voor die datum minimaal een export te testen en de cloudcontracten op de Data Act te laten toetsen, zodat de organisatie haar overstaprecht kan gebruiken. En uiterlijk 26 november 2026 besluiten over Azure: verlengen met Data Act-afspraken, of Europees aanbesteden.</li>
+    <li><b>Hoe houden we het bij?</b> Deze analyse jaarlijks herhalen, met dit rapport als nulmeting.</li>
   </ol>
 </div>
 
-<h2>5. Exitclausules voor je volgende aanbesteding</h2>
-<p>Vijf bespreekpunten voor je inkoop en je jurist, gebaseerd op de Data Act en op de modelclausules die de Europese Commissie in 2025 publiceerde. Ze zijn niet juridisch gevalideerd en niet zonder toetsing bruikbaar als contracttekst. Gebruik ze om het gesprek te openen.</p>
-<div class="clausule"><b>Overstaptermijnen</b>Opzegtermijn maximaal twee maanden. Na opzegging voltooit leverancier de overgang naar een andere aanbieder of naar eigen infrastructuur binnen dertig dagen, tenzij technisch aantoonbaar onmogelijk.<span class="bron">Data Act art. 25</span></div>
-<div class="clausule"><b>Exporteerbare data en digitale activa</b>Leverancier specificeert in het contract welke data en configuraties exporteerbaar zijn, in welk open en machineleesbaar formaat, en levert deze kosteloos bij overstap.<span class="bron">Data Act art. 25, 30</span></div>
-<div class="clausule"><b>Geen overstapkosten</b>Leverancier brengt geen kosten in rekening voor het overstapproces. Voor contracten die voor 12 januari 2027 lopen: uitsluitend directe kosten, zonder marge.<span class="bron">Data Act art. 29</span></div>
-<div class="clausule"><b>Continuïteit bij faillissement of overname</b>Bij faillissement, overname of beëindiging van de dienst krijgt opdrachtgever binnen tien werkdagen een volledige export en behoudt hij toegang tot de dienst gedurende de overgangstermijn. Broncode-escrow voor maatwerkcomponenten.<span class="bron">Cbw zorgplicht, RDI toelichting toeleveringsketen</span></div>
-<div class="clausule"><b>Open source en open standaarden</b>Bij gelijke geschiktheid gaat de voorkeur uit naar open source. Leverancier gebruikt de open standaarden van de lijst 'pas toe of leg uit' en levert maatwerk onder een open licentie op, zodat een volgende partij het kan overnemen. Zo besteed je de volgende keer alleen de dienst aan, niet opnieuw de software.<span class="bron">Forum Standaardisatie, pas toe of leg uit; kabinetsbeleid open source</span></div>
+<h2>5. Voorgestelde contractafspraken</h2>
+<p>Vijf voorgestelde afspraken voor je inkoop en je jurist, voor een verlenging of een nieuwe aanbesteding. Bij elke afspraak staat of hij rechtstreeks volgt uit de wet, of een eigen voorstel is waarvoor de wet een aanknopingspunt biedt. Ze zijn niet juridisch gevalideerd en niet zonder toetsing bruikbaar als contracttekst. Gebruik ze om het gesprek te openen.</p>
+<div class="clausule"><b>Overstaptermijnen</b>Opzegtermijn maximaal twee maanden. Na opzegging voltooit de leverancier de overgang naar een andere aanbieder of naar eigen infrastructuur binnen dertig dagen, tenzij dat technisch aantoonbaar onmogelijk is.<span class="bron">Volgt uit: Data Act art. 25</span></div>
+<div class="clausule"><b>Exporteerbare data en digitale activa</b>De leverancier specificeert in het contract welke data en configuraties exporteerbaar zijn, in welk open en machineleesbaar formaat, en levert deze bij overstap zonder overstapkosten.<span class="bron">Volgt uit: Data Act art. 25, 29 en 30</span></div>
+<div class="clausule"><b>Geen overstapkosten</b>De leverancier brengt geen kosten in rekening voor het overstapproces. Tot 12 januari 2027 mag hij alleen directe kosten rekenen, zonder marge.<span class="bron">Volgt uit: Data Act art. 29</span></div>
+<div class="clausule"><b>Continuïteit bij faillissement of overname</b>Bij faillissement, overname of beëindiging van de dienst krijgt de opdrachtgever binnen tien werkdagen een volledige export en behoudt hij toegang tot de dienst gedurende de overgangstermijn. Broncode-escrow voor maatwerkcomponenten.<span class="bron">Eigen voorstel. Aanknopingspunt: de zorgplicht voor de toeleveringsketen in de Cbw. De termijn van tien werkdagen en de escrow volgen daar niet rechtstreeks uit.</span></div>
+<div class="clausule"><b>Open source en open standaarden</b>Bij gelijke geschiktheid gaat de voorkeur uit naar open source. De leverancier gebruikt de open standaarden van de lijst 'pas toe of leg uit' en levert maatwerk onder een open licentie op, zodat een volgende partij het kan overnemen. Zo besteed je de volgende keer alleen de dienst aan, niet opnieuw de software.<span class="bron">Eigen voorstel. Aanknopingspunt: de lijst 'pas toe of leg uit' van het Forum Standaardisatie.</span></div>
 
 <h2>6. Je eerste negentig dagen</h2>
-<p>Drie acties, elk met een eigenaar en een week. Niet meer, want meer wordt niet gedaan. Na negentig dagen doe je de toets opnieuw en zie je het verschil.</p>
-<div class="actie"><span class="wk">Week 1 tot 2</span><div><b>Eigenaren benoemen en contracteindes ophalen</b><span>Bestuursbesluit over eigenaarschap. Inkoop haalt van alle vier systemen de contracten en einddata boven tafel. Hoeveel tijd dit kost hangt af van hoe je contractadministratie is ingericht. Het lost twee van de vier onbekenden op.</span><span class="eig">Eigenaar: gemeentesecretaris of directeur bedrijfsvoering</span></div></div>
-<div class="actie"><span class="wk">Week 3 tot 6</span><div><b>Eén export testen</b><span>Kies het zaaksysteem, want daar staan de open standaarden al. Haal een volledige export terug, lees hem in een neutrale omgeving, noteer wat ontbreekt. Dat is je eerste bewijs van uitstapbaarheid.</span><span class="eig">Eigenaar: informatiemanager, met de beheerder van het zaaksysteem</span></div></div>
-<div class="actie"><span class="wk">Week 7 tot 12</span><div><b>Azure-contract toetsen, besluiten en wegval-scenario's vastleggen</b><span>Laat de inkoopjurist de twee Microsoft-contracten naast de vijf clausules uit sectie 5 leggen. Daarna besluit het bestuur over Azure: verlengen met Data Act-clausules, of Europees aanbesteden met tijd genoeg voor 30 juni 2027. Per systeem een A4 met het wegval-scenario. Alles gaat mee in de risicoanalyse.</span><span class="eig">Eigenaar: inkoop, met de vier systeemeigenaren</span></div></div>
+<p>Drie acties, elk met een eigenaar, een deadline en een bewijsstuk. Niet meer, want meer wordt niet gedaan. In het werkdocument staan ze als actielijst die je kunt bijhouden, met de vervolgacties erbij. Na negentig dagen doe je de toets opnieuw en zie je het verschil.</p>
+<div class="actie"><span class="wk">Week 1 tot 2</span><div><b>Eigenaren benoemen en contracteindes ophalen</b><span>Bestuursbesluit over eigenaarschap. Inkoop haalt van alle vier systemen de contracten en einddata boven tafel. Hoeveel tijd dit kost hangt af van hoe je contractadministratie is ingericht. Het lost twee van de vier onbekenden op.</span><span class="eig">Eigenaar: gemeentesecretaris of directeur bedrijfsvoering</span><dl><dt>Besluit</dt><dd>Ja, besluit 1 van het agendapunt</dd><dt>Deadline</dt><dd>17 september 2026</dd><dt>Status</dt><dd>Open</dd><dt>Bewijsstuk</dt><dd>Besluit en bijgewerkt contractregister</dd></dl></div></div>
+<div class="actie"><span class="wk">Week 3 tot 6</span><div><b>Eén export testen</b><span>Kies het zaaksysteem, want daar staan de open standaarden al. Haal een volledige export terug, lees hem in een neutrale omgeving, noteer wat ontbreekt. Dat is je eerste bewijs van uitstapbaarheid.</span><span class="eig">Eigenaar: informatiemanager, met de beheerder van het zaaksysteem</span><dl><dt>Besluit</dt><dd>Nee, past binnen het mandaat van de informatiemanager</dd><dt>Deadline</dt><dd>15 oktober 2026</dd><dt>Status</dt><dd>Open</dd><dt>Bewijsstuk</dt><dd>Testverslag, met wat ontbrak</dd></dl></div></div>
+<div class="actie"><span class="wk">Week 7 tot 12</span><div><b>Azure-contract toetsen, besluiten en wegval-scenario's vastleggen</b><span>Laat de inkoopjurist de twee Microsoft-contracten naast de vijf afspraken uit sectie 5 leggen. Daarna besluit het bestuur over Azure: verlengen met Data Act-afspraken, of Europees aanbesteden met tijd genoeg voor 30 juni 2027. Per systeem een A4 met het wegval-scenario. Alles gaat mee in de risicoanalyse.</span><span class="eig">Eigenaar: inkoop, met de vier systeemeigenaren</span><dl><dt>Besluit</dt><dd>Ja, besluit 3 van het agendapunt</dd><dt>Deadline</dt><dd>26 november 2026</dd><dt>Status</dt><dd>Open</dd><dt>Bewijsstuk</dt><dd>Juridische toets van de contracten, wegvalscenario per systeem</dd></dl></div></div>
 
 <h2>7. Vergelijking met andere gemeenten</h2>
-<p>Ravensmeer scoort op vier van de zes onderwerpen onder de benchmark. Alleen op het exitplan en de exporteerbaarheid van data staat Ravensmeer er iets beter voor, en dat komt door de twee systemen die op open source draaien: het zaaksysteem en de geo-informatie. Het grootste verschil zit in de ketenzorgplicht en het eigenaarschap: daar liggen vergelijkbare gemeenten gemiddeld een stap verder.</p>
+<p>Ravensmeer scoort op vier van de zes onderwerpen onder de benchmark. Op het exportpad staat Ravensmeer er duidelijk beter voor, en dat komt door de twee systemen die op open source en open standaarden draaien: het zaaksysteem en de geo-informatie. Op het exitplan is het verschil klein. De grootste achterstand zit in de ketenzorgplicht (16 punten) en het eigenaarschap (12 punten): daar liggen vergelijkbare gemeenten gemiddeld een stap verder. Ook de benchmark is eigen opgave van die gemeenten.</p>
 <div class="bench"><b>Over deze benchmark.</b> In dit voorbeeld is de benchmark fictief. In echte rapporten vergelijken we met eerdere metingen van organisaties van hetzelfde type en dezelfde omvang, alleen als er genoeg zijn voor een eerlijk beeld. Zijn er te weinig, dan zeggen we dat in plaats van een getal te tonen.</div>
 
 <footer>
