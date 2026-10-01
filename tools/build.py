@@ -289,9 +289,10 @@ def build():
     rp = SITE / "rapport"
     if rp.exists():
         (DIST / "rapport").mkdir(exist_ok=True)
-        for f in rp.glob("*.html"):
-            shutil.copy(f, DIST / "rapport" / f.name)
-        print("  /rapport/voorbeeld.html")
+        for f in rp.glob("*"):
+            if f.suffix in (".html", ".docx", ".odt"):
+                shutil.copy(f, DIST / "rapport" / f.name)
+        print("  /rapport/voorbeeld.html en het voorbeeld-werkdocument")
 
     # bestelpagina's (vast)
     bp = SITE / "bestel"

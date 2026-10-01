@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Werkdocument ketenafhankelijkheid, Gemeente Ravensmeer (fictief voorbeeld)</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;font-size:10pt;color:#1a1612}
+  h1,h2,h3{font-family:Arial,Helvetica,sans-serif;margin-left:0;padding-left:0;text-indent:0}
+  h1{font-size:18pt;margin:0 0 6pt 0}
+  h2{font-size:13pt;margin:18pt 0 6pt 0;color:#1a1612}
+  h3{font-size:11pt;margin:12pt 0 4pt 0}
+  p{margin:0 0 6pt}
+  td,th{font-size:9pt;vertical-align:top}
+  th{text-align:left}
+  .label{color:#9A6510;font-weight:bold}
+  .voorstel{color:#3A6EA5;font-weight:bold}
+  .klein{font-size:8pt;color:#6b645a}
+</style>
+</head>
+<body>
+
+<p class="klein">WILL SWITCH, UITSTAPRAPPORT. VOORBEELD: GEMEENTE EN GEGEVENS ZIJN FICTIEF, DE PRODUCTEN ECHT.</p>
+<h1>Werkdocument ketenafhankelijkheid</h1>
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+  <tr><th width="28%" bgcolor="#E8E3D6">Organisatie</th><td>Gemeente Ravensmeer (fictief), 48.000 inwoners</td></tr>
+  <tr><th bgcolor="#E8E3D6">Versie</th><td>Concept 0.1, 3 september 2026</td></tr>
+  <tr><th bgcolor="#E8E3D6">Status</th><td>Niet vastgesteld</td></tr>
+  <tr><th bgcolor="#E8E3D6">Bronnen</th><td>Uitstaptoets (bestuur en uitvoering apart ingevuld) en aanvullende intake per systeem</td></tr>
+  <tr><th bgcolor="#E8E3D6">Bijgewerkt door</th><td bgcolor="#FFF6E0">…</td></tr>
+</table>
+
+<h2>Leeswijzer</h2>
+<p>Dit document is van jullie. Pas het aan, vul het aan en gebruik de onderdelen los. Elke uitspraak heeft een label:</p>
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+  <tr><th width="22%" bgcolor="#E8E3D6">Gemeld</th><td>Opgegeven in de toets of de intake. Niet getoetst aan documenten.</td></tr>
+  <tr><th bgcolor="#E8E3D6">Gecontroleerd</th><td>Gezien in een contract, document of test. Noteer welk bewijsstuk.</td></tr>
+  <tr><th bgcolor="#E8E3D6">Voorgesteld</th><td>Moet nog worden besloten.</td></tr>
+</table>
+<p></p>
+<p>Zodra je iets hebt nagekeken, zet je het label op gecontroleerd en vul je het bewijsstuk in. Gele velden zijn om in te vullen.</p>
+
+<h2>1. Concept-paragraaf voor de Cbw-risicoanalyse</h2>
+<p><b>Ketenafhankelijkheid kritieke informatiesystemen.</b> Concept, stand 3 september 2026. Nog niet vastgesteld.</p>
+
+<h3>Inventarisatie <span class="label">(gemeld)</span></h3>
+<p>De organisatie heeft vier kritieke informatiesystemen benoemd. Twee daarvan, Microsoft 365 en Microsoft Azure, komen van één aanbieder buiten de EU/EER. Voor twee systemen is de contractuele einddatum niet centraal bekend.</p>
+
+<h3>Eerste inschatting van de impact bij wegvallen, faillissement of overname <span class="label">(gemeld)</span></h3>
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+  <tr bgcolor="#E8E3D6"><th width="30%">Systeem</th><th width="10%">Impact</th><th>Toelichting</th><th width="16%">Label</th></tr>
+  <tr><td>Microsoft 365 (kantoorsuite, mail en documenten)</td><td>Hoog</td><td>Contracteinde onbekend, export niet getest, geen eigenaar benoemd.</td><td>Gemeld</td></tr>
+  <tr><td>Microsoft Azure (cloudinfrastructuur)</td><td>Middel</td><td>Contract loopt volgens opgave af op 30 juni 2027. Export volgens opgave contractueel geregeld, met kosten tot 12 januari 2027.</td><td>Gemeld</td></tr>
+  <tr><td>Open Zaak (zaaksysteem, open source, gehost door een Nederlandse partij)</td><td>Middel</td><td>Open standaarden en een gedocumenteerd exportpad. Contracteinde en eigenaar onbekend.</td><td>Gemeld</td></tr>
+  <tr><td>QGIS en GeoServer (geo-informatie, open source, eigen beheer)</td><td>Laag</td><td>Het risico zit in de kennis van twee beheerders.</td><td>Gemeld</td></tr>
+</table>
+<p></p>
+<p>Een verstoring bij de aanbieder van Microsoft 365 en Azure raakt twee systemen tegelijk.</p>
+
+<h3>Gecontroleerd</h3>
+<p>Nog niets. Geen van de punten hierboven is getoetst aan een contract of een uitgevoerde exporttest.</p>
+
+<h3>Aandachtspunten, nog te verifiëren <span class="label">(gemeld)</span></h3>
+<ol>
+  <li>Voor drie van de vier systemen is geen bestuurlijk eigenaar benoemd.</li>
+  <li>Voor Microsoft 365 en Azure is geen exportprocedure getest.</li>
+  <li>Niet bekend is of de lopende cloudcontracten de overstapbepalingen van Verordening (EU) 2023/2854 (Data Act) bevatten.</li>
+</ol>
+
+<h3>Maatregelen <span class="voorstel">(voorgesteld, nog te besluiten)</span></h3>
+<ol>
+  <li>Bestuurlijk eigenaar per kritiek systeem benoemen en contracteindes vastleggen, binnen twee weken na het bestuursbesluit.</li>
+  <li>Exportprocedure testen voor het zaaksysteem, binnen zes weken.</li>
+  <li>Lopende cloudcontracten toetsen aan de Data Act en per systeem een wegvalscenario vastleggen, binnen twaalf weken.</li>
+  <li>Deze analyse jaarlijks herhalen.</li>
+</ol>
+<p class="klein">Deze tekst is een concept, opgesteld als input voor het beleid ketenbeveiliging onder de Cyberbeveiligingswet. Het is geen conformiteitsoordeel.</p>
+
+<h2>2. Concept-bestuursbesluit</h2>
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+  <tr><th width="28%" bgcolor="#E8E3D6">Onderwerp</th><td>Ketenafhankelijkheid kritieke informatiesystemen</td></tr>
+  <tr><th bgcolor="#E8E3D6">Kenmerk</th><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><th bgcolor="#E8E3D6">Datum vergadering</th><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><th bgcolor="#E8E3D6">Portefeuillehouder</th><td bgcolor="#FFF6E0">…</td></tr>
+</table>
+<p></p>
+<p><b>Het college van burgemeester en wethouders besluit:</b> <span class="voorstel">(voorgesteld)</span></p>
+<ol>
+  <li>Voor elk van de vier kritieke informatiesystemen een bestuurlijk eigenaar aan te wijzen, met mandaat om een exit voor te bereiden en het budget daarvoor aan te vragen.</li>
+  <li>De eigenaren opdracht te geven om binnen zestig dagen per systeem een wegvalscenario op te leveren: wat gebeurt er met de dienstverlening en de data als de leverancier stopt.</li>
+  <li>Vóór 12 januari 2027 ten minste één export te laten testen en de cloudcontracten te laten toetsen aan de Data Act, en uiterlijk 26 november 2026 te besluiten over het Azure-contract: verlengen met Data Act-afspraken, of Europees aanbesteden.</li>
+  <li>Deze analyse jaarlijks te herhalen als onderdeel van het beleid ketenbeveiliging.</li>
+</ol>
+<h3>Eigenaren</h3>
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+  <tr bgcolor="#E8E3D6"><th width="34%">Systeem</th><th>Bestuurlijk eigenaar (naam, functie)</th><th width="24%">Huidige situatie <span class="label">(gemeld)</span></th></tr>
+  <tr><td>Microsoft 365</td><td bgcolor="#FFF6E0">…</td><td>Niet benoemd</td></tr>
+  <tr><td>Microsoft Azure</td><td bgcolor="#FFF6E0">…</td><td>Informatiemanager, zonder formeel mandaat</td></tr>
+  <tr><td>Open Zaak</td><td bgcolor="#FFF6E0">…</td><td>Niet benoemd</td></tr>
+  <tr><td>QGIS en GeoServer</td><td bgcolor="#FFF6E0">…</td><td>Teamleider geo</td></tr>
+</table>
+<h3>Toelichting</h3>
+<p>Onder de Cyberbeveiligingswet is het bestuur eindverantwoordelijk voor de zorgplicht, ook voor de toeleveringsketen. Volgens de eigen opgave kan de organisatie voor twee van de vier kritieke systemen niet onderbouwen wat er gebeurt als de leverancier wegvalt, en hebben drie systemen geen eigenaar <span class="label">(gemeld)</span>. Het contract voor Azure loopt volgens opgave op 30 juni 2027 af. Een Europese aanbesteding kost als ervaringsgetal zes tot negen maanden, daarom is een besluit dit najaar nodig.</p>
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+  <tr><th width="28%" bgcolor="#E8E3D6">Financiële gevolgen</th><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><th bgcolor="#E8E3D6">Communicatie</th><td bgcolor="#FFF6E0">…</td></tr>
+</table>
+
+<h2>3. Actielijst</h2>
+<p>Bijhouden tot alles op afgerond staat. Een actie is pas afgerond als het bewijsstuk er is.</p>
+<table border="1" cellpadding="4" cellspacing="0" width="100%">
+  <tr bgcolor="#E8E3D6"><th width="4%">Nr</th><th width="26%">Actie</th><th width="14%">Eigenaar</th><th width="14%">Besluit nodig</th><th width="11%">Deadline</th><th width="9%">Status</th><th>Bewijsstuk</th></tr>
+  <tr><td>1</td><td>Eigenaren benoemen en contracteindes van alle vier systemen ophalen</td><td>Gemeentesecretaris of directeur bedrijfsvoering</td><td>Ja, besluit 1</td><td>17-09-2026</td><td bgcolor="#FFF6E0">Open</td><td>Besluit en bijgewerkt contractregister</td></tr>
+  <tr><td>2</td><td>Verlengingstermijn Azure-contract uitzoeken</td><td>Inkoop</td><td>Nee</td><td>01-10-2026</td><td bgcolor="#FFF6E0">Open</td><td>Contractpassage</td></tr>
+  <tr><td>3</td><td>Exporttest zaaksysteem: volledige export terughalen en inlezen in een neutrale omgeving</td><td>Informatiemanager, met beheerder zaaksysteem</td><td>Nee</td><td>15-10-2026</td><td bgcolor="#FFF6E0">Open</td><td>Testverslag, met wat ontbrak</td></tr>
+  <tr><td>4</td><td>Hersteltest geo-informatie vastleggen</td><td>Teamleider geo</td><td>Nee</td><td>15-10-2026</td><td bgcolor="#FFF6E0">Open</td><td>Verslag hersteltest</td></tr>
+  <tr><td>5</td><td>Microsoft-contracten toetsen aan de vijf voorgestelde contractafspraken</td><td>Inkoopjurist</td><td>Nee</td><td>12-11-2026</td><td bgcolor="#FFF6E0">Open</td><td>Juridische toets</td></tr>
+  <tr><td>6</td><td>Besluit over Azure: verlengen met Data Act-afspraken of Europees aanbesteden</td><td>Bestuur, voorbereid door inkoop</td><td>Ja, besluit 3</td><td>26-11-2026</td><td bgcolor="#FFF6E0">Open</td><td>Besluit</td></tr>
+  <tr><td>7</td><td>Wegvalscenario per systeem op één A4</td><td>De vier systeemeigenaren</td><td>Nee, opdracht uit besluit 2</td><td>26-11-2026</td><td bgcolor="#FFF6E0">Open</td><td>Vier wegvalscenario's</td></tr>
+  <tr><td>8</td><td>Toets opnieuw doen, bestuur en uitvoering apart</td><td>Informatiemanager</td><td>Nee</td><td>02-12-2026</td><td bgcolor="#FFF6E0">Open</td><td>Nieuwe uitslag</td></tr>
+  <tr><td>9</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+</table>
+
+<h2>4. Onderzoeksvragen per systeem</h2>
+<p>Wat nu onbekend is. Vul in wie het weet, wat het antwoord is en waar het staat. Met een bron verandert het label van gemeld naar gecontroleerd.</p>
+<table border="1" cellpadding="4" cellspacing="0" width="100%">
+  <tr bgcolor="#E8E3D6"><th width="15%">Systeem</th><th width="31%">Vraag</th><th width="15%">Wie weet het?</th><th width="22%">Antwoord</th><th>Bron of bewijsstuk</th></tr>
+  <tr><td>Microsoft 365</td><td>Wie heeft de licentieovereenkomst, en wanneer loopt die af?</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Microsoft 365</td><td>Welke export is mogelijk, in welk formaat, en wat ontbreekt daarin?</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Microsoft 365</td><td>Wat is de contractwaarde, en is overstappen Europees aan te besteden?</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Microsoft Azure</td><td>Klopt de einddatum van 30 juni 2027 volgens het contract?</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Microsoft Azure</td><td>Verlengt het contract automatisch, en zo ja, met welke termijn?</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Open Zaak</td><td>Wanneer loopt het hostingcontract af, en wat staat erin over overdracht naar een andere partij?</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>QGIS en GeoServer</td><td>Wanneer is de export voor het laatst teruggezet, en waar staat het verslag?</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td><td bgcolor="#FFF6E0">…</td></tr>
+</table>
+
+<h2>5. Gespreksagenda bestuur en uitvoering</h2>
+<p>Bestuur en uitvoering vulden de toets los van elkaar in. Op deze zeven vragen liepen de antwoorden uiteen. Gelijk beantwoord: ketenrisico in het inkoopproces (beide deels), weten welke data exporteerbaar is (beide deels) en een geteste export (beide nee).</p>
+<table border="1" cellpadding="4" cellspacing="0" width="100%">
+  <tr bgcolor="#E8E3D6"><th width="27%">Toetsvraag</th><th width="9%">Bestuur</th><th width="10%">Uitvoering</th><th width="29%">Vraag voor het gesprek</th><th>Uitkomst</th></tr>
+  <tr><td>Is per kritieke leverancier vastgelegd wat de impact is als hij wegvalt?</td><td>Ja</td><td>Nee</td><td>Welk document beschrijft die impact? Als het bestaat, kent de uitvoering het niet.</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Is vastgelegd wat er met data en middelen gebeurt bij contracteinde, faillissement of overname?</td><td>Deels</td><td>Weet niet</td><td>Voor welke leveranciers is dit vastgelegd, en waar?</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Heeft het bestuur de aanpak van ketenrisico's formeel vastgesteld?</td><td>Ja</td><td>Weet niet</td><td>Wanneer is dat besloten, en waarom heeft het de uitvoering niet bereikt?</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Staan opzeg- en overgangstermijnen zoals de Data Act die voorschrijft in de cloudcontracten?</td><td>Deels</td><td>Weet niet</td><td>Welke contracten zijn hierop nagelezen, en door wie?</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Is er per kritieke dienst een exitplan, ook voor plotseling wegvallen?</td><td>Ja</td><td>Deels</td><td>Waar liggen de exitplannen, en bevatten ze het scenario van plotseling wegvallen?</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Is er een reëel alternatief benoemd, waarmee ook echt gesproken is?</td><td>Deels</td><td>Nee</td><td>Met welke partij is gesproken, en is dat ergens vastgelegd?</td><td bgcolor="#FFF6E0">…</td></tr>
+  <tr><td>Is er een bestuurlijk eigenaar met mandaat en budget voor de exit?</td><td>Nee</td><td>Deels</td><td>De uitvoering ziet een eigenaar die het bestuur niet ziet. Is de informatiemanager eigenaar, of beheerder zonder mandaat?</td><td bgcolor="#FFF6E0">…</td></tr>
+</table>
+
+<h2>6. Voorgestelde contractafspraken</h2>
+<p>Voor inkoop en de jurist, bij een verlenging of een nieuwe aanbesteding. Niet juridisch gevalideerd en niet zonder toetsing bruikbaar als contracttekst.</p>
+<table border="1" cellpadding="4" cellspacing="0" width="100%">
+  <tr bgcolor="#E8E3D6"><th width="20%">Afspraak</th><th width="48%">Voorstel</th><th>Basis</th></tr>
+  <tr><td>Overstaptermijnen</td><td>Opzegtermijn maximaal twee maanden. Na opzegging voltooit de leverancier de overgang binnen dertig dagen, tenzij dat technisch aantoonbaar onmogelijk is.</td><td>Volgt uit: Data Act art. 25</td></tr>
+  <tr><td>Exporteerbare data</td><td>Het contract specificeert welke data en configuraties exporteerbaar zijn, in welk open en machineleesbaar formaat. Levering bij overstap zonder overstapkosten.</td><td>Volgt uit: Data Act art. 25, 29 en 30</td></tr>
+  <tr><td>Geen overstapkosten</td><td>Geen kosten voor het overstapproces. Tot 12 januari 2027 alleen directe kosten, zonder marge.</td><td>Volgt uit: Data Act art. 29</td></tr>
+  <tr><td>Continuïteit bij faillissement of overname</td><td>Binnen tien werkdagen een volledige export en toegang tot de dienst gedurende de overgangstermijn. Broncode-escrow voor maatwerk.</td><td>Eigen voorstel. Aanknopingspunt: zorgplicht toeleveringsketen in de Cbw. Termijn en escrow volgen daar niet rechtstreeks uit.</td></tr>
+  <tr><td>Open source en open standaarden</td><td>Bij gelijke geschiktheid voorkeur voor open source. Open standaarden van de lijst 'pas toe of leg uit'. Maatwerk onder een open licentie.</td><td>Eigen voorstel. Aanknopingspunt: lijst 'pas toe of leg uit', Forum Standaardisatie.</td></tr>
+</table>
+
+<p></p>
+<p class="klein">Opgesteld door Will Switch, praktijkonderzoek naar digitale autonomie in de publieke sector. Dit werkdocument is input voor de eigen risicoanalyse van de organisatie. Het is geen oordeel over naleving van de Cyberbeveiligingswet, de Data Act of andere wetgeving, en geen juridisch advies.</p>
+
+</body>
+</html>
