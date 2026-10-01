@@ -290,7 +290,7 @@ def build():
     if rp.exists():
         (DIST / "rapport").mkdir(exist_ok=True)
         for f in rp.glob("*"):
-            if f.suffix in (".html", ".docx", ".odt"):
+            if f.suffix in (".html", ".docx", ".odt", ".pdf"):
                 shutil.copy(f, DIST / "rapport" / f.name)
         print("  /rapport/voorbeeld.html en het voorbeeld-werkdocument")
 
