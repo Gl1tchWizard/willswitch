@@ -88,7 +88,14 @@
     /* === Hero: het schilderij als behang, de kop in de lucht === */
     .hero { position: relative; z-index: 2; background: #b9c3be; overflow: hidden; }
     .hero-beeld { position: relative; height: min(100svh, 62vw); min-height: 560px; }
-    .hero-beeld img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 34% 68%; display: block; animation: heroFade 1.6s ease 0.3s backwards; }
+    .hero-beeld img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 70%; display: block; animation: heroFade 1.6s ease 0.3s backwards; }
+    .hero-beeld img:not([src]) { display: none; }
+    .hero-credit { position: absolute; left: 16px; bottom: 12px; z-index: 2; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .04em; color: rgba(240,237,230,.85); text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+    .hero-credit:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+    /* donkere foto's (noorderlicht): lichte tekst in de lucht */
+    .hero.donker .hero-vraag, .hero.donker .hero-groot, .hero.donker .hero-lead, .hero.donker .hero-nav a:not(.hero-knop), .hero.donker .hero-merk span { color: #F0EDE6; }
+    .hero.donker .hero-merk span { border-left-color: #F0EDE6; }
+    .hero.donker .hero-tekst::before { background: radial-gradient(closest-side, rgba(10,8,20,.55), rgba(10,8,20,0)); }
     @keyframes heroFade { from { opacity: 0; transform: scale(1.02); } to { opacity: 1; transform: scale(1); } }
     .hero-kop { position: absolute; top: 0; left: 0; right: 0; z-index: 3; max-width: 1280px; margin: 0 auto; padding: 20px 40px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .hero-merk { display: flex; align-items: center; gap: 16px; text-decoration: none; }
@@ -100,7 +107,7 @@
     .hero-knop { display: inline-flex; align-items: center; gap: .5em; min-height: 44px; padding: 0 20px; background: #D63F00; color: #fff !important; font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 14px; text-decoration: none !important; }
     .hero-knop:hover { background: var(--ink); }
     .hero-in { position: absolute; inset: 0; z-index: 2; max-width: 1280px; margin: 0 auto; padding: clamp(112px, 15vh, 180px) 40px 0; display: flex; justify-content: flex-end; align-items: flex-start; pointer-events: none; }
-    .hero-tekst { position: relative; width: min(44%, 600px); margin-right: 9%; pointer-events: auto; }
+    .hero-tekst { position: relative; width: min(44%, 600px); margin-right: 3%; pointer-events: auto; }
     .hero-tekst::before { content: ""; position: absolute; inset: -80px -110px -70px -110px; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(240,237,230,.66), rgba(240,237,230,0)); }
     .hero-vraag { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; line-height: 1.6; margin-bottom: 18px; color: var(--ink); }
     .hero-groot { font-family: 'Orbitron', sans-serif; font-size: clamp(32px, 3vw, 54px); font-weight: 700; text-transform: uppercase; line-height: 1.02; letter-spacing: .01em; color: var(--ink); }
@@ -114,12 +121,13 @@
       .hero-merk span { display: none; }
       .hero-nav { gap: 14px; font-size: 12px; }
       .hero-beeld { height: auto; min-height: 0; aspect-ratio: 4 / 5; }
-      .hero-beeld img { object-position: 22% 72%; }
+      .hero-beeld img { object-position: 0% 72%; }
+      .hero.donker .hero-vraag, .hero.donker .hero-groot, .hero.donker .hero-lead, .hero.donker .hero-nav a:not(.hero-knop) { color: var(--ink); }
       .hero-in { position: static; display: block; padding: 28px 16px 8px; pointer-events: auto; }
       .hero-tekst { width: auto; margin-right: 0; }
       .hero-tekst::before { display: none; }
       .hero-groot { font-size: clamp(26px, 7.4vw, 38px); }
-      .hero-bijschrift { right: 16px; bottom: 14px; }
+      .hero-bijschrift { display: none; }
       .hero-tekst .hero-knop { width: 100%; justify-content: center; }
     }
     @media (max-width: 400px) { .hero-nav a:not(.hero-knop) { display: none; } }
@@ -1003,8 +1011,28 @@
       <nav class="hero-nav" aria-label="Hoofdnavigatie"><a href="#patronen">Praktijk</a><a href="/rapport/voorbeeld.html">Rapport</a><a class="hero-knop" href="/scan/">Uitstaptoets <span aria-hidden="true">&rarr;</span></a></nav>
     </div>
     <div class="hero-beeld">
-      <img src="/switch-hero.webp" alt="Astronaut kijkt uit over een Nederlands landschap, helm in de hand, met een lichtende ring aan de horizon" width="1672" height="941" fetchpriority="high">
+      <img id="hero-foto" alt="Astronaut met helm in de hand voor een lichtende ring in een Nederlands landschap" width="2000" height="1333" fetchpriority="high">
+      <script>
+        /* Wisselend landschap: een willekeurige foto per bezoek, binnen een bezoek steeds dezelfde. */
+        (function () {
+          var fotos = [
+            { src: '/hero-heide.webp', donker: false },
+            { src: '/hero-wad.webp', donker: false },
+            { src: '/hero-noorderlicht.webp', donker: true }
+          ];
+          var i;
+          try { i = parseInt(sessionStorage.getItem('ws-hero'), 10); } catch (e) {}
+          if (!(i >= 0 && i < fotos.length)) {
+            i = Math.floor(Math.random() * fotos.length);
+            try { sessionStorage.setItem('ws-hero', i); } catch (e) {}
+          }
+          document.getElementById('hero-foto').src = fotos[i].src;
+          if (fotos[i].donker) document.currentScript.closest('.hero').classList.add('donker');
+        })();
+      </script>
+      <noscript><img src="/hero-heide.webp" alt="Astronaut met helm in de hand voor een lichtende ring in een Nederlands landschap" width="2000" height="1333"></noscript>
       <span class="hero-bijschrift" aria-hidden="true">aan de andere kant</span>
+      <a class="hero-credit" href="https://www.instagram.com/robinalmoesphotography/">foto: Robin Almoes Photography</a>
     </div>
     <div class="hero-in">
       <div class="hero-tekst">
