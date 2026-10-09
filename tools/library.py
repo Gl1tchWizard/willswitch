@@ -56,9 +56,9 @@ def quote_html(q):
 
 STRIP = """
       <a class="toets-strip" href="/scan/">
-        <span class="ts-kop">Kun je nog weg bij je leveranciers?</span>
-        <span class="ts-tekst">Twee wetten en het rijksbrede cloudbeleid stellen die vraag. De uitstaptoets geeft je in een kwartier het antwoord, zonder registratie.</span>
-        <span class="ts-cta">Doe de uitstaptoets</span>
+        <span class="ts-kop">Wat kun je nog als je ICT-leverancier verandert?</span>
+        <span class="ts-tekst">De gratis scan laat in tien minuten zien waar je afhankelijk bent, wat je nog niet weet en waar je kunt beginnen. Geen account nodig.</span>
+        <span class="ts-cta">Start de gratis scan</span>
       </a>
 """
 

@@ -215,9 +215,9 @@ SCAN_AAN = True   # FASE 1: gratis toets is open. Bestellen staat nog uit, zie t
 SCANBLOK = """    <section class="next">
       <h2>Waar staat jouw organisatie?</h2>
       <p>Deze verhalen laten zien wat er mogelijk is. De volgende vraag is
-      wat er bij jou speelt. De uitstaptoets brengt in kaart waar je staat en wat
-      een logische eerste stap is.</p>
-      <a class="cta" href="/scan/">Doe de uitstaptoets</a>
+      wat er bij jou speelt. De gratis scan laat in tien minuten zien waar je
+      afhankelijk bent van ICT-leveranciers, wat je nog niet weet en waar je kunt beginnen.</p>
+      <a class="cta" href="/scan/">Start de gratis scan</a>
     </section>"""
 
 

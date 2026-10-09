@@ -75,10 +75,10 @@ SCAN_AAN = True   # FASE 1: gratis toets is open. Bestellen staat nog uit, zie t
 
 SCANBLOK = '''      <div class="scan-block">
         <h3>Waar staat jouw organisatie?</h3>
-        <p>De uitstaptoets brengt in kaart hoe afhankelijk je bent van je leveranciers,
-        wat de wet daarover van je vraagt en wat een logische eerste stap is. Kost een
-        kwartier, geen registratie nodig.</p>
-        <a class="scan-cta" href="/scan/">Doe de toets</a>
+        <p>De gratis scan laat in tien minuten zien waar je afhankelijk bent van
+        ICT-leveranciers, wat je daarover nog niet weet en waar je kunt beginnen.
+        Geen account nodig.</p>
+        <a class="scan-cta" href="/scan/">Start de gratis scan</a>
       </div>'''
 
 def section_html(cases):
