@@ -3,159 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Uitstaprapport, voorbeeld | Will Switch</title>
-<meta name="description" content="Voorbeeld van het uitstaprapport: wat je krijgt na de gratis uitstaptoets. Uitstapprofiel per leverancier, Cbw-paragraaf, bestuursbesluit, contractafspraken, actielijst en een bewerkbaar werkdocument.">
+<title>Voorbeelddossier leveranciersafhankelijkheid | Will Switch</title>
+<meta name="description" content="Voorbeeld van een uitgewerkt dossier na de gratis scan: aandachtspunten, overzicht per systeem, concepttekst voor de risicoanalyse, beslisnotitie, actielijst en vragen voor leveranciers en inkoop. Fictieve gemeente.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://willswitch.nl/rapport/voorbeeld.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Will Switch">
-<meta property="og:title" content="Uitstaprapport, voorbeeld">
-<meta property="og:description" content="Wat je krijgt na de gratis uitstaptoets: uitstapprofiel per leverancier, Cbw-paragraaf, bestuursagenda, exitclausules en een plan voor de eerste negentig dagen.">
+<meta property="og:title" content="Voorbeelddossier: afhankelijkheid van ICT-leveranciers">
+<meta property="og:description" content="Wat het betaalde vervolg op de gratis scan oplevert, uitgewerkt voor een fictieve gemeente.">
 <meta property="og:image" content="https://willswitch.nl/og-image.jpg">
 <meta property="og:url" content="https://willswitch.nl/rapport/voorbeeld.html">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  :root{--orange:#E84500;--paper:#F0EDE6;--warm:#E8E3D6;--white:#FBFAF7;--ink:#1a1612;--soft:#4a443c;--faint:rgba(26,22,18,.45);--rule:rgba(26,22,18,.14);--ok:#2F6F4E;--warn:#B8760F;--bad:#B3453A;--mono:'Space Mono',monospace;--disp:'Orbitron',monospace}
-  body{background:var(--paper);color:var(--ink);font-family:var(--mono);line-height:1.6}
-  .demo{background:var(--ink);color:var(--paper);text-align:center;font-family:var(--disp);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;padding:.6rem}
-  .demo a{color:var(--orange)}
-  .pag{max-width:48rem;margin:0 auto;padding:0 1.5rem 5rem}
-  .omslag{padding:4rem 0 3rem;border-bottom:2px solid var(--ink)}
-  .omslag .merk{font-family:var(--disp);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
-  .omslag h1{font-family:var(--disp);font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.1;margin:1rem 0 1.2rem}
-  .omslag .meta{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1.2rem;font-size:.82rem;color:var(--soft)}
-  .omslag .meta b{color:var(--ink)}
-  h2{font-family:var(--disp);font-size:1.35rem;margin:3rem 0 1rem;padding-top:1.4rem;border-top:1px solid var(--rule)}
-  h3{font-family:var(--disp);font-size:.95rem;margin:1.6rem 0 .6rem}
-  p{color:var(--soft);font-size:.93rem;margin-bottom:1rem;max-width:42rem}
-  p.lead{color:var(--ink);font-size:1.02rem}
-  .klein{font-size:.78rem;color:var(--faint)}
-  .kern{border:2px solid var(--ink);background:var(--white);padding:1.3rem 1.5rem;margin:1.4rem 0}
-  .kern .groot{font-family:var(--disp);font-size:2.2rem;color:var(--orange);line-height:1}
-  .kern .zin{margin-top:.5rem;color:var(--ink);font-size:.95rem}
-  .rij{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin:1rem 0}
-  .cijfer{background:var(--warm);border:1px solid var(--rule);padding:.9rem 1rem}
-  .cijfer b{font-family:var(--disp);font-size:1.5rem;display:block;line-height:1}
-  .cijfer span{font-size:.76rem;color:var(--soft)}
-  .dek{margin-bottom:.9rem}.dek .lbl{display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:.3rem}
-  .dek .lbl b{font-family:var(--disp);font-size:.76rem}.dek .balk{height:11px;background:var(--rule)}.dek .balk i{display:block;height:100%;background:var(--orange)}
-  .profiel{background:var(--white);border:1px solid var(--rule);margin-bottom:1rem}
-  .profiel .kop{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.9rem 1.1rem;border-bottom:1px solid var(--rule)}
-  .profiel .kop b{font-size:.95rem}
-  .stempel{font-family:var(--disp);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .55rem;border:1px solid}
-  .stempel.vast{color:var(--bad);border-color:var(--bad)}.stempel.kwetsbaar{color:var(--warn);border-color:var(--warn)}.stempel.uitstapbaar{color:var(--ok);border-color:var(--ok)}
-  .profiel table{width:100%;border-collapse:collapse;font-size:.82rem}
-  .profiel td{padding:.55rem 1.1rem;border-bottom:1px solid var(--rule);vertical-align:top}
-  .profiel td:first-child{color:var(--faint);width:34%}
-  .profiel .wet{padding:.9rem 1.1rem;background:var(--warm);font-size:.8rem;color:var(--soft)}
-  .profiel .wet b{color:var(--ink)}
-  .kader{background:var(--white);border-left:3px solid var(--orange);padding:1.1rem 1.3rem;margin:1.2rem 0;font-size:.9rem}
-  .kader.tekst{font-family:var(--mono);white-space:pre-wrap;color:var(--ink);font-size:.86rem;line-height:1.7}
-  .agenda{background:var(--ink);color:var(--paper);padding:1.4rem 1.5rem;margin:1.2rem 0}
-  .agenda h3{color:var(--paper);margin-top:0}
-  .agenda ol{margin:.6rem 0 0 1.2rem;color:rgba(240,237,230,.85);font-size:.9rem}
-  .agenda li{margin-bottom:.7rem}
-  .clausule{background:var(--white);border:1px solid var(--rule);padding:1rem 1.2rem;margin-bottom:.8rem;font-size:.86rem}
-  .clausule b{display:block;font-family:var(--disp);font-size:.78rem;margin-bottom:.4rem}
-  .clausule .bron{display:block;margin-top:.5rem;font-size:.72rem;color:var(--faint)}
-  .actie{display:grid;grid-template-columns:auto 1fr;gap:1rem;background:var(--white);border:1px solid var(--rule);padding:1rem 1.2rem;margin-bottom:.8rem}
-  .actie .wk{font-family:var(--disp);font-size:.7rem;color:var(--orange);white-space:nowrap;padding-top:.15rem}
-  .actie b{display:block;font-size:.9rem;margin-bottom:.25rem}
-  .actie span{font-size:.82rem;color:var(--soft)}
-  .actie .eig{display:block;margin-top:.4rem;font-size:.74rem;color:var(--faint)}
-  .bench{background:var(--warm);border:1px solid var(--rule);padding:1.1rem 1.3rem;font-size:.86rem}
-  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);font-size:.72rem;color:var(--faint);line-height:1.8}
-  @media (max-width:600px){.rij{grid-template-columns:1fr}}
-  @media print{.demo{display:none}body{background:#fff}}
-
-  /* nieuw: omslag met kaartje, samenvatting, spinnenweb, uitstapkaart, tijdlijn */
-  .omslag{display:grid;grid-template-columns:1fr 170px;gap:2rem;align-items:end}
-  .kaartje{width:170px;height:auto;display:block}
-  .samenvatting{background:var(--ink);color:var(--paper);padding:1.6rem 1.7rem;margin:2rem 0 0}
-  .samenvatting .merk{font-family:var(--disp);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,237,230,.6)}
-  .samenvatting .conclusie{font-size:1.02rem;line-height:1.55;margin:.7rem 0 1.2rem;color:var(--paper);max-width:none}
-  .samenvatting .drie{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
-  .samenvatting h3{color:var(--paper);font-size:.78rem;margin:0 0 .5rem}
-  .samenvatting ol{margin-left:1.1rem;font-size:.84rem;color:rgba(240,237,230,.85)}
-  .samenvatting li{margin-bottom:.35rem}
-  .samenvatting .besluit{margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(240,237,230,.25);font-size:.86rem;color:var(--paper)}
-  .samenvatting .besluit b{font-family:var(--disp);font-size:.72rem;letter-spacing:.08em;color:var(--orange);margin-right:.4rem}
-  .figuur{background:var(--white);border:1px solid var(--rule);padding:1.2rem 1.2rem 1rem;margin:1.2rem 0}
-  .figuur .kop{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.4rem}
-  .figuur .kop b{font-family:var(--disp);font-size:.8rem}
-  .sleutel{display:flex;gap:1.1rem;font-size:.74rem;color:var(--soft)}
-  .sleutel i{display:inline-block;width:18px;height:0;border-top:2px solid;vertical-align:middle;margin-right:.35rem}
-  .sleutel .eigen i{border-color:#D63F00}.sleutel .bm i{border-color:#3A6EA5;border-top-style:dashed}
-  .spin{width:100%;height:auto;display:block;max-width:600px;margin:0 auto}
-  .figuur .noot{font-size:.72rem;color:var(--faint);margin:.4rem 0 0}
-  .cijfertabel{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:.8rem}
-  .cijfertabel th{text-align:left;font-family:var(--disp);font-size:.66rem;letter-spacing:.06em;color:var(--faint);padding:.35rem .5rem;border-bottom:1px solid var(--ink)}
-  .cijfertabel td{padding:.4rem .5rem;border-bottom:1px solid var(--rule)}
-  .cijfertabel td:not(:first-child),.cijfertabel th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
-  .cijfertabel td span{color:var(--faint);font-size:.72rem}
-  .cijfertabel .onder{color:#B3261E}.cijfertabel .boven{color:#2F6F4E}
-  .uitstapkaart{overflow-x:auto;margin:1rem 0 .4rem}
-  .uitstapkaart table{width:100%;border-collapse:separate;border-spacing:3px;font-size:.72rem;min-width:640px}
-  .uitstapkaart th{text-align:left;font-family:var(--disp);font-size:.62rem;letter-spacing:.06em;color:var(--faint);padding:.3rem .4rem;font-weight:400}
-  .uitstapkaart tbody th{font-family:var(--mono);font-size:.76rem;color:var(--ink);font-weight:700;letter-spacing:0;width:21%}
-  .uitstapkaart tbody th span{display:block;font-weight:400;color:var(--faint);margin-top:.15rem}
-  .uitstapkaart td{position:relative;padding:.5rem .55rem;vertical-align:top;line-height:1.35}
-  .uitstapkaart td.goed{background:rgba(47,111,78,.12)}.uitstapkaart td.matig{background:rgba(154,101,16,.13)}.uitstapkaart td.slecht{background:rgba(179,38,30,.12)}
-  .uitstapkaart .ico{font-weight:700;margin-right:.3rem}
-  .uitstapkaart td.goed .ico{color:#2F6F4E}.uitstapkaart td.matig .ico{color:#9A6510}.uitstapkaart td.slecht .ico{color:#B3261E}
-  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-  .legenda{display:flex;gap:1.2rem;font-size:.72rem;margin:.2rem 0 1rem;color:var(--soft)}
-  .legenda .goed{color:#2F6F4E}.legenda .matig{color:#9A6510}.legenda .slecht{color:#B3261E}
-  .tijdlijn{width:100%;height:auto;display:block}
-  .verschil{margin:1rem 0}
-  .vrij{margin-bottom:.9rem}.vrij b{font-family:var(--disp);font-size:.74rem;display:block;margin-bottom:.3rem}
-  .vbalk{display:grid;grid-template-columns:80px 1fr 32px;gap:.6rem;align-items:center;font-size:.74rem;color:var(--soft);margin-bottom:.2rem}
-  .vbalk>div{height:10px;background:var(--rule)}.vbalk i{display:block;height:100%}
-  .vbalk em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
-  @media (max-width:600px){.figuur{padding:1rem .7rem .8rem}.cijfertabel{table-layout:fixed}.cijfertabel th{font-size:.52rem;letter-spacing:0;white-space:normal}.cijfertabel th:first-child{width:42%}.cijfertabel td span{display:block}.cijfertabel th,.cijfertabel td{padding:.35rem .3rem}.omslag{grid-template-columns:1fr}.kaartje{width:130px}.samenvatting .drie{grid-template-columns:1fr}.profiel td{display:block;width:auto!important;overflow-wrap:anywhere}.profiel td:first-child{border-bottom:0;padding-bottom:0;font-size:.74rem}}
-  @media print{.samenvatting{-webkit-print-color-adjust:exact;print-color-adjust:exact}.figuur,.uitstapkaart{break-inside:avoid}}
-  /* kopbeeld: foto van Robin Almoes met de astronaut, net als op switch.html */
-  .kopbeeld{position:relative;height:max(240px,40vw);overflow:hidden;background:#9fb0c4}
+  :root{--orange:#E84500;--paper:#F0EDE6;--warm:#E8E3D6;--white:#FBFAF7;--ink:#1a1612;--soft:#4a443c;--faint:#6f685e;--rule:rgba(26,22,18,.14);
+    --gemeld:#7a5a12;--gecontroleerd:#2F6F4E;--voorgesteld:#2f5f94;
+    --sans:'Space Grotesk',system-ui,sans-serif;--mono:'Space Mono',monospace;--merk:'Orbitron',sans-serif}
+  html{font-size:17px}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  a{color:var(--ink)}
+  .demo{background:var(--ink);color:var(--paper);text-align:center;font-size:.85rem;padding:.6rem 1rem}
+  .demo a{color:#ffb38f}
+  .kopbeeld{position:relative;height:max(220px,34vw);overflow:hidden;background:#9fb0c4}
   .kopbeeld>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:22% 85%;display:block}
-  .kb-merk{position:absolute;top:18px;right:calc(max(0px,(100% - 48rem) / 2) + 1.5rem);z-index:2;display:block;background:rgba(240,237,230,.88);padding:9px 13px}
+  .kb-merk{position:absolute;top:18px;right:calc(max(0px,(100% - 50rem) / 2) + 1.5rem);background:rgba(240,237,230,.9);padding:9px 13px}
   .kb-merk img{height:26px;width:auto;display:block}
-  .kb-credit{position:absolute;bottom:12px;right:calc(max(0px,(100% - 48rem) / 2) + 1.5rem);z-index:2;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:rgba(240,237,230,.9);text-decoration:none;text-shadow:0 1px 3px rgba(0,0,0,.6)}
-  .kb-credit:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
-  .omslag{padding-top:2.6rem}
-  @media (max-width:600px){.kopbeeld{height:auto;aspect-ratio:4/3}.kopbeeld>img{object-position:18% 80%}.kb-merk{top:12px;padding:7px 10px}.kb-merk img{height:20px}}
-  @media print{.kopbeeld{height:200px}.kb-credit{color:#fff}}
-  /* feedback: invulvelden, gespreksagenda, wat je ontvangt, actievelden */
-  .invul{display:block;margin-top:.4rem;padding:.4rem .55rem;border:1px dashed rgba(26,22,18,.35);font-size:.76rem;color:var(--soft);line-height:1.5}
-  .invul i{font-style:normal;color:var(--faint)}
-  .basis td:last-child{color:var(--soft);font-size:.78rem}
-  .gesprek{margin:1rem 0 1.4rem}
-  .gv{background:var(--white);border:1px solid var(--rule);padding:.8rem 1rem;margin-bottom:.5rem}
-  .gv .ond{display:block;font-family:var(--disp);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-  .gv b{display:block;font-size:.84rem;margin:.2rem 0 .35rem;line-height:1.45}
-  .gv .antw{display:flex;gap:1.4rem;flex-wrap:wrap;font-size:.78rem;color:var(--soft)}
-  .gv .antw em{font-style:normal;font-weight:700;color:var(--ink)}
-  .gv .wat{display:block;margin-top:.4rem;font-size:.78rem;color:var(--ink)}
-  .ontvang{border:2px solid var(--ink);background:var(--white);padding:1.4rem 1.5rem;margin:1.6rem 0 0}
-  .ontvang .merk{font-family:var(--disp);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
-  .ontvang .twee{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:.4rem}
-  .ontvang h3{margin:.6rem 0 .4rem;font-size:.82rem}
-  .ontvang ul{margin-left:1.1rem;font-size:.83rem;color:var(--soft)}
-  .ontvang li{margin-bottom:.25rem}
-  .ontvang .klein{margin:1rem 0 0}
-  .downloads{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
-  .downloads a{font-family:var(--disp);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:.65rem .95rem;text-decoration:none;border:1px solid var(--ink)}
+  .kb-credit{position:absolute;bottom:12px;right:calc(max(0px,(100% - 50rem) / 2) + 1.5rem);font-family:var(--mono);font-size:11px;color:rgba(240,237,230,.92);text-decoration:none;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .kb-credit:hover{text-decoration:underline}
+  .pag{max-width:50rem;margin:0 auto;padding:0 1.5rem 5rem}
+
+  h1{font-size:clamp(1.8rem,4.4vw,2.6rem);line-height:1.1;letter-spacing:-.015em;margin:.6rem 0 .8rem}
+  h2{font-size:1.5rem;line-height:1.2;letter-spacing:-.01em;margin:3.2rem 0 .8rem;padding-top:1.2rem;border-top:2px solid var(--ink)}
+  h2 .nr{font-family:var(--mono);font-weight:400;color:var(--faint);margin-right:.5rem}
+  h3{font-size:1.08rem;margin:1.6rem 0 .5rem}
+  p{color:var(--soft);margin-bottom:1rem;max-width:42rem}
+  p.lead{color:var(--ink);font-size:1.12rem}
+  .klein{font-size:.85rem;color:var(--faint)}
+  .label{font-family:var(--mono);font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
+
+  .chip{display:inline-block;font-family:var(--mono);font-weight:400;font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;border:1px solid currentColor;padding:.1rem .42rem;white-space:nowrap;vertical-align:.12em;line-height:1.4}
+  .chip.gemeld{color:var(--gemeld)} .chip.gecontroleerd{color:var(--gecontroleerd)} .chip.voorgesteld{color:var(--voorgesteld)}
+  .chip.onbekend{color:var(--soft);border-style:dashed}
+
+  /* dossierblad */
+  .blad{display:grid;grid-template-columns:1fr 150px;gap:2rem;align-items:start;padding:2.4rem 0 1.4rem}
+  .meta{display:grid;grid-template-columns:auto 1fr;gap:.3rem 1.2rem;font-size:.92rem;margin-top:1rem}
+  .meta span{color:var(--faint)}
+  .kaartje{width:150px;height:auto;display:block;margin-top:1rem}
+  .blok2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
+  .vak{background:var(--white);border:1px solid var(--rule);padding:1.1rem 1.2rem}
+  .vak.besluit{border:2px solid var(--ink)}
+  .vak h3{margin:0 0 .5rem;display:flex;justify-content:space-between;gap:.8rem;align-items:baseline}
+  .vak p{margin:0;color:var(--ink);font-size:.97rem}
+  .inhoud{list-style:none;counter-reset:i;margin:.6rem 0 1rem}
+  .inhoud li{counter-increment:i;display:grid;grid-template-columns:2rem 1fr;padding:.55rem 0;border-bottom:1px solid var(--rule)}
+  .inhoud li::before{content:counter(i);font-family:var(--mono);color:var(--faint)}
+  .inhoud a{font-weight:700;text-decoration:none}
+  .inhoud a:hover{text-decoration:underline}
+  .inhoud span{display:block;font-size:.9rem;color:var(--soft)}
+  .downloads{display:flex;gap:.6rem;flex-wrap:wrap;margin:1rem 0}
+  .downloads a{display:inline-block;background:var(--ink);color:var(--paper);border:1px solid var(--ink);padding:.7rem 1rem;font-weight:700;font-size:.92rem;text-decoration:none;border-radius:3px}
   .downloads a.licht{background:transparent;color:var(--ink)}
-  .downloads a:hover{background:var(--orange);border-color:var(--orange);color:var(--paper)}
-  .actie dl{display:grid;grid-template-columns:auto 1fr;gap:.1rem .8rem;margin-top:.55rem;font-size:.74rem;color:var(--soft)}
-  .actie dt{color:var(--faint)}
-  @media (max-width:600px){.ontvang .twee{grid-template-columns:1fr}.ontvang{padding:1.1rem 1rem}}
+  .downloads a:hover{background:#C23A00;border-color:#C23A00;color:#fff}
+  .legenda{display:grid;grid-template-columns:auto 1fr;gap:.45rem .9rem;font-size:.9rem;color:var(--soft);background:var(--white);border:1px solid var(--rule);padding:1rem 1.2rem;align-items:baseline}
+
+  /* aandachtspunten */
+  .punt{background:var(--white);border:1px solid var(--rule);border-left:4px solid var(--ink);padding:1.1rem 1.25rem 1.2rem;margin-bottom:.9rem}
+  .punt .kop{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+  .punt h3{margin:0;font-size:1.1rem;line-height:1.3}
+  .punt .nr{font-family:var(--mono);color:var(--faint);margin-right:.4rem}
+  .punt dl{display:grid;grid-template-columns:9rem 1fr;gap:.5rem 1rem;margin-top:.85rem}
+  .punt dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);padding-top:.25rem}
+  .punt dd{font-size:.97rem}
+  .punt dd.actie{font-weight:700}
+
+  /* overzicht en systemen */
+  .tabelrol{overflow-x:auto;margin:.6rem 0 1rem}
+  table.lijst{width:100%;border-collapse:collapse;font-size:.88rem;min-width:560px}
+  table.lijst th{text-align:left;font-family:var(--mono);font-size:.64rem;font-weight:400;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);padding:.4rem .5rem;border-bottom:1px solid var(--ink);vertical-align:bottom}
+  table.lijst td{padding:.55rem .5rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  table.lijst td.onb{color:var(--faint);font-style:italic}
+  .systeem{background:var(--white);border:1px solid var(--rule);margin:1rem 0 1.2rem}
+  .systeem .kop{padding:.9rem 1.2rem;border-bottom:1px solid var(--rule)}
+  .systeem .kop b{font-size:1.05rem;display:block}
+  .systeem .kop span{font-size:.9rem;color:var(--soft)}
+  .systeem h4{font-family:var(--mono);font-weight:400;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);padding:.8rem 1.2rem .2rem}
+  .systeem table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .systeem td{padding:.45rem 1.2rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  .systeem td:first-child{width:30%;color:var(--faint)}
+  .systeem td:last-child{width:7.5rem;text-align:right}
+  .systeem .noot{padding:.9rem 1.2rem;background:var(--warm);font-size:.9rem;color:var(--soft)}
+  .systeem .noot b{color:var(--ink)}
+  .invul{display:block;margin-top:.35rem;padding:.35rem .55rem;border:1px dashed rgba(26,22,18,.35);font-size:.84rem;color:var(--soft)}
+  .invul i{font-style:normal;color:var(--faint)}
+  .figuur{background:var(--white);border:1px solid var(--rule);padding:1rem 1rem .8rem;margin:1rem 0}
+  .tijdlijnrol{overflow-x:auto}
+  .tijdlijn{width:100%;min-width:600px;height:auto;display:block}
+  .figuur .klein{margin:.5rem 0 0}
+
+  /* gespreksagenda */
+  .gv{background:var(--white);border:1px solid var(--rule);padding:.85rem 1.1rem;margin-bottom:.5rem}
+  .gv b{display:block;font-size:.98rem}
+  .gv .antw{display:flex;gap:1.4rem;flex-wrap:wrap;font-size:.9rem;color:var(--soft);margin:.2rem 0}
+  .gv .antw em{font-style:normal;font-weight:700;color:var(--ink)}
+  .gv .wat{display:block;font-size:.92rem}
+
+  /* documenten */
+  .doc{background:var(--white);border:1px solid var(--rule);border-top:4px solid var(--ink);padding:1.3rem 1.4rem;margin:1rem 0}
+  .doc .kopregel{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;margin-bottom:.8rem}
+  .doc h4{font-size:.98rem;margin:1.1rem 0 .35rem;display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap}
+  .doc p,.doc li{color:var(--ink);font-size:.95rem}
+  .doc ol,.doc ul{margin:.2rem 0 .6rem 1.3rem}
+  .doc li{margin-bottom:.3rem}
+  .doc .veld{display:grid;grid-template-columns:10rem 1fr;gap:.3rem 1rem;font-size:.92rem;margin-bottom:.4rem}
+  .doc .veld span{color:var(--faint)}
+  .doc .leeg{border-bottom:1px dashed rgba(26,22,18,.35);color:var(--faint)}
+  .kopieer{font-family:var(--mono);font-size:.72rem;background:none;border:1px solid var(--rule);padding:.3rem .6rem;cursor:pointer;color:var(--soft)}
+  .kopieer:hover{border-color:var(--ink);color:var(--ink)}
+  .afspraak{border-top:1px solid var(--rule);padding:.7rem 0}
+  .afspraak b{display:block}
+  .afspraak .bron{display:block;font-size:.84rem;color:var(--faint);margin-top:.2rem}
+  .verantw{background:var(--warm);border:1px solid var(--rule);padding:1.1rem 1.3rem;font-size:.92rem;color:var(--soft)}
+  .verantw b{color:var(--ink)}
+  details.bijlage{background:var(--white);border:1px solid var(--rule);padding:.9rem 1.1rem;margin-top:1rem}
+  details.bijlage summary{cursor:pointer;font-weight:700}
+  details.bijlage p{margin:.7rem 0 0;font-size:.92rem}
+  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);font-size:.8rem;color:var(--faint);line-height:1.7}
+
+  @media (max-width:640px){
+    .blad{grid-template-columns:1fr;gap:0}.kaartje{width:120px}
+    .blok2{grid-template-columns:1fr}
+    .punt dl{grid-template-columns:1fr;gap:.15rem}.punt dt{padding-top:.5rem}
+    .systeem td{display:block;width:auto!important;text-align:left!important;border-bottom:0;padding:.15rem 1.2rem}
+    .systeem tr{display:block;border-bottom:1px solid var(--rule);padding:.35rem 0}
+    .systeem td:first-child{font-size:.82rem}
+    .doc{padding:1.1rem 1rem}.doc .veld{grid-template-columns:1fr}
+    .kopbeeld{height:auto;aspect-ratio:4/3}.kopbeeld>img{object-position:18% 80%}
+    .kb-merk{top:12px;padding:7px 10px}.kb-merk img{height:20px}
+  }
+  @media print{.demo,.kopbeeld,.kopieer{display:none}body{background:#fff}}
 </style>
 </head>
 <body>
-<div class="demo">Voorbeeldrapport: gemeente en gegevens zijn fictief, de producten echt. <a href="/scan/">Doe de gratis toets</a> voor je eigen uitkomst.</div>
+<div class="demo">Voorbeeld: de gemeente en alle gegevens zijn fictief, de productnamen echt. <a href="/scan/">Start de gratis scan</a> voor je eigen uitkomst.</div>
 <header class="kopbeeld">
   <img src="/hero-wad.webp" alt="Astronaut met helm in de hand voor een lichtende ring op het wad, met een rij palen naar de horizon" width="2000" height="1333" fetchpriority="high">
   <a class="kb-merk" href="/switch.html"><img src="/wordmark.png" alt="Will Switch" width="705" height="153"></a>
@@ -163,18 +155,19 @@
 </header>
 <div class="pag">
 
-<section class="omslag">
+<!-- dossierblad -->
+<section class="blad" aria-labelledby="titel">
   <div>
-  <div class="merk">Will Switch, uitstaprapport</div>
-  <h1>Kun je nog weg, en wat moet je daarvoor nu doen?</h1>
-  <div class="meta">
-    <span>Organisatie</span><b>Gemeente Ravensmeer (fictief), 48.000 inwoners</b>
-    <span>Ingevuld door</span><b>Bestuur en uitvoering, twee metingen</b>
-    <span>Datum</span><b>3 september 2026</b>
-    <span>Scope</span><b>Vier kritieke systemen</b>
-    <span>Bronnen</span><b>Toets (bestuur en uitvoering apart) en intake per systeem. Nog niets gecontroleerd in documenten.</b>
-    <span>Status</span><b>Input voor de Cbw-risicoanalyse. Geen conformiteitsoordeel.</b>
-  </div>
+    <span class="label">Will Switch · dossier leveranciersafhankelijkheid</span>
+    <h1 id="titel">Gemeente Ravensmeer: afhankelijkheid van ICT-leveranciers</h1>
+    <p class="lead">Uitwerking van de gratis scan, voor de risicoanalyse van de leveranciersketen.</p>
+    <div class="meta">
+      <span>Organisatie</span><b>Gemeente Ravensmeer (fictief), 48.000 inwoners</b>
+      <span>Doel</span><b>Risicoanalyse leveranciersketen, Cyberbeveiligingswet</b>
+      <span>Bronnen</span><b>Scan door uitvoering en bestuur, aanvullende vragenlijst per systeem</b>
+      <span>Datum</span><b>1 oktober 2026</b>
+      <span>Status</span><b>Concept. Niets in dit dossier is gecontroleerd aan de hand van documenten.</b>
+    </div>
   </div>
   <svg class="kaartje" viewBox="0 0 200 240" role="img" aria-labelledby="kaart-titel">
   <title id="kaart-titel">Ligging van Gemeente Ravensmeer (fictief), in het oosten van Nederland</title>
@@ -185,341 +178,376 @@
 </svg>
 </section>
 
-<section class="samenvatting" aria-labelledby="sv-kop">
-  <div class="merk" id="sv-kop">In één oogopslag, voor het bestuur</div>
-  <p class="conclusie">Volgens de eigen opgave kan Ravensmeer voor twee van de vier kritieke systemen niet onderbouwen wat er gebeurt als de leverancier wegvalt. Het grootste gat is niet technisch maar bestuurlijk: drie systemen hebben geen eigenaar. Met vier besluiten en negentig dagen werk ligt er een onderbouwde basis voor de Cbw-risicoanalyse.</p>
-  <div class="drie">
-    <div><h3>Grootste risico's</h3><ol>
-      <li>Microsoft 365: buiten de EU, contracteinde onbekend, export nooit getest.</li>
-      <li>Microsoft Azure: contract loopt 30 juni 2027 af. Een Europese aanbesteding kost als ervaringsgetal zes tot negen maanden, dus wie wil overstappen begint dit najaar.</li>
-      <li>Drie van de vier systemen zonder bestuurlijk eigenaar.</li>
-    </ol></div>
-    <div><h3>Eerste acties</h3><ol>
-      <li>Eigenaren benoemen en contracteindes ophalen, week 1 tot 2.</li>
-      <li>Eén export testen bij het zaaksysteem, week 3 tot 6.</li>
-      <li>Azure-contract op de Data Act toetsen en besluiten: verlengen met Data Act-afspraken of aanbesteden, week 7 tot 12.</li>
-    </ol></div>
+<div class="blok2">
+  <div class="vak">
+    <h3>Wat speelt er <span class="chip gemeld">gemeld</span></h3>
+    <p>Als het zaaksysteem een week uitvalt, ligt het werk bij vergunningen en het sociaal domein volgens de uitvoering stil. Van twee van de vier belangrijkste systemen is niet bekend wanneer het contract afloopt. Het contract voor Microsoft Azure loopt op 30 juni 2027 af. Bestuur en uitvoering antwoorden op vier van de vijf organisatievragen verschillend.</p>
   </div>
-  <p class="besluit"><b>Gevraagd besluit</b>Een bestuurlijk eigenaar per kritiek systeem, met mandaat om een exit voor te bereiden. Zie hoofdstuk 4.</p>
-</section>
-
-<section class="ontvang" aria-labelledby="ontvang-kop">
-  <div class="merk" id="ontvang-kop">Wat je ontvangt</div>
-  <div class="twee">
-    <div><h3>Dit rapport</h3><ul>
-      <li>Je uitslag, uitstapkaart en tijdlijn</li>
-      <li>Per systeem wat je weet, wat je niet weet en wat de regels vragen</li>
-      <li>Waar bestuur en uitvoering verschillend antwoorden</li>
-    </ul></div>
-    <div><h3>Een bewerkbaar werkdocument</h3><ul>
-      <li>Concept-paragraaf voor je Cbw-risicoanalyse</li>
-      <li>Concept-bestuursbesluit</li>
-      <li>Actielijst met eigenaar, besluit, deadline, status en bewijsstuk</li>
-      <li>Onderzoeksvragen per systeem, met invulvelden</li>
-      <li>Gespreksagenda voor bestuur en uitvoering</li>
-    </ul></div>
+  <div class="vak besluit">
+    <h3>Welk besluit is nodig <span class="chip voorgesteld">voorgesteld</span></h3>
+    <p>Wijs iemand in de leiding aan die verantwoordelijk is voor de afhankelijkheid van leveranciers, met mandaat om een heronderhandeling of overstap voor te bereiden. Besluit uiterlijk 26 november 2026 of het Azure-contract wordt verlengd met afspraken over overstappen, of opnieuw wordt uitgevraagd.</p>
   </div>
-  <p class="klein">Elke uitspraak heeft een label: gemeld (jullie eigen opgave), gecontroleerd (gezien in een document of test) of voorgesteld (nog te besluiten). Zo klopt ook een los overgenomen stuk.</p>
-  <div class="downloads"><a href="voorbeeld-ravensmeer.pdf" download>Dit rapport als PDF</a><a class="licht" href="werkdocument-ravensmeer.docx" download>Voorbeeld werkdocument (Word)</a><a class="licht" href="werkdocument-ravensmeer.odt" download>Hetzelfde als ODT</a></div>
-</section>
-
-<h2>1. Waar je staat</h2>
-<p class="lead">Volgens de eigen opgave draait Ravensmeer voor twee van de vier kritieke systemen op een leverancier buiten de EU, in beide gevallen dezelfde. Van twee systemen is het contracteinde niet bekend. En op drie van de tien vragen wist de uitvoering het antwoord niet.</p>
-<div class="kern"><div class="groot">3 van 10</div><div class="zin">vragen kon de uitvoering niet beantwoorden. Het bestuur gaf op alle drie wel een antwoord. Daar zit kennis die niet gedeeld is, of een beeld dat te rooskleurig is. Uitzoeken wie het weet is de eerste stap.</div></div>
-<div class="rij">
-  <div class="cijfer"><b>2 van 4</b><span>kritieke systemen buiten de EU</span></div>
-  <div class="cijfer"><b>2</b><span>contracteinde onbekend</span></div>
-  <div class="cijfer"><b>1</b><span>loopt binnen een jaar af</span></div>
 </div>
-<h3>Waar Ravensmeer staat, naast vergelijkbare gemeenten</h3>
+
+<h3>Wat je in dit dossier krijgt</h3>
+<ol class="inhoud">
+  <li><div><a href="#punten">Aandachtspunten</a><span>Zes punten, elk met het antwoord, het mogelijke gevolg en een eerste actie.</span></div></li>
+  <li><div><a href="#systemen">Overzicht per systeem</a><span>Wat ervan afhangt, hoe lastig vervangen is en wat er geregeld is. Met de contractmomenten op een tijdlijn.</span></div></li>
+  <li><div><a href="#gesprek">Gespreksagenda voor bestuur en uitvoering</a><span>De vier vragen waarop jullie verschillend antwoorden.</span></div></li>
+  <li><div><a href="#risicoanalyse">Concepttekst voor de risicoanalyse</a><span>Over te nemen in je eigen analyse, met per onderdeel wat gemeld, gecontroleerd of voorgesteld is.</span></div></li>
+  <li><div><a href="#beslisnotitie">Concept-beslisnotitie</a><span>Voor directie of bestuur, met vier voorgestelde besluiten.</span></div></li>
+  <li><div><a href="#actielijst">Actielijst</a><span>Met voorgestelde verantwoordelijken, termijnen en bewijsstukken.</span></div></li>
+  <li><div><a href="#inkoop">Vragen voor leveranciers en aandachtspunten voor inkoop</a><span>Voor het gesprek met Microsoft en de hostingpartij, en voor een verlenging of nieuwe uitvraag.</span></div></li>
+</ol>
+<p>De concepttekst, de beslisnotitie, de actielijst en de vragen staan ook in een bewerkbaar werkdocument.</p>
+<div class="downloads"><a href="werkdocument-ravensmeer.docx" download>Werkdocument (Word)</a><a class="licht" href="werkdocument-ravensmeer.odt" download>Werkdocument (ODT)</a><a class="licht" href="voorbeeld-ravensmeer.pdf" download>Dit dossier als PDF</a></div>
+
+<div class="legenda" role="list" aria-label="Labels in dit dossier">
+  <span class="chip gemeld">gemeld</span><span>Zo opgegeven in de scan of de vragenlijst. Niet gecontroleerd.</span>
+  <span class="chip onbekend">nog onbekend</span><span>Hier ontbreekt informatie. Er staat een vraag in plaats van een aanname.</span>
+  <span class="chip gecontroleerd">gecontroleerd</span><span>Gezien in een contract, document of test. Dat label zet je zelf in het werkdocument, met het bewijsstuk erbij.</span>
+  <span class="chip voorgesteld">voorgesteld</span><span>Een voorstel dat nog moet worden besloten.</span>
+</div>
+
+<!-- 1 -->
+<h2 id="punten"><span class="nr">1</span>Aandachtspunten</h2>
+<p>Op volgorde van wat voor de risicoanalyse het meest telt. De eerste drie staan ook in de gratis uitslag, de andere drie komen uit de aanvullende vragenlijst en de tweede meting door het bestuur.</p>
+
+<div class="punt">
+  <div class="kop"><h3><span class="nr">1</span>Wat als het zaaksysteem een week uitvalt?</h3><span class="chip gemeld">gemeld</span></div>
+  <dl>
+    <dt>Het antwoord</dt><dd>Als het zaaksysteem een week niet werkt, ligt het werk volgens de uitvoering stil bij vergunningen en het sociaal domein. Scenario's voor het wegvallen van een leverancier zijn er in het algemeen niet.</dd>
+    <dt>Mogelijk gevolg</dt><dd>Bij een storing, een faillissement van de hostingpartij of een gedwongen overstap moet Ravensmeer improviseren, terwijl inwoners en ondernemers wachten op een besluit of een uitkering.</dd>
+    <dt>Eerste actie</dt><dd class="actie">Leg voor het zaaksysteem op één A4 vast wat er stilvalt, hoe het werk tijdelijk doorgaat en wie welk besluit neemt. Actie 4.</dd>
+  </dl>
+</div>
+<div class="punt">
+  <div class="kop"><h3><span class="nr">2</span>Wanneer lopen de contracten af?</h3><span class="chip onbekend">nog onbekend</span></div>
+  <dl>
+    <dt>Het antwoord</dt><dd>Van Microsoft 365 en het zaaksysteem weet de uitvoering niet wanneer het contract afloopt. Wat de contracten in het algemeen zeggen over opzeggen en verlengen, weet de uitvoering ook niet.</dd>
+    <dt>Mogelijk gevolg</dt><dd>Zonder einddatum is de opzegtermijn makkelijk gemist. Dan wordt een contract vaak vanzelf verlengd, en is het moment om te onderhandelen voorbij.</dd>
+    <dt>Eerste actie</dt><dd class="actie">Inkoop zoekt van beide contracten de einddatum, de opzegtermijn en de verlengingsregeling op. Actie 1.</dd>
+  </dl>
+</div>
+<div class="punt">
+  <div class="kop"><h3><span class="nr">3</span>Het contract voor Azure loopt op 30 juni 2027 af</h3><span class="chip gemeld">gemeld</span></div>
+  <dl>
+    <dt>Het antwoord</dt><dd>Het contract voor Microsoft Azure loopt volgens de uitvoering op 30 juni 2027 af. Of het automatisch wordt verlengd, is niet bekend. Twee EU-aanbieders zijn in beeld, maar er is niet mee gesproken.</dd>
+    <dt>Mogelijk gevolg</dt><dd>Wie laat begint, kan alleen nog verlengen, op de voorwaarden van de leverancier. Volgens de opgave ligt de contractwaarde boven de Europese drempel, en een Europese aanbesteding kost al snel maanden.</dd>
+    <dt>Eerste actie</dt><dd class="actie">Besluit uiterlijk 26 november 2026 of je verlengt met afspraken over overstappen, of opnieuw uitvraagt. Vanaf 12 januari 2027 mag een cloudleverancier geen overstapkosten meer rekenen. Actie 6.</dd>
+  </dl>
+</div>
+<div class="punt">
+  <div class="kop"><h3><span class="nr">4</span>Waar zit de kennis over contracten?</h3><span class="chip onbekend">nog onbekend</span></div>
+  <dl>
+    <dt>Het antwoord</dt><dd>Op drie vragen antwoordde de uitvoering "weet ik niet", alle drie over contracten. Op de vraag of bekend is wat de contracten zeggen over opzeggen, verlengen en overstappen, antwoordde het bestuur "ja".</dd>
+    <dt>Mogelijk gevolg</dt><dd>Dat zegt weinig over hoe goed het geregeld is. Het zegt wel dat de kennis over contracten niet bij de uitvoering ligt, of niet wordt gedeeld.</dd>
+    <dt>Eerste actie</dt><dd class="actie">Bespreek de verschillen tussen bestuur en uitvoering in één overleg, met de gespreksagenda in hoofdstuk 3.</dd>
+  </dl>
+</div>
+<div class="punt">
+  <div class="kop"><h3><span class="nr">5</span>Krijg je je gegevens terug?</h3><span class="chip gemeld">gemeld</span></div>
+  <dl>
+    <dt>Het antwoord</dt><dd>Bestuur en uitvoering geven allebei aan dat nooit is getest of gegevens echt terug te halen zijn.</dd>
+    <dt>Mogelijk gevolg</dt><dd>Of een overstap kan, blijkt dan pas als het moet. Welke gegevens je terugkrijgt, in welk formaat en tegen welke kosten, is nu niet bekend.</dd>
+    <dt>Eerste actie</dt><dd class="actie">Haal bij het zaaksysteem een volledige export terug in een testomgeving en noteer wat ontbreekt. Actie 3.</dd>
+  </dl>
+</div>
+<div class="punt">
+  <div class="kop"><h3><span class="nr">6</span>Wie is verantwoordelijk?</h3><span class="chip gemeld">gemeld</span></div>
+  <dl>
+    <dt>Het antwoord</dt><dd>Volgens de uitvoering is er iemand verantwoordelijk, maar zonder duidelijk mandaat. Het bestuur antwoordde "ja".</dd>
+    <dt>Mogelijk gevolg</dt><dd>Dan blijven acties liggen bij wie toevallig tijd heeft, en komt het besluit over Azure te laat op tafel.</dd>
+    <dt>Eerste actie</dt><dd class="actie">Leg vast wie dit onderwerp in de leiding draagt, met mandaat. Besluit 1 in de beslisnotitie.</dd>
+  </dl>
+</div>
+
+<!-- 2 -->
+<h2 id="systemen"><span class="nr">2</span>Overzicht per systeem</h2>
+<p>De eerste kolommen komen uit de scan. Wat eronder per systeem staat, komt uit de aanvullende vragenlijst. Alles is gemeld door de uitvoering, tenzij er iets anders staat.</p>
+<div class="tabelrol"><table class="lijst">
+  <thead><tr><th>Systeem</th><th>Leverancier</th><th>Contract</th><th>Werk dat ervan afhangt</th><th>Een week zonder</th></tr></thead>
+  <tbody>
+    <tr><td><b>Microsoft 365</b><br>kantoorsuite, mail en documenten</td><td>Amerikaanse leverancier</td><td class="onb">weet ik niet</td><td>Interne bedrijfsvoering; dienstverlening aan inwoners</td><td>Beperkt, met handwerk</td></tr>
+    <tr><td><b>Microsoft Azure</b><br>website en klantcontactsysteem</td><td>Amerikaanse leverancier</td><td>Loopt binnen een jaar af</td><td>Dienstverlening aan inwoners; interne bedrijfsvoering</td><td>Beperkt, met handwerk</td></tr>
+    <tr><td><b>Zaaksysteem</b><br>Open Zaak</td><td>Nederlandse leverancier</td><td class="onb">weet ik niet</td><td>Vergunningen en handhaving; sociaal domein</td><td>Nee, het werk ligt stil</td></tr>
+    <tr><td><b>Geo-informatie</b><br>QGIS en GeoServer</td><td>Eigen beheer</td><td>Geen contract</td><td>Openbare ruimte; vergunningen en handhaving</td><td>Ja, grotendeels</td></tr>
+  </tbody>
+</table></div>
+
+<h3>Contractmomenten</h3>
 <div class="figuur">
-  <div class="kop"><b>Gemelde voortgang, zes onderwerpen, 0 tot 100</b><span class="sleutel"><span class="eigen"><i></i>Ravensmeer</span><span class="bm"><i></i>benchmark</span></span></div>
-  <svg class="spin" viewBox="0 0 620 430" role="img" aria-labelledby="spin-titel spin-uitleg">
-<title id="spin-titel">Gemelde voortgang van Ravensmeer naast de benchmark, zes onderwerpen, score 0 tot 100</title>
-<desc id="spin-uitleg">Eigen opgave, geen nalevingsoordeel. Hoe verder naar buiten, hoe meer volgens de eigen opgave geregeld is. De tabel eronder geeft dezelfde cijfers met de telling.</desc>
-<polygon points="310.0,70.0 439.9,145.0 439.9,295.0 310.0,370.0 180.1,295.0 180.1,145.0" fill="#2F6F4E" fill-opacity=".07" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<polygon points="310.0,121.0 395.7,170.5 395.7,269.5 310.0,319.0 224.3,269.5 224.3,170.5" fill="#9A6510" fill-opacity=".07" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<polygon points="310.0,170.5 352.9,195.2 352.9,244.8 310.0,269.5 267.1,244.8 267.1,195.2" fill="#B3261E" fill-opacity=".07" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<line x1="310" y1="220" x2="310.0" y2="70.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<text x="310.0" y="41.0" text-anchor="middle" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Ketenzorgplicht</text>
-<text x="310.0" y="53.0" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">Cbw, toets</text>
-<line x1="310" y1="220" x2="439.9" y2="145.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<text x="463.3" y="129.5" text-anchor="start" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Overstaprecht</text>
-<text x="463.3" y="141.5" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">Data Act, toets</text>
-<line x1="310" y1="220" x2="439.9" y2="295.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<text x="463.3" y="306.5" text-anchor="start" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Exitplan</text>
-<text x="463.3" y="318.5" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">cloudbeleid, toets</text>
-<line x1="310" y1="220" x2="310.0" y2="370.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<text x="310.0" y="395.0" text-anchor="middle" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Contractkennis</text>
-<text x="310.0" y="407.0" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">toets, per systeem</text>
-<line x1="310" y1="220" x2="180.1" y2="295.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<text x="156.7" y="306.5" text-anchor="end" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Eigenaarschap</text>
-<text x="156.7" y="318.5" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">intake, per systeem</text>
-<line x1="310" y1="220" x2="180.1" y2="145.0" stroke="rgba(26,22,18,.16)" stroke-width="1"/>
-<text x="156.7" y="129.5" text-anchor="end" font-size="11" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">Exportpad</text>
-<text x="156.7" y="141.5" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">intake, per systeem</text>
-<polygon points="310.0,158.5 352.9,195.2 347.7,241.8 310.0,307.0 245.0,257.5 238.6,178.8" fill="none" stroke="#3A6EA5" stroke-width="2" stroke-dasharray="5 4"/>
-<polygon points="310.0,182.5 342.5,201.2 352.9,244.8 310.0,295.0 260.6,248.5 212.6,163.8" fill="#D63F00" fill-opacity=".14" stroke="#D63F00" stroke-width="2"/>
-<rect x="306.0" y="154.5" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Ketenzorgplicht, benchmark: 41</title></rect>
-<circle cx="310.0" cy="182.5" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Ketenzorgplicht, Ravensmeer: 25</title></circle>
-<rect x="348.9" y="191.2" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Overstaprecht, benchmark: 33</title></rect>
-<circle cx="342.5" cy="201.2" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Overstaprecht, Ravensmeer: 25</title></circle>
-<rect x="343.7" y="237.8" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Exitplan, benchmark: 29</title></rect>
-<circle cx="352.9" cy="244.8" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Exitplan, Ravensmeer: 33</title></circle>
-<rect x="306.0" y="303.0" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Contractkennis, benchmark: 58</title></rect>
-<circle cx="310.0" cy="295.0" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Contractkennis, Ravensmeer: 50</title></circle>
-<rect x="241.0" y="253.5" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Eigenaarschap, benchmark: 50</title></rect>
-<circle cx="260.6" cy="248.5" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Eigenaarschap, Ravensmeer: 38</title></circle>
-<rect x="234.6" y="174.8" width="8" height="8" fill="#3A6EA5" stroke="#FBFAF7" stroke-width="1.5"><title>Exportpad, benchmark: 55</title></rect>
-<circle cx="212.6" cy="163.8" r="4.5" fill="#D63F00" stroke="#FBFAF7" stroke-width="1.5"><title>Exportpad, Ravensmeer: 75</title></circle>
-<text x="294.0" y="202.2" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a" stroke="#FBFAF7" stroke-width="3" paint-order="stroke">zwak</text>
-<text x="268.5" y="158.0" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a" stroke="#FBFAF7" stroke-width="3" paint-order="stroke">deels</text>
-<text x="243.0" y="113.9" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#6b645a" stroke="#FBFAF7" stroke-width="3" paint-order="stroke">op orde</text>
-</svg>
-  <table class="cijfertabel"><thead><tr><th>Onderwerp en telling</th><th>Ravensmeer</th><th>Benchmark</th><th>Verschil</th></tr></thead><tbody>
-<tr><td>Ketenzorgplicht <span>toets, 4 vragen: 0 ja, 1 deels, 1 nee, 2 onbekend</span></td><td>25</td><td>41</td><td class="onder">-16</td></tr>
-<tr><td>Overstaprecht <span>toets, 3 vragen: 0 ja, 1 deels, 1 nee, 1 onbekend</span></td><td>25</td><td>33</td><td class="onder">-8</td></tr>
-<tr><td>Exitplan <span>toets, 3 vragen: 0 ja, 2 deels, 1 nee</span></td><td>33</td><td>29</td><td class="boven">+4</td></tr>
-<tr><td>Contractkennis <span>toets, 4 systemen: 2 einddatum bekend of n.v.t., 2 onbekend</span></td><td>50</td><td>58</td><td class="onder">-8</td></tr>
-<tr><td>Eigenaarschap <span>intake, 4 systemen: 1 ja, 1 deels, 2 nee</span></td><td>38</td><td>50</td><td class="onder">-12</td></tr>
-<tr><td>Exportpad <span>intake, 4 systemen: 2 ja, 2 deels, niets getest</span></td><td>75</td><td>55</td><td class="boven">+20</td></tr>
-</tbody></table>
-  <p class="noot">Rekenregel: per onderwerp de behaalde punten gedeeld door het maximum over de beantwoorde vragen. Ja telt 2, deels 1, nee 0. 'Weet niet' telt niet mee in de score, maar staat apart in de telling: onbekend is iets anders dan niet geregeld. Contractkennis is het aandeel systemen met een bekende einddatum. De cijfers komen uit de meting van de uitvoering. De benchmark is in dit voorbeeld fictief: de mediaan van 23 vergelijkbare gemeenten tussen 30.000 en 70.000 inwoners. In echte rapporten komt hij uit eerdere metingen, zodra er genoeg zijn om een eerlijke vergelijking te maken.</p>
-</div>
-<p>Deze cijfers komen uit je eigen opgave en zijn niet getoetst aan documenten. Een score van 25 op ketenzorgplicht betekent dus niet dat je voor een kwart voldoet. Hij laat zien hoe ver je volgens je eigen antwoorden bent, en waar dat nog onderbouwd moet worden.</p>
-
-<h3>Verschil in beeld tussen bestuur en uitvoering</h3>
-<p>Bestuur en uitvoering vulden de toets los van elkaar in, over dezelfde vier systemen. Op ketenzorgplicht zit het grootste verschil. Dat kan betekenen dat het bestuur een te rooskleurig beeld heeft, maar het kan ook gaan over interpretatie van de vraag of over kennis die niet gedeeld is. Hieronder staan de zeven vragen waarop de antwoorden uiteenlopen, elk met een vraag om het gesprek mee te openen. Dat is je agenda.</p>
-<div class="verschil" role="img" aria-label="Bestuur en uitvoering per onderwerp, score 0 tot 100">
-<div class="vrij"><b>Ketenzorgplicht</b>
-  <div class="vbalk"><span>bestuur</span><div><i style="width:75%;background:#3A6EA5"></i></div><em>75</em></div>
-  <div class="vbalk"><span>uitvoering</span><div><i style="width:25%;background:#D63F00"></i></div><em>25</em></div>
-</div>
-<div class="vrij"><b>Overstaprecht</b>
-  <div class="vbalk"><span>bestuur</span><div><i style="width:33%;background:#3A6EA5"></i></div><em>33</em></div>
-  <div class="vbalk"><span>uitvoering</span><div><i style="width:25%;background:#D63F00"></i></div><em>25</em></div>
-</div>
-<div class="vrij"><b>Exitplan</b>
-  <div class="vbalk"><span>bestuur</span><div><i style="width:50%;background:#3A6EA5"></i></div><em>50</em></div>
-  <div class="vbalk"><span>uitvoering</span><div><i style="width:33%;background:#D63F00"></i></div><em>33</em></div>
-</div>
+<div class="tijdlijnrol"><svg class="tijdlijn" viewBox="0 0 700 170" role="img" aria-labelledby="tl-titel tl-uitleg">
+<title id="tl-titel">Contractmomenten en wettelijke data voor Ravensmeer, juli 2026 tot augustus 2027</title>
+<desc id="tl-uitleg">Cyberbeveiligingswet sinds 15 augustus 2026, voorgesteld besluit over Azure uiterlijk 26 november 2026, overstapkosten clouddiensten vervallen 12 januari 2027, contract Azure loopt af 30 juni 2027. Van twee contracten is de einddatum onbekend.</desc>
+<line x1="24" y1="86" x2="676" y2="86" stroke="#1a1612" stroke-width="2"/>
+<line x1="140.4" y1="82" x2="140.4" y2="90" stroke="#1a1612"/>
+<text x="140.4" y="104" text-anchor="middle" font-size="10" font-family="Space Grotesk, sans-serif" fill="#6b645a">okt</text>
+<line x1="280.1" y1="82" x2="280.1" y2="90" stroke="#1a1612"/>
+<text x="280.1" y="104" text-anchor="middle" font-size="10" font-family="Space Grotesk, sans-serif" fill="#6b645a">jan 2027</text>
+<line x1="419.9" y1="82" x2="419.9" y2="90" stroke="#1a1612"/>
+<text x="419.9" y="104" text-anchor="middle" font-size="10" font-family="Space Grotesk, sans-serif" fill="#6b645a">apr</text>
+<line x1="559.6" y1="82" x2="559.6" y2="90" stroke="#1a1612"/>
+<text x="559.6" y="104" text-anchor="middle" font-size="10" font-family="Space Grotesk, sans-serif" fill="#6b645a">jul</text>
+<line x1="140.4" y1="110" x2="140.4" y2="138" stroke="#6b645a" stroke-dasharray="3 3"/>
+<text x="140.4" y="150" text-anchor="middle" font-size="10" font-family="Space Grotesk, sans-serif" fill="#6b645a">nu</text>
+<rect x="65.6" y="81" width="10" height="10" fill="#1a1612" transform="rotate(45 70.6 86)"/>
+<line x1="70.6" y1="78" x2="70.6" y2="50" stroke="#1a1612"/>
+<text x="74.6" y="46" text-anchor="start" font-size="10" font-family="Space Grotesk, sans-serif" font-weight="700" fill="#1a1612">15.08.26</text>
+<text x="74.6" y="58" text-anchor="start" font-size="9" font-family="Space Grotesk, sans-serif" fill="#4a443c">Cyberbeveiligingswet van kracht</text>
+<rect x="293.8" y="81" width="10" height="10" fill="#1a1612" transform="rotate(45 298.8 86)"/>
+<line x1="298.8" y1="78" x2="298.8" y2="50" stroke="#1a1612"/>
+<text x="302.8" y="46" text-anchor="start" font-size="10" font-family="Space Grotesk, sans-serif" font-weight="700" fill="#1a1612">12.01.27</text>
+<text x="302.8" y="58" text-anchor="start" font-size="9" font-family="Space Grotesk, sans-serif" fill="#4a443c">geen overstapkosten clouddiensten</text>
+<rect x="221.6" y="81" width="10" height="10" fill="#FBFAF7" stroke="#3A6EA5" stroke-width="2" transform="rotate(45 226.6 86)"/>
+<line x1="226.6" y1="94" x2="226.6" y2="116" stroke="#3A6EA5"/>
+<text x="226.6" y="128" text-anchor="middle" font-size="10" font-family="Space Grotesk, sans-serif" font-weight="700" fill="#3A6EA5">26.11.26</text>
+<text x="226.6" y="140" text-anchor="middle" font-size="9" font-family="Space Grotesk, sans-serif" fill="#3A6EA5">besluit Azure (voorgesteld)</text>
+<circle cx="558.2" cy="86" r="7" fill="#D63F00" stroke="#FBFAF7" stroke-width="2"/>
+<text x="558.2" y="56" text-anchor="middle" font-size="10" font-family="Space Grotesk, sans-serif" font-weight="700" fill="#D63F00">30.06.27</text>
+<text x="558.2" y="68" text-anchor="middle" font-size="9" font-family="Space Grotesk, sans-serif" fill="#4a443c">contract Azure loopt af</text>
+<text x="676.0" y="140" text-anchor="end" font-size="9" font-family="Space Grotesk, sans-serif" fill="#4a443c">Microsoft 365 en zaaksysteem: einddatum onbekend</text>
+</svg></div>
+  <p class="klein">Het besluit over Azure is een voorstel. Na 26 november blijft weinig tijd over voor een Europese aanbesteding voordat het contract op 30 juni 2027 afloopt.</p>
 </div>
 
-<div class="gesprek">
-<div class="gv"><span class="ond">Ketenzorgplicht</span><b>Is per kritieke leverancier vastgelegd wat de impact is als hij wegvalt?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>nee</em></span></span><span class="wat">Vraag voor het gesprek: Welk document beschrijft die impact? Als het bestaat, kent de uitvoering het niet.</span></div>
-<div class="gv"><span class="ond">Ketenzorgplicht</span><b>Is vastgelegd wat er met data en middelen gebeurt bij contracteinde, faillissement of overname?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>weet niet</em></span></span><span class="wat">Vraag voor het gesprek: Voor welke leveranciers is dit vastgelegd, en waar?</span></div>
-<div class="gv"><span class="ond">Ketenzorgplicht</span><b>Heeft het bestuur de aanpak van ketenrisico's formeel vastgesteld?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>weet niet</em></span></span><span class="wat">Vraag voor het gesprek: Wanneer is dat besloten, en waarom heeft het de uitvoering niet bereikt?</span></div>
-<div class="gv"><span class="ond">Overstaprecht</span><b>Staan opzeg- en overgangstermijnen zoals de Data Act die voorschrijft in de cloudcontracten?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>weet niet</em></span></span><span class="wat">Vraag voor het gesprek: Welke contracten zijn hierop nagelezen, en door wie?</span></div>
-<div class="gv"><span class="ond">Exitplan</span><b>Is er per kritieke dienst een exitplan, ook voor plotseling wegvallen?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>deels</em></span></span><span class="wat">Vraag voor het gesprek: Waar liggen de exitplannen, en bevatten ze het scenario van plotseling wegvallen?</span></div>
-<div class="gv"><span class="ond">Exitplan</span><b>Is er een reëel alternatief benoemd, waarmee ook echt gesproken is?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>nee</em></span></span><span class="wat">Vraag voor het gesprek: Met welke partij is gesproken, en is dat ergens vastgelegd?</span></div>
-<div class="gv"><span class="ond">Exitplan</span><b>Is er een bestuurlijk eigenaar met mandaat en budget voor de exit?</b><span class="antw"><span>Bestuur: <em>nee</em></span><span>Uitvoering: <em>deels</em></span></span><span class="wat">Vraag voor het gesprek: De uitvoering ziet een eigenaar die het bestuur niet ziet. Is de informatiemanager eigenaar, of beheerder zonder mandaat?</span></div>
-<p class="klein">Gelijk beantwoord: ketenrisico in het inkoopproces (beide deels), weten welke data exporteerbaar is (beide deels) en een geteste export (beide nee).</p></div>
-
-<h2>2. Uitstapprofiel per kritieke leverancier</h2>
-<h3>De uitstapkaart</h3>
-<p>Alle vier de systemen tegen de zes vragen die bepalen of je weg kunt. De details per systeem staan eronder.</p>
-<div class="uitstapkaart"><table><thead><tr><th>Systeem</th><th>Leverancier</th><th>Contracteinde</th><th>Export</th><th>Alternatief</th><th>Open source</th><th>Eigenaar</th></tr></thead><tbody>
-<tr><th scope="row">Kantoorsuite, mail en documenten<span>Microsoft 365</span></th>
-<td class="slecht"><span class="ico" aria-hidden="true">&#10005;</span><span class="sr">ontbreekt: </span>VS</td>
-<td class="slecht"><span class="ico" aria-hidden="true">&#10005;</span><span class="sr">ontbreekt: </span>onbekend</td>
-<td class="matig"><span class="ico" aria-hidden="true">&#9679;</span><span class="sr">deels: </span>niet getest</td>
-<td class="matig"><span class="ico" aria-hidden="true">&#9679;</span><span class="sr">deels: </span>geen gesprek</td>
-<td class="slecht"><span class="ico" aria-hidden="true">&#10005;</span><span class="sr">ontbreekt: </span>nee</td>
-<td class="slecht"><span class="ico" aria-hidden="true">&#10005;</span><span class="sr">ontbreekt: </span>niemand</td>
-</tr>
-<tr><th scope="row">Cloudinfrastructuur<span>Microsoft Azure</span></th>
-<td class="slecht"><span class="ico" aria-hidden="true">&#10005;</span><span class="sr">ontbreekt: </span>VS</td>
-<td class="matig"><span class="ico" aria-hidden="true">&#9679;</span><span class="sr">deels: </span>30.06.27</td>
-<td class="matig"><span class="ico" aria-hidden="true">&#9679;</span><span class="sr">deels: </span>met kosten</td>
-<td class="matig"><span class="ico" aria-hidden="true">&#9679;</span><span class="sr">deels: </span>twee in EU</td>
-<td class="matig"><span class="ico" aria-hidden="true">&#9679;</span><span class="sr">deels: </span>alleen apps</td>
-<td class="matig"><span class="ico" aria-hidden="true">&#9679;</span><span class="sr">deels: </span>geen mandaat</td>
-</tr>
-<tr><th scope="row">Zaaksysteem<span>Open Zaak</span></th>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>NL-hosting</td>
-<td class="slecht"><span class="ico" aria-hidden="true">&#10005;</span><span class="sr">ontbreekt: </span>onbekend</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>open</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>drie hosters</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>ja</td>
-<td class="slecht"><span class="ico" aria-hidden="true">&#10005;</span><span class="sr">ontbreekt: </span>niemand</td>
-</tr>
-<tr><th scope="row">Geo-informatie<span>QGIS, GeoServer</span></th>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>eigen beheer</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>n.v.t.</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>open</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>niet nodig</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>ja</td>
-<td class="goed"><span class="ico" aria-hidden="true">&#10003;</span><span class="sr">op orde: </span>teamleider</td>
-</tr>
-</tbody></table></div>
-<p class="legenda"><span class="goed">&#10003; op orde</span><span class="matig">&#9679; deels</span><span class="slecht">&#10005; ontbreekt of onbekend</span></p>
-<h3>Wanneer je moment is</h3>
-<div class="figuur"><svg class="tijdlijn" viewBox="0 0 700 160" role="img" aria-labelledby="tl-titel">
-<title id="tl-titel">Tijdlijn: wetgeving en de contracteindes van Ravensmeer, 2026 tot 2030</title>
-<line x1="20" y1="80" x2="680" y2="80" stroke="#1a1612" stroke-width="2"/>
-<line x1="120.4" y1="76" x2="120.4" y2="84" stroke="#1a1612"/>
-<text x="120.4" y="98" text-anchor="middle" font-size="10" font-family="Space Mono, monospace" fill="#6b645a">2027</text>
-<line x1="263.9" y1="76" x2="263.9" y2="84" stroke="#1a1612"/>
-<text x="263.9" y="98" text-anchor="middle" font-size="10" font-family="Space Mono, monospace" fill="#6b645a">2028</text>
-<line x1="407.4" y1="76" x2="407.4" y2="84" stroke="#1a1612"/>
-<text x="407.4" y="98" text-anchor="middle" font-size="10" font-family="Space Mono, monospace" fill="#6b645a">2029</text>
-<line x1="550.9" y1="76" x2="550.9" y2="84" stroke="#1a1612"/>
-<text x="550.9" y="98" text-anchor="middle" font-size="10" font-family="Space Mono, monospace" fill="#6b645a">2030</text>
-<line x1="84.6" y1="86" x2="84.6" y2="130" stroke="#6b645a" stroke-dasharray="3 3"/>
-<text x="84.6" y="142" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#6b645a">nu</text>
-<rect x="61.6" y="75" width="10" height="10" fill="#1a1612" transform="rotate(45 66.6 80)"/>
-<line x1="66.6" y1="72" x2="66.6" y2="46" stroke="#1a1612" stroke-width="1"/>
-<text x="70.6" y="42" text-anchor="start" font-size="10" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">15.08.26</text>
-<text x="70.6" y="54" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#4a443c">Cbw van kracht</text>
-<rect x="120.2" y="75" width="10" height="10" fill="#1a1612" transform="rotate(45 125.2 80)"/>
-<line x1="125.2" y1="72" x2="125.2" y2="22" stroke="#1a1612" stroke-width="1"/>
-<text x="129.2" y="18" text-anchor="start" font-size="10" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">12.01.27</text>
-<text x="129.2" y="30" text-anchor="start" font-size="9" font-family="Space Mono, monospace" fill="#4a443c">Data Act: geen overstapkosten</text>
-<rect x="617.6" y="75" width="10" height="10" fill="#1a1612" transform="rotate(45 622.6 80)"/>
-<line x1="622.6" y1="72" x2="622.6" y2="46" stroke="#1a1612" stroke-width="1"/>
-<text x="618.6" y="42" text-anchor="end" font-size="10" font-weight="700" font-family="Space Mono, monospace" fill="#1a1612">medio 2030</text>
-<text x="618.6" y="54" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#4a443c">einde termijn cloudbeleid</text>
-<circle cx="192.2" cy="80" r="7" fill="#D63F00" stroke="#FBFAF7" stroke-width="2"/>
-<text x="192.2" y="116" text-anchor="middle" font-size="10" font-weight="700" font-family="Space Mono, monospace" fill="#D63F00">30.06.27</text>
-<text x="192.2" y="128" text-anchor="middle" font-size="9" font-family="Space Mono, monospace" fill="#4a443c">contract Azure loopt af</text>
-<text x="680.0" y="128" text-anchor="end" font-size="9" font-family="Space Mono, monospace" fill="#B3261E">2 contracteindes onbekend</text>
-</svg><p class="noot">Het contract voor Azure loopt op 30 juni 2027 af, na 12 januari 2027. Dat is het moment om over te stappen of opnieuw te onderhandelen met de Data Act aan je kant. Overstappen betekent volgens opgave Europees aanbesteden, en dat kost als ervaringsgetal zes tot negen maanden: het besluit hoort dus dit najaar te vallen, niet in het voorjaar.</p></div>
-<h3>Per systeem</h3>
-<p>Per systeem: wat je weet, wat je niet weet, en wat de regels hierover zeggen. De leveranciersnamen komen uit je eigen invoer en staan alleen in dit rapport.</p>
-    <div class="kader" style="font-size:0.84rem"><b>Waar deze informatie vandaan komt.</b> Herkomst en contracteinde komen uit de gratis toets. Exporteerbare data, alternatieven, aanbesteding en eigenaarschap komen uit een korte aanvullende intake. Alles is gemeld en nog niet gecontroleerd in documenten, tenzij het er staat. Ook de typering per systeem (vastgezet, kwetsbaar, uitstapbaar) volgt uit die opgave. Waar informatie ontbreekt, staat een onderzoeksvraag met een invulveld. In het werkdocument vul je het antwoord direct in.</div>
-
-<div class="profiel">
-  <div class="kop"><b>Kantoorsuite, mail en documenten</b><span class="stempel vast">Vastgezet</span></div>
+<div class="systeem">
+  <div class="kop"><b>Microsoft 365</b><span>Kantoorsuite, mail en documenten</span></div>
+  <h4>Gevolg voor het werk</h4>
   <table>
-    <tr><td>Systeem</td><td>Microsoft 365 (Exchange Online, SharePoint, Teams)</td></tr>
-    <tr><td>Leverancier</td><td>Microsoft, Verenigde Staten. Publieke cloud.</td></tr>
-    <tr><td>Contracteinde</td><td>Onbekend bij bestuur en uitvoering.<span class="invul"><i>Onderzoeksvraag:</i> Wie heeft de licentieovereenkomst, en wanneer loopt die af? <i>Antwoord:</i> ……</span></td></tr>
-    <tr><td>Exporteerbare data</td><td>Niet vastgesteld. Mailboxen en documenten zijn technisch exporteerbaar, maar formaat en volledigheid zijn nooit getest.<span class="invul"><i>Onderzoeksvraag:</i> Welke export is mogelijk, in welk formaat, en wat ontbreekt daarin? <i>Antwoord:</i> ……</span></td></tr>
-    <tr><td>Open source</td><td>Nee. Gesloten software: je kunt alleen weg met de export die de leverancier biedt.</td></tr>
-    <tr><td>Alternatief</td><td>Open source werkplekken zoals openDesk (Duitsland) en de route van Sleeswijk-Holstein zijn bekend, maar er is nooit mee gesproken.</td></tr>
-    <tr><td>Aanbesteding</td><td>Waarschijnlijk Europees, maar dat hangt af van de contractwaarde, en die is nog niet bekend. Bij open source betaal je geen licentie, maar implementatie, hosting en beheer besteed je wel aan. Afnemen via een bestaande raamovereenkomst van een inkoopsamenwerking kan sneller, als die er is.</td></tr>
-    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd.<span class="invul"><i>Voorstel:</i> naam en functie, vast te stellen in het bestuursbesluit. <i>Antwoord:</i> ……</span></td></tr>
-    <tr class="basis"><td>Basis</td><td>Gemeld in toets en intake. Nog niets gecontroleerd.</td></tr>
+    <tr><td>Werk dat ervan afhangt</td><td>Interne bedrijfsvoering, en mail en documenten in het contact met inwoners</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Een week zonder</td><td>Het werk kan beperkt door, met handwerk</td><td><span class="chip gemeld">gemeld</span></td></tr>
   </table>
-  <div class="wet"><b>Wat de regels hier van je vragen.</b> Onder de Cbw moet je kunnen onderbouwen wat er met deze data gebeurt bij contracteinde, faillissement of overname. Onder de Data Act heb je recht op een overstap binnen dertig dagen na de opzegtermijn, en vanaf 12 januari 2027 zonder overstapkosten. Dat recht kun je pas gebruiken als je weet wat het contract zegt. Het rijksbreed cloudbeleid geldt voor de rijksoverheid, niet voor gemeenten. Het raadt de publieke cloud voor e-mail en documentbeheer af en vraagt een exitplan per clouddienst. Het kabinet wil met de medeoverheden naar overheidsbreed cloudbeleid; dat is aangekondigd, niet vastgesteld. Als richtpunt is het wel bruikbaar.</div>
-</div>
-
-<div class="profiel">
-  <div class="kop"><b>Cloudinfrastructuur</b><span class="stempel kwetsbaar">Kwetsbaar</span></div>
+  <h4>Hoe lastig is vervangen</h4>
   <table>
-    <tr><td>Systeem</td><td>Microsoft Azure (virtuele machines en opslag)</td></tr>
-    <tr><td>Leverancier</td><td>Microsoft, Verenigde Staten. IaaS.</td></tr>
-    <tr><td>Contracteinde</td><td>30 juni 2027, volgens de uitvoering. Het bestuur kende de datum niet.</td></tr>
-    <tr><td>Verlenging</td><td>Onbekend.<span class="invul"><i>Onderzoeksvraag:</i> Verlengt het contract automatisch, en zo ja, met welke termijn? <i>Antwoord:</i> ……</span></td></tr>
-    <tr><td>Exporteerbare data</td><td>Volgens opgave contractueel geregeld, met egress-kosten tot 12 januari 2027.</td></tr>
-    <tr><td>Open source</td><td>Het platform niet. De applicaties erop draaien volgens opgave op open source (Linux, PostgreSQL) en zijn daardoor goed te verhuizen.</td></tr>
-    <tr><td>Alternatief</td><td>Twee EU-aanbieders in beeld (OVHcloud en STACKIT), geen gesprek gevoerd</td></tr>
-    <tr><td>Aanbesteding</td><td>Volgens opgave ligt de contractwaarde boven de Europese drempel, dus Europees aanbesteden. Reken als ervaringsgetal, geen wettelijke termijn, op zes tot negen maanden van marktverkenning tot gunning. Wie op 30 juni 2027 wil overstappen, begint dit najaar.</td></tr>
-    <tr><td>Bestuurlijk eigenaar</td><td>Informatiemanager, zonder formeel mandaat</td></tr>
-    <tr class="basis"><td>Basis</td><td>Gemeld in toets en intake. Einddatum en exportregeling nog niet gezien in het contract.</td></tr>
+    <tr><td>Leverancier</td><td>Microsoft, Verenigde Staten. Publieke cloud.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Contract</td><td>Einddatum onbekend.<span class="invul"><i>Vraag:</i> wie heeft de licentieovereenkomst, en wanneer loopt die af? <i>Antwoord:</i> ……</span></td><td><span class="chip onbekend">nog onbekend</span></td></tr>
+    <tr><td>Gegevens terughalen</td><td>Technisch mogelijk volgens de opgave. Formaat en volledigheid zijn nooit getest.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Open source</td><td>Nee. Bij een overstap ben je aangewezen op de export die de leverancier biedt.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Alternatief</td><td>Open source werkplekken zoals openDesk zijn bekend. Er is niet mee gesproken.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Aanbesteding</td><td>Hangt af van de contractwaarde, en die is nog niet bekend.</td><td><span class="chip onbekend">nog onbekend</span></td></tr>
   </table>
-  <div class="wet"><b>Wat de regels hier van je vragen.</b> De Data Act verplicht aanbieders van clouddiensten tot een overstap binnen dertig dagen na de opzegtermijn, en aanbieders van IaaS tot functionele gelijkwaardigheid. Overstapkosten vervallen vanaf 12 januari 2027. Je contract loopt volgens opgave op 30 juni 2027 af: dat is je natuurlijke moment. Verlengen zonder de Data Act-afspraken vast te leggen is een gemiste kans; hoe lang je dan vastzit, hangt af van de verlengingstermijn. Twee van de vier systemen komen van Microsoft: een storing, prijsverhoging of geschil raakt ze allebei.</div>
-</div>
-
-<div class="profiel">
-  <div class="kop"><b>Zaaksysteem</b><span class="stempel kwetsbaar">Kwetsbaar</span></div>
+  <h4>Wat is er geregeld</h4>
   <table>
-    <tr><td>Systeem</td><td>Open Zaak, zaakregistratie volgens Common Ground</td></tr>
-    <tr><td>Leverancier</td><td>Gehost en beheerd door een Nederlandse partij</td></tr>
-    <tr><td>Contracteinde</td><td>Onbekend.<span class="invul"><i>Onderzoeksvraag:</i> Wanneer loopt het hostingcontract af, en wat staat erin over overdracht naar een andere partij? <i>Antwoord:</i> ……</span></td></tr>
-    <tr><td>Exporteerbare data</td><td>Open standaarden (ZGW-API's), exportpad volgens opgave gedocumenteerd. Nog niet getest.</td></tr>
-    <tr><td>Open source</td><td>Ja. Een andere partij kan hosting en beheer overnemen zonder dat de software of je data verandert.</td></tr>
-    <tr><td>Alternatief</td><td>Drie andere hostingpartijen bekend</td></tr>
-    <tr><td>Aanbesteding</td><td>Alleen voor hosting en beheer. De software zelf hoef je niet aan te besteden: die is van iedereen.</td></tr>
-    <tr><td>Bestuurlijk eigenaar</td><td>Niet benoemd.<span class="invul"><i>Voorstel:</i> naam en functie, vast te stellen in het bestuursbesluit. <i>Antwoord:</i> ……</span></td></tr>
-    <tr class="basis"><td>Basis</td><td>Gemeld in toets en intake. Het exportpad is nog niet getest; dat is actie 2.</td></tr>
+    <tr><td>Verantwoordelijke</td><td>Niet benoemd.<span class="invul"><i>Voorstel:</i> naam en functie, vast te stellen in de beslisnotitie. ……</span></td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Wegvalscenario</td><td>Niet vastgelegd</td><td><span class="chip gemeld">gemeld</span></td></tr>
   </table>
-  <div class="wet"><b>Wat de regels hier van je vragen.</b> Technisch sta je hier volgens opgave het best, en dat komt doordat het open source is op open standaarden. Wat ontbreekt is administratief: een bekende einddatum en een eigenaar. Daarvoor hoef je geen migratie te starten. Met een geslaagde exporttest wordt dit je eerste aantoonbaar uitstapbare dienst.</div>
+  <div class="noot"><b>Wat de regels hierover zeggen.</b> Onder de Data Act mag je als afnemer van een clouddienst overstappen, en vanaf 12 januari 2027 zonder overstapkosten. Dat recht gebruik je pas als je weet wat het contract zegt. Het rijksbreed cloudbeleid raadt de publieke cloud af voor e-mail en documentbeheer. Het geldt voor het Rijk, niet voor gemeenten, maar is als richtpunt bruikbaar.</div>
 </div>
 
-<div class="profiel">
-  <div class="kop"><b>Geo-informatie</b><span class="stempel uitstapbaar">Uitstapbaar</span></div>
+<div class="systeem">
+  <div class="kop"><b>Microsoft Azure</b><span>Cloud en hosting, met de website en het klantcontactsysteem</span></div>
+  <h4>Gevolg voor het werk</h4>
   <table>
-    <tr><td>Systeem</td><td>QGIS en GeoServer, met open data van PDOK</td></tr>
-    <tr><td>Leverancier</td><td>Geen: eigen beheer</td></tr>
-    <tr><td>Contracteinde</td><td>Niet van toepassing</td></tr>
-    <tr><td>Exporteerbare data</td><td>Open standaarden (WFS, WMS, GeoPackage). Volgens opgave gaat er maandelijks een volledige export naar GeoPackage.</td></tr>
-    <tr><td>Open source</td><td>Ja</td></tr>
-    <tr><td>Alternatief</td><td>Niet nodig; kennis in huis is het risico</td></tr>
-    <tr><td>Aanbesteding</td><td>Niet nodig voor de software. Wel als je het beheer wilt uitbesteden.</td></tr>
-    <tr><td>Bestuurlijk eigenaar</td><td>Teamleider geo</td></tr>
-    <tr class="basis"><td>Basis</td><td>'Uitstapbaar' berust op de opgave in de intake: open standaarden, eigen beheer en een maandelijkse export. Een hersteltest is niet aangetoond. Pas met een vastgelegde hersteltest is dit oordeel gecontroleerd.<span class="invul"><i>Onderzoeksvraag:</i> Wanneer is de export voor het laatst teruggezet, en waar staat het verslag? <i>Antwoord:</i> ……</span></td></tr>
+    <tr><td>Werk dat ervan afhangt</td><td>Dienstverlening aan inwoners en interne bedrijfsvoering</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Een week zonder</td><td>Het werk kan beperkt door, met handwerk</td><td><span class="chip gemeld">gemeld</span></td></tr>
   </table>
-  <div class="wet"><b>Wat de regels hier van je vragen.</b> Hier is je afhankelijkheid niet de leverancier maar de kennis. De Cbw vraagt ook daar continuïteit: wat gebeurt er als de twee mensen die dit beheren vertrekken? Leg dat vast, samen met een hersteltest, en je hebt een voorbeeld voor de andere drie systemen.</div>
+  <h4>Hoe lastig is vervangen</h4>
+  <table>
+    <tr><td>Leverancier</td><td>Microsoft, Verenigde Staten. IaaS.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Contract</td><td>Loopt af op 30 juni 2027, volgens de uitvoering. Het bestuur kende de datum niet.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Verlenging</td><td>Onbekend.<span class="invul"><i>Vraag:</i> verlengt het contract automatisch, en zo ja, met welke termijn? <i>Antwoord:</i> ……</span></td><td><span class="chip onbekend">nog onbekend</span></td></tr>
+    <tr><td>Gegevens terughalen</td><td>Volgens de opgave contractueel geregeld, met kosten voor het uitgaande dataverkeer tot 12 januari 2027. Niet getest.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Open source</td><td>Het platform niet. De applicaties draaien op Linux en PostgreSQL. Dat maakt verhuizen makkelijker, maar het is niet getest.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Alternatief</td><td>OVHcloud en STACKIT zijn in beeld. Er is niet mee gesproken.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Aanbesteding</td><td>De contractwaarde ligt volgens de opgave boven de Europese drempel.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <h4>Wat is er geregeld</h4>
+  <table>
+    <tr><td>Verantwoordelijke</td><td>Informatiemanager, zonder formeel mandaat</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Wegvalscenario</td><td>Niet vastgelegd</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <div class="noot"><b>Wat de regels hierover zeggen.</b> De Data Act verplicht aanbieders van clouddiensten om een overstap binnen dertig dagen na de opzegtermijn mogelijk te maken, en aanbieders van IaaS om te zorgen dat de dienst na de overstap op dezelfde manier werkt. Overstapkosten vervallen vanaf 12 januari 2027. Microsoft 365 en Azure komen van dezelfde leverancier: een storing, prijsverhoging of geschil raakt beide.</div>
 </div>
 
-<h2>3. Paragraaf voor je Cbw-risicoanalyse</h2>
-<p>Onderstaande tekst kun je overnemen in je risicoanalyse voor de toeleveringsketen. Hij benoemt wat je weet, wat je niet weet en wat je gaat doen. Elk onderdeel zegt zelf of het gemeld, gecontroleerd of voorgesteld is, zodat ook een los overgenomen stuk klopt. Hij staat ook bewerkbaar in het werkdocument.</p>
-<div class="kader tekst">Ketenafhankelijkheid kritieke informatiesystemen
-Concept, stand 3 september 2026. Nog niet vastgesteld.
+<div class="systeem">
+  <div class="kop"><b>Zaaksysteem</b><span>Open Zaak, gehost en beheerd door een Nederlandse partij</span></div>
+  <h4>Gevolg voor het werk</h4>
+  <table>
+    <tr><td>Werk dat ervan afhangt</td><td>Vergunningen en handhaving, en het sociaal domein</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Een week zonder</td><td>Het werk ligt stil</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <h4>Hoe lastig is vervangen</h4>
+  <table>
+    <tr><td>Leverancier</td><td>Nederlandse hostingpartij. De software zelf is open source.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Contract</td><td>Einddatum onbekend.<span class="invul"><i>Vraag:</i> wanneer loopt het hostingcontract af, en wat staat erin over overdracht aan een andere partij? <i>Antwoord:</i> ……</span></td><td><span class="chip onbekend">nog onbekend</span></td></tr>
+    <tr><td>Gegevens terughalen</td><td>Via open standaarden (ZGW-API's). Het exportpad is volgens de opgave beschreven, maar niet getest.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Open source</td><td>Ja. Een andere partij kan hosting en beheer overnemen zonder dat de software verandert.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Alternatief</td><td>Drie andere hostingpartijen zijn bekend</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Aanbesteding</td><td>Alleen voor hosting en beheer. De software hoef je niet aan te besteden.</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <h4>Wat is er geregeld</h4>
+  <table>
+    <tr><td>Verantwoordelijke</td><td>Niet benoemd.<span class="invul"><i>Voorstel:</i> naam en functie, vast te stellen in de beslisnotitie. ……</span></td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Wegvalscenario</td><td>Niet vastgelegd</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <div class="noot"><b>Let op.</b> Dat het zaaksysteem open source is, maakt wisselen van hostingpartij mogelijk. Het verandert niets aan het gevolg van uitval: valt de huidige partij een week weg, dan ligt het werk volgens de opgave stil. Vervangbaar is iets anders dan zonder gevolgen.</div>
+</div>
 
-Herkomst: 'gemeld' is opgegeven in de uitstaptoets of de intake en niet getoetst aan documenten. 'Gecontroleerd' is gezien in een contract, document of test. 'Voorgesteld' moet nog worden besloten.
+<div class="systeem">
+  <div class="kop"><b>Geo-informatie</b><span>QGIS en GeoServer, met open data van PDOK, in eigen beheer</span></div>
+  <h4>Gevolg voor het werk</h4>
+  <table>
+    <tr><td>Werk dat ervan afhangt</td><td>Openbare ruimte, en vergunningen en handhaving</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Een week zonder</td><td>Het werk kan grotendeels door</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <h4>Hoe lastig is vervangen</h4>
+  <table>
+    <tr><td>Leverancier</td><td>Geen: eigen beheer</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Gegevens terughalen</td><td>Volgens de opgave gaat er maandelijks een volledige export naar GeoPackage. Dat die export terug te zetten is, is niet aangetoond.<span class="invul"><i>Vraag:</i> wanneer is de export voor het laatst teruggezet, en waar staat het verslag? <i>Antwoord:</i> ……</span></td><td><span class="chip onbekend">nog onbekend</span></td></tr>
+    <tr><td>Open source</td><td>Ja</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <h4>Wat is er geregeld</h4>
+  <table>
+    <tr><td>Verantwoordelijke</td><td>Teamleider geo</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Kennis</td><td>Bij twee beheerders</td><td><span class="chip gemeld">gemeld</span></td></tr>
+    <tr><td>Wegvalscenario</td><td>Niet vastgelegd</td><td><span class="chip gemeld">gemeld</span></td></tr>
+  </table>
+  <div class="noot"><b>Let op.</b> Hier zit de afhankelijkheid niet in een leverancier maar in twee mensen. Wat er gebeurt als zij allebei vertrekken, hoort ook in het wegvalscenario.</div>
+</div>
 
-Inventarisatie (gemeld)
-De organisatie heeft vier kritieke informatiesystemen benoemd. Twee daarvan, Microsoft 365 en Microsoft Azure, komen van één aanbieder buiten de EU/EER. Voor twee systemen is de contractuele einddatum niet centraal bekend.
+<!-- 3 -->
+<h2 id="gesprek"><span class="nr">3</span>Gespreksagenda voor bestuur en uitvoering</h2>
+<p>Bestuur en uitvoering deden de scan los van elkaar. Op vier van de vijf organisatievragen liepen de antwoorden uiteen. Dat is geen oordeel over wie gelijk heeft, maar een agenda voor één overleg. Gelijk beantwoord: of een export ooit is getest (beide nee).</p>
+<div class="gv"><b>Is er iemand in de leiding verantwoordelijk, met mandaat?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>deels</em></span></span><span class="wat">Vraag voor het gesprek: wie is volgens ieder van jullie de eigenaar, en heeft die ook mandaat?</span></div>
+<div class="gv"><b>Is per belangrijke leverancier vastgelegd wat er gebeurt als die stopt?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>nee</em></span></span><span class="wat">Vraag voor het gesprek: waar liggen die scenario's, en voor welke leveranciers?</span></div>
+<div class="gv"><b>Is bekend wat de contracten zeggen over opzeggen, verlengen en overstappen?</b><span class="antw"><span>Bestuur: <em>ja</em></span><span>Uitvoering: <em>weet ik niet</em></span></span><span class="wat">Vraag voor het gesprek: wie heeft de contracten hierop gelezen, en waar staat dat?</span></div>
+<div class="gv"><b>Is voor een belangrijk systeem ooit een alternatief verkend?</b><span class="antw"><span>Bestuur: <em>deels</em></span><span>Uitvoering: <em>nee</em></span></span><span class="wat">Vraag voor het gesprek: met welke partij is gesproken, en staat dat ergens?</span></div>
 
-Eerste inschatting van de impact bij wegvallen, faillissement of overname (gemeld)
-- Microsoft 365 (kantoorsuite, mail en documenten): hoog. Contracteinde onbekend, export niet getest, geen eigenaar benoemd.
-- Microsoft Azure (cloudinfrastructuur): middel. Contract loopt volgens opgave af op 30 juni 2027. Export volgens opgave contractueel geregeld, met kosten tot 12 januari 2027.
-- Open Zaak (zaaksysteem, open source, gehost door een Nederlandse partij): middel. Open standaarden en een gedocumenteerd exportpad; contracteinde en eigenaar onbekend.
-- QGIS en GeoServer (geo-informatie, open source, eigen beheer): laag. Het risico zit in de kennis van twee beheerders.
-Een verstoring bij de aanbieder van Microsoft 365 en Azure raakt twee systemen tegelijk.
-
-Gecontroleerd
-Nog niets. Geen van de punten hierboven is getoetst aan een contract of een uitgevoerde exporttest.
-
-Aandachtspunten, nog te verifiëren (gemeld)
-1. Voor drie van de vier systemen is geen bestuurlijk eigenaar benoemd.
-2. Voor Microsoft 365 en Azure is geen exportprocedure getest.
-3. Niet bekend is of de lopende cloudcontracten de overstapbepalingen van Verordening (EU) 2023/2854 (Data Act) bevatten.
-
-Maatregelen (voorgesteld, nog te besluiten)
-1. Bestuurlijk eigenaar per kritiek systeem benoemen en contracteindes vastleggen, binnen twee weken na het bestuursbesluit. Bewijsstuk: besluit en bijgewerkt contractregister.
-2. Exportprocedure testen voor het zaaksysteem, binnen zes weken. Bewijsstuk: testverslag.
-3. Lopende cloudcontracten toetsen aan de Data Act en per systeem een wegvalscenario vastleggen, binnen twaalf weken. Bewijsstuk: juridische toets en wegvalscenario's.
-4. Deze analyse jaarlijks herhalen.
-
-Deze tekst is een concept, opgesteld als input voor het beleid ketenbeveiliging onder de Cyberbeveiligingswet. Het is geen conformiteitsoordeel.</div>
-
-<h2>4. Agendapunt voor het bestuur</h2>
-<p>Onder de Cbw is het bestuur eindverantwoordelijk en verplicht getraind. Dit is geen IT-onderwerp meer. Dit agendapunt past in een kwartier en vraagt vier besluiten. Het concept-besluit staat bewerkbaar in het werkdocument.</p>
-<div class="agenda">
-  <h3>Ketenafhankelijkheid: vier besluiten</h3>
+<!-- 4 -->
+<h2 id="risicoanalyse"><span class="nr">4</span>Concepttekst voor de risicoanalyse</h2>
+<p>Over te nemen in je risicoanalyse voor de leveranciersketen. Elk onderdeel zegt zelf of het gemeld, gecontroleerd of voorgesteld is, zodat ook een los overgenomen stuk klopt.</p>
+<div class="doc" id="doc-risico">
+  <div class="kopregel"><b>Afhankelijkheid van ICT-leveranciers</b><button class="kopieer" type="button" data-doel="doc-risico">Kopieer tekst</button></div>
+  <p>Concept, stand 1 oktober 2026. Nog niet vastgesteld. Gemeld betekent: opgegeven in de scan of de aanvullende vragenlijst, niet getoetst aan documenten. Gecontroleerd betekent: gezien in een contract, document of test. Voorgesteld betekent: moet nog worden besloten.</p>
+  <h4>Belangrijkste systemen <span class="chip gemeld">gemeld</span></h4>
+  <p>De organisatie heeft vier systemen benoemd die het belangrijkst zijn voor het werk: Microsoft 365, Microsoft Azure, het zaaksysteem (Open Zaak) en de geo-informatie (QGIS en GeoServer). Microsoft 365 en Azure komen van één leverancier buiten de EU/EER; een verstoring bij die leverancier raakt beide.</p>
+  <h4>Gevolg van een week uitval <span class="chip gemeld">gemeld</span></h4>
+  <ul>
+    <li>Zaaksysteem: het werk bij vergunningen en handhaving en in het sociaal domein ligt stil.</li>
+    <li>Microsoft 365 en Azure: het werk kan beperkt door, met handwerk.</li>
+    <li>Geo-informatie: het werk kan grotendeels door.</li>
+  </ul>
+  <h4>Contracten <span class="chip gemeld">gemeld</span></h4>
+  <ul>
+    <li>Azure: loopt af op 30 juni 2027. De verlengingsregeling is niet bekend.</li>
+    <li>Microsoft 365 en zaaksysteem: de einddatum is niet bekend bij de uitvoering.</li>
+    <li>Geo-informatie: geen contract, eigen beheer.</li>
+  </ul>
+  <h4>Gecontroleerd</h4>
+  <p>Nog niets. Geen van de punten hierboven is getoetst aan een contract of een uitgevoerde test.</p>
+  <h4>Ontbrekende informatie <span class="chip onbekend">nog onbekend</span></h4>
   <ol>
-    <li><b>Wie is eigenaar?</b> Voor elk van de vier systemen een bestuurlijk eigenaar benoemen, met mandaat om een exit voor te bereiden en het budget daarvoor aan te vragen. Zonder dit besluit vervallen de andere twee.</li>
-    <li><b>Wat is het wegval-scenario?</b> Opdracht aan de eigenaren om binnen zestig dagen per systeem een A4 op te leveren: wat gebeurt er met onze dienstverlening en onze data als de leverancier morgen stopt.</li>
-    <li><b>Wat doen we voor 12 januari 2027?</b> Besluit om voor die datum minimaal een export te testen en de cloudcontracten op de Data Act te laten toetsen, zodat de organisatie haar overstaprecht kan gebruiken. En uiterlijk 26 november 2026 besluiten over Azure: verlengen met Data Act-afspraken, of Europees aanbesteden.</li>
-    <li><b>Hoe houden we het bij?</b> Deze analyse jaarlijks herhalen, met dit rapport als nulmeting.</li>
+    <li>Einddatum, opzegtermijn en verlengingsregeling van de contracten voor Microsoft 365, Azure en het zaaksysteem.</li>
+    <li>Of gegevens uit de belangrijkste systemen volledig terug te halen zijn.</li>
+    <li>Of de lopende cloudcontracten de overstapbepalingen van de Data Act (Verordening (EU) 2023/2854) bevatten.</li>
+  </ol>
+  <h4>Maatregelen <span class="chip voorgesteld">voorgesteld</span></h4>
+  <ol>
+    <li>Een verantwoordelijke in de leiding aanwijzen voor de afhankelijkheid van leveranciers, met mandaat.</li>
+    <li>Contracteindes, opzegtermijnen en verlengingsregelingen vastleggen in het contractregister.</li>
+    <li>Een export van het zaaksysteem testen en het resultaat vastleggen.</li>
+    <li>Per belangrijk systeem een wegvalscenario opstellen, te beginnen met het zaaksysteem.</li>
+    <li>Uiterlijk 26 november 2026 besluiten over het Azure-contract.</li>
+    <li>Deze analyse jaarlijks herhalen.</li>
+  </ol>
+  <p class="klein">Deze tekst is een concept, opgesteld als input voor de risicoanalyse van de leveranciersketen onder de Cyberbeveiligingswet. Het is geen conformiteitsoordeel.</p>
+</div>
+
+<!-- 5 -->
+<h2 id="beslisnotitie"><span class="nr">5</span>Concept-beslisnotitie</h2>
+<p>Voor directie of bestuur. De voorgestelde besluiten zijn een begin; pas ze aan aan hoe besluitvorming bij jullie loopt.</p>
+<div class="doc" id="doc-besluit">
+  <div class="kopregel"><b>Beslisnotitie: afhankelijkheid van ICT-leveranciers</b><button class="kopieer" type="button" data-doel="doc-besluit">Kopieer tekst</button></div>
+  <div class="veld"><span>Aan</span><span class="leeg">directie of college ……</span><span>Van</span><span class="leeg">……</span><span>Datum</span><span class="leeg">……</span></div>
+  <h4>Aanleiding <span class="chip gemeld">gemeld</span></h4>
+  <p>Ravensmeer heeft in kaart gebracht van welke ICT-leveranciers het werk afhangt. Als het zaaksysteem een week uitvalt, ligt het werk bij vergunningen en het sociaal domein stil. Van twee belangrijke systemen is de einddatum van het contract niet bekend, en het contract voor Microsoft Azure loopt op 30 juni 2027 af. Bestuur en uitvoering hebben op vier van de vijf vragen een verschillend beeld.</p>
+  <h4>Voorgestelde besluiten <span class="chip voorgesteld">voorgesteld</span></h4>
+  <ol>
+    <li>Een verantwoordelijke in de leiding aanwijzen voor de afhankelijkheid van leveranciers, met mandaat om een heronderhandeling of overstap voor te bereiden en het budget daarvoor aan te vragen.</li>
+    <li>Opdracht geven om binnen zestig dagen per belangrijk systeem een wegvalscenario op te stellen, te beginnen met het zaaksysteem.</li>
+    <li>Uiterlijk 26 november 2026 besluiten of het Azure-contract wordt verlengd met afspraken over overstappen, of opnieuw wordt uitgevraagd.</li>
+    <li>Deze analyse jaarlijks herhalen.</li>
+  </ol>
+  <h4>Overwegingen</h4>
+  <ul>
+    <li>Onder de Cyberbeveiligingswet is de leiding van de organisatie verantwoordelijk voor de zorgplicht, ook voor de leveranciersketen.</li>
+    <li>Een Europese aanbesteding kost al snel maanden. Wie na november besluit, heeft weinig ruimte voordat het Azure-contract afloopt.</li>
+    <li>Vanaf 12 januari 2027 mag een cloudleverancier geen overstapkosten meer rekenen. Dat versterkt de positie bij een verlenging.</li>
+  </ul>
+  <h4>Gevolgen</h4>
+  <div class="veld"><span>Financieel</span><span class="leeg">……</span><span>Capaciteit</span><span class="leeg">……</span><span>Risico als niet wordt besloten</span><span>Het Azure-contract wordt verlengd op de voorwaarden van de leverancier, en uitval van het zaaksysteem blijft onvoorbereid.</span></div>
+</div>
+
+<!-- 6 -->
+<h2 id="actielijst"><span class="nr">6</span>Actielijst</h2>
+<p>Alle acties zijn voorstellen. Een actie is pas afgerond als het bewijsstuk er is. In het werkdocument houd je de status bij.</p>
+<div class="tabelrol"><table class="lijst">
+  <thead><tr><th>#</th><th>Actie</th><th>Voorgestelde verantwoordelijke</th><th>Termijn</th><th>Bewijsstuk</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Einddatum, opzegtermijn en verlengingsregeling van alle vier systemen ophalen</td><td>Inkoop</td><td>15 okt 2026</td><td>Bijgewerkt contractregister</td><td>Open</td></tr>
+    <tr><td>2</td><td>Verantwoordelijke in de leiding aanwijzen</td><td>Gemeentesecretaris</td><td>29 okt 2026</td><td>Besluit</td><td>Open</td></tr>
+    <tr><td>3</td><td>Export van het zaaksysteem testen in een testomgeving</td><td>Informatiemanager, met de beheerder</td><td>12 nov 2026</td><td>Testverslag, met wat ontbrak</td><td>Open</td></tr>
+    <tr><td>4</td><td>Wegvalscenario zaaksysteem op één A4</td><td>Teamleiders vergunningen en sociaal domein, met de informatiemanager</td><td>12 nov 2026</td><td>Vastgesteld scenario</td><td>Open</td></tr>
+    <tr><td>5</td><td>Contracten voor Microsoft 365 en Azure naast de afspraken in hoofdstuk 7 leggen</td><td>Inkoopjurist</td><td>19 nov 2026</td><td>Notitie met de verschillen</td><td>Open</td></tr>
+    <tr><td>6</td><td>Besluit over Azure: verlengen met afspraken of opnieuw uitvragen</td><td>Directie, voorbereid door inkoop</td><td>26 nov 2026</td><td>Besluit</td><td>Open</td></tr>
+    <tr><td>7</td><td>Scan opnieuw doen, bestuur en uitvoering apart</td><td>Informatiemanager</td><td>7 jan 2027</td><td>Nieuwe uitkomst</td><td>Open</td></tr>
+  </tbody>
+</table></div>
+
+<!-- 7 -->
+<h2 id="inkoop"><span class="nr">7</span>Vragen voor leveranciers en aandachtspunten voor inkoop</h2>
+<div class="doc" id="doc-vragen">
+  <div class="kopregel"><b>Vragen voor Microsoft, over Microsoft 365 en Azure</b><button class="kopieer" type="button" data-doel="doc-vragen">Kopieer tekst</button></div>
+  <ol>
+    <li>Wanneer lopen onze overeenkomsten af, wat is de opzegtermijn en verlengen ze automatisch?</li>
+    <li>Welke gegevens en configuraties kunnen we bij een overstap exporteren, in welk formaat en binnen welke termijn?</li>
+    <li>Welke kosten rekent u tot 12 januari 2027 voor een overstap, en hoe zijn die opgebouwd?</li>
+    <li>Wat gebeurt er na beëindiging met onze gegevens, en hoe lang bewaart u ze?</li>
+  </ol>
+  <h4>Vragen voor de hostingpartij van het zaaksysteem</h4>
+  <ol>
+    <li>Wanneer loopt het hostingcontract af, en wat is de opzegtermijn?</li>
+    <li>Hoe verloopt een overdracht aan een andere hostingpartij, en wat levert u daarbij op?</li>
+    <li>Welke hersteltijd geldt bij uitval, en wat gebeurt er bij uw faillissement?</li>
   </ol>
 </div>
+<h3>Aandachtspunten voor een verlenging of nieuwe uitvraag</h3>
+<p>Niet juridisch gevalideerd en niet zonder toetsing bruikbaar als contracttekst. Bij elk punt staat of het uit de wet volgt of een eigen voorstel is.</p>
+<div class="afspraak"><b>Overstaptermijnen</b>Opzegtermijn van hooguit twee maanden. Na opzegging rondt de leverancier de overstap binnen dertig dagen af, tenzij dat technisch aantoonbaar onmogelijk is.<span class="bron">Volgt uit: Data Act, art. 25 (clouddiensten)</span></div>
+<div class="afspraak"><b>Exporteerbare gegevens</b>Het contract beschrijft welke gegevens en configuraties exporteerbaar zijn, in welk open en machineleesbaar formaat.<span class="bron">Volgt uit: Data Act, art. 25 en 30 (clouddiensten)</span></div>
+<div class="afspraak"><b>Geen overstapkosten</b>Geen kosten voor het overstappen. Tot 12 januari 2027 hooguit de directe kosten, zonder marge.<span class="bron">Volgt uit: Data Act, art. 29 (clouddiensten)</span></div>
+<div class="afspraak"><b>Faillissement of overname</b>Binnen tien werkdagen een volledige export, en toegang tot de dienst tijdens de overgang. Broncode-escrow voor maatwerk.<span class="bron">Eigen voorstel. Aanknopingspunt: de zorgplicht voor de leveranciersketen in de Cyberbeveiligingswet. De termijn en de escrow volgen daar niet rechtstreeks uit.</span></div>
+<div class="afspraak"><b>Open standaarden en open source</b>Open standaarden van de lijst 'pas toe of leg uit'. Bij gelijke geschiktheid de voorkeur voor open source, en maatwerk onder een open licentie.<span class="bron">Eigen voorstel. Aanknopingspunt: de lijst 'pas toe of leg uit' van het Forum Standaardisatie.</span></div>
 
-<h2>5. Voorgestelde contractafspraken</h2>
-<p>Vijf voorgestelde afspraken voor je inkoop en je jurist, voor een verlenging of een nieuwe aanbesteding. Bij elke afspraak staat of hij rechtstreeks volgt uit de wet, of een eigen voorstel is waarvoor de wet een aanknopingspunt biedt. Ze zijn niet juridisch gevalideerd en niet zonder toetsing bruikbaar als contracttekst. Gebruik ze om het gesprek te openen.</p>
-<div class="clausule"><b>Overstaptermijnen</b>Opzegtermijn maximaal twee maanden. Na opzegging voltooit de leverancier de overgang naar een andere aanbieder of naar eigen infrastructuur binnen dertig dagen, tenzij dat technisch aantoonbaar onmogelijk is.<span class="bron">Volgt uit: Data Act art. 25</span></div>
-<div class="clausule"><b>Exporteerbare data en digitale activa</b>De leverancier specificeert in het contract welke data en configuraties exporteerbaar zijn, in welk open en machineleesbaar formaat, en levert deze bij overstap zonder overstapkosten.<span class="bron">Volgt uit: Data Act art. 25, 29 en 30</span></div>
-<div class="clausule"><b>Geen overstapkosten</b>De leverancier brengt geen kosten in rekening voor het overstapproces. Tot 12 januari 2027 mag hij alleen directe kosten rekenen, zonder marge.<span class="bron">Volgt uit: Data Act art. 29</span></div>
-<div class="clausule"><b>Continuïteit bij faillissement of overname</b>Bij faillissement, overname of beëindiging van de dienst krijgt de opdrachtgever binnen tien werkdagen een volledige export en behoudt hij toegang tot de dienst gedurende de overgangstermijn. Broncode-escrow voor maatwerkcomponenten.<span class="bron">Eigen voorstel. Aanknopingspunt: de zorgplicht voor de toeleveringsketen in de Cbw. De termijn van tien werkdagen en de escrow volgen daar niet rechtstreeks uit.</span></div>
-<div class="clausule"><b>Open source en open standaarden</b>Bij gelijke geschiktheid gaat de voorkeur uit naar open source. De leverancier gebruikt de open standaarden van de lijst 'pas toe of leg uit' en levert maatwerk onder een open licentie op, zodat een volgende partij het kan overnemen. Zo besteed je de volgende keer alleen de dienst aan, niet opnieuw de software.<span class="bron">Eigen voorstel. Aanknopingspunt: de lijst 'pas toe of leg uit' van het Forum Standaardisatie.</span></div>
-
-<h2>6. Je eerste negentig dagen</h2>
-<p>Drie acties, elk met een eigenaar, een deadline en een bewijsstuk. Niet meer, want meer wordt niet gedaan. In het werkdocument staan ze als actielijst die je kunt bijhouden, met de vervolgacties erbij. Na negentig dagen doe je de toets opnieuw en zie je het verschil.</p>
-<div class="actie"><span class="wk">Week 1 tot 2</span><div><b>Eigenaren benoemen en contracteindes ophalen</b><span>Bestuursbesluit over eigenaarschap. Inkoop haalt van alle vier systemen de contracten en einddata boven tafel. Hoeveel tijd dit kost hangt af van hoe je contractadministratie is ingericht. Het lost twee van de vier onbekenden op.</span><span class="eig">Eigenaar: gemeentesecretaris of directeur bedrijfsvoering</span><dl><dt>Besluit</dt><dd>Ja, besluit 1 van het agendapunt</dd><dt>Deadline</dt><dd>17 september 2026</dd><dt>Status</dt><dd>Open</dd><dt>Bewijsstuk</dt><dd>Besluit en bijgewerkt contractregister</dd></dl></div></div>
-<div class="actie"><span class="wk">Week 3 tot 6</span><div><b>Eén export testen</b><span>Kies het zaaksysteem, want daar staan de open standaarden al. Haal een volledige export terug, lees hem in een neutrale omgeving, noteer wat ontbreekt. Dat is je eerste bewijs van uitstapbaarheid.</span><span class="eig">Eigenaar: informatiemanager, met de beheerder van het zaaksysteem</span><dl><dt>Besluit</dt><dd>Nee, past binnen het mandaat van de informatiemanager</dd><dt>Deadline</dt><dd>15 oktober 2026</dd><dt>Status</dt><dd>Open</dd><dt>Bewijsstuk</dt><dd>Testverslag, met wat ontbrak</dd></dl></div></div>
-<div class="actie"><span class="wk">Week 7 tot 12</span><div><b>Azure-contract toetsen, besluiten en wegval-scenario's vastleggen</b><span>Laat de inkoopjurist de twee Microsoft-contracten naast de vijf afspraken uit sectie 5 leggen. Daarna besluit het bestuur over Azure: verlengen met Data Act-afspraken, of Europees aanbesteden met tijd genoeg voor 30 juni 2027. Per systeem een A4 met het wegval-scenario. Alles gaat mee in de risicoanalyse.</span><span class="eig">Eigenaar: inkoop, met de vier systeemeigenaren</span><dl><dt>Besluit</dt><dd>Ja, besluit 3 van het agendapunt</dd><dt>Deadline</dt><dd>26 november 2026</dd><dt>Status</dt><dd>Open</dd><dt>Bewijsstuk</dt><dd>Juridische toets van de contracten, wegvalscenario per systeem</dd></dl></div></div>
-
-<h2>7. Vergelijking met andere gemeenten</h2>
-<p>Ravensmeer scoort op vier van de zes onderwerpen onder de benchmark. Op het exportpad staat Ravensmeer er duidelijk beter voor, en dat komt door de twee systemen die op open source en open standaarden draaien: het zaaksysteem en de geo-informatie. Op het exitplan is het verschil klein. De grootste achterstand zit in de ketenzorgplicht (16 punten) en het eigenaarschap (12 punten): daar liggen vergelijkbare gemeenten gemiddeld een stap verder. Ook de benchmark is eigen opgave van die gemeenten.</p>
-<div class="bench"><b>Over deze benchmark.</b> In dit voorbeeld is de benchmark fictief. In echte rapporten vergelijken we met eerdere metingen van organisaties van hetzelfde type en dezelfde omvang, alleen als er genoeg zijn voor een eerlijk beeld. Zijn er te weinig, dan zeggen we dat in plaats van een getal te tonen.</div>
+<!-- verantwoording -->
+<h2><span class="nr">8</span>Hoe dit dossier is gemaakt</h2>
+<div class="verantw">
+  <p><b>Automatisch gemaakt</b> uit de scan van uitvoering en bestuur en een aanvullende vragenlijst van ongeveer een kwartier. De teksten volgen vaste regels: elk aandachtspunt komt voort uit een of meer antwoorden, en wat alleen voor de organisatie als geheel is gevraagd, staat niet als feit bij een systeem.</p>
+  <p><b>Niet gecontroleerd.</b> Niemand heeft contracten, plannen of testverslagen bekeken. Een inhoudelijke controle hoort niet bij dit dossier. Wat jullie zelf nakijken, zetten jullie in het werkdocument op gecontroleerd, met het bewijsstuk erbij.</p>
+  <p style="margin:0"><b>Geen oordeel over naleving</b> van de Cyberbeveiligingswet, de Data Act of andere regels, en geen juridisch advies.</p>
+</div>
+<details class="bijlage">
+  <summary>Bijlage: wettelijke onderbouwing en bronnen</summary>
+  <p><b>Cyberbeveiligingswet</b>, van kracht sinds 15 augustus 2026. Vraagt een risicoanalyse van de leveranciersketen, inclusief wat er gebeurt bij contracteinde, faillissement of overname. Geldt voor onder meer gemeenten, provincies en waterschappen.</p>
+  <p><b>Data Act</b> (Verordening (EU) 2023/2854), van toepassing sinds 12 september 2025. Geeft afnemers van clouddiensten recht op overstap; overstapkosten vervallen vanaf 12 januari 2027.</p>
+  <p><b>Rijksbreed cloudbeleid</b>, vastgesteld 3 juli 2026. Beleid voor het Rijk, niet voor gemeenten. Het kabinet wil met de medeoverheden naar overheidsbreed cloudbeleid.</p>
+  <p class="klein">Bronnen: RDI, toelichting zorgplicht toeleveringsketen; Verordening (EU) 2023/2854, hoofdstuk VI; Kamerbrief Herziening Rijksbreed Cloudbeleid (26 643, nr. 1541). Gecontroleerd op 11 september 2026.</p>
+</details>
 
 <footer>
   Will Switch, praktijkonderzoek naar digitale autonomie in de publieke sector. Gebouwd met open source, gehost in Nederland.<br>
-  Dit rapport is input voor de eigen risicoanalyse van de organisatie. Het is geen oordeel over naleving van de Cyberbeveiligingswet, de Data Act of andere wetgeving, en geen juridisch advies. Bronnen: RDI, toelichting zorgplicht toeleveringsketen (2026); Verordening (EU) 2023/2854; Kamerbrief Herziening Rijksbreed Cloudbeleid (26 643, nr. 1541).
+  Dit voorbeeld laat zien wat het betaalde vervolg op de gratis scan gaat opleveren. Dat vervolg is in ontwikkeling.
 </footer>
 </div>
+<script>
+document.querySelectorAll('.kopieer').forEach(b=>b.addEventListener('click',()=>{
+  b.style.display='none';
+  const tekst=document.getElementById(b.dataset.doel).innerText.replace(/\n{3,}/g,'\n\n').trim();
+  b.style.display='';
+  const klaar=()=>{ b.textContent='Gekopieerd'; setTimeout(()=>b.textContent='Kopieer tekst',2000); };
+  if(navigator.clipboard) navigator.clipboard.writeText(tekst).then(klaar,()=>{});
+}));
+</script>
 </body>
 </html>
