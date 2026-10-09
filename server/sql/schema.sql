@@ -1,19 +1,20 @@
 -- Will Switch uitstaptoets: databaseschema (MySQL 8 / MariaDB 10.6+)
 -- Twee tabellen. Bewust weinig: alleen wat nodig is om te meten en te leveren.
 
--- 1. Geaggregeerde toetsscores. Anoniem, nooit verwijderd, voedt de benchmark.
+-- 1. Tellingen uit de gratis scan. Anoniem, nooit verwijderd.
 CREATE TABLE scan (
   id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   aangemaakt    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   org_type      VARCHAR(20)  NOT NULL,   -- gemeente, waterschap, ...
   rol           VARCHAR(20)  NOT NULL,   -- bestuur, cio, uitvoering, anders
+  doel          VARCHAR(20)  NOT NULL,   -- risico, verlenging, continuiteit, bestuur, orientatie
   n_systemen    TINYINT UNSIGNED NOT NULL,
-  niet_eu       TINYINT UNSIGNED NOT NULL,
-  contract_onb  TINYINT UNSIGNED NOT NULL,
-  dek_a         TINYINT UNSIGNED NOT NULL,   -- ketenzorgplicht, 0-100
-  dek_b         TINYINT UNSIGNED NOT NULL,   -- overstaprecht
-  dek_c         TINYINT UNSIGNED NOT NULL,   -- exitplan
-  onbekend      TINYINT UNSIGNED NOT NULL,   -- vragen die niemand kon beantwoorden
+  niet_eu       TINYINT UNSIGNED NOT NULL,   -- systemen bij een leverancier buiten de EU
+  contract_onb  TINYINT UNSIGNED NOT NULL,   -- systemen met onbekend contracteinde
+  binnen_jaar   TINYINT UNSIGNED NOT NULL,   -- systemen waarvan het contract binnen een jaar afloopt
+  stil          TINYINT UNSIGNED NOT NULL,   -- systemen waarbij het werk een week stil zou liggen
+  weet_niet     TINYINT UNSIGNED NOT NULL,   -- aantal antwoorden 'weet ik niet'
+  org_antw      VARCHAR(40)  NOT NULL,       -- vijf organisatievragen, bv. 'ja,nee,x,deels,ja'
   ip_hash       CHAR(16) NOT NULL,           -- afgekapte sha256 van ip + dagzout, alleen tegen misbruik
   INDEX (org_type, aangemaakt)
 );
