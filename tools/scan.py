@@ -237,10 +237,10 @@ PAGE = r'''<!DOCTYPE html>
       <p>Afhankelijkheid van leveranciers is geen nieuw onderwerp. Wel nieuw is dat drie kaders er tegelijk naar vragen.</p>
       <details class="wet">
         <summary>Cyberbeveiligingswet, Data Act en rijksbreed cloudbeleid</summary>
-        <p><b>Cyberbeveiligingswet</b>, van kracht sinds 15 augustus 2026. Vraagt een risicoanalyse van je leveranciers, inclusief wat er gebeurt bij contracteinde, faillissement of overname. Geldt voor onder meer gemeenten, provincies en waterschappen. Veiligheidsregio's vallen er niet onder.</p>
+        <p><b>Cyberbeveiligingswet</b>, van kracht sinds 15 augustus 2026. Vraagt onder meer beleid voor de beveiliging van je leveranciersketen, en het bestuur moet de maatregelen goedkeuren. De RDI adviseert daarbij per leverancier te bepalen wat het betekent als die wegvalt, en af te spreken wat er met je gegevens gebeurt bij contracteinde, faillissement of overname. Geldt voor onder meer gemeenten, provincies en waterschappen. Veiligheidsregio's vallen er niet onder.</p>
         <p><b>Data Act</b>, van toepassing sinds 12 september 2025. Geeft je als afnemer van clouddiensten het recht om over te stappen. Vanaf 12 januari 2027 mag de leverancier daar geen overstapkosten meer voor rekenen.</p>
-        <p><b>Rijksbreed cloudbeleid</b>, vastgesteld 3 juli 2026. Beleid, geen wet. Het vraagt van rijksorganisaties een exitplan per clouddienst. Voor gemeenten, provincies en waterschappen geldt het nog niet; het kabinet wil met hen naar overheidsbreed cloudbeleid.</p>
-        <p class="bron">Bronnen: RDI, toelichting zorgplicht toeleveringsketen; Verordening (EU) 2023/2854, hoofdstuk VI; Kamerbrief Herziening Rijksbreed Cloudbeleid (26 643, nr. 1541). Gecontroleerd op 11 september 2026. Dit is geen juridisch advies.</p>
+        <p><b>Rijksbreed cloudbeleid</b>, vastgesteld 3 juli 2026. Beleid, geen wet. Het vraagt van rijksorganisaties een exitplan per clouddienst, ook voor het geval dat een dienst plotseling wegvalt. Voor gemeenten, provincies en waterschappen geldt het niet verplicht; andere overheden wordt aangeraden het te volgen, en het kabinet wil met hen naar overheidsbreed cloudbeleid.</p>
+        <p class="bron">Bronnen: Cyberbeveiligingswet (Stb. 2026, 187), art. 5, 8, 21 en 24; Cyberbeveiligingsbesluit (Stb. 2026, 189), art. 10 en 35; RDI, toeleveringsketen en cyberbeveiliging; Verordening (EU) 2023/2854, art. 25, 29, 30 en 50; Kamerbrief Herziening Rijksbreed Cloudbeleid 2026 (26 643, nr. 1541). Gecontroleerd op 9 oktober 2026. Dit is geen juridisch advies.</p>
       </details>
     </section>
 
@@ -364,11 +364,11 @@ const ANTW = [['ja','Ja'],['deels','Deels'],['nee','Nee'],['x','Weet ik niet']];
 
 const VRAGEN = [
   { id:'eigenaar', tekst:'Is er iemand in de leiding verantwoordelijk voor de afhankelijkheid van leveranciers, met mandaat om maatregelen te nemen?',
-    toel:'Zonder eigenaar blijven acties liggen bij wie toevallig tijd heeft. Onder de Cyberbeveiligingswet ligt de verantwoordelijkheid voor de zorgplicht, ook voor leveranciers, bij de leiding van de organisatie.',
+    toel:'Zonder eigenaar blijven acties liggen bij wie toevallig tijd heeft. Onder de Cyberbeveiligingswet moet het bestuur, bij een gemeente het college, de beveiligingsmaatregelen goedkeuren, ook die voor de leveranciersketen.',
     kort:'Eigenaar in de leiding', open:'Wie in de leiding is verantwoordelijk voor de afhankelijkheid van leveranciers?',
     gesprek:'Wie is volgens ieder van jullie de eigenaar, en heeft die ook mandaat?' },
   { id:'scenario', tekst:'Is per belangrijke leverancier vastgelegd wat er gebeurt als die stopt, failliet gaat of wordt overgenomen?',
-    toel:'De RDI noemt dit bij de zorgplicht voor de toeleveringsketen. Het hoeft geen dik plan te zijn; één A4 per leverancier met wat er stilvalt en hoe je tijdelijk doorwerkt, is een goed begin.',
+    toel:'De RDI adviseert om per leverancier te bepalen wat het betekent als die wegvalt. Het hoeft geen dik plan te zijn; één A4 per leverancier met wat er stilvalt en hoe je tijdelijk doorwerkt, is een goed begin.',
     kort:'Vastgelegd wegvalscenario', open:'Is er per belangrijke leverancier vastgelegd wat er gebeurt als die stopt?',
     gesprek:'Waar liggen die scenario\'s, en voor welke leveranciers?' },
   { id:'export', tekst:'Hebben jullie ooit echt gegevens teruggehaald uit een systeem of clouddienst, als test?',
