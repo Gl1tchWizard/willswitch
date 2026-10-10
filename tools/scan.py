@@ -246,7 +246,7 @@ PAGE = r'''<!DOCTYPE html>
 
     <section class="blok" aria-labelledby="daarna-kop">
       <h2 id="daarna-kop">En daarna?</h2>
-      <p>Wil je de uitkomst uitwerken tot stukken voor je dossier, zoals een risicoanalyse, een beslisnotitie of een actielijst? Daar werken we aan, samen met de eerste organisaties. Het bestaat nog niet als product. Hoe het eruit gaat zien, zie je in het voorbeeld.</p>
+      <p>Wil je de uitkomst uitwerken tot stukken voor je dossier, zoals een risicoanalyse, een beslisnotitie of een actielijst? Dat doen we nu in een pilot met de eerste organisaties, voor €750 excl. btw. Je krijgt een uitgewerkt dossier voor je eigen organisatie, zoals het voorbeeld, met een bewerkbaar werkdocument.</p>
       <p><a href="/rapport/voorbeeld.html" id="link-voorbeeld">Bekijk het voorbeeld van een uitgewerkt dossier</a></p>
     </section>
 
@@ -309,17 +309,17 @@ PAGE = r'''<!DOCTYPE html>
     </div>
 
     <div class="vervolg">
-      <span class="status">In ontwikkeling</span>
+      <span class="status">Pilot · €750 excl. btw</span>
       <h2>Daarna: je dossier uitwerken</h2>
       <p id="vervolg-doel"></p>
       <ul id="vervolg-lijst"></ul>
-      <p>Dit vervolg bestaat nog niet als product. We werken het nu uit met de eerste organisaties. Wil je meedoen, of horen wanneer het er is? Stuur een mail.</p>
+      <p>We doen dit nu in een pilot met de eerste organisaties. Je vult een aanvullende vragenlijst in, en krijgt een uitgewerkt dossier voor je eigen organisatie, zoals het voorbeeld, met een bewerkbaar werkdocument. Wil je meedoen, of eerst meer weten? Stuur een mail.</p>
       <div class="knoppen">
-        <a class="b-primair" href="#" onclick="return mailtje('pilot')">Ik wil meedoen</a>
+        <a class="b-primair" href="#" onclick="return mailtje('pilot')">Ik wil meedoen met de pilot</a>
         <a class="b-tweede" href="#" onclick="return mailtje('update')">Hou me op de hoogte</a>
         <a class="b-tweede" href="/rapport/voorbeeld.html">Bekijk het voorbeeld</a>
       </div>
-      <p class="klein" style="margin:0.9rem 0 0">De knoppen openen je mailprogramma met een bericht aan info@willswitch.nl. Je antwoorden gaan niet automatisch mee.</p>
+      <p class="klein" style="margin:0.9rem 0 0">De eerste twee knoppen openen je mailprogramma met een bericht aan info@willswitch.nl. Je antwoorden gaan niet automatisch mee.</p>
     </div>
 
     <p class="klein">Deze uitkomst is een startpunt voor je eigen analyse. Er is niets gecontroleerd aan de hand van documenten. Het is geen oordeel over naleving van wet- of regelgeving, en geen juridisch advies.</p>
@@ -705,9 +705,9 @@ function stuurTelling(){
 function mailtje(soort){
   const rolNaam = (ROLLEN.find(r=>r[0]===S.rol)||['',S.rol])[1];
   const orgNaam = (ORGS.find(r=>r[0]===S.org)||['',S.org])[1];
-  const onderwerp = soort==='pilot' ? 'Scan: ik wil meedoen met het vervolg' : 'Scan: hou me op de hoogte';
+  const onderwerp = soort==='pilot' ? 'Scan: ik wil meedoen met de pilot' : 'Scan: hou me op de hoogte';
   const regels = [
-    soort==='pilot' ? 'Ik heb de scan gedaan en wil graag meedoen met het uitwerken van het vervolg.' : 'Ik heb de scan gedaan en hoor graag wanneer het vervolg er is.',
+    soort==='pilot' ? 'Ik heb de scan gedaan en wil graag meedoen met de pilot (dossier voor €750 excl. btw).' : 'Ik heb de scan gedaan en hoor graag meer over het vervolg.',
     '', 'Mijn organisatie: ', 'Type organisatie: '+orgNaam, 'Mijn rol: '+rolNaam,
     'Waarvoor ik het nodig heb: '+(DOELEN.find(x=>x[0]===S.doel)||['',''])[1], '', 'Waar ik tegenaan loop: ', '' ];
   location.href = 'mailto:info@willswitch.nl?subject='+encodeURIComponent(onderwerp)+'&body='+encodeURIComponent(regels.join('\n'));
