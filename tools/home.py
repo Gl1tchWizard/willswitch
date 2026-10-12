@@ -71,13 +71,16 @@ SECTION_CSS = '''
 '''
 
 
-SCAN_AAN = True   # FASE 1: gratis toets is open. Bestellen staat nog uit, zie tools/scan.py
+SCAN_AAN = True   # de gratis scan is open; fase twee (pilot) loopt via /pilot/
 
 SCANBLOK = '''      <div class="scan-block">
-        <h3>Waar staat jouw organisatie?</h3>
-        <p>De gratis scan laat in tien minuten zien waar je afhankelijk bent van
-        ICT-leveranciers, wat je daarover nog niet weet en waar je kunt beginnen.
-        Geen account nodig.</p>
+        <h3>Fase twee: nu ook concreet meehelpen</h3>
+        <p>Het onderzoek liet zien wat organisaties nodig hebben om grip te krijgen
+        op hun ICT-leveranciers. Daar helpt Will Switch nu bij. Begin met de gratis
+        scan: in tien minuten zie je waar je afhankelijk bent, wat je nog niet weet
+        en waar je kunt beginnen. Geen account nodig. Wil je het daarna uitgewerkt
+        hebben tot een dossier voor je eigen organisatie, dan kan dat in de
+        <a href="/pilot/">pilot</a>.</p>
         <a class="scan-cta" href="/scan/">Start de gratis scan</a>
       </div>'''
 

@@ -246,8 +246,8 @@ PAGE = r'''<!DOCTYPE html>
 
     <section class="blok" aria-labelledby="daarna-kop">
       <h2 id="daarna-kop">En daarna?</h2>
-      <p>Wil je de uitkomst uitwerken tot stukken voor je dossier, zoals een risicoanalyse, een beslisnotitie of een actielijst? Dat doen we nu in een pilot met de eerste organisaties, voor €750 excl. btw. Je krijgt een uitgewerkt dossier voor je eigen organisatie, zoals het voorbeeld, met een bewerkbaar werkdocument.</p>
-      <p><a href="/rapport/voorbeeld.html" id="link-voorbeeld">Bekijk het voorbeeld van een uitgewerkt dossier</a></p>
+      <p>Will Switch onderzocht wat publieke organisaties nodig hebben om grip te krijgen op hun ICT-leveranciers. In fase twee helpen we mee: we werken je antwoorden uit tot een dossier met een risicoanalyse, een beslisnotitie en een actielijst, voor €750 excl. btw. De eerste organisaties doen mee als pilot en bepalen mee hoe het dossier eruit komt te zien.</p>
+      <p><a href="/rapport/voorbeeld.html" id="link-voorbeeld">Bekijk het voorbeeld van een uitgewerkt dossier</a> of <a href="/pilot/">lees wat de pilot inhoudt</a>.</p>
     </section>
 
     <div class="start">
@@ -309,17 +309,17 @@ PAGE = r'''<!DOCTYPE html>
     </div>
 
     <div class="vervolg">
-      <span class="status">Pilot · €750 excl. btw</span>
+      <span class="status">Fase twee · pilot · €750 excl. btw</span>
       <h2>Daarna: je dossier uitwerken</h2>
       <p id="vervolg-doel"></p>
       <ul id="vervolg-lijst"></ul>
-      <p>We doen dit nu in een pilot met de eerste organisaties. Je vult een aanvullende vragenlijst in, en krijgt een uitgewerkt dossier voor je eigen organisatie, zoals het voorbeeld, met een bewerkbaar werkdocument. Wil je meedoen, of eerst meer weten? Stuur een mail.</p>
+      <p>Will Switch onderzocht wat hiervoor nodig is, en helpt in fase twee concreet mee. Je vult een aanvullende vragenlijst in, en krijgt een uitgewerkt dossier voor je eigen organisatie, zoals het voorbeeld, met een bewerkbaar werkdocument. De eerste organisaties doen mee als pilot.</p>
       <div class="knoppen">
-        <a class="b-primair" href="#" onclick="return mailtje('pilot')">Ik wil meedoen met de pilot</a>
-        <a class="b-tweede" href="#" onclick="return mailtje('update')">Hou me op de hoogte</a>
+        <a class="b-primair" href="/pilot/">Meedoen met de pilot</a>
         <a class="b-tweede" href="/rapport/voorbeeld.html">Bekijk het voorbeeld</a>
+        <a class="b-tweede" href="#" onclick="return mailtje('update')">Hou me op de hoogte</a>
       </div>
-      <p class="klein" style="margin:0.9rem 0 0">De eerste twee knoppen openen je mailprogramma met een bericht aan info@willswitch.nl. Je antwoorden gaan niet automatisch mee.</p>
+      <p class="klein" style="margin:0.9rem 0 0">Op de pilotpagina staan prijs, levering en voorwaarden, en een aanmeldformulier. "Hou me op de hoogte" opent je mailprogramma; je antwoorden gaan niet automatisch mee.</p>
     </div>
 
     <p class="klein">Deze uitkomst is een startpunt voor je eigen analyse. Er is niets gecontroleerd aan de hand van documenten. Het is geen oordeel over naleving van wet- of regelgeving, en geen juridisch advies.</p>

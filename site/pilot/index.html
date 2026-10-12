@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pilot: je dossier leveranciersafhankelijkheid | Will Switch</title>
+<meta name="description" content="Meedoen met de pilot: een uitgewerkt dossier over de afhankelijkheid van ICT-leveranciers voor je gemeente, waterschap of provincie. €750 excl. btw, op factuur, binnen tien werkdagen.">
+<link rel="canonical" href="https://willswitch.nl/pilot/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Will Switch">
+<meta property="og:title" content="Pilot: je dossier leveranciersafhankelijkheid">
+<meta property="og:description" content="Een uitgewerkt dossier voor je eigen organisatie, met bewerkbaar werkdocument. €750 excl. btw, op factuur.">
+<meta property="og:image" content="https://willswitch.nl/og-image.jpg">
+<meta property="og:url" content="https://willswitch.nl/pilot/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--orange:#E84500;--knop:#C23A00;--paper:#F0EDE6;--warm:#E8E3D6;--white:#FBFAF7;--ink:#1a1612;--soft:#4a443c;--faint:#6f685e;--rule:rgba(26,22,18,.14);--bad:#B3453A;
+    --sans:'Space Grotesk',system-ui,sans-serif;--mono:'Space Mono',monospace;--merk:'Orbitron',sans-serif}
+  html{font-size:17px}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  a{color:var(--ink)}
+  .wrap{max-width:46rem;margin:0 auto;padding:0 1.5rem 5rem}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:1.6rem 0 1rem;border-bottom:2px solid var(--ink)}
+  .topbar a{font-family:var(--merk);font-weight:700;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}
+  .topbar a:hover{color:var(--orange)}
+  .topbar span{font-family:var(--mono);font-size:.74rem;color:var(--faint)}
+  h1{font-size:clamp(1.85rem,4.6vw,2.6rem);font-weight:700;line-height:1.1;letter-spacing:-.015em;margin:2.2rem 0 1rem}
+  h2{font-size:1.4rem;line-height:1.2;letter-spacing:-.01em;margin:2.8rem 0 .7rem}
+  h3{font-size:1.05rem;margin:1.4rem 0 .4rem}
+  p{color:var(--soft);margin-bottom:1rem;max-width:40rem}
+  p.lead{color:var(--ink);font-size:1.15rem}
+  .klein{font-size:.85rem;color:var(--faint)}
+  .status{display:inline-block;font-family:var(--mono);font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--soft);color:var(--soft);padding:.15rem .5rem;margin-bottom:.8rem}
+  ul.lijst{margin:0 0 1rem 1.2rem}
+  ul.lijst li{margin-bottom:.35rem}
+  table.feiten{width:100%;border-collapse:collapse;font-size:.95rem;margin:.6rem 0 1.2rem}
+  table.feiten th{text-align:left;font-weight:500;color:var(--faint);width:11rem;padding:.55rem .6rem .55rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  table.feiten td{padding:.55rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  .twee{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .vak{background:var(--white);border:1px solid var(--rule);padding:1.1rem 1.2rem}
+  .vak h3{margin:0 0 .5rem}
+  .vak p{margin:0;font-size:.95rem}
+  @media (max-width:600px){.twee{grid-template-columns:1fr}table.feiten th{width:7rem}}
+
+  form{background:var(--white);border:1px solid var(--rule);padding:1.4rem 1.5rem;margin:1rem 0}
+  label{display:block;font-size:.9rem;margin:.9rem 0 .3rem;color:var(--ink)}
+  label i{font-style:normal;color:var(--faint)}
+  input,select,textarea{width:100%;font:inherit;font-size:.95rem;padding:.65rem .8rem;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:3px}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}
+  textarea{min-height:5.5rem;resize:vertical}
+  .check{display:flex;gap:.7rem;align-items:flex-start;margin:1.2rem 0 .4rem;font-size:.9rem;color:var(--soft)}
+  .check input{width:auto;margin-top:.3rem}
+  button{font:inherit;font-weight:700;font-size:1rem;cursor:pointer;border:none;border-radius:3px;padding:.95rem 1.5rem;background:var(--knop);color:#fff;margin-top:.8rem}
+  button:hover{background:var(--ink)}
+  button:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+  .fout{color:var(--bad);font-size:.9rem;margin-top:.6rem;display:none}
+  .fout.zien{display:block}
+  .na{display:none;background:var(--warm);border:1px solid var(--rule);padding:1rem 1.2rem;margin-top:1rem;font-size:.92rem}
+  .na.zien{display:block}
+  .na textarea{margin-top:.6rem;font-family:var(--mono);font-size:.82rem;min-height:12rem;background:var(--white)}
+  footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--rule);font-size:.82rem;color:var(--faint);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar"><a href="/switch.html">Will Switch</a><span>pilot</span></header>
+
+  <span class="status" style="margin-top:2.2rem">Fase twee · pilot · €750 excl. btw</span>
+  <h1>Na het onderzoek: nu concreet meehelpen</h1>
+  <p class="lead">In fase één onderzocht Will Switch wat publieke organisaties nodig hebben om grip te krijgen op hun ICT-leveranciers. In fase twee helpen we mee. We werken jullie antwoorden uit de gratis scan uit tot een dossier dat je kunt delen met directie, inkoop of je leverancier.</p>
+  <p><a href="/rapport/voorbeeld.html">Bekijk eerst het voorbeeld</a>, dan weet je precies wat je krijgt.</p>
+
+  <h2>Wat je krijgt</h2>
+  <ul class="lijst">
+    <li>De aandachtspunten uit jullie scan, elk met het antwoord, het mogelijke gevolg en een eerste actie</li>
+    <li>Een overzicht per systeem: wat ervan afhangt, hoe lastig vervangen is en wat er geregeld is</li>
+    <li>Een concepttekst voor de risicoanalyse van de leveranciersketen (Cyberbeveiligingswet)</li>
+    <li>Een concept-beslisnotitie voor directie of bestuur</li>
+    <li>Een actielijst met voorgestelde verantwoordelijken, termijnen en bewijsstukken</li>
+    <li>Vragen voor je leveranciers en aandachtspunten voor inkoop</li>
+    <li>Alles ook als bewerkbaar werkdocument (Word en ODT), naast de PDF</li>
+  </ul>
+  <p>Elke uitspraak in het dossier heeft een label: gemeld, gecontroleerd of voorgesteld. Automatisch gemaakte tekst is nooit vanzelf gecontroleerd; dat label zet je zelf, met het bewijsstuk erbij.</p>
+
+  <div class="twee">
+    <div class="vak"><h3>Wat het vraagt van jullie</h3><p>De gratis scan (tien minuten), liefst apart ingevuld door iemand uit de uitvoering en iemand uit het bestuur. Daarna een aanvullende vragenlijst van ongeveer een kwartier per systeem. En na afloop een gesprek van drie kwartier over wat je er echt mee kon. Daarom heet het een pilot: de eerste organisaties bepalen mee hoe het dossier eruit komt te zien.</p></div>
+    <div class="vak"><h3>Wat het niet is</h3><p>Geen controle van je contracten en geen oordeel over naleving van de Cyberbeveiligingswet, de Data Act of andere regels. Geen juridisch advies. Wat je wilt laten controleren, kan in een vervolg.</p></div>
+  </div>
+
+  <h2>Voor inkoop</h2>
+  <table class="feiten">
+    <tr><th>Prijs</th><td>€750 excl. btw (€907,50 incl.), eenmalig</td></tr>
+    <tr><th>Aanbesteding</th><td>Ver onder de drempel voor enkelvoudige onderhandse gunning</td></tr>
+    <tr><th>Levering</th><td>Binnen tien werkdagen na de aanvullende vragenlijst, digitaal: PDF, DOCX en ODT</td></tr>
+    <tr><th>Facturatie</th><td>Na levering, op jullie ordernummer, betaaltermijn dertig dagen</td></tr>
+    <tr><th>Gegevens</th><td>Jullie antwoorden, inclusief leveranciersnamen en contractdata. Geen gegevens van inwoners. Opgeslagen in Nederland, verwijderd na levering en het gesprek, uiterlijk na twaalf maanden. Verwerkersovereenkomst op verzoek.</td></tr>
+    <tr><th>Voorwaarden</th><td><a href="/voorwaarden.html">Leveringsvoorwaarden pilot</a></td></tr>
+    <tr><th>Contact</th><td><a href="mailto:info@willswitch.nl">info@willswitch.nl</a></td></tr>
+  </table>
+
+  <h2 id="aanmelden">Aanmelden</h2>
+  <p>Vul in voor welke organisatie, dan stellen we een mail voor je op. Wil je eerst een gesprek? Zet dat in de opmerking.</p>
+  <form id="f" novalidate>
+    <label for="org">Organisatie</label>
+    <input id="org" required autocomplete="organization" placeholder="Gemeente Voorbeeld">
+    <label for="type">Type organisatie</label>
+    <select id="type">
+      <option value="gemeente">Gemeente</option><option value="waterschap">Waterschap</option><option value="provincie">Provincie</option>
+      <option value="veiligheidsregio">Veiligheidsregio</option><option value="gemeenschappelijke regeling">Gemeenschappelijke regeling</option><option value="anders">Anders</option>
+    </select>
+    <div class="twee">
+      <div><label for="naam">Je naam</label><input id="naam" required autocomplete="name"></div>
+      <div><label for="functie">Functie</label><input id="functie" placeholder="bijvoorbeeld informatiemanager"></div>
+    </div>
+    <label for="email">Je e-mailadres</label>
+    <input id="email" type="email" required autocomplete="email" placeholder="naam@organisatie.nl">
+    <label for="doel">Waarvoor heb je het dossier nodig?</label>
+    <select id="doel">
+      <option>Een risicoanalyse, bijvoorbeeld voor de Cyberbeveiligingswet</option>
+      <option>Een contract dat afloopt of verlengd wordt</option>
+      <option>Een continuïteits- of exitplan</option>
+      <option>Een voorstel aan directie of bestuur</option>
+      <option>Oriënteren, nog geen concreet dossier</option>
+    </select>
+    <label for="opm">Opmerking <i>(optioneel)</i></label>
+    <textarea id="opm" placeholder="Bijvoorbeeld: welk contract loopt af, of wanneer je het dossier nodig hebt."></textarea>
+    <div class="check"><input type="checkbox" id="akkoord"><label for="akkoord" style="margin:0">Ik begrijp dat het dossier input is voor onze eigen analyse en geen oordeel over naleving. Ik heb de <a href="/voorwaarden.html">voorwaarden</a> gelezen.</label></div>
+    <button type="submit">Stel de aanmeldmail op</button>
+    <div class="fout" id="fout"></div>
+    <div class="na" id="na">
+      <b>Je mailprogramma is geopend met de aanmelding.</b> Zie je niets? Kopieer dan de tekst hieronder in een mail aan <a href="mailto:info@willswitch.nl">info@willswitch.nl</a>.
+      <textarea id="kopie" readonly aria-label="Tekst van de aanmelding"></textarea>
+    </div>
+  </form>
+  <p class="klein">Dit formulier slaat niets op. De gegevens gaan alleen in de mail die jij verstuurt.</p>
+
+  <footer>
+    Will Switch, praktijkonderzoek naar digitale autonomie in de publieke sector.<br>
+    Gebouwd met open source, gehost in Nederland, zonder trackingcookies. Vragen: <a href="mailto:info@willswitch.nl">info@willswitch.nl</a>
+  </footer>
+</div>
+<script>
+'use strict';
+const el = id => document.getElementById(id);
+el('f').addEventListener('submit', e => {
+  e.preventDefault();
+  const fout = el('fout'); fout.classList.remove('zien');
+  if (!el('org').value.trim() || !el('naam').value.trim() || !el('email').validity.valid || !el('akkoord').checked) {
+    fout.textContent = 'Vul organisatie, naam en een geldig e-mailadres in, en bevestig dat je de voorwaarden hebt gelezen.';
+    fout.classList.add('zien'); return;
+  }
+  const org = el('org').value.trim();
+  const regels = [
+    'Ik meld ' + org + ' aan voor de pilot: dossier leveranciersafhankelijkheid, €750 excl. btw.',
+    '',
+    'Organisatie: ' + org,
+    'Type: ' + el('type').value,
+    'Naam: ' + el('naam').value.trim(),
+    'Functie: ' + (el('functie').value.trim() || '-'),
+    'E-mail: ' + el('email').value.trim(),
+    'Waarvoor: ' + el('doel').value,
+    '',
+    'Opmerking: ' + (el('opm').value.trim() || '-'),
+    '',
+    'Ik heb de voorwaarden op willswitch.nl/voorwaarden.html gelezen.'
+  ];
+  const tekst = regels.join('\n');
+  el('kopie').value = tekst;
+  el('na').classList.add('zien');
+  if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path: 'pilot/aanmelding', event: true});
+  location.href = 'mailto:info@willswitch.nl?subject=' + encodeURIComponent('Aanmelding pilot: ' + org) + '&body=' + encodeURIComponent(tekst);
+});
+</script>
+<script data-goatcounter="https://willswitch.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -210,7 +210,7 @@ CSS = """
 """
 
 
-SCAN_AAN = True   # FASE 1: gratis toets is open. Bestellen staat nog uit, zie tools/scan.py
+SCAN_AAN = True   # de gratis scan is open; fase twee (pilot) loopt via /pilot/ met een mailformulier
 
 SCANBLOK = """    <section class="next">
       <h2>Waar staat jouw organisatie?</h2>
@@ -294,13 +294,13 @@ def build():
                 shutil.copy(f, DIST / "rapport" / f.name)
         print("  /rapport/voorbeeld.html en het voorbeeld-werkdocument")
 
-    # bestelpagina's (vast)
-    bp = SITE / "bestel"
-    if bp.exists():
-        (DIST / "bestel").mkdir(exist_ok=True)
-        for f in bp.glob("*.html"):
-            shutil.copy(f, DIST / "bestel" / f.name)
-        print("  /bestel/")
+    # pilotpagina: aanmelden voor fase twee (vast, mail-formulier zonder server)
+    pp = SITE / "pilot"
+    if pp.exists():
+        (DIST / "pilot").mkdir(exist_ok=True)
+        for f in pp.glob("*.html"):
+            shutil.copy(f, DIST / "pilot" / f.name)
+        print("  /pilot/")
 
     # scanpagina
     (DIST / "scan").mkdir(exist_ok=True)
@@ -314,8 +314,10 @@ def build():
 def write_sitemap(live):
     urls = [(f"{BASE}/", "1.0", "weekly"),
             (f"{BASE}/switch.html", "0.9", "weekly"),
-            (f"{BASE}/scan/", "0.9", "monthly")]
-    # /rapport/voorbeeld.html komt in de sitemap zodra bestellen open gaat
+            (f"{BASE}/scan/", "0.9", "monthly"),
+            (f"{BASE}/pilot/", "0.8", "monthly"),
+            (f"{BASE}/voorwaarden.html", "0.3", "yearly")]
+    # /rapport/voorbeeld.html blijft noindex: het is een fictief voorbeeld
     for c in live:
         urls.append((f"{BASE}/cases/{c['id']}/", "0.8", "monthly"))
     body = "\n".join(
