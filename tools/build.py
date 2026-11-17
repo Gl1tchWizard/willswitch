@@ -294,13 +294,14 @@ def build():
                 shutil.copy(f, DIST / "rapport" / f.name)
         print("  /rapport/voorbeeld.html en het voorbeeld-werkdocument")
 
-    # pilotpagina: aanmelden voor fase twee (vast, mail-formulier zonder server)
-    pp = SITE / "pilot"
-    if pp.exists():
-        (DIST / "pilot").mkdir(exist_ok=True)
-        for f in pp.glob("*.html"):
-            shutil.copy(f, DIST / "pilot" / f.name)
-        print("  /pilot/")
+    # vaste pagina's in een eigen map: /pilot/ (aanmelden fase twee), /teaser/ (Decision Lab FOSS4G) en /rotary/ (Decision Lab Rotary)
+    for map_ in ("pilot", "teaser", "rotary"):
+        bron = SITE / map_
+        if bron.exists():
+            (DIST / map_).mkdir(exist_ok=True)
+            for f in bron.glob("*.html"):
+                shutil.copy(f, DIST / map_ / f.name)
+            print(f"  /{map_}/")
 
     # scanpagina
     (DIST / "scan").mkdir(exist_ok=True)

@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>WillSwitch · de zaal koos. En jij?</title>
+<meta property="og:title" content="WillSwitch Decision Lab · de zaal koos. En jij?" />
+<meta property="og:description" content="Op FOSS4G NL stemden 44 mensen over digitale autonomie. Nu open voor iedereen: drie vragen, drie minuten." />
+<meta property="og:type" content="website" />
+<style>
+  :root{
+    --void:#0a0d0b; --void2:#070907; --panel:#0e130d; --panel2:#121a10;
+    --line:#1d271b; --ink:#e9f1e6; --dim:#7a886f; --faint:#3c453a;
+    --volt:#34e07a; --volt2:#1c8f4e; --voltglow:rgba(52,224,122,.22); --amber:#e8b23a;
+    --mono: ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --sans: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--void2)}
+  body{min-height:100vh;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1100px 560px at 82% -10%, rgba(52,224,122,.06), transparent 60%),
+      radial-gradient(820px 480px at -10% 108%, rgba(52,224,122,.05), transparent 55%),
+      var(--void2);}
+  .blink{animation:blink 1.05s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .fu{animation:fadeUp .45s cubic-bezier(.2,.7,.2,1) both}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px}
+
+  .chrome{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#0c110b,#090c08);position:sticky;top:0;z-index:10}
+  .chrome .in{max-width:720px;margin:0 auto;width:100%;display:flex;align-items:center;gap:12px}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--volt);box-shadow:0 0 10px var(--voltglow)}
+  .addr{font-family:var(--mono);font-size:13px;color:var(--dim)}
+  .addr b{color:var(--ink);font-weight:600}
+  .pill{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--volt)}
+
+  .hero{padding:52px 0 22px}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--volt);
+    display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .eyebrow .n{color:var(--faint)}
+  h1{font-weight:800;letter-spacing:-.02em;line-height:1.02;font-size:clamp(34px,8vw,62px);margin:18px 0 0}
+  h1 .accent{color:var(--volt)}
+  .sub{color:var(--dim);font-size:clamp(16px,2.4vw,20px);line-height:1.5;margin-top:16px;max-width:52ch}
+  .stat{font-family:var(--mono);font-size:13px;color:var(--dim);margin-top:22px;border:1px solid var(--line);
+    border-radius:10px;padding:12px 15px;display:inline-flex;gap:8px;align-items:center;background:var(--panel)}
+  .stat b{color:var(--volt)}
+
+  .qcard{border:1px solid var(--line);border-radius:16px;padding:22px;margin-top:20px;background:var(--panel)}
+  .qcard .lbl{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--volt)}
+  .qcard h2{font-weight:800;letter-spacing:-.01em;line-height:1.13;font-size:clamp(20px,3.4vw,27px);margin:10px 0 0}
+
+  .opts{display:grid;gap:10px;margin-top:18px}
+  .opt{display:flex;align-items:center;gap:13px;text-align:left;width:100%;cursor:pointer;
+    background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:var(--ink);
+    padding:15px 16px;font-size:clamp(15px,2vw,17px);font-weight:600;line-height:1.25;
+    transition:border-color .14s,background .14s,transform .08s}
+  .opt:hover{border-color:var(--volt2);background:#16211355}
+  .opt:active{transform:scale(.993)}
+  .opt .key{font-family:var(--mono);font-size:12px;color:var(--volt);border:1px solid var(--line);
+    border-radius:6px;min-width:24px;height:24px;display:grid;place-items:center;flex:none}
+
+  .bars{display:grid;gap:12px;margin-top:18px}
+  .barrow{display:grid;gap:6px}
+  .bartop{display:flex;align-items:baseline;gap:10px}
+  .barlbl{font-weight:700;font-size:clamp(14px,1.9vw,16px)}
+  .barlbl .you{font-family:var(--mono);font-size:10px;color:#04140a;background:var(--volt);padding:1px 7px;border-radius:20px;margin-left:8px;letter-spacing:.05em}
+  .barpct{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:clamp(14px,2vw,17px);color:var(--dim)}
+  .bartrack{height:14px;border-radius:7px;background:#0c120b;border:1px solid var(--line);overflow:hidden}
+  .barfill{height:100%;background:linear-gradient(90deg,var(--volt2),var(--volt));width:0;border-radius:7px 0 0 7px;
+    transition:width .85s cubic-bezier(.2,.8,.2,1)}
+  .barrow.win .barfill{box-shadow:0 0 20px -4px var(--voltglow)}
+  .barrow.win .barpct{color:var(--volt)}
+  .foot-note{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:14px}
+  .thanks{font-family:var(--mono);font-size:13px;color:var(--volt);margin-top:14px;display:flex;align-items:center;gap:8px}
+
+  .cta-block{border:1px solid var(--line);border-radius:16px;padding:26px;margin-top:34px;background:linear-gradient(180deg,rgba(52,224,122,.05),transparent)}
+  .cta-block h3{font-weight:800;font-size:clamp(20px,3.2vw,26px);letter-spacing:-.01em}
+  .cta-block p{color:var(--dim);font-size:15px;line-height:1.5;margin-top:10px;max-width:52ch}
+  .cta{display:inline-flex;align-items:center;gap:12px;background:var(--volt);color:#04140a;border:0;text-decoration:none;
+    font-family:var(--mono);font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:14px;
+    padding:15px 24px;border-radius:11px;margin-top:20px;cursor:pointer;
+    box-shadow:0 0 0 1px var(--volt2),0 14px 40px -18px var(--voltglow);transition:transform .12s,filter .12s}
+  .cta:hover{transform:translateY(-1px);filter:brightness(1.06)}
+  .credit{font-family:var(--mono);font-size:11.5px;color:var(--faint);letter-spacing:.05em;margin-top:26px;text-align:center;line-height:1.7}
+  ::placeholder{color:var(--faint)}
+</style>
+</head>
+<body>
+<div id="root"><div style="font-family:var(--mono);color:var(--volt);padding:40px">› decision-lab teaser · booten<span class="blink">_</span></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" onerror="window.__noSupabase=true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+const {useState,useEffect,useRef} = React;
+
+/* ── config ── zelfde Supabase, eigen sessiecode zodat FOSS4G-data intact blijft ── */
+const CFG = {
+  url:     "https://hhbibgkfgthctazdkyur.supabase.co",
+  anon:    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhoYmliZ2tmZ3RoY3RhemRreXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5OTM2MTEsImV4cCI6MjA5ODU2OTYxMX0.-hsFYbbznYsSMyrazx5usTyvMXIeLlW5iVdlVqDaNHY",
+  session: "teaser-2026",
+};
+
+/* ── de drie vragen, met de FOSS4G-zaaluitslag (44 deelnemers) als startpunt ── */
+const QUESTIONS = [
+  { id:"t1", lbl:"positie · de richting",
+    title:"Wat moet er vooral veranderen om organisaties los te weken van Big Tech?",
+    options:[
+      {id:"a",label:"Open source moet professioneler",       base:2},
+      {id:"b",label:"Organisaties moeten anders uitvragen",  base:15},
+      {id:"c",label:"Allebei tegelijk",                      base:11},
+      {id:"d",label:"Eerst governance, dan techniek",        base:0},
+    ] },
+  { id:"t2", lbl:"diagnose · de blokkade",
+    title:"Waar loopt digitale autonomie meestal op stuk?",
+    options:[
+      {id:"a",label:"IT wil niet",                       base:3},
+      {id:"b",label:"Bestuur durft niet",                base:9},
+      {id:"c",label:"Inkoop vraagt verkeerd uit",        base:5},
+      {id:"d",label:"Gebruikers willen geen pijn",       base:5},
+      {id:"e",label:"Leveranciers maken overstappen moeilijk", base:1},
+      {id:"f",label:"Niemand voelt eigenaarschap",       base:9},
+    ] },
+  { id:"t3", lbl:"vooruit · de roadmap",
+    title:"Wat moet WillSwitch als eerste bouwen?",
+    options:[
+      {id:"a",label:"Autonomie-scan: waar sta je, wat is je volgende stap?", base:8},
+      {id:"b",label:"Casebibliotheek met eerlijke praktijkverhalen",         base:4},
+      {id:"c",label:"Matchmaking: ervaring koppelen aan vragen",             base:5},
+      {id:"d",label:"Ambassadeurs / coaches die actief helpen",             base:5},
+      {id:"e",label:"Beslisboom: welke stap past bij jou?",                 base:3},
+      {id:"f",label:"Checklist voor inkoop en bestuur",                     base:4},
+      {id:"g",label:"Community met werksessies",                            base:2},
+    ] },
+];
+const KEYS=["A","B","C","D","E","F","G"];
+const ZAAL=44;
+
+let _did=null;
+function deviceId(){
+  if(_did) return _did;
+  try{ let d=localStorage.getItem("ws_teaser_device"); if(!d){ d=Math.random().toString(36).slice(2,10); localStorage.setItem("ws_teaser_device",d);} _did=d; }
+  catch(e){ _did=Math.random().toString(36).slice(2,10); }
+  return _did;
+}
+function makeClient(){
+  if(!CFG.url||!CFG.anon||window.__noSupabase||!window.supabase) return null;
+  try{ return window.supabase.createClient(CFG.url,CFG.anon,{realtime:{params:{eventsPerSecond:20}}}); }catch(e){ return null; }
+}
+
+function Bars({q, live, myPick}){
+  const rows=q.options.map(o=>({...o, count:(o.base||0)+(live[o.id]||0)}));
+  const total=rows.reduce((s,r)=>s+r.count,0)||1;
+  const max=Math.max(...rows.map(r=>r.count),1);
+  return (
+    <div className="bars">
+      {rows.map(r=>{
+        const pct=Math.round(r.count/total*100), win=r.count===max&&r.count>0;
+        return (
+          <div className={"barrow"+(win?" win":"")} key={r.id}>
+            <div className="bartop">
+              <div className="barlbl">{r.label}{myPick===r.id&&<span className="you">jij</span>}</div>
+              <div className="barpct">{pct}%</div>
+            </div>
+            <div className="bartrack"><div className="barfill" style={{width:(r.count/max*100)+"%"}}/></div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function App(){
+  const sb=useRef(null);
+  const [conn,setConn]=useState("local");
+  const [live,setLive]=useState(()=>{ const v={}; QUESTIONS.forEach(q=>{v[q.id]={};q.options.forEach(o=>v[q.id][o.id]=0);}); return v; });
+  const [myVote,setMyVote]=useState({});
+  const seen=useRef(new Set());
+  const [online,setOnline]=useState(0);
+
+  useEffect(()=>{
+    const c=makeClient();
+    if(!c){ setConn("local"); return; }
+    sb.current=c; let chan;
+    (async()=>{
+      try{
+        const {data}=await c.from("votes").select("question_id,option_id,device_id").eq("session",CFG.session);
+        const v={}; QUESTIONS.forEach(q=>{v[q.id]={};q.options.forEach(o=>v[q.id][o.id]=0);});
+        const mine={}; const me=deviceId();
+        (data||[]).forEach(r=>{ if(v[r.question_id]&&r.option_id in v[r.question_id]){ v[r.question_id][r.option_id]++; seen.current.add(r.device_id); if(r.device_id===me) mine[r.question_id]=r.option_id; } });
+        setLive(v); setOnline(seen.current.size); setMyVote(mine); setConn("live");
+        chan=c.channel("ws-teaser").on("postgres_changes",{event:"INSERT",schema:"public",table:"votes"},({new:r})=>{
+          if(r.session!==CFG.session) return; seen.current.add(r.device_id); setOnline(seen.current.size);
+          setLive(prev=>{ const cell={...(prev[r.question_id]||{})}; cell[r.option_id]=(cell[r.option_id]||0)+1; return {...prev,[r.question_id]:cell}; });
+        }).subscribe();
+      }catch(e){ console.error(e); setConn("local"); }
+    })();
+    return ()=>{ if(chan&&sb.current) sb.current.removeChannel(chan); };
+  },[]);
+
+  const vote=(qid,optId)=>{
+    if(myVote[qid]) return;
+    setMyVote(p=>({...p,[qid]:optId}));
+    if(conn==="live"&&sb.current){
+      sb.current.from("votes").insert({session:CFG.session,question_id:qid,option_id:optId,device_id:deviceId()}).then(()=>{},()=>{});
+    } else {
+      setLive(p=>{ const cell={...(p[qid]||{})}; cell[optId]=(cell[optId]||0)+1; return {...p,[qid]:cell}; });
+    }
+  };
+
+  return (
+    <>
+      <div className="chrome"><div className="in">
+        <span className="dot"></span>
+        <span className="addr"><b>willswitch</b>://decision-lab <span className="blink">▮</span></span>
+        <span className="pill">{conn==="live"?"● live":"○ demo"}</span>
+      </div></div>
+
+      <div className="wrap">
+        <div className="hero fu">
+          <div className="eyebrow"><span>foss4g nl 2026</span><span className="n">// nu open voor iedereen</span></div>
+          <h1>De zaal koos.<br/>En <span className="accent">jij</span>?</h1>
+          <p className="sub">
+            Op FOSS4G NL in Groningen stemden 44 mensen live over digitale autonomie.
+            Drie vragen uit die sessie staan nu open. Stem mee, je ziet meteen waar de community staat.
+          </p>
+          <div className="stat"><span><b>{ZAAL}</b> stemmen uit de zaal</span><span style={{color:"var(--faint)"}}>+</span><span><b>{online}</b> online</span></div>
+        </div>
+
+        {QUESTIONS.map(q=>{
+          const voted=!!myVote[q.id];
+          return (
+            <div className="qcard fu" key={q.id}>
+              <div className="lbl">{q.lbl}</div>
+              <h2>{q.title}</h2>
+              {!voted ? (
+                <div className="opts">
+                  {q.options.map((o,i)=>(
+                    <button className="opt" key={o.id} onClick={()=>vote(q.id,o.id)}>
+                      <span className="key">{KEYS[i]}</span>{o.label}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <Bars q={q} live={live[q.id]||{}} myPick={myVote[q.id]}/>
+                  <div className="thanks"><span>✓</span> stem geteld · inclusief de {ZAAL} uit de zaal</div>
+                </>
+              )}
+            </div>
+          );
+        })}
+
+        <div className="cta-block fu">
+          <h3>WillSwitch is geen presentatie. Het is open onderzoek.</h3>
+          <p>
+            Hoe krijgen we organisaties weer handelingsvermogen, los van Big Tech?
+            De uitkomsten hierboven sturen wat we als volgende bouwen. Meedenken, een case delen, of coach worden?
+          </p>
+          <a className="cta" href="https://willswitch.nl">Ga naar willswitch.nl ›</a>
+        </div>
+
+        <div className="credit">
+          onderzoek van WillSwitch · Rijksuniversiteit Groningen · met steun van het SIDN Pioniersfonds<br/>
+          gebouwd met open source · react · supabase (eu-regio) · gehost op eigen domein
+        </div>
+      </div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
