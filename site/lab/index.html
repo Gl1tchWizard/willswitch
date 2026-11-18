@@ -1053,7 +1053,7 @@ function Harvest({deelnemers,blokkade,begin,richting,top3instr,starred,leads,set
 
 /* ----------------------------- LEAD FORM ----------------------------- */
 function LeadForm({leads,setLeads,compact}){
-  const [f,setF]=useState({naam:"",organisatie:"",email:"",rol:"ik wil de gratis scan doen met mijn organisatie",toelichting:""});
+  const [f,setF]=useState({naam:"",organisatie:"",email:"",rol:"ik heb een ervaring die ik wil delen",toelichting:""});
   const [done,setDone]=useState(false);
   const sub=()=>{ if(!f.naam.trim()||!f.email.trim()) return; setLeads&&setLeads({...f}); setDone(true); };
   if(done) return (
@@ -1072,10 +1072,9 @@ function LeadForm({leads,setLeads,compact}){
       <div className="field"><label>E-mail</label><input type="email" value={f.email} onChange={e=>setF({...f,email:e.target.value})} placeholder="naam@org.nl"/></div>
       <div className="field"><label>Waarvoor laat je je naam achter?</label>
         <select value={f.rol} onChange={e=>setF({...f,rol:e.target.value})}>
-          <option>ik wil de gratis scan doen met mijn organisatie</option>
-          <option>ik wil meer weten over de pilot (dossier voor mijn organisatie)</option>
           <option>ik heb een ervaring die ik wil delen</option>
           <option>ik wil meedenken</option>
+          <option>ik wil weten waar mijn organisatie staat</option>
           <option>gewoon op de hoogte blijven</option>
         </select>
       </div>
