@@ -108,6 +108,9 @@
   .barlbl{font-weight:700;font-size:clamp(14px,1.5vw,18px)}
   .barlbl .you{font-family:var(--mono);font-size:10px;color:#04140a;background:var(--volt);padding:1px 7px;border-radius:20px;margin-left:8px;letter-spacing:.06em;vertical-align:middle}
   .barpct{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:clamp(14px,1.6vw,20px);color:var(--dim)}
+.refl{font-family:var(--mono);font-weight:400;font-size:clamp(11px,1.1vw,13px);color:var(--amber);margin-left:10px;white-space:nowrap}
+.refline{font-family:var(--mono);font-size:13px;color:var(--amber);margin-top:16px;line-height:1.5}
+.refline b{color:var(--ink)}
   .bartrack{height:16px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);overflow:hidden}
   .barfill{height:100%;background:linear-gradient(90deg,var(--volt2),var(--volt));border-radius:8px 0 0 8px;
     width:0;transition:width .85s cubic-bezier(.2,.8,.2,1)}
@@ -282,7 +285,7 @@ function makeClient(){
 
 /* ----------------------------- dataset ----------------------------- */
 const QUESTIONS = [
-  { id:"r1", n:"01", tag:"warming-up", type:"stelling",
+  { id:"r1", n:"01", tag:"opwarmer", type:"stelling",
     title:"Als Microsoft morgen de stekker eruit trekt, ligt mijn organisatie stil.",
     note:"Iedereen heeft een beeld. Weinigen hebben het getest.",
     options:[
@@ -295,76 +298,68 @@ const QUESTIONS = [
     freeText:"Wat valt bij jou als eerste stil?",
     seedQuotes:["De mail. En daarmee alles.","De boekhouding draait in de cloud van iemand anders.","Ik weet niet eens welke leverancier het is."] },
 
-  { id:"r2", n:"02", tag:"de contracten", type:"keuze",
-    title:"Weet jij wanneer je belangrijkste ICT-contract afloopt?",
-    note:"De goedkoopste vraag om te beantwoorden, en de meest vergeten.",
+  { id:"r2", n:"02", tag:"de blokkade · spiegel", type:"keuze", role:"blokkade", ref:"q3",
+    title:"Waar loopt digitale autonomie meestal op stuk?",
+    note:"Dezelfde vraag als aan de open-source-experts op FOSS4G.",
     options:[
-      {id:"a",label:"Ja, en ik weet wat erin staat"},
-      {id:"b",label:"Ja, de datum wel"},
-      {id:"c",label:"Nee"},
-      {id:"d",label:"Dat regelt iemand anders"},
+      {id:"a",label:"IT wil niet"},
+      {id:"b",label:"Bestuur durft niet"},
+      {id:"c",label:"Inkoop vraagt verkeerd uit"},
+      {id:"d",label:"Gebruikers willen geen pijn"},
+      {id:"e",label:"Leveranciers maken overstappen moeilijk"},
+      {id:"f",label:"Niemand voelt eigenaarschap"},
     ],
-    weights:[10,20,30,26] },
-
-  { id:"r3", n:"03", tag:"de blokkade", type:"keuze", role:"blokkade",
-    title:"Waarom blijven organisaties hangen bij één leverancier?",
-    note:"Diagnose van de grootste blokkade.",
-    options:[
-      {id:"a",label:"Gemak: het werkt toch"},
-      {id:"b",label:"Niemand voelt zich eigenaar"},
-      {id:"c",label:"Overstappen is te duur of te eng"},
-      {id:"d",label:"Er is geen goed alternatief"},
-      {id:"e",label:"Inkoop vraagt het verkeerde uit"},
-    ],
-    weights:[28,24,26,14,8],
+    weights:[20,30,18,10,14,28],
     freeText:"Wat houdt jou tegen?",
     seedQuotes:["Niemand is ooit ontslagen omdat hij Microsoft koos.","We hebben het drie keer op de agenda gezet. Drie keer afgevoerd.","Het alternatief kent niemand bij ons."] },
 
-  { id:"r4", n:"04", tag:"wie begint", type:"keuze", role:"begin",
-    title:"Wie moet de eerste stap zetten?",
-    note:"Als niemand eigenaar is, gebeurt er niets.",
+  { id:"r3", n:"03", tag:"de spiegel · stelling", type:"stelling", ref:"q6", uncomfortable:true,
+    title:"Commerciële leveranciers winnen niet omdat ze betere software hebben, maar omdat ze beter georganiseerd zijn.",
+    note:"Betere proposities, ondersteuning, cases, bestuurlijke taal.",
     options:[
-      {id:"a",label:"De directie of het bestuur"},
-      {id:"b",label:"Wie over de ICT gaat"},
-      {id:"c",label:"Inkoop"},
-      {id:"d",label:"De overheid, met regels"},
-      {id:"e",label:"De leveranciers zelf"},
-      {id:"f",label:"Een aanjager van buiten"},
+      {id:"a",label:"Eens"},
+      {id:"b",label:"Oneens"},
+      {id:"c",label:"Soms"},
+      {id:"d",label:"Pijnlijk maar herkenbaar"},
     ],
-    weights:[34,22,8,16,4,16],
-    freeText:"Wat is de eerste concrete stap?",
-    seedQuotes:["Vraag je leverancier wat het kost om weg te gaan.","Zet het op de agenda van de directie, niet van IT.","Eén keer je eigen gegevens terughalen."] },
+    weights:[28,6,24,38] },
 
-  { id:"r5", n:"05", tag:"richtingstrijd", type:"kampen", role:"richting",
+  { id:"r4", n:"04", tag:"richtingstrijd · spiegel", type:"kampen", role:"richting", ref:"q7",
     title:"Wat moet er vooral veranderen?",
     note:"Het hart van de discussie. Hier oogsten we scherpe zinnen.",
-    kampA:{label:"Kamp A · het aanbod",desc:"Europese en open software moet professioneler worden: gelikter, beter ondersteund, met mensen die bij directies aan tafel komen."},
-    kampB:{label:"Kamp B · de vraag",desc:"Organisaties moeten anders inkopen: weten wat ze hebben, een uitgang eisen, minder afhankelijkheid accepteren."},
+    kampA:{label:"Kamp A · het aanbod",desc:"Open en Europese software moet professioneler worden: gelikter, beter ondersteund, met mensen die bij directies aan tafel komen."},
+    kampB:{label:"Kamp B · de vraag",desc:"Organisaties moeten anders inkopen: open standaarden, een uitgang eisen, minder gesloten contracten, minder afhankelijkheid accepteren."},
     options:[
-      {id:"a",label:"Kamp A: het aanbod moet beter"},
-      {id:"b",label:"Kamp B: wij moeten anders inkopen"},
+      {id:"a",label:"Kamp A: open source moet professioneler"},
+      {id:"b",label:"Kamp B: organisaties moeten anders uitvragen"},
       {id:"c",label:"Beide tegelijk"},
-      {id:"d",label:"Eerst weten waar je staat"},
+      {id:"d",label:"Eerst governance, dan techniek"},
     ],
-    weights:[22,28,30,20],
+    weights:[30,26,30,18],
     freeText:"Geef je scherpste zin voor jouw kamp.",
     seedQuotes:["Gelikt verkoopt, een uitgang houdt je overeind.","Je bent niet afhankelijk van Microsoft, je bent afhankelijk van niet weten.","Niemand koopt een ideologie, ze kopen rust."] },
 
-  { id:"r6", n:"06", tag:"eerste stap", type:"prioritering", role:"instrument",
-    title:"Wat zou jouw organisatie als eerste moeten doen?",
-    note:"De vertaalslag naar actie.",
+  { id:"r5", n:"05", tag:"wie begint · spiegel", type:"keuze", role:"begin", ref:"q4",
+    title:"Wie moet de eerste stap zetten?",
+    note:"Als niemand eigenaar is, gebeurt er niets.",
     options:[
-      {id:"a",label:"Weten wat er in de contracten staat"},
-      {id:"b",label:"Eén keer testen of je je gegevens terugkrijgt"},
-      {id:"c",label:"Iemand verantwoordelijk maken"},
-      {id:"d",label:"Een alternatief verkennen"},
-      {id:"e",label:"Een scan doen: waar staan we eigenlijk?"},
-      {id:"f",label:"Niets, het is geen probleem"},
+      {id:"a",label:"Directie / bestuur"},
+      {id:"b",label:"CIO / informatiemanager"},
+      {id:"c",label:"IT-afdeling"},
+      {id:"d",label:"Inkoop"},
+      {id:"e",label:"Juridische zaken"},
+      {id:"f",label:"De open-source community"},
+      {id:"g",label:"Een externe aanjager"},
     ],
-    weights:[30,26,22,16,24,6],
-    freeText:"Ongevraagd advies",
-    seedQuotes:["Begin klein, maar begin.","Laat de directie zelf de scan invullen.","Praat met een organisatie die het al deed."] },
+    weights:[34,24,8,6,4,10,18],
+    freeText:"Wat is de eerste concrete stap?",
+    seedQuotes:["Vraag je leverancier wat het kost om weg te gaan.","Zet het op de agenda van de directie, niet van IT.","Eén keer je eigen gegevens terughalen."] },
 ];
+
+/* Spiegel: wat 44 open-source-experts op FOSS4G NL 2026 antwoordden (sessie foss4g-2026), in procenten per antwoord.
+   Vast in het bestand zodat het ook zonder verbinding werkt; bij verbinding ververst uit de database. */
+const REF_SESSION="foss4g-2026", REF_N=44;
+const REF_VAST={ q3:{a:9,b:28,c:16,d:16,e:3,f:28}, q6:{a:69,b:4,c:19,d:8}, q7:{a:7,b:54,c:39,d:0}, q4:{a:25,b:38,c:25,d:6,e:0,f:6,g:0} };
 
 const KEYS = ["A","B","C","D","E","F","G"];
 const uid = () => Math.random().toString(36).slice(2,9);
@@ -395,7 +390,7 @@ function QR(){
   );
 }
 
-function Bars({q, tally, myPick}){
+function Bars({q, tally, myPick, refPct}){
   const max = Math.max(...tally.map(t=>t.count), 1);
   return (
     <div className="bars">
@@ -406,7 +401,7 @@ function Bars({q, tally, myPick}){
           <div className={"barrow"+(win?" win":"")} key={o.id}>
             <div className="bartop">
               <div className="barlbl">{o.label}{myPick===o.id && <span className="you">jij</span>}</div>
-              <div className="barpct">{t.pct}%</div>
+              <div className="barpct">{t.pct}%{refPct && <span className="refl">experts {refPct[o.id]||0}%</span>}</div>
             </div>
             <div className="bartrack"><div className="barfill" style={{width:(t.count/max*100)+"%"}}/></div>
           </div>
@@ -435,6 +430,7 @@ function App(){
   const [overrides,setOverrides] = useState({});         // qid -> {title}
   const [extra,setExtra] = useState([]);                 // duplicated questions
   const [ftDraft,setFtDraft] = useState("");
+  const [ref,setRef] = useState(REF_VAST);           // spiegel: expertpercentages per FOSS4G-vraag
 
   // ── backend (Supabase live | local fallback) ──
   const sb = useRef(null);
@@ -498,6 +494,14 @@ function App(){
         setVotes(empty); setQuotes(qs);
         applyRemoteState(st);
         setConn("live");
+        // spiegel verversen uit de FOSS4G-sessie; mislukt dit, dan blijven de vaste cijfers staan
+        client.from("votes").select("question_id,option_id").eq("session",REF_SESSION).then(({data})=>{
+          if(!data||!data.length) return;
+          const tel={}; data.forEach(r=>{ (tel[r.question_id]=tel[r.question_id]||{})[r.option_id]=((tel[r.question_id]||{})[r.option_id]||0)+1; });
+          const pct={}; Object.keys(REF_VAST).forEach(qid=>{ const c=tel[qid]; if(!c) return; const tot=Object.values(c).reduce((a,b)=>a+b,0)||1;
+            pct[qid]={}; Object.keys(c).forEach(o=>pct[qid][o]=Math.round(100*c[o]/tot)); });
+          setRef(p=>({...p,...pct}));
+        },()=>{});
         chan = client.channel("ws-lab")
           .on("postgres_changes",{event:"INSERT",schema:"public",table:"votes"},({new:r})=>{
             if(r.session!==CFG.session) return; seen.current.add(r.device_id);
@@ -605,6 +609,12 @@ function App(){
     return recent.slice(0,3);
   },[quotes,liveOrder]);
 
+  const refOf = Q => (Q && Q.ref && ref[Q.ref]) ? ref[Q.ref] : null;
+  // per spiegelvraag het antwoord waar de zaal het meest afwijkt van de experts
+  const spiegel = useMemo(()=> liveOrder.map(id=>{ const Q=getQ(id); const r=refOf(Q); if(!r) return null;
+    const {rows,total}=tallyOf(id); if(!total) return null;
+    const d=rows.map(x=>({...x,ref:r[x.id]||0,diff:x.pct-(r[x.id]||0)})).sort((a,b)=>Math.abs(b.diff)-Math.abs(a.diff))[0];
+    return {id,titel:Q.title,label:d.label,zaal:d.pct,experts:d.ref}; }).filter(Boolean),[votes,liveOrder,ref]);
   const byRole = role => { const id = liveOrder.find(id=>getQ(id) && getQ(id).role===role); return id?{q:getQ(id),top:topOf(id)}:null; };
   const top3instr = useMemo(()=>{ const id=liveOrder.find(id=>getQ(id)&&getQ(id).role==="instrument");
     if(!id) return []; return tallyOf(id).rows.slice().sort((a,b)=>b.count-a.count).slice(0,3); },[votes,liveOrder]);
@@ -670,11 +680,11 @@ function App(){
       </div>
 
       {mode==="participant"
-        ? <Participant {...{phase,q,cur,liveOrder,tallyOf,isRevealed,myPick,castVote,
+        ? <Participant {...{phase,q,cur,liveOrder,tallyOf,isRevealed,myPick,castVote,refOf,
             ftDraft,setFtDraft,sendQuote,myQuoteSent,leads,setLeads:addLead,deelnemers,
             blokkade:byRole("blokkade"),begin:byRole("begin"),richting:byRole("richting"),
             top3instr,starred,setPhase,setCur}}/>
-        : <Presenter {...{phase,setPhase,start,goHarvest,q,cur,liveOrder,tallyOf,isRevealed,setRevealCur,myPick,
+        : <Presenter {...{phase,setPhase,start,goHarvest,q,cur,liveOrder,tallyOf,isRevealed,setRevealCur,myPick,refOf,spiegel,
             quotes,toggleStar,next,prev,setCur,demo,deelnemers,addLead,
             blokkade:byRole("blokkade"),begin:byRole("begin"),richting:byRole("richting"),
             top3instr,starred,leads}}/>}
@@ -737,7 +747,7 @@ function App(){
 
 /* ----------------------------- PRESENTER ----------------------------- */
 function Presenter(props){
-  const {phase,setPhase,start,goHarvest,q,cur,liveOrder,tallyOf,isRevealed,setRevealCur,myPick,
+  const {phase,setPhase,start,goHarvest,q,cur,liveOrder,tallyOf,isRevealed,setRevealCur,myPick,refOf,spiegel,
     quotes,toggleStar,next,prev,setCur,deelnemers,blokkade,begin,richting,top3instr,starred,leads,addLead}=props;
 
   // shortcuts
@@ -760,7 +770,8 @@ function Presenter(props){
       <div className="brand" style={{fontSize:"clamp(20px,3vw,34px)",color:"var(--ink)",fontWeight:700,marginTop:8}}>Decision&nbsp;Lab</div>
       <div className="sub">Hoe afhankelijk ben je van je ICT-leveranciers?</div>
       <p className="body" style={{maxWidth:"54ch"}}>
-        De meeste organisaties weten het niet precies. Vanavond vragen we het de zaal, in zes vragen.
+        Vijf vragen. Vier daarvan stelden we eerder aan 44 open-source-experts op FOSS4G NL.
+        Vanavond kijken we of deze zaal er anders over denkt.
       </p>
 
       <div className="qrwrap" style={{marginTop:26}}>
@@ -783,7 +794,7 @@ function Presenter(props){
     </div></div>
   );
 
-  if(phase==="harvest") return <Harvest {...{deelnemers,blokkade,begin,richting,top3instr,starred,leads,liveOrder,tallyOf,setPhase,addLead}} presenter/>;
+  if(phase==="harvest") return <Harvest {...{deelnemers,blokkade,begin,richting,top3instr,starred,leads,liveOrder,tallyOf,setPhase,addLead,spiegel}} presenter/>;
 
   if(!q) return <div className="pad">Geen actieve vraag. Open ⚙ en zet er één aan.</div>;
   const {rows,total}=tallyOf(q.id);
@@ -815,11 +826,14 @@ function Presenter(props){
             <div className="qrwrap"><QR/><div className="u"><b>willswitch.nl/lab</b><span>nog niet gestemd? scan.</span></div></div>
           </div>
         : <>
-            <Bars q={q} tally={rows} myPick={myPick}/>
+            <Bars q={q} tally={rows} myPick={myPick} refPct={refOf(q)}/>
             <div className="meta">
               <span><b>{total}</b> stemmen</span>
               {balanced && <span style={{color:"var(--volt)"}}>de zaal is verdeeld. fear is the mind-killer.</span>}
             </div>
+            {refOf(q) && total>0 && (()=>{ const s=spiegel.find(x=>x.id===q.id); return s ? (
+              <div className="refline">in oranje: {REF_N} open-source-experts op FOSS4G NL 2026. Grootste verschil: <b>{s.label}</b>, deze zaal {s.zaal}%, de experts {s.experts}%.</div>
+            ) : null; })()}
             {q.freeText && (quotes[q.id]||[]).length>0 && (
               <div className="ft" style={{marginTop:24}}>
                 <label>beste opmerkingen uit de zaal · ster je favoriet (t-shirt-waardig)</label>
@@ -849,7 +863,7 @@ function Presenter(props){
 
 /* ----------------------------- PARTICIPANT ----------------------------- */
 function Participant(props){
-  const {phase,q,cur,liveOrder,tallyOf,isRevealed,myPick,castVote,
+  const {phase,q,cur,liveOrder,tallyOf,isRevealed,myPick,castVote,refOf,
     ftDraft,setFtDraft,sendQuote,myQuoteSent,leads,setLeads,deelnemers,
     blokkade,begin,richting,top3instr,starred,setPhase,setCur}=props;
 
@@ -871,7 +885,7 @@ function Participant(props){
         <div className="eyebrow"><span>willswitch</span><span className="n">decision lab</span></div>
         <h2 style={{fontWeight:800,fontSize:26,lineHeight:1.1,margin:"14px 0 0"}}>Hoe afhankelijk ben je van je ICT-leveranciers?</h2>
         <p className="lead" style={{fontSize:15,marginTop:12}}>
-          Zes vragen. Eén tik per vraag, anoniem. Straks zie je wat de zaal vindt.
+          Vijf vragen, één tik per vraag, anoniem. Straks zie je wat de zaal vindt, en wat de open-source-experts zeiden.
         </p>
         <div className="received" style={{marginTop:24,padding:18}}>
           <div className="prompt">wachten op de presenter…</div>
@@ -937,7 +951,7 @@ function Participant(props){
         {isRevealed && voted && (
           <div style={{marginTop:22}}>
             <div className="prompt">live uitslag · {total} stemmen</div>
-            <div style={{marginTop:8}}><Bars q={q} tally={rows} myPick={myPick}/></div>
+            <div style={{marginTop:8}}><Bars q={q} tally={rows} myPick={myPick} refPct={refOf(q)}/></div>
           </div>
         )}
 
@@ -971,7 +985,7 @@ function Participant(props){
 }
 
 /* ----------------------------- HARVEST ----------------------------- */
-function Harvest({deelnemers,blokkade,begin,richting,top3instr,starred,leads,setPhase,addLead}){
+function Harvest({deelnemers,blokkade,begin,richting,top3instr,starred,leads,setPhase,addLead,spiegel}){
   const [showLead,setShowLead]=useState(false);
   return (
     <div className="stage"><div className="pad fu">
@@ -999,10 +1013,19 @@ function Harvest({deelnemers,blokkade,begin,richting,top3instr,starred,leads,set
       </div>
 
       {top3instr.length>0 && <div className="card" style={{marginTop:14}}>
-        <div className="k">top 3 · wat je als eerste zou moeten doen</div>
+        <div className="k">top 3 · wat WillSwitch eerst moet bouwen</div>
         <div className="rank">
           {top3instr.map((r,i)=>(
             <div className="r" key={r.id}><span className="i">{i+1}</span><span className="t">{r.label}</span><span className="c">{r.pct}%</span></div>
+          ))}
+        </div>
+      </div>}
+
+      {spiegel && spiegel.length>0 && <div className="card" style={{marginTop:14}}>
+        <div className="k">waar deze zaal afwijkt van {REF_N} open-source-experts (foss4g nl 2026)</div>
+        <div className="rank">
+          {spiegel.map((s,i)=>(
+            <div className="r" key={s.id}><span className="i">{i+1}</span><span className="t">{s.label}<small style={{display:"block",color:"var(--dim)",fontWeight:400}}>{s.titel}</small></span><span className="c">zaal {s.zaal}% · experts {s.experts}%</span></div>
           ))}
         </div>
       </div>}
