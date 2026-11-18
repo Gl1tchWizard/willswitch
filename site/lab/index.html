@@ -235,7 +235,7 @@ const {useState,useEffect,useMemo,useRef} = React;
 const CFG = {
   url:     "https://hhbibgkfgthctazdkyur.supabase.co",
   anon:    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhoYmliZ2tmZ3RoY3RhemRreXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5OTM2MTEsImV4cCI6MjA5ODU2OTYxMX0.-hsFYbbznYsSMyrazx5usTyvMXIeLlW5iVdlVqDaNHY",
-  session: (()=>{ try{ return new URLSearchParams(location.search).get("s") || "rotary-2026-11-18"; }catch(e){ return "rotary-2026-11-18"; } })(),  // ?s=oefen om te oefenen
+  session: (()=>{ try{ return new URLSearchParams(location.search).get("s") || "rotary-avond"; }catch(e){ return "rotary-avond"; } })(),  // ?s=oefen om te oefenen; rotary-2026-11-18 bevat teststemmen
 };
 
 /*  SUPABASE SCHEMA  (plak dit één keer in de SQL editor van je project)
