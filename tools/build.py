@@ -295,7 +295,7 @@ def build():
         print("  /rapport/voorbeeld.html en het voorbeeld-werkdocument")
 
     # vaste pagina's in een eigen map: /pilot/ (aanmelden fase twee), /teaser/ (Decision Lab FOSS4G) en /rotary/ (Decision Lab Rotary)
-    for map_ in ("pilot", "teaser", "rotary"):
+    for map_ in ("pilot", "lab", "teaser", "rotary"):
         bron = SITE / map_
         if bron.exists():
             (DIST / map_).mkdir(exist_ok=True)

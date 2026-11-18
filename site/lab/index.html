@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>WillSwitch Decision Lab</title>
+<style>
+  :root{
+    --void:#0a0d0b; --void2:#070907; --panel:#0e130d; --panel2:#121a10;
+    --line:#1d271b; --line2:#28342400; --ink:#e9f1e6; --dim:#7a886f; --faint:#3c453a;
+    --volt:#34e07a; --volt2:#1c8f4e; --voltglow:rgba(52,224,122,.22);
+    --amber:#e8b23a; --amberglow:rgba(232,178,58,.16);
+    --mono: ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --sans: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--void2);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(52,224,122,.06), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(52,224,122,.05), transparent 55%),
+    var(--void2);}
+  button{font-family:inherit}
+  .boot{font-family:var(--mono);color:var(--volt);padding:40px;letter-spacing:.05em}
+  .blink{animation:blink 1.05s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .fu{animation:fadeUp .45s cubic-bezier(.2,.7,.2,1) both}
+
+  /* shell */
+  .shell{max-width:1180px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;
+    border-left:1px solid var(--line);border-right:1px solid var(--line);background:var(--void)}
+  .chrome{display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#0c110b,#090c08);position:sticky;top:0;z-index:30}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--volt);box-shadow:0 0 10px var(--voltglow);flex:none}
+  .addr{font-family:var(--mono);font-size:13px;color:var(--dim);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .addr b{color:var(--ink);font-weight:600}
+  .spacer{flex:1}
+  .seg{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--void2)}
+  .seg button{background:transparent;border:0;color:var(--dim);font-family:var(--mono);font-size:12px;
+    letter-spacing:.06em;text-transform:uppercase;padding:7px 12px;cursor:pointer}
+  .seg button.on{background:var(--volt);color:#04140a;font-weight:700}
+  .iconbtn{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:7px;
+    width:34px;height:32px;cursor:pointer;font-family:var(--mono);font-size:15px}
+  .iconbtn.on{color:var(--volt);border-color:var(--volt2)}
+
+  .stage{flex:1;display:flex;flex-direction:column}
+  .pad{padding:clamp(20px,4vw,52px)}
+
+  .eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--volt);display:flex;gap:10px;align-items:center}
+  .eyebrow .n{color:var(--faint)}
+  .prompt{font-family:var(--mono);font-size:13px;color:var(--dim)}
+  .prompt::before{content:"› ";color:var(--volt)}
+
+  h1.q{font-weight:800;line-height:1.03;letter-spacing:-.02em;margin:.35em 0 0;
+    font-size:clamp(30px,5.4vw,68px);max-width:18ch}
+  .lead{color:var(--dim);font-size:clamp(15px,1.6vw,20px);max-width:60ch;line-height:1.5}
+
+  /* big title intro */
+  .brand{font-family:var(--mono);font-weight:700;letter-spacing:.02em;font-size:clamp(34px,7vw,92px);line-height:.95;margin:0}
+  .brand .sw{color:var(--volt)}
+  .sub{font-size:clamp(18px,2.4vw,30px);font-weight:700;color:var(--ink);margin-top:14px;letter-spacing:-.01em}
+  .body{color:var(--dim);font-size:clamp(15px,1.7vw,20px);line-height:1.5;max-width:46ch;margin-top:18px}
+
+  .cta{display:inline-flex;align-items:center;gap:12px;background:var(--volt);color:#04140a;border:0;
+    font-family:var(--mono);font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    font-size:clamp(14px,1.5vw,17px);padding:16px 26px;border-radius:10px;cursor:pointer;
+    box-shadow:0 0 0 1px var(--volt2),0 14px 40px -18px var(--voltglow);transition:transform .12s,filter .12s}
+  .cta:hover{transform:translateY(-1px);filter:brightness(1.06)}
+  .cta.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+  .cta.ghost:hover{box-shadow:inset 0 0 0 1px var(--volt2);color:var(--volt)}
+
+  /* option grid */
+  .opts{display:grid;gap:12px;margin-top:28px}
+  .opts.two{grid-template-columns:1fr 1fr}
+  @media(max-width:560px){.opts.two{grid-template-columns:1fr}}
+  .opt{display:flex;align-items:center;gap:14px;text-align:left;width:100%;cursor:pointer;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--ink);
+    padding:18px 18px;font-size:clamp(15px,1.7vw,19px);font-weight:600;line-height:1.25;
+    transition:border-color .14s,background .14s,transform .08s}
+  .opt:hover{border-color:var(--volt2);background:var(--panel2)}
+  .opt:active{transform:scale(.992)}
+  .opt .key{font-family:var(--mono);font-size:13px;color:var(--volt);border:1px solid var(--line);
+    border-radius:6px;min-width:26px;height:26px;display:grid;place-items:center;flex:none}
+  .opt.picked{border-color:var(--volt);background:linear-gradient(180deg,rgba(52,224,122,.10),rgba(52,224,122,.03));box-shadow:0 0 0 1px var(--volt2)}
+  .opt.picked .key{background:var(--volt);color:#04140a;border-color:var(--volt)}
+  .opt .you{margin-left:auto;font-family:var(--mono);font-size:11px;color:#04140a;background:var(--volt);
+    padding:2px 8px;border-radius:20px;letter-spacing:.08em}
+
+  /* camps */
+  .camps{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px}
+  @media(max-width:620px){.camps{grid-template-columns:1fr}}
+  .camp{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--panel)}
+  .camp .tag{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--volt);display:flex;align-items:center;gap:8px}
+  .camp.b .tag{color:var(--amber)}
+  .camp p{margin:.5em 0 0;color:var(--ink);font-size:15px;line-height:1.45}
+  button.camp.tap{width:100%;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);
+    transition:border-color .14s,background .14s,transform .08s}
+  button.camp.tap:hover{border-color:var(--volt2);background:var(--panel2)}
+  button.camp.tap:active{transform:scale(.992)}
+  button.camp.tap .key{font-family:var(--mono);font-size:12px;color:var(--volt);border:1px solid var(--line);
+    border-radius:6px;min-width:22px;height:22px;display:inline-grid;place-items:center;flex:none}
+  button.camp.b.tap .key{color:var(--amber)}
+
+  /* bars */
+  .bars{display:grid;gap:14px;margin-top:24px}
+  .barrow{display:grid;grid-template-columns:1fr;gap:6px}
+  .bartop{display:flex;align-items:baseline;gap:10px}
+  .barlbl{font-weight:700;font-size:clamp(14px,1.5vw,18px)}
+  .barlbl .you{font-family:var(--mono);font-size:10px;color:#04140a;background:var(--volt);padding:1px 7px;border-radius:20px;margin-left:8px;letter-spacing:.06em;vertical-align:middle}
+  .barpct{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:clamp(14px,1.6vw,20px);color:var(--dim)}
+  .bartrack{height:16px;border-radius:8px;background:var(--panel2);border:1px solid var(--line);overflow:hidden}
+  .barfill{height:100%;background:linear-gradient(90deg,var(--volt2),var(--volt));border-radius:8px 0 0 8px;
+    width:0;transition:width .85s cubic-bezier(.2,.8,.2,1)}
+  .barrow.win .barfill{box-shadow:0 0 22px -4px var(--voltglow)}
+  .barrow.win .barpct{color:var(--volt)}
+  .barrow.win .barlbl::after{content:"  leidt";font-family:var(--mono);font-size:11px;color:var(--volt);letter-spacing:.1em}
+
+  .meta{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin-top:26px;font-family:var(--mono);font-size:13px;color:var(--dim)}
+  .meta b{color:var(--ink)}
+  .count{font-family:var(--mono);font-weight:800;color:var(--volt);font-size:clamp(28px,5vw,56px);line-height:1}
+
+  /* freetext */
+  .ft{margin-top:26px;border-top:1px dashed var(--line);padding-top:22px}
+  .ft label{font-family:var(--mono);font-size:13px;color:var(--volt);letter-spacing:.04em}
+  .ft textarea,.lead input,.lead textarea,.lead select{width:100%;background:var(--void2);border:1px solid var(--line);
+    border-radius:10px;color:var(--ink);font-family:var(--sans);font-size:16px;padding:13px 14px;margin-top:8px;resize:vertical}
+  .ft textarea:focus,.lead input:focus,.lead textarea:focus,.lead select:focus{outline:none;border-color:var(--volt2);box-shadow:0 0 0 3px var(--voltglow)}
+  .hint{font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:8px}
+  .send{margin-top:12px;background:transparent;border:1px solid var(--volt2);color:var(--volt);font-family:var(--mono);
+    font-weight:700;letter-spacing:.04em;padding:11px 18px;border-radius:9px;cursor:pointer;text-transform:uppercase;font-size:13px}
+  .send:hover{background:rgba(52,224,122,.08)}
+
+  /* quotes */
+  .quotes{display:grid;gap:10px;margin-top:22px}
+  .quote{border:1px solid var(--line);border-left:3px solid var(--volt2);border-radius:0 10px 10px 0;
+    padding:13px 16px;background:var(--panel);display:flex;gap:12px;align-items:flex-start}
+  .quote p{margin:0;font-size:clamp(15px,1.7vw,20px);font-weight:600;line-height:1.3}
+  .quote .star{margin-left:auto;background:transparent;border:0;color:var(--faint);font-size:18px;cursor:pointer;flex:none}
+  .quote .star.on{color:var(--amber)}
+  .quote.starred{border-left-color:var(--amber)}
+
+  /* received state */
+  .received{margin-top:30px;border:1px solid var(--volt2);border-radius:14px;padding:26px;background:linear-gradient(180deg,rgba(52,224,122,.06),transparent)}
+  .received .big{font-family:var(--mono);font-weight:800;font-size:clamp(20px,3vw,30px);color:var(--volt);display:flex;align-items:center;gap:12px}
+  .check{width:30px;height:30px;border-radius:50%;border:2px solid var(--volt);display:grid;place-items:center;color:var(--volt)}
+
+  /* device frame for participant */
+  .device-wrap{display:flex;justify-content:center;align-items:flex-start;padding:clamp(16px,3vw,40px)}
+  .device{width:100%;max-width:430px;border:1px solid var(--line);border-radius:26px;background:var(--void);
+    box-shadow:0 40px 100px -50px #000, inset 0 0 0 1px #0d130c;overflow:hidden}
+  .device .notch{height:26px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.1em}
+  .device .scr{padding:22px 20px 30px}
+  @media(max-width:640px){
+    .device-wrap{padding:0}
+    .device{max-width:none;border:0;border-radius:0;box-shadow:none}
+    .device .notch{display:none}
+  }
+
+  /* QR */
+  .qr{width:184px;height:184px;background:#fff;border-radius:12px;padding:14px}
+  .qrwrap{display:flex;gap:18px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--panel);width:fit-content;margin-top:8px}
+  .qrwrap .u{font-family:var(--mono)}
+  .qrwrap .u b{color:var(--volt)}
+  .qrwrap .u span{display:block;color:var(--dim);font-size:13px;margin-top:4px}
+
+  /* harvest cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:26px}
+  .card{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--panel)}
+  .card .k{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+  .card .v{font-weight:800;font-size:clamp(18px,2.2vw,26px);margin-top:8px;line-height:1.15;letter-spacing:-.01em}
+  .card .v small{display:block;font-weight:600;font-size:14px;color:var(--volt);font-family:var(--mono);margin-top:6px}
+  .rank{display:grid;gap:8px;margin-top:8px}
+  .rank .r{display:flex;gap:10px;align-items:baseline}
+  .rank .r .i{font-family:var(--mono);color:var(--volt);font-weight:800}
+  .rank .r .t{font-weight:700}
+  .rank .r .c{margin-left:auto;font-family:var(--mono);color:var(--dim);font-size:13px}
+
+  /* footer nav */
+  .nav{display:flex;gap:12px;align-items:center;padding:16px clamp(20px,4vw,52px);border-top:1px solid var(--line);
+    position:sticky;bottom:0;background:linear-gradient(0deg,#0a0e09,rgba(10,14,9,.6));backdrop-filter:blur(6px);z-index:20;flex-wrap:wrap}
+  .nav .progress{font-family:var(--mono);font-size:13px;color:var(--dim);letter-spacing:.06em}
+  .nav .progress b{color:var(--ink)}
+  .btn{background:transparent;border:1px solid var(--line);color:var(--ink);font-family:var(--mono);font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;font-size:12px;padding:11px 16px;border-radius:9px;cursor:pointer}
+  .btn:hover{border-color:var(--volt2);color:var(--volt)}
+  .btn.solid{background:var(--volt);color:#04140a;border-color:var(--volt)}
+  .btn:disabled{opacity:.35;cursor:not-allowed}
+
+  /* admin drawer */
+  .drawer{position:fixed;top:0;right:0;height:100vh;width:min(440px,92vw);background:var(--void);border-left:1px solid var(--line);
+    z-index:60;box-shadow:-30px 0 80px -40px #000;display:flex;flex-direction:column;animation:fadeUp .25s both}
+  .drawer h3{font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;font-size:14px;color:var(--volt);margin:0}
+  .drawer .top{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+  .drawer .scrollz{overflow:auto;padding:16px 18px;flex:1}
+  .qrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .qrow .qn{font-family:var(--mono);color:var(--faint);font-size:12px;width:22px;flex:none}
+  .qrow .qt{flex:1;font-size:13px;line-height:1.25;color:var(--ink)}
+  .qrow.off .qt{color:var(--faint);text-decoration:line-through}
+  .mini{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:6px;font-family:var(--mono);font-size:11px;padding:5px 8px;cursor:pointer}
+  .mini:hover{border-color:var(--volt2);color:var(--volt)}
+  .toggle{width:40px;height:22px;border-radius:20px;border:1px solid var(--line);background:var(--void2);position:relative;cursor:pointer;flex:none}
+  .toggle .k{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--faint);transition:left .15s,background .15s}
+  .toggle.on{border-color:var(--volt2)}
+  .toggle.on .k{left:20px;background:var(--volt)}
+  .expbtns{display:grid;gap:8px;margin-top:14px}
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:55;animation:fadeUp .2s both}
+  .small{font-size:12px;color:var(--dim);line-height:1.5}
+  .kbd{font-family:var(--mono);background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:11px;color:var(--dim)}
+
+  .tag-amber{color:var(--amber)!important}
+  .friction{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.04em;margin-top:14px}
+  .friction::before{content:"⚠ "}
+  .lead .field{margin-top:14px}
+  .lead .field label{font-family:var(--mono);font-size:12px;color:var(--volt);letter-spacing:.04em}
+  ::placeholder{color:var(--faint)}
+</style>
+</head>
+<body>
+<div id="root"><div class="boot">› willswitch decision-lab · booten<span class="blink">_</span></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" onerror="window.__noSupabase=true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+const {useState,useEffect,useMemo,useRef} = React;
+
+/* ════════════════════════════════════════════════════════════════════
+   CONFIG · vul deze drie in om live te gaan. Leeg = lokale demo-modus.
+   ════════════════════════════════════════════════════════════════════ */
+const CFG = {
+  url:     "https://hhbibgkfgthctazdkyur.supabase.co",
+  anon:    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhoYmliZ2tmZ3RoY3RhemRreXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5OTM2MTEsImV4cCI6MjA5ODU2OTYxMX0.-hsFYbbznYsSMyrazx5usTyvMXIeLlW5iVdlVqDaNHY",
+  session: "test",             // ← zet op "foss4g-2026" vlak vóór de echte sessie
+};
+
+/*  SUPABASE SCHEMA  (plak dit één keer in de SQL editor van je project)
+─────────────────────────────────────────────────────────────────────────
+create table if not exists session_state (
+  session text primary key, phase text default 'intro',
+  current_qid text, revealed boolean default false, updated_at timestamptz default now());
+create table if not exists votes (
+  id bigint generated always as identity primary key, session text not null,
+  question_id text not null, option_id text not null, device_id text not null,
+  created_at timestamptz default now(), unique (session, question_id, device_id));
+create table if not exists quotes (
+  id bigint generated always as identity primary key, session text not null,
+  question_id text not null, text text not null, starred boolean default false,
+  created_at timestamptz default now());
+create table if not exists leads (
+  id bigint generated always as identity primary key, session text not null,
+  naam text, organisatie text, email text, rol text, toelichting text, created_at timestamptz default now());
+
+alter publication supabase_realtime add table session_state, votes, quotes;
+
+alter table session_state enable row level security;
+alter table votes enable row level security;
+alter table quotes enable row level security;
+alter table leads enable row level security;
+create policy rw_state  on session_state for all    using (true) with check (true);
+create policy r_votes   on votes  for select using (true);
+create policy i_votes   on votes  for insert with check (true);
+create policy rw_quotes on quotes for all    using (true) with check (true);
+create policy i_leads   on leads  for insert with check (true);
+─────────────────────────────────────────────────────────────────────────
+  Let op: deze policies zijn bewust open (workshop). Zet schrijfrechten na
+  de sessie uit, of voeg een presenter-secret toe als je het vaker gebruikt.  */
+
+let _did=null;
+function deviceId(){
+  if(_did) return _did;
+  try{ let d=sessionStorage.getItem("ws_device"); if(!d){ d=Math.random().toString(36).slice(2,10); sessionStorage.setItem("ws_device",d);} _did=d; }
+  catch(e){ _did=Math.random().toString(36).slice(2,10); }
+  return _did;
+}
+function makeClient(){
+  if(!CFG.url || !CFG.anon || window.__noSupabase || !window.supabase) return null;
+  try{ return window.supabase.createClient(CFG.url, CFG.anon, {realtime:{params:{eventsPerSecond:25}}}); }
+  catch(e){ return null; }
+}
+
+/* ----------------------------- dataset ----------------------------- */
+const QUESTIONS = [
+  { id:"q1", n:"01", tag:"warming-up", type:"stelling",
+    title:"Voor geo kun je vandaag al volledig zonder Amerikaanse software.",
+    note:"De zaal is technisch sterk. De praktijk is weerbarstig.",
+    options:[
+      {id:"a",label:"Eens"},
+      {id:"b",label:"Oneens"},
+      {id:"c",label:"Technisch wel, organisatorisch niet"},
+      {id:"d",label:"Alleen voor sommige organisaties"},
+    ],
+    weights:[18,6,40,22],
+    freeText:"Wat is de grootste 'ja, maar'?",
+    seedQuotes:["Technisch kan alles. Organisatorisch wil niemand de eerste zijn.","Mijn keten is van de leverancier, niet van mij.","Zonder commerciële support durft mijn manager niet."] },
+
+  { id:"q2", n:"02", tag:"framekiller", type:"keuze",
+    title:"Is ESRI Big Tech?",
+    note:"Verschuif van merknaam naar afhankelijkheid, lock-in en exit.",
+    options:[
+      {id:"a",label:"Ja, want lock-in is lock-in"},
+      {id:"b",label:"Nee, Big Tech is iets anders"},
+      {id:"c",label:"Niet relevant: afhankelijkheid is het echte probleem"},
+      {id:"d",label:"Het hangt af van je definitie"},
+    ],
+    weights:[22,10,46,18],
+    freeText:"Welke definitie van afhankelijkheid is bruikbaar?",
+    seedQuotes:["Afhankelijk ben je als je niet weg kúnt zonder je werk te slopen.","Lock-in is niet de prijs, het is het ontbreken van een uitgang.","Niet de leverancier, maar wie de roadmap bepaalt."] },
+
+  { id:"q3", n:"03", tag:"de blokkade", type:"keuze", role:"blokkade",
+    title:"Waar loopt digitale autonomie meestal op stuk?",
+    note:"Diagnose van de grootste veranderblokkade.",
+    options:[
+      {id:"a",label:"IT wil niet"},
+      {id:"b",label:"Bestuur durft niet"},
+      {id:"c",label:"Inkoop vraagt verkeerd uit"},
+      {id:"d",label:"Gebruikers willen geen pijn"},
+      {id:"e",label:"Leveranciers maken overstappen moeilijk"},
+      {id:"f",label:"Niemand voelt eigenaarschap"},
+    ],
+    weights:[20,30,18,10,14,28] },
+
+  { id:"q4", n:"04", tag:"wie begint", type:"keuze", role:"begin",
+    title:"Wie moet de eerste stap zetten?",
+    note:"Als niemand eigenaar is, gebeurt er niets.",
+    options:[
+      {id:"a",label:"Directie / bestuur"},
+      {id:"b",label:"CIO / informatiemanager"},
+      {id:"c",label:"IT-afdeling"},
+      {id:"d",label:"Inkoop"},
+      {id:"e",label:"Juridische zaken"},
+      {id:"f",label:"De open-source community"},
+      {id:"g",label:"Een externe aanjager"},
+    ],
+    weights:[34,24,8,6,4,10,18],
+    freeText:"Wat is de eerste concrete stap?",
+    seedQuotes:["Begin met één wethouder die het snapt.","Maak de afhankelijkheid zichtbaar, dan beweegt het bestuur.","Eerst iemand die het mág willen."] },
+
+  { id:"q5", n:"05", tag:"pijnlijke waarheid", type:"stelling", uncomfortable:true,
+    title:"Open source heeft geen technisch probleem, maar een organisatieprobleem.",
+    note:"Support, sales, documentatie, implementatiekracht, vertrouwen.",
+    options:[
+      {id:"a",label:"Eens"},
+      {id:"b",label:"Oneens"},
+      {id:"c",label:"Deels waar"},
+      {id:"d",label:"Oncomfortabel, maar ja"},
+    ],
+    weights:[30,8,34,22],
+    freeText:"Wat moet open source beter organiseren?",
+    seedQuotes:["Wij hebben geen accountmanager die koffie komt drinken.","Documentatie is ook marketing.","Open source verkoopt features, de markt koopt zekerheid."] },
+
+  { id:"q6", n:"06", tag:"de spiegel", type:"stelling", uncomfortable:true,
+    title:"Commerciële leveranciers winnen niet omdat ze betere software hebben, maar omdat ze beter georganiseerd zijn.",
+    note:"Betere proposities, ondersteuning, cases, bestuurlijke taal.",
+    options:[
+      {id:"a",label:"Eens"},
+      {id:"b",label:"Oneens"},
+      {id:"c",label:"Soms"},
+      {id:"d",label:"Pijnlijk maar herkenbaar"},
+    ],
+    weights:[28,6,24,38] },
+
+  { id:"q7", n:"07", tag:"richtingstrijd", type:"kampen", role:"richting",
+    title:"Wat moet er vooral veranderen?",
+    note:"Het hart van de discussie. Hier oogsten we scherpe zinnen.",
+    kampA:{label:"Kamp A · professionaliseren",desc:"Open source moet professioneler worden: gelikter, duidelijker, beter ondersteund, met mensen die bij directies aan tafel komen."},
+    kampB:{label:"Kamp B · anders uitvragen",desc:"Organisaties moeten anders gaan uitvragen: open standaarden, exitstrategie, minder gesloten contracten, minder afhankelijkheid accepteren."},
+    options:[
+      {id:"a",label:"Kamp A: open source moet professioneler"},
+      {id:"b",label:"Kamp B: organisaties moeten anders uitvragen"},
+      {id:"c",label:"Beide tegelijk"},
+      {id:"d",label:"Eerst governance, dan techniek"},
+    ],
+    weights:[30,26,30,18],
+    freeText:"Geef je scherpste zin voor jouw kamp.",
+    seedQuotes:["Gelikt verkoopt, governance houdt het overeind.","Stop met pitchen, begin met uitvragen.","Niemand koopt een ideologie, ze kopen rust."] },
+
+  { id:"q8", n:"08", tag:"definitie", type:"keuze",
+    title:"Wanneer is een organisatie digitaal autonomer?",
+    note:"Autonomie = handelingsvermogen, niet alleen 'weg bij Big Tech'.",
+    options:[
+      {id:"a",label:"Als data in eigen beheer is"},
+      {id:"b",label:"Als systemen vervangbaar zijn"},
+      {id:"c",label:"Als open standaarden verplicht zijn"},
+      {id:"d",label:"Als er een exitstrategie is"},
+      {id:"e",label:"Als kennis intern geborgd is"},
+      {id:"f",label:"Als leveranciers niet de roadmap bepalen"},
+    ],
+    weights:[18,26,16,24,14,22] },
+
+  { id:"q9", n:"09", tag:"eerste domino", type:"keuze",
+    title:"Je bent morgen CIO van een gemeente. Welke knop druk je het eerst in?",
+    note:"De vertaalslag naar actie. Wat is de eerste domino?",
+    options:[
+      {id:"a",label:"Inventarisatie afhankelijkheden"},
+      {id:"b",label:"Open standaarden verplicht stellen"},
+      {id:"c",label:"Exitstrategie eisen bij nieuwe contracten"},
+      {id:"d",label:"Eén concrete open-source pilot starten"},
+      {id:"e",label:"Microsoft- of ESRI-contract kritisch herzien"},
+      {id:"f",label:"Interne kennisgroep oprichten"},
+      {id:"g",label:"Bestuurlijke sessie organiseren"},
+    ],
+    weights:[30,12,14,28,12,12,16],
+    freeText:"Welke knop mist er in dit rijtje?",
+    seedQuotes:["De stekker uit één klein systeem, gewoon om te bewijzen dat het kan.","Vraag de gebruikers wat ze écht nodig hebben.","Een wethouder meenemen naar een organisatie die al over is."] },
+
+  { id:"q10", n:"10", tag:"roadmap", type:"prioritering", role:"instrument",
+    title:"Wat moet WillSwitch als eerste bouwen?",
+    note:"Input voor de roadmap van willswitch.nl.",
+    options:[
+      {id:"a",label:"Autonomie-scan: waar sta je, wat is je volgende stap?"},
+      {id:"b",label:"Casebibliotheek met eerlijke praktijkverhalen"},
+      {id:"c",label:"Matchmaking: ervaring koppelen aan vragen"},
+      {id:"d",label:"Ambassadeurs / coaches die actief helpen"},
+      {id:"e",label:"Beslisboom: welke stap past bij jou?"},
+      {id:"f",label:"Checklist voor inkoop en bestuur"},
+      {id:"g",label:"Community met werksessies"},
+    ],
+    weights:[40,30,26,18,14,16,12],
+    freeText:"Ongevraagd advies",
+    seedQuotes:["Spreek een gemeente die het al deed en eerlijk durft te zijn.","De pijnverhalen, niet de successtory's.","Vraag een grote stad waaróm het toen niet lukte."] },
+];
+
+const KEYS = ["A","B","C","D","E","F","G"];
+const uid = () => Math.random().toString(36).slice(2,9);
+
+/* ----------------------------- helpers ----------------------------- */
+function weightedPick(opts){
+  const total = opts.reduce((s,o)=>s+o.w,0);
+  let r = Math.random()*total;
+  for(const o of opts){ if((r-=o.w)<=0) return o.id; }
+  return opts[opts.length-1].id;
+}
+function download(name, text, type){
+  const blob = new Blob([text],{type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click();
+  a.remove(); setTimeout(()=>URL.revokeObjectURL(url),500);
+}
+
+/* ----------------------------- pieces ----------------------------- */
+function QR(){
+  // GEVERIFIEERDE QR → https://willswitch.nl/lab/?rol=deelnemer  (gedecodeerd, klopt; werkt offline)
+  return (
+    <svg className="qr" viewBox="-2 -2 33 33" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+      <rect x="-2" y="-2" width="33" height="33" fill="#fff"/>
+      <path d="M0 0h7v1h-7zM8 0h1v1h-1zM10 0h1v1h-1zM12 0h3v1h-3zM18 0h1v1h-1zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h3v1h-3zM13 1h1v1h-1zM19 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h1v1h-1zM11 2h1v1h-1zM13 2h2v1h-2zM18 2h1v1h-1zM20 2h1v1h-1zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h1v1h-1zM12 3h2v1h-2zM15 3h3v1h-3zM19 3h2v1h-2zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h2v1h-2zM13 4h2v1h-2zM16 4h5v1h-5zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h4v1h-4zM14 5h1v1h-1zM16 5h3v1h-3zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM10 7h2v1h-2zM13 7h1v1h-1zM16 7h1v1h-1zM19 7h1v1h-1zM0 8h1v1h-1zM3 8h6v1h-6zM10 8h1v1h-1zM14 8h1v1h-1zM16 8h2v1h-2zM21 8h1v1h-1zM24 8h1v1h-1zM26 8h3v1h-3zM0 9h3v1h-3zM10 9h3v1h-3zM14 9h2v1h-2zM18 9h2v1h-2zM21 9h1v1h-1zM23 9h2v1h-2zM26 9h2v1h-2zM1 10h2v1h-2zM4 10h5v1h-5zM10 10h1v1h-1zM12 10h1v1h-1zM15 10h2v1h-2zM18 10h1v1h-1zM20 10h2v1h-2zM23 10h2v1h-2zM26 10h1v1h-1zM0 11h3v1h-3zM4 11h1v1h-1zM8 11h1v1h-1zM10 11h1v1h-1zM14 11h1v1h-1zM17 11h5v1h-5zM25 11h1v1h-1zM28 11h1v1h-1zM0 12h2v1h-2zM3 12h2v1h-2zM6 12h1v1h-1zM9 12h1v1h-1zM15 12h2v1h-2zM18 12h1v1h-1zM20 12h1v1h-1zM22 12h2v1h-2zM28 12h1v1h-1zM2 13h3v1h-3zM7 13h2v1h-2zM11 13h1v1h-1zM13 13h1v1h-1zM15 13h4v1h-4zM21 13h8v1h-8zM0 14h1v1h-1zM2 14h6v1h-6zM9 14h4v1h-4zM15 14h1v1h-1zM17 14h1v1h-1zM19 14h1v1h-1zM22 14h1v1h-1zM24 14h1v1h-1zM26 14h1v1h-1zM28 14h1v1h-1zM1 15h2v1h-2zM5 15h1v1h-1zM7 15h1v1h-1zM10 15h1v1h-1zM14 15h1v1h-1zM19 15h1v1h-1zM21 15h1v1h-1zM23 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM0 16h1v1h-1zM2 16h1v1h-1zM5 16h2v1h-2zM9 16h1v1h-1zM12 16h1v1h-1zM14 16h2v1h-2zM18 16h3v1h-3zM23 16h1v1h-1zM25 16h1v1h-1zM0 17h2v1h-2zM3 17h1v1h-1zM5 17h1v1h-1zM7 17h1v1h-1zM10 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM19 17h1v1h-1zM24 17h1v1h-1zM26 17h2v1h-2zM0 18h2v1h-2zM3 18h1v1h-1zM6 18h1v1h-1zM8 18h1v1h-1zM12 18h1v1h-1zM15 18h2v1h-2zM19 18h3v1h-3zM24 18h2v1h-2zM28 18h1v1h-1zM0 19h3v1h-3zM4 19h2v1h-2zM8 19h2v1h-2zM14 19h1v1h-1zM16 19h1v1h-1zM19 19h3v1h-3zM25 19h2v1h-2zM0 20h3v1h-3zM5 20h3v1h-3zM10 20h1v1h-1zM13 20h5v1h-5zM20 20h8v1h-8zM8 21h1v1h-1zM14 21h2v1h-2zM20 21h1v1h-1zM24 21h2v1h-2zM0 22h7v1h-7zM8 22h3v1h-3zM12 22h1v1h-1zM14 22h3v1h-3zM18 22h3v1h-3zM22 22h1v1h-1zM24 22h2v1h-2zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM10 23h1v1h-1zM14 23h1v1h-1zM17 23h4v1h-4zM24 23h1v1h-1zM28 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM8 24h2v1h-2zM11 24h4v1h-4zM19 24h7v1h-7zM27 24h1v1h-1zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h3v1h-3zM13 25h1v1h-1zM15 25h1v1h-1zM17 25h2v1h-2zM21 25h1v1h-1zM28 25h1v1h-1zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM10 26h1v1h-1zM12 26h2v1h-2zM15 26h3v1h-3zM19 26h1v1h-1zM23 26h2v1h-2zM26 26h3v1h-3zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM13 27h1v1h-1zM21 27h3v1h-3zM25 27h2v1h-2zM28 27h1v1h-1zM0 28h7v1h-7zM8 28h2v1h-2zM12 28h3v1h-3zM19 28h3v1h-3zM24 28h2v1h-2z" fill="#0a0d0b"/>
+    </svg>
+  );
+}
+
+function Bars({q, tally, myPick}){
+  const max = Math.max(...tally.map(t=>t.count), 1);
+  return (
+    <div className="bars">
+      {q.options.map((o,i)=>{
+        const t = tally.find(x=>x.id===o.id) || {count:0,pct:0};
+        const win = t.count===max && t.count>0;
+        return (
+          <div className={"barrow"+(win?" win":"")} key={o.id}>
+            <div className="bartop">
+              <div className="barlbl">{o.label}{myPick===o.id && <span className="you">jij</span>}</div>
+              <div className="barpct">{t.pct}%</div>
+            </div>
+            <div className="bartrack"><div className="barfill" style={{width:(t.count/max*100)+"%"}}/></div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ----------------------------- app ----------------------------- */
+function App(){
+  const canPresent = (()=>{ try{ return new URLSearchParams(location.search).get("rol")==="presenter"; }catch(e){ return false; } })();
+  const [mode,setMode] = useState(canPresent ? "presenter" : "participant");
+  const [phase,setPhase] = useState("intro");            // intro | running | harvest
+  const [order,setOrder] = useState(QUESTIONS.map(q=>q.id)); // enabled order
+  const [enabled,setEnabled] = useState(()=>Object.fromEntries(QUESTIONS.map(q=>[q.id,true])));
+  const [cur,setCur] = useState(0);
+  const [reveal,setReveal] = useState({});               // qid -> bool (results shown)
+  const [votes,setVotes] = useState({});                 // qid -> {optId:count}
+  const [myVote,setMyVote] = useState({});               // qid -> optId
+  const [quotes,setQuotes] = useState({});               // qid -> [{id,text,star}]
+  const [myQuoteSent,setMyQuoteSent] = useState({});
+  const [leads,setLeads] = useState([]);
+  const [admin,setAdmin] = useState(false);
+  const [demo,setDemo] = useState(true);                 // auto-trickle
+  const [overrides,setOverrides] = useState({});         // qid -> {title}
+  const [extra,setExtra] = useState([]);                 // duplicated questions
+  const [ftDraft,setFtDraft] = useState("");
+
+  // ── backend (Supabase live | local fallback) ──
+  const sb = useRef(null);
+  const [conn,setConn] = useState("local");   // local | connecting | live
+  const seen = useRef(new Set());             // device-ids gezien (live deelnemers-telling)
+
+  const allQ = useMemo(()=>[...QUESTIONS,...extra],[extra]);
+  const liveOrder = order.filter(id=>enabled[id]);
+  const getQ = id => { const base=allQ.find(q=>q.id===id); return base?{...base,...(overrides[id]||{})}:null; };
+  const q = phase==="running" ? getQ(liveOrder[cur]) : null;
+
+  // local seed (alleen demo-modus)
+  const seedLocal = () => {
+    const v={}, qs={};
+    for(const Q of QUESTIONS){
+      v[Q.id]={}; Q.options.forEach(o=>v[Q.id][o.id]=0);
+      const opts = Q.options.map((o,i)=>({id:o.id,w:(Q.weights&&Q.weights[i])||10}));
+      const seedN = 8 + Math.floor(Math.random()*6);
+      for(let k=0;k<seedN;k++){ v[Q.id][weightedPick(opts)]++; }
+      qs[Q.id]=(Q.seedQuotes||[]).map(t=>({id:uid(),text:t,star:false}));
+    }
+    setVotes(v); setQuotes(qs);
+  };
+
+  const applyRemoteState = (st) => {
+    if(!st) return;
+    if(st.phase) setPhase(st.phase);
+    if(st.current_qid){
+      const i = QUESTIONS.findIndex(x=>x.id===st.current_qid);
+      if(i>=0) setCur(i);
+      setReveal(prev=>({...prev,[st.current_qid]:!!st.revealed}));
+    }
+  };
+  const pushState = (patch) => {
+    if(conn!=="live" || !sb.current) return;
+    sb.current.from("session_state")
+      .upsert({session:CFG.session, updated_at:new Date().toISOString(), ...patch},{onConflict:"session"})
+      .then(()=>{},()=>{});
+  };
+
+  // connect once
+  useEffect(()=>{
+    const client = makeClient();
+    if(!client){ setConn("local"); seedLocal(); return; }
+    sb.current = client; setConn("connecting");
+    let chan;
+    (async()=>{
+      try{
+        const empty={}; QUESTIONS.forEach(Q=>{empty[Q.id]={};Q.options.forEach(o=>empty[Q.id][o.id]=0);});
+        const [{data:st},{data:vrows},{data:qrows}] = await Promise.all([
+          client.from("session_state").select("*").eq("session",CFG.session).maybeSingle(),
+          client.from("votes").select("question_id,option_id,device_id").eq("session",CFG.session),
+          client.from("quotes").select("*").eq("session",CFG.session).order("created_at",{ascending:false}),
+        ]);
+        (vrows||[]).forEach(r=>{ if(empty[r.question_id] && r.option_id in empty[r.question_id]){ empty[r.question_id][r.option_id]++; seen.current.add(r.device_id);} });
+        const qs={}; QUESTIONS.forEach(Q=>qs[Q.id]=[]);
+        (qrows||[]).forEach(r=>{ if(qs[r.question_id]) qs[r.question_id].push({id:r.id,text:r.text,star:!!r.starred}); });
+        setVotes(empty); setQuotes(qs);
+        applyRemoteState(st);
+        setConn("live");
+        chan = client.channel("ws-lab")
+          .on("postgres_changes",{event:"INSERT",schema:"public",table:"votes"},({new:r})=>{
+            if(r.session!==CFG.session) return; seen.current.add(r.device_id);
+            setVotes(prev=>{ const cell={...(prev[r.question_id]||{})}; cell[r.option_id]=(cell[r.option_id]||0)+1; return {...prev,[r.question_id]:cell}; });
+          })
+          .on("postgres_changes",{event:"INSERT",schema:"public",table:"quotes"},({new:r})=>{
+            if(r.session!==CFG.session) return;
+            setQuotes(prev=>{ const list=prev[r.question_id]||[]; if(list.some(x=>x.id===r.id)) return prev; return {...prev,[r.question_id]:[{id:r.id,text:r.text,star:!!r.starred},...list]}; });
+          })
+          .on("postgres_changes",{event:"UPDATE",schema:"public",table:"quotes"},({new:r})=>{
+            if(r.session!==CFG.session) return;
+            setQuotes(prev=>({...prev,[r.question_id]:(prev[r.question_id]||[]).map(x=>x.id===r.id?{...x,star:!!r.starred}:x)}));
+          })
+          .on("postgres_changes",{event:"*",schema:"public",table:"session_state"},({new:r})=>{
+            if(r && r.session===CFG.session) applyRemoteState(r);
+          })
+          .subscribe();
+      }catch(e){ console.error("WillSwitch live mislukt, terug naar lokaal:",e); setConn("local"); seedLocal(); }
+    })();
+    return ()=>{ if(chan && sb.current) sb.current.removeChannel(chan); };
+  },[]);
+
+  // auto-trickle on current open question (alleen demo / lokaal)
+  useEffect(()=>{
+    if(conn!=="local" || !demo || phase!=="running" || !q) return;
+    const Q = QUESTIONS.find(x=>x.id===q.id) || q;
+    const opts = q.options.map((o,i)=>({id:o.id,w:(Q.weights&&Q.weights[i])||10}));
+    const t = setInterval(()=>{
+      setVotes(prev=>{
+        const cell = {...(prev[q.id]||{})};
+        const tot = Object.values(cell).reduce((a,b)=>a+b,0);
+        if(tot>=140) return prev;            // cap
+        const id = weightedPick(opts);
+        cell[id]=(cell[id]||0)+1;
+        return {...prev,[q.id]:cell};
+      });
+    }, 520);
+    return ()=>clearInterval(t);
+  },[conn,demo,phase,q && q.id]);
+
+  // reset draft on question change
+  useEffect(()=>{ setFtDraft(""); },[q && q.id]);
+
+  const tallyOf = id => {
+    const cell = votes[id]||{};
+    const Q = getQ(id); if(!Q) return {rows:[],total:0};
+    const total = Q.options.reduce((s,o)=>s+(cell[o.id]||0),0);
+    const rows = Q.options.map(o=>({id:o.id,label:o.label,count:cell[o.id]||0,
+      pct: total? Math.round((cell[o.id]||0)/total*100):0}));
+    return {rows,total};
+  };
+  const topOf = id => { const {rows}=tallyOf(id); return rows.slice().sort((a,b)=>b.count-a.count)[0]; };
+
+  const castVote = (optId) => {
+    if(!q || myVote[q.id]) return;
+    setMyVote(prev=>({...prev,[q.id]:optId}));
+    if(conn==="live" && sb.current){
+      // tally komt via realtime-echo; lokaal alleen je eigen keuze markeren
+      sb.current.from("votes").insert({session:CFG.session,question_id:q.id,option_id:optId,device_id:deviceId()}).then(()=>{},()=>{});
+    } else {
+      setVotes(prev=>{ const cell={...(prev[q.id]||{})}; cell[optId]=(cell[optId]||0)+1; return {...prev,[q.id]:cell}; });
+    }
+  };
+  const sendQuote = () => {
+    const txt = ftDraft.trim(); if(!txt || !q) return;
+    setMyQuoteSent(prev=>({...prev,[q.id]:true})); setFtDraft("");
+    if(conn==="live" && sb.current){
+      sb.current.from("quotes").insert({session:CFG.session,question_id:q.id,text:txt,starred:false}).then(()=>{},()=>{});
+    } else {
+      setQuotes(prev=>({...prev,[q.id]:[{id:uid(),text:txt,star:false},...(prev[q.id]||[])]}));
+    }
+  };
+  const toggleStar = (qid,id) => {
+    const cur = (quotes[qid]||[]).find(x=>x.id===id); const nv = cur?!cur.star:true;
+    setQuotes(prev=>({...prev,[qid]:prev[qid].map(x=>x.id===id?{...x,star:nv}:x)}));
+    if(conn==="live" && sb.current && typeof id!=="string"){
+      sb.current.from("quotes").update({starred:nv}).eq("id",id).then(()=>{},()=>{});
+    }
+  };
+  const setRevealCur = v => { if(!q) return; setReveal(prev=>({...prev,[q.id]:v})); pushState({phase:"running",current_qid:q.id,revealed:v}); };
+
+  const start    = () => { setPhase("running"); setCur(0); pushState({phase:"running",current_qid:liveOrder[0],revealed:false}); };
+  const goIntro  = () => { setPhase("intro"); setCur(0); pushState({phase:"intro",current_qid:liveOrder[0],revealed:false}); };
+  const goHarvest= () => { setPhase("harvest"); pushState({phase:"harvest"}); };
+  const next = () => {
+    if(cur<liveOrder.length-1){ const ni=cur+1; setCur(ni); setReveal(p=>({...p,[liveOrder[ni]]:false}));
+      pushState({phase:"running",current_qid:liveOrder[ni],revealed:false}); }
+    else { goHarvest(); }
+  };
+  const prev = () => { if(cur>0){ const ni=cur-1; setCur(ni);
+    pushState({phase:"running",current_qid:liveOrder[ni],revealed:!!reveal[liveOrder[ni]]}); } };
+
+  // derived for harvest
+  const deelnemers = useMemo(()=> conn==="live"
+    ? Math.max(1, seen.current.size, ...liveOrder.map(id=>tallyOf(id).total))
+    : Math.max(1, ...liveOrder.map(id=>tallyOf(id).total)),[votes,liveOrder,conn]);
+  const addLead = (lead) => {
+    if(conn==="live" && sb.current){ sb.current.from("leads").insert({session:CFG.session,...lead}).then(()=>{},()=>{}); }
+    setLeads(p=>[...p,lead]);
+  };
+  const starred = useMemo(()=>{
+    const all=[]; for(const id of liveOrder){ (quotes[id]||[]).forEach(x=>{ if(x.star) all.push(x.text); }); }
+    if(all.length) return all.slice(0,3);
+    const recent=[]; for(const id of liveOrder){ (quotes[id]||[]).forEach(x=>recent.push(x.text)); }
+    return recent.slice(0,3);
+  },[quotes,liveOrder]);
+
+  const byRole = role => { const id = liveOrder.find(id=>getQ(id) && getQ(id).role===role); return id?{q:getQ(id),top:topOf(id)}:null; };
+  const top3instr = useMemo(()=>{ const id=liveOrder.find(id=>getQ(id)&&getQ(id).role==="instrument");
+    if(!id) return []; return tallyOf(id).rows.slice().sort((a,b)=>b.count-a.count).slice(0,3); },[votes,liveOrder]);
+
+  /* exports */
+  const exportJSON = async () => {
+    let allLeads = leads;
+    if(conn==="live" && sb.current){
+      const {data} = await sb.current.from("leads").select("*").eq("session",CFG.session);
+      if(data) allLeads = data;
+    }
+    const data = { event:"WillSwitch Decision Lab", sessie:CFG.session, modus:conn, ts:new Date().toISOString(), deelnemers,
+      vragen: liveOrder.map(id=>{ const Q=getQ(id); return {id,titel:Q.title, tally:tallyOf(id).rows,
+        quotes:(quotes[id]||[]).map(x=>({tekst:x.text,scherp:x.star})) };}),
+      leads: allLeads };
+    download("willswitch-oogst.json", JSON.stringify(data,null,2), "application/json");
+  };
+  const exportCSV = () => {
+    const lines=["vraag_id;vraag;optie;stemmen;percentage"];
+    liveOrder.forEach(id=>{ const Q=getQ(id); tallyOf(id).rows.forEach(r=>{
+      lines.push([id,'"'+Q.title.replace(/"/g,"'")+'"','"'+r.label.replace(/"/g,"'")+'"',r.count,r.pct].join(";")); }); });
+    download("willswitch-tally.csv", lines.join("\n"), "text/csv");
+  };
+  const exportQuotes = () => {
+    const out=[]; liveOrder.forEach(id=>{ const Q=getQ(id); const qq=quotes[id]||[];
+      if(qq.length){ out.push("## "+Q.title); qq.forEach(x=>out.push((x.star?"★ ":"- ")+x.text)); out.push(""); } });
+    download("willswitch-zinnen.txt", out.join("\n"), "text/plain");
+  };
+
+  /* admin ops */
+  const toggleQ = id => setEnabled(p=>({...p,[id]:!p[id]}));
+  const dupQ = id => { const base=getQ(id); const nid=base.id+"-c"+uid();
+    const copy={...JSON.parse(JSON.stringify(base)),id:nid,n:base.n+"·",tag:base.tag+" (kopie)"};
+    setExtra(p=>[...p,copy]); setEnabled(p=>({...p,[nid]:true}));
+    setVotes(p=>({...p,[nid]:Object.fromEntries(copy.options.map(o=>[o.id,0]))}));
+    setQuotes(p=>({...p,[nid]:[]}));
+    setOrder(p=>{ const i=p.indexOf(id); const a=[...p]; a.splice(i+1,0,nid); return a; }); };
+  const renameQ = (id,title) => setOverrides(p=>({...p,[id]:{...(p[id]||{}),title}}));
+  const seedRoom = () => { if(!q) return; const Q=QUESTIONS.find(x=>x.id===q.id)||q;
+    const opts=q.options.map((o,i)=>({id:o.id,w:(Q.weights&&Q.weights[i])||10}));
+    setVotes(prev=>{ const cell={...(prev[q.id]||{})}; for(let k=0;k<40;k++){const pk=weightedPick(opts);cell[pk]=(cell[pk]||0)+1;} return {...prev,[q.id]:cell}; }); };
+
+  const isRevealed = q ? !!reveal[q.id] : false;
+  const myPick = q ? myVote[q.id] : null;
+
+  /* ============================= RENDER ============================= */
+  return (
+    <div className="shell">
+      <div className="chrome">
+        <span className="dot" style={{background: conn==="live"?"var(--volt)":conn==="connecting"?"var(--amber)":"var(--faint)", boxShadow: conn==="live"?"0 0 10px var(--voltglow)":"none"}}></span>
+        <span className="addr"><b>willswitch</b>://decision-lab
+          <span style={{color:conn==="live"?"var(--volt)":"var(--faint)",marginLeft:8,fontSize:12}}>
+            {conn==="live"?"● live · "+CFG.session : conn==="connecting"?"○ verbinden…" : "○ lokaal · demo"}
+          </span>
+          {conn!=="connecting" && <span className="blink"> ▮</span>}
+        </span>
+        <span className="spacer"></span>
+        {canPresent && <div className="seg">
+          <button className={mode==="presenter"?"on":""} onClick={()=>setMode("presenter")}>presenter</button>
+          <button className={mode==="participant"?"on":""} onClick={()=>setMode("participant")}>deelnemer</button>
+        </div>}
+        {canPresent && <button className={"iconbtn"+(admin?" on":"")} title="Presenter controls" onClick={()=>setAdmin(true)}>⚙</button>}
+      </div>
+
+      {mode==="participant"
+        ? <Participant {...{phase,q,cur,liveOrder,tallyOf,isRevealed,myPick,castVote,
+            ftDraft,setFtDraft,sendQuote,myQuoteSent,leads,setLeads:addLead,deelnemers,
+            blokkade:byRole("blokkade"),begin:byRole("begin"),richting:byRole("richting"),
+            top3instr,starred,setPhase,setCur}}/>
+        : <Presenter {...{phase,setPhase,start,goHarvest,q,cur,liveOrder,tallyOf,isRevealed,setRevealCur,myPick,
+            quotes,toggleStar,next,prev,setCur,demo,deelnemers,addLead,
+            blokkade:byRole("blokkade"),begin:byRole("begin"),richting:byRole("richting"),
+            top3instr,starred,leads}}/>}
+
+      {admin && <>
+        <div className="scrim" onClick={()=>setAdmin(false)}></div>
+        <div className="drawer">
+          <div className="top">
+            <h3>presenter controls</h3><span className="spacer"></span>
+            <button className="iconbtn" onClick={()=>setAdmin(false)}>✕</button>
+          </div>
+          <div className="scrollz">
+            <div className="qrow" style={{borderBottom:"none"}}>
+              <div className={"toggle"+(demo?" on":"")} onClick={()=>setDemo(!demo)}><span className="k"></span></div>
+              <div className="qt">Demo-instroom (stemmen druppelen vanzelf binnen)</div>
+            </div>
+            {q && <div className="expbtns">
+              <button className="btn" onClick={seedRoom}>+40 stemmen op huidige vraag</button>
+            </div>}
+
+            <div style={{margin:"20px 0 8px"}}><h3>vragen aan / uit</h3></div>
+            {order.map((id,idx)=>{ const Q=getQ(id); if(!Q) return null;
+              return (
+                <div className={"qrow"+(enabled[id]?"":" off")} key={id}>
+                  <div className="qn">{Q.n}</div>
+                  <div className="qt" contentEditable suppressContentEditableWarning
+                       onBlur={e=>renameQ(id,e.target.innerText.trim()||Q.title)}>{Q.title}</div>
+                  <button className="mini" title="Dupliceren" onClick={()=>dupQ(id)}>kopie</button>
+                  <div className={"toggle"+(enabled[id]?" on":"")} onClick={()=>toggleQ(id)}><span className="k"></span></div>
+                </div>
+              );
+            })}
+            <p className="small" style={{marginTop:12}}>Tip: klik op een titel om te herschrijven. Kopie verschijnt direct ná het origineel.</p>
+
+            <div style={{margin:"22px 0 8px"}}><h3>oogst exporteren</h3></div>
+            <div className="expbtns">
+              <button className="btn" onClick={exportJSON}>Export volledige data (JSON)</button>
+              <button className="btn" onClick={exportCSV}>Export stemtabel (CSV)</button>
+              <button className="btn" onClick={exportQuotes}>Export ingezonden zinnen (TXT)</button>
+            </div>
+
+            <div style={{margin:"22px 0 8px"}}><h3>sprong</h3></div>
+            <div className="expbtns">
+              <button className="btn" onClick={goIntro}>Naar intro</button>
+              <button className="btn" onClick={start}>Naar vraag 1</button>
+              <button className="btn" onClick={goHarvest}>Naar de oogst</button>
+            </div>
+            <p className="small" style={{marginTop:18}}>
+              Stemmen op mobiel: <span className="kbd">A–G</span> sneltoetsen werken in deelnemer-view.
+              Resultaten tonen: <span className="kbd">R</span>. Volgende vraag: <span className="kbd">→</span>.
+            </p>
+          </div>
+        </div>
+      </>}
+    </div>
+  );
+}
+
+/* keyboard shortcuts attached at top-level component via window in Presenter */
+
+/* ----------------------------- PRESENTER ----------------------------- */
+function Presenter(props){
+  const {phase,setPhase,start,goHarvest,q,cur,liveOrder,tallyOf,isRevealed,setRevealCur,myPick,
+    quotes,toggleStar,next,prev,setCur,deelnemers,blokkade,begin,richting,top3instr,starred,leads,addLead}=props;
+
+  // shortcuts
+  useEffect(()=>{
+    const h=e=>{
+      if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName) || e.target.isContentEditable) return;
+      if(phase==="running"){
+        if(e.key==="ArrowRight") next();
+        if(e.key==="ArrowLeft") prev();
+        if(e.key.toLowerCase()==="r") setRevealCur(!isRevealed);
+      }
+    };
+    window.addEventListener("keydown",h); return ()=>window.removeEventListener("keydown",h);
+  },[phase,isRevealed,cur,liveOrder.length]);
+
+  if(phase==="intro") return (
+    <div className="stage"><div className="pad fu" style={{maxWidth:"none"}}>
+      <div className="eyebrow"><span>live onderzoek</span><span className="n">// foss4g nl</span></div>
+      <h1 style={{margin:"18px 0 0"}}><span className="brand"><span className="sw">Will</span>Switch</span></h1>
+      <div className="brand" style={{fontSize:"clamp(20px,3vw,34px)",color:"var(--ink)",fontWeight:700,marginTop:8}}>Decision&nbsp;Lab</div>
+      <div className="sub">Hoe krijgen we organisaties écht in beweging?</div>
+      <p className="body" style={{maxWidth:"54ch"}}>
+        Digitale autonomie is geen gebrek aan software. Het is een veranderprobleem.
+        Vandaag oogsten we de wijsheid van de zaal.
+      </p>
+
+      <div className="qrwrap" style={{marginTop:26}}>
+        <QR/>
+        <div className="u"><b>willswitch.nl/lab</b><span>scan en stem mee · geen login, geen gedoe</span></div>
+      </div>
+
+      <div style={{marginTop:34,display:"flex",gap:14,flexWrap:"wrap",alignItems:"center"}}>
+        <button className="cta" onClick={start}>Start de oogst ›</button>
+        <span className="prompt">make it so.</span>
+      </div>
+
+      <p className="prompt" style={{marginTop:22,color:"var(--faint)"}}>
+        stemmen zijn anoniem · laat je alleen aan het eind je naam achter, dan gebruiken we die enkel om contact op te nemen · de oogst delen we op willswitch.nl
+      </p>
+
+      <p className="prompt" style={{marginTop:14,color:"var(--faint)",fontSize:11,letterSpacing:".08em"}}>
+        gebouwd met open source · react · supabase (postgres, eu-regio) · qrcode · gehost op eigen domein
+      </p>
+    </div></div>
+  );
+
+  if(phase==="harvest") return <Harvest {...{deelnemers,blokkade,begin,richting,top3instr,starred,leads,liveOrder,tallyOf,setPhase,addLead}} presenter/>;
+
+  if(!q) return <div className="pad">Geen actieve vraag. Open ⚙ en zet er één aan.</div>;
+  const {rows,total}=tallyOf(q.id);
+  const balanced = (()=>{ const s=rows.map(r=>r.pct).sort((a,b)=>b-a); return s.length>1 && (s[0]-s[1])<=10 && total>6; })();
+
+  return (
+    <>
+    <div className="stage"><div className="pad fu" key={q.id}>
+      <div className="eyebrow"><span className="n">{q.n}</span><span>{q.tag}</span></div>
+      <h1 className="q">{q.title}</h1>
+      {q.uncomfortable && <div className="friction">"I'm sorry Dave, I'm afraid I can't do that." · jouw leverancier</div>}
+
+      {q.type==="kampen" && (
+        <div className="camps">
+          <div className="camp a"><div className="tag">{q.kampA.label}</div><p>{q.kampA.desc}</p></div>
+          <div className="camp b"><div className="tag">{q.kampB.label}</div><p>{q.kampB.desc}</p></div>
+        </div>
+      )}
+
+      {!isRevealed
+        ? <div style={{marginTop:30,display:"flex",gap:30,flexWrap:"wrap",alignItems:"center"}}>
+            <div>
+              <div className="prompt">stem nu via je mobiel</div>
+              <div style={{display:"flex",alignItems:"baseline",gap:14,marginTop:8}}>
+                <span className="count">{total}</span>
+                <span style={{fontFamily:"var(--mono)",color:"var(--dim)"}}>stemmen binnen</span>
+              </div>
+            </div>
+            <div className="qrwrap"><QR/><div className="u"><b>willswitch.nl/lab</b><span>nog niet gestemd? scan.</span></div></div>
+          </div>
+        : <>
+            <Bars q={q} tally={rows} myPick={myPick}/>
+            <div className="meta">
+              <span><b>{total}</b> stemmen</span>
+              {balanced && <span style={{color:"var(--volt)"}}>de zaal is verdeeld. fear is the mind-killer.</span>}
+            </div>
+            {q.freeText && (quotes[q.id]||[]).length>0 && (
+              <div className="ft" style={{marginTop:24}}>
+                <label>beste opmerkingen uit de zaal · ster je favoriet (t-shirt-waardig)</label>
+                <div className="quotes">
+                  {(quotes[q.id]||[]).slice(0,6).map(x=>(
+                    <div className={"quote"+(x.star?" starred":"")} key={x.id}>
+                      <p>{x.text}</p>
+                      <button className={"star"+(x.star?" on":"")} onClick={()=>toggleStar(q.id,x.id)} title="Markeer als beste">{x.star?"★":"☆"}</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>}
+    </div></div>
+
+    <div className="nav">
+      <span className="progress">vraag <b>{cur+1}</b> / {liveOrder.length}</span>
+      <span className="spacer" style={{flex:1}}></span>
+      <button className="btn" onClick={prev} disabled={cur===0}>‹ vorige</button>
+      <button className="btn" onClick={()=>setRevealCur(!isRevealed)}>{isRevealed?"verberg resultaat":"toon resultaat"} <span className="kbd">R</span></button>
+      <button className="btn solid" onClick={next}>{cur===liveOrder.length-1?"naar de oogst ›":"volgende vraag ›"}</button>
+    </div>
+    </>
+  );
+}
+
+/* ----------------------------- PARTICIPANT ----------------------------- */
+function Participant(props){
+  const {phase,q,cur,liveOrder,tallyOf,isRevealed,myPick,castVote,
+    ftDraft,setFtDraft,sendQuote,myQuoteSent,leads,setLeads,deelnemers,
+    blokkade,begin,richting,top3instr,starred,setPhase,setCur}=props;
+
+  // A–G shortcuts to vote
+  useEffect(()=>{
+    const h=e=>{
+      if(e.target && (/INPUT|TEXTAREA/.test(e.target.tagName)||e.target.isContentEditable)) return;
+      if(phase==="running" && q && !myPick){
+        const idx = KEYS.indexOf(e.key.toUpperCase());
+        if(idx>=0 && q.options[idx]) castVote(q.options[idx].id);
+      }
+    };
+    window.addEventListener("keydown",h); return ()=>window.removeEventListener("keydown",h);
+  },[phase,q && q.id,myPick]);
+
+  const inner = () => {
+    if(phase==="intro") return (
+      <div className="fu">
+        <div className="eyebrow"><span>willswitch</span><span className="n">decision lab</span></div>
+        <h2 style={{fontWeight:800,fontSize:26,lineHeight:1.1,margin:"14px 0 0"}}>Hoe krijgen we organisaties écht in beweging?</h2>
+        <p className="lead" style={{fontSize:15,marginTop:12}}>
+          Digitale autonomie is geen gebrek aan software. Het is een veranderprobleem.
+          Straks oogsten we de wijsheid van de zaal.
+        </p>
+        <div className="received" style={{marginTop:24,padding:18}}>
+          <div className="prompt">wachten op de presenter…</div>
+          <p className="small" style={{marginTop:8}}>Zodra de eerste stelling op het scherm staat, kun je hier stemmen.</p>
+        </div>
+      </div>
+    );
+
+    if(phase==="harvest") return (
+      <LeadForm leads={leads} setLeads={setLeads} starred={starred} compact/>
+    );
+
+    if(!q) return <p className="lead">Geen actieve vraag.</p>;
+    const {rows,total}=tallyOf(q.id);
+    const voted = !!myPick;
+
+    return (
+      <div className="fu" key={q.id}>
+        <div className="eyebrow"><span className="n">{q.n}</span><span>{q.tag}</span></div>
+        <h2 style={{fontWeight:800,fontSize:23,lineHeight:1.12,margin:"12px 0 0",letterSpacing:"-.01em"}}>{q.title}</h2>
+        {q.uncomfortable && <div className="friction">"I'm sorry Dave, I'm afraid I can't do that." · jouw leverancier</div>}
+
+        {q.type==="kampen" && !voted && (
+          <div style={{display:"grid",gap:10,marginTop:16}}>
+            <button className="camp a tap" onClick={()=>castVote("a")}>
+              <div className="tag"><span className="key">A</span> {q.kampA.label}</div><p>{q.kampA.desc}</p>
+            </button>
+            <button className="camp b tap" onClick={()=>castVote("b")}>
+              <div className="tag"><span className="key">B</span> {q.kampB.label}</div><p>{q.kampB.desc}</p>
+            </button>
+          </div>
+        )}
+
+        {!voted ? (
+          <div className="opts" style={{marginTop:q.type==="kampen"?10:18}}>
+            {q.options.map((o,i)=>({o,i}))
+              .filter(x=> q.type!=="kampen" || (x.o.id!=="a" && x.o.id!=="b"))
+              .map(({o,i})=>(
+              <button className="opt" key={o.id} onClick={()=>castVote(o.id)}>
+                <span className="key">{KEYS[i]}</span>{o.label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <>
+            <div className="opts" style={{marginTop:18}}>
+              {q.options.map((o,i)=>(
+                <div className={"opt"+(myPick===o.id?" picked":"")} key={o.id}>
+                  <span className="key">{KEYS[i]}</span>{o.label}
+                  {myPick===o.id && <span className="you">jouw stem</span>}
+                </div>
+              ))}
+            </div>
+            <div className="received">
+              <div className="big"><span className="check">✓</span> Stem ontvangen</div>
+              <p className="small" style={{marginTop:8}}>
+                {isRevealed ? "De presenter toont de uitslag op het grote scherm." : "the spice must flow. hou het scherm in de gaten."}
+              </p>
+            </div>
+          </>
+        )}
+
+        {isRevealed && voted && (
+          <div style={{marginTop:22}}>
+            <div className="prompt">live uitslag · {total} stemmen</div>
+            <div style={{marginTop:8}}><Bars q={q} tally={rows} myPick={myPick}/></div>
+          </div>
+        )}
+
+        {q.freeText && (
+          <div className="ft">
+            <label>{q.freeText}</label>
+            {myQuoteSent[q.id]
+              ? <div className="received" style={{marginTop:10,padding:16}}>
+                  <div className="big" style={{fontSize:18}}><span className="check" style={{width:24,height:24}}>✓</span> Zin ontvangen</div>
+                  <p className="small" style={{marginTop:6}}>Misschien staat-ie zo op het scherm.</p>
+                </div>
+              : <>
+                  <textarea rows={2} value={ftDraft} onChange={e=>setFtDraft(e.target.value)} placeholder="één rake zin…"/>
+                  <div className="hint">Geef je scherpste zin, niet je langste betoog.</div>
+                  <button className="send" onClick={sendQuote}>stuur in ›</button>
+                </>}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="device-wrap">
+      <div className="device">
+        <div className="notch">deelnemer · mobiel</div>
+        <div className="scr">{inner()}</div>
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------- HARVEST ----------------------------- */
+function Harvest({deelnemers,blokkade,begin,richting,top3instr,starred,leads,setPhase,addLead}){
+  const [showLead,setShowLead]=useState(false);
+  return (
+    <div className="stage"><div className="pad fu">
+      <div className="eyebrow"><span>de oogst</span><span className="n">// {new Date().toLocaleDateString("nl-NL")}</span></div>
+      <h1 className="q" style={{maxWidth:"22ch"}}>De oogst van vandaag</h1>
+      <p className="lead" style={{marginTop:12}}>"The needs of the many outweigh the needs of the few." · Spock</p>
+
+      <div className="grid">
+        <div className="card">
+          <div className="k">deelnemers</div>
+          <div className="v" style={{fontFamily:"var(--mono)",color:"var(--volt)",fontSize:"clamp(34px,6vw,56px)"}}>{deelnemers}</div>
+        </div>
+        {blokkade && <div className="card">
+          <div className="k">grootste blokkade</div>
+          <div className="v">{blokkade.top.label}<small>{blokkade.top.pct}% van de zaal</small></div>
+        </div>}
+        {begin && <div className="card">
+          <div className="k">wie moet beginnen</div>
+          <div className="v">{begin.top.label}<small>{begin.top.pct}% van de zaal</small></div>
+        </div>}
+        {richting && <div className="card">
+          <div className="k">grootste richtingskeuze</div>
+          <div className="v">{richting.top.label}<small>{richting.top.pct}% van de zaal</small></div>
+        </div>}
+      </div>
+
+      {top3instr.length>0 && <div className="card" style={{marginTop:14}}>
+        <div className="k">top 3 · wat WillSwitch eerst moet bouwen</div>
+        <div className="rank">
+          {top3instr.map((r,i)=>(
+            <div className="r" key={r.id}><span className="i">{i+1}</span><span className="t">{r.label}</span><span className="c">{r.pct}%</span></div>
+          ))}
+        </div>
+      </div>}
+
+      {starred.length>0 && <div style={{marginTop:14}}>
+        <div className="k" style={{fontFamily:"var(--mono)",fontSize:12,letterSpacing:".1em",textTransform:"uppercase",color:"var(--dim)"}}>beste opmerkingen uit de zaal</div>
+        <div className="quotes">
+          {starred.map((t,i)=>(<div className="quote starred" key={i}><p>{t}</p></div>))}
+        </div>
+      </div>}
+
+      <div style={{marginTop:34,borderTop:"1px solid var(--line)",paddingTop:26}}>
+        <h2 style={{fontWeight:800,fontSize:"clamp(22px,3vw,32px)",margin:0,letterSpacing:"-.01em"}}>WillSwitch is geen presentatie.</h2>
+        <p className="lead" style={{marginTop:10}}>Het is een open onderzoek naar hoe organisaties weer handelingsvermogen krijgen.</p>
+        <div style={{display:"flex",gap:20,flexWrap:"wrap",margin:"18px 0",fontFamily:"var(--mono)",fontSize:14,color:"var(--dim)"}}>
+          <span>Heb je een case?</span><span>Wil je meedenken?</span><span>Ben je een ervaringsorganisatie?</span><span>Coach of ambassadeur?</span>
+        </div>
+        {!showLead
+          ? <button className="cta" onClick={()=>setShowLead(true)}>Laat je naam achter ›</button>
+          : <LeadForm setLeads={addLead} starred={starred}/>}
+      </div>
+    </div></div>
+  );
+}
+
+/* ----------------------------- LEAD FORM ----------------------------- */
+function LeadForm({leads,setLeads,compact}){
+  const [f,setF]=useState({naam:"",organisatie:"",email:"",rol:"ervaringsorganisatie",toelichting:""});
+  const [done,setDone]=useState(false);
+  const sub=()=>{ if(!f.naam.trim()||!f.email.trim()) return; setLeads&&setLeads({...f}); setDone(true); };
+  if(done) return (
+    <div className="received fu">
+      <div className="big"><span className="check">✓</span> Genoteerd</div>
+      <p className="small" style={{marginTop:8}}>We nemen contact op. So long, and thanks for all the fish.</p>
+    </div>
+  );
+  return (
+    <div className="lead fu" style={{marginTop:compact?0:18,maxWidth:520}}>
+      {compact && <><div className="eyebrow"><span>doe mee</span></div>
+        <h2 style={{fontWeight:800,fontSize:22,margin:"10px 0 4px"}}>Laat je naam achter</h2>
+        <p className="small">De oogst staat op het scherm. Wil je bijdragen?</p></>}
+      <div className="field"><label>Naam</label><input value={f.naam} onChange={e=>setF({...f,naam:e.target.value})} placeholder="je naam"/></div>
+      <div className="field"><label>Organisatie</label><input value={f.organisatie} onChange={e=>setF({...f,organisatie:e.target.value})} placeholder="waar werk je?"/></div>
+      <div className="field"><label>E-mail</label><input type="email" value={f.email} onChange={e=>setF({...f,email:e.target.value})} placeholder="naam@org.nl"/></div>
+      <div className="field"><label>Ik wil bijdragen als</label>
+        <select value={f.rol} onChange={e=>setF({...f,rol:e.target.value})}>
+          <option>ervaringsorganisatie</option>
+          <option>vragende organisatie</option>
+          <option>coach / ambassadeur</option>
+          <option>onderzoeker / meedenker</option>
+          <option>gewoon op de hoogte blijven</option>
+        </select>
+      </div>
+      <div className="field"><label>Korte toelichting</label><textarea rows={2} value={f.toelichting} onChange={e=>setF({...f,toelichting:e.target.value})} placeholder="optioneel"/></div>
+      <button className="cta" style={{marginTop:16}} onClick={sub}>Stuur in ›</button>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
