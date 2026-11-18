@@ -1070,7 +1070,7 @@ function LeadForm({leads,setLeads,compact}){
       <div className="field"><label>Naam</label><input value={f.naam} onChange={e=>setF({...f,naam:e.target.value})} placeholder="je naam"/></div>
       <div className="field"><label>Organisatie</label><input value={f.organisatie} onChange={e=>setF({...f,organisatie:e.target.value})} placeholder="waar werk je?"/></div>
       <div className="field"><label>E-mail</label><input type="email" value={f.email} onChange={e=>setF({...f,email:e.target.value})} placeholder="naam@org.nl"/></div>
-      <div className="field"><label>Ik wil bijdragen als</label>
+      <div className="field"><label>Waarvoor laat je je naam achter?</label>
         <select value={f.rol} onChange={e=>setF({...f,rol:e.target.value})}>
           <option>ik wil de gratis scan doen met mijn organisatie</option>
           <option>ik wil meer weten over de pilot (dossier voor mijn organisatie)</option>
